@@ -1,12 +1,41 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
       "type": "bbb-hero",
       "settings": {
-        "eyebrow": "New York bagels, shipped."
-      },
-      "blocks": {},
-      "block_order": []
+        "layout": "background",
+        "text_align": "center",
+        "eyebrow": "New York bagels, shipped.",
+        "heading": "Build your",
+        "heading_accent": "bad boy box",
+        "heading_tag": "h1",
+        "subheading": "<p>Pick 4 sleeves. 3 bagels each. Your flavors, your rules.</p>",
+        "price_product": "",
+        "show_price": true,
+        "cta_label": "Build your box",
+        "cta_link": "",
+        "cta2_label": "How it works",
+        "cta2_link": "",
+        "use_bundled_photo": true,
+        "overlay_opacity": 55,
+        "height": "medium",
+        "show_logo_art": true,
+        "color_scheme": "",
+        "spray": true,
+        "padding_top": 40,
+        "padding_bottom": 56,
+        "sticky_cta": true,
+        "sticky_color_scheme": ""
+      }
     },
     "how": {
       "type": "bbb-how-it-works",
@@ -15,7 +44,7 @@
           "type": "step",
           "settings": {
             "title": "Pick your bagels",
-            "text": "<p>Every dozen is 4 sleeves of 3. Choose up to 4 flavors \u2014 or go all-in on one.</p>"
+            "text": "<p>Every dozen is 4 sleeves of 3. Choose up to 4 flavors — or go all-in on one.</p>"
           }
         },
         "s2": {
@@ -38,11 +67,20 @@
         "s2",
         "s3"
       ],
-      "settings": {}
+      "settings": {
+        "eyebrow": "How it works",
+        "heading": "Pick. We bake. We ship.",
+        "text": "",
+        "anchor": "how-it-works",
+        "cta_label": "Build your box",
+        "cta_link": "",
+        "color_scheme": "",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
     },
     "values": {
       "type": "bbb-value-props",
-      "settings": {},
       "blocks": {
         "v1": {
           "type": "value",
@@ -78,17 +116,139 @@
         "v2",
         "v3",
         "v4"
-      ]
+      ],
+      "settings": {
+        "eyebrow": "Why Bad Boy Bagel Co.",
+        "heading": "We know",
+        "heading_accent": "bagels.",
+        "text": "<p>We have 28 retail locations and have been in the bagel business in New York for over 30 years.</p>",
+        "anchor": "why",
+        "color_scheme": "",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "about": {
+      "type": "bbb-about",
+      "blocks": {
+        "a1": {
+          "type": "stat",
+          "settings": {
+            "value": "30+",
+            "label": "Years in the NY bagel business"
+          }
+        },
+        "a2": {
+          "type": "stat",
+          "settings": {
+            "value": "28",
+            "label": "Retail locations"
+          }
+        }
+      },
+      "block_order": [
+        "a1",
+        "a2"
+      ],
+      "settings": {
+        "eyebrow": "About us",
+        "heading": "New York bagel people.",
+        "heading_accent": "",
+        "text": "<p>We've been in the bagel business in New York for over 30 years and run 28 retail locations. Now we ship straight from our Long Island commissary to your door.</p>",
+        "use_bundled_photo": true,
+        "image_alt": "Racks of fresh sesame, plain and egg bagels",
+        "cta_label": "",
+        "cta_link": "",
+        "anchor": "about",
+        "color_scheme": "",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "process": {
+      "type": "bbb-process",
+      "blocks": {
+        "p1": {
+          "type": "stage",
+          "settings": {
+            "kicker": "Step 1",
+            "title": "Baked on Long Island",
+            "text": "<p>Your bagels are baked at our commissary on Long Island, NY.</p>"
+          }
+        },
+        "p2": {
+          "type": "stage",
+          "settings": {
+            "kicker": "Step 2",
+            "title": "Packed in sleeves of 3",
+            "text": "<p>Each flavor goes in its own sleeve the same day it's baked.</p>"
+          }
+        },
+        "p3": {
+          "type": "stage",
+          "settings": {
+            "kicker": "Step 3",
+            "title": "Shipped Monday–Wednesday",
+            "text": "<p>We only ship early in the week so your box doesn't sit in a warehouse over the weekend.</p>"
+          }
+        },
+        "p4": {
+          "type": "stage",
+          "settings": {
+            "kicker": "Step 4",
+            "title": "Eat or freeze",
+            "text": "<p>No preservatives. Eat within 24 hours, freeze the rest, then microwave 30 seconds and toast.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4"
+      ],
+      "settings": {
+        "eyebrow": "Our process",
+        "heading": "From our oven to your door.",
+        "text": "",
+        "anchor": "process",
+        "spray": true,
+        "color_scheme": "",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
     },
     "subsave": {
       "type": "bbb-subscribe-save",
-      "settings": {}
+      "settings": {
+        "product": "",
+        "eyebrow": "Subscribe & save",
+        "heading": "Never run out",
+        "text": "",
+        "badge": "Best value",
+        "sub_label": "Subscribe & save",
+        "sub_points": "<ul><li>Delivered every 4 weeks</li><li>Change your flavors anytime</li><li>Skip, pause or cancel from your account</li></ul>",
+        "once_label": "One-time box",
+        "once_points": "<ul><li>Same build-your-own dozen</li><li>No commitment</li></ul>",
+        "cta_label": "Build your box",
+        "cta_link": "",
+        "disclosure": "<p>Subscriptions renew automatically every 4 weeks at the price shown until you cancel. Cancel anytime in your account before your next renewal. <a href=\"/policies/terms-of-service\">Subscription terms</a>.</p>",
+        "color_scheme": "",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
     },
     "quotes": {
       "type": "bbb-testimonials",
-      "settings": {},
-      "blocks": {},
-      "block_order": []
+      "settings": {
+        "eyebrow": "Testimonials",
+        "heading": "What people are saying",
+        "speed": 50,
+        "anchor": "reviews",
+        "color_scheme": "",
+        "padding_top": 48,
+        "padding_bottom": 56
+      }
     },
     "faq": {
       "type": "bbb-faq",
@@ -97,7 +257,7 @@
           "type": "question",
           "settings": {
             "question": "How does the box work?",
-            "answer": "<p>Every dozen is 4 sleeves of 3 bagels. Pick a flavor for each sleeve \u2014 up to 4 flavors, or the same flavor in every sleeve.</p>"
+            "answer": "<p>Every dozen is 4 sleeves of 3 bagels. Pick a flavor for each sleeve — up to 4 flavors, or the same flavor in every sleeve.</p>"
           }
         },
         "q2": {
@@ -125,7 +285,7 @@
           "type": "question",
           "settings": {
             "question": "What about allergens?",
-            "answer": "<p>Our commissary is a kosher facility with a peanut-free process. Our bagels contain common allergens such as wheat, and some flavors contain sesame \u2014 check each flavor's ingredients before ordering.</p>"
+            "answer": "<p>Our commissary is a kosher facility with a peanut-free process. Our bagels contain common allergens such as wheat, and some flavors contain sesame — check each flavor's ingredients before ordering.</p>"
           }
         }
       },
@@ -136,7 +296,13 @@
         "q4",
         "q5"
       ],
-      "settings": {}
+      "settings": {
+        "heading": "Questions?",
+        "schema": true,
+        "color_scheme": "",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
     },
     "news": {
       "type": "newsletter",
@@ -166,80 +332,23 @@
       ],
       "settings": {
         "color_scheme": "scheme-2",
-        "full_width": true
+        "full_width": true,
+        "padding_top": 40,
+        "padding_bottom": 52
       }
     },
     "cta": {
       "type": "bbb-cta-band",
-      "settings": {}
-    },
-    "about": {
-      "type": "bbb-about",
-      "settings": {},
-      "blocks": {
-        "a1": {
-          "type": "stat",
-          "settings": {
-            "value": "30+",
-            "label": "Years in the NY bagel business"
-          }
-        },
-        "a2": {
-          "type": "stat",
-          "settings": {
-            "value": "28",
-            "label": "Retail locations"
-          }
-        }
-      },
-      "block_order": [
-        "a1",
-        "a2"
-      ]
-    },
-    "process": {
-      "type": "bbb-process",
-      "settings": {},
-      "blocks": {
-        "p1": {
-          "type": "stage",
-          "settings": {
-            "kicker": "Step 1",
-            "title": "Baked on Long Island",
-            "text": "<p>Your bagels are baked at our commissary on Long Island, NY.</p>"
-          }
-        },
-        "p2": {
-          "type": "stage",
-          "settings": {
-            "kicker": "Step 2",
-            "title": "Packed in sleeves of 3",
-            "text": "<p>Each flavor goes in its own sleeve the same day it's baked.</p>"
-          }
-        },
-        "p3": {
-          "type": "stage",
-          "settings": {
-            "kicker": "Step 3",
-            "title": "Shipped Monday\u2013Wednesday",
-            "text": "<p>We only ship early in the week so your box doesn't sit in a warehouse over the weekend.</p>"
-          }
-        },
-        "p4": {
-          "type": "stage",
-          "settings": {
-            "kicker": "Step 4",
-            "title": "Eat or freeze",
-            "text": "<p>No preservatives. Eat within 24 hours, freeze the rest, then microwave 30 seconds and toast.</p>"
-          }
-        }
-      },
-      "block_order": [
-        "p1",
-        "p2",
-        "p3",
-        "p4"
-      ]
+      "settings": {
+        "heading": "Your dozen. Your rules.",
+        "text": "",
+        "cta_label": "Build your box",
+        "cta_link": "",
+        "spray": true,
+        "color_scheme": "",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
     }
   },
   "order": [
