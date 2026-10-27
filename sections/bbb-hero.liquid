@@ -32,7 +32,7 @@
 -%}
 <section
   id="bbb-hero-{{ section.id }}"
-  class="bbb-hero bbb-hero--{{ layout }} bbb-hero--h-{{ section.settings.height }} color-{{ section.settings.color_scheme }} gradient{% if section.settings.spray and has_bg == false %} bbb-spray{% endif %}{% if has_bg %} bbb-hero--has-bg{% endif %}"
+  class="bbb-hero bbb-hero--{{ layout }} bbb-hero--align-{{ section.settings.text_align }} bbb-hero--h-{{ section.settings.height }} color-{{ section.settings.color_scheme }} gradient{% if section.settings.spray and has_bg == false %} bbb-spray{% endif %}{% if has_bg %} bbb-hero--has-bg{% endif %}"
   style="--bbb-pad-top: {{ section.settings.padding_top }}px; --bbb-pad-bottom: {{ section.settings.padding_bottom }}px; --bbb-overlay: {{ overlay }};"
   aria-labelledby="bbb-hero-heading-{{ section.id }}"
 >
@@ -207,6 +207,10 @@
         { "value": "background", "label": "Photo background" },
         { "value": "split", "label": "Copy beside image" }
       ]
+    },
+    {
+      "type": "select", "id": "text_align", "label": "Text alignment", "default": "center",
+      "options": [ { "value": "center", "label": "Center" }, { "value": "left", "label": "Left" } ]
     },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "New York-style bagels, shipped" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Build your" },

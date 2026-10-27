@@ -205,3 +205,21 @@ body.bbb-has-sticky-cta { padding-bottom: 7.6rem; }
 }
 .bbb-hero__note { position: relative; z-index: 1; }
 .bbb-hero--has-bg .button { text-shadow: none; }
+
+/* ---------- Hero: centered text (default) ---------- */
+.bbb-hero--align-center .bbb-hero__copy { align-items: center; text-align: center; margin-inline: auto; }
+.bbb-hero--align-center .bbb-hero__sub { margin-inline: auto; }
+.bbb-hero--align-center .bbb-cta-row,
+.bbb-hero--align-center .bbb-hero__chips { justify-content: center; }
+@media screen and (min-width: 990px) {
+  .bbb-hero--background.bbb-hero--align-center .bbb-hero__grid--solo { text-align: center; }
+  .bbb-hero--background.bbb-hero--align-center .bbb-hero__grid--solo .bbb-cta-row,
+  .bbb-hero--background.bbb-hero--align-center .bbb-hero__grid--solo .bbb-hero__chips { justify-content: center; }
+  .bbb-hero--background.bbb-hero--align-center .bbb-hero__copy { max-width: 76rem; }
+  /* Even darkening for centered copy instead of the left-side gradient */
+  .bbb-hero--align-center .bbb-hero__bg::after {
+    background:
+      radial-gradient(ellipse 60% 70% at 50% 50%, rgba(16,16,16,0.35) 0%, rgba(16,16,16,0) 100%),
+      rgba(16,16,16, var(--bbb-overlay, 0.55));
+  }
+}
