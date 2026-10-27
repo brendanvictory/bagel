@@ -34,6 +34,16 @@ Date: 2026-10-27 · Status: **code complete locally; not yet on the store** (see
 - Tested with a deliberately busy, bright stand-in image: white text stays readable at 390 and 1440 px; no horizontal scroll at any breakpoint; Theme Check 0 errors.
 - **Needs from owner:** a rights-cleared photo of *your* bagel assortment, ideally ≥ 2400 px wide, landscape, with space on the left for text; optionally a 4:5 crop for phones.
 
+### Change 2026-10-27 (owner request): content round 1
+- Hero eyebrow "New York bagels, shipped."; trust chips removed; the two buttons are equal-width (stacked on phones, side by side from tablet).
+- How it works: Pick your bagels / We bake & ship / Delivered to your door (owner copy).
+- **Why Bad Boy Bagel Co. — "We know bagels."** with owner-stated facts (28 retail locations, 30+ years in NY) and 4 cards.
+- New sections: **About us** (story + stats + photo), **Our process** (4-stage timeline), **Testimonials** (auto-scrolling, Pause button, reduced-motion fallback; hidden on the live store until real quotes are added, sample cards in Theme Editor only).
+- FAQ answers for shipping, storage and allergens from owner copy.
+- **Contact page** (`page.contact`): email help@badboybagelco.com, 111 Broadway Amityville NY 11701 with Google map + directions link, form (name, phone, email, reason, message) on Shopify's built-in contact form.
+- **Footer** (`bbb-footer`): Shop / Learn / Help / Contact columns linking to every section and the contact page, policy links from Settings → Policies, payment icons. Links are editable blocks (no store menu needed).
+- Claims now on the site, all owner-stated: 28 retail locations; 30+ years; commissary on Long Island; baked and shipped same day; ships Mon–Wed; no preservatives; kosher facility; peanut-free process.
+
 ## 2. Preview instructions
 Blocked until GitHub is linked (see below). Once pushed: Admin → Online Store → Themes → Add theme → Connect from GitHub → `brendanvictory/bagel`, branch `dev` → Preview. Then in Theme Editor, set **BBB Hero → Show price from product** and **BBB Subscribe & save → Box product** once the box product exists.
 

@@ -1,0 +1,99 @@
+{%- comment -%} Bad Boy Bagel Co. — About us: image + story + optional stats {%- endcomment -%}
+<section
+  id="{{ section.settings.anchor | default: 'about' | handleize }}"
+  class="bbb-about color-{{ section.settings.color_scheme }} gradient"
+  style="--bbb-pad-top: {{ section.settings.padding_top }}px; --bbb-pad-bottom: {{ section.settings.padding_bottom }}px;"
+  aria-labelledby="bbb-about-heading-{{ section.id }}"
+>
+  <div class="page-width bbb-section bbb-about__grid{% if section.settings.image == blank and section.settings.use_bundled_photo == false %} bbb-about__grid--solo{% endif %}">
+    {%- if section.settings.image != blank -%}
+      <div class="bbb-about__media">
+        {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '375, 550, 750, 1000, 1200', sizes: '(min-width: 990px) 45vw, 100vw', class: 'bbb-about__img' }}
+      </div>
+    {%- elsif section.settings.use_bundled_photo -%}
+      <div class="bbb-about__media">
+        <img
+          src="{{ 'bbb-hero-bagels-768.webp' | asset_url }}"
+          srcset="{{ 'bbb-hero-bagels-768.webp' | asset_url }} 768w, {{ 'bbb-hero-bagels-1024.webp' | asset_url }} 1024w"
+          sizes="(min-width: 990px) 45vw, 100vw"
+          width="1024" height="768" loading="lazy"
+          alt="{{ section.settings.image_alt | escape }}"
+          class="bbb-about__img"
+        >
+      </div>
+    {%- endif -%}
+
+    <div class="bbb-about__copy">
+      {%- if section.settings.eyebrow != blank -%}<p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+      <h2 id="bbb-about-heading-{{ section.id }}" class="bbb-display bbb-display--l">
+        {{ section.settings.heading | escape }}
+        {%- if section.settings.heading_accent != blank %} <span class="bbb-accent">{{ section.settings.heading_accent | escape }}</span>{%- endif -%}
+      </h2>
+      {%- if section.settings.text != blank -%}<div class="rte bbb-about__text">{{ section.settings.text }}</div>{%- endif -%}
+
+      {%- if section.blocks.size > 0 -%}
+        <dl class="bbb-stats">
+          {%- for block in section.blocks -%}
+            <div class="bbb-stat" {{ block.shopify_attributes }}>
+              <dt class="bbb-stat__label">{{ block.settings.label | escape }}</dt>
+              <dd class="bbb-stat__value bbb-display">{{ block.settings.value | escape }}</dd>
+            </div>
+          {%- endfor -%}
+        </dl>
+      {%- endif -%}
+
+      {%- if section.settings.cta_label != blank -%}
+        <div class="bbb-cta-row">
+          <a href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}" class="button button--primary">{{ section.settings.cta_label | escape }}</a>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "BBB About us",
+  "tag": "div",
+  "class": "section",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "About us" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "New York bagel people." },
+    { "type": "text", "id": "heading_accent", "label": "Heading accent" },
+    {
+      "type": "richtext", "id": "text", "label": "Story",
+      "default": "<p>We've been in the bagel business in New York for over 30 years and run 28 retail locations. Now we ship straight from our Long Island commissary to your door.</p>",
+      "info": "Stick to facts you can stand behind."
+    },
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "checkbox", "id": "use_bundled_photo", "label": "Use the bundled bagel photo when no image is chosen", "default": true },
+    { "type": "text", "id": "image_alt", "label": "Bundled photo alt text", "default": "Racks of fresh sesame, plain and egg bagels" },
+    { "type": "text", "id": "cta_label", "label": "Button label" },
+    { "type": "url", "id": "cta_link", "label": "Button link" },
+    { "type": "text", "id": "anchor", "label": "Anchor for links", "default": "about" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        { "type": "text", "id": "value", "label": "Value", "default": "30+" },
+        { "type": "text", "id": "label", "label": "Label", "default": "Years in the bagel business" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "BBB About us",
+      "blocks": [
+        { "type": "stat", "settings": { "value": "30+", "label": "Years in the NY bagel business" } },
+        { "type": "stat", "settings": { "value": "28", "label": "Retail locations" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

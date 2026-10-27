@@ -1,7 +1,7 @@
 // Static approximation of the homepage for visual QA only (not Shopify rendering).
 const fs = require('fs'), path = require('path');
 const { Liquid, Tag } = require('liquidjs');
-const THEME = process.argv[2], OUT = process.argv[3];
+const THEME = process.argv[2], OUT = process.argv[3], TEMPLATE = process.argv[4] || 'index';
 const engine = new Liquid({ root: [path.join(THEME, 'sections'), path.join(THEME, 'snippets')], extname: '.liquid', jsTruthy: false });
 class Skip extends Tag { constructor(t, r, l) { super(t, r, l); this.tpls = []; const s = r.shift(); while (r.length) { const x = r.shift(); if (x.name === 'end' + t.name) return; } } *render() { return ''; } }
 engine.registerTag('schema', Skip);
@@ -12,12 +12,34 @@ engine.registerFilter('image_url', (x) => String(x));
 engine.registerFilter('image_tag', () => '');
 engine.registerFilter('json', (x) => JSON.stringify(x));
 engine.registerFilter('t', (x) => x);
+engine.registerFilter('handleize', (x) => String(x || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
+engine.registerFilter('default_errors', () => '');
+engine.registerFilter('payment_type_svg_tag', () => '');
+const renderSection = async (type, ctx) => {
+  let src = fs.readFileSync(path.join(THEME, 'sections', type + '.liquid'), 'utf8');
+  src = src.replace(/{% schema %}[\s\S]*?{% endschema %}/, '')
+           .replace(/{%-?\s*form [^%]*-?%}/g, '<form class="bbb-form">').replace(/{%-?\s*endform\s*-?%}/g, '</form>');
+  return engine.parseAndRender(src, ctx);
+};
 const readSchema = (type) => { const s = fs.readFileSync(path.join(THEME, 'sections', type + '.liquid'), 'utf8'); const m = s.match(/{% schema %}([\s\S]*?){% endschema %}/); return JSON.parse(m[1]); };
-const index = JSON.parse(fs.readFileSync(path.join(THEME, 'templates', 'index.json'), 'utf8'));
+const index = JSON.parse(fs.readFileSync(path.join(THEME, 'templates', TEMPLATE + '.json'), 'utf8'));
+const footerGroup = JSON.parse(fs.readFileSync(path.join(THEME, 'sections', 'footer-group.json'), 'utf8'));
 const standin = { toString(){return 'file://'+__dirname+'/standin.jpg'}, width: 2400, height: 1350, presentation: { focal_point: '50% 50%' } };
 const product = { title: 'The Dozen', url: '#', selected_or_first_available_variant: { price: 4495, selling_plan_allocations: [{ price: 3995, selling_plan: { name: 'Delivered every 4 weeks' } }] } };
 (async () => {
   let html = '';
+  const ctxFor = (id, settings, blocks) => ({ section: { id, settings, blocks }, request: { page_type: TEMPLATE === 'index' ? 'index' : 'page', design_mode: !!process.env.DESIGN }, routes: { all_products_collection_url: '/collections/all', root_url: '/' }, shop: { name: 'Bad Boy Bagel Co.', policies: [], enabled_payment_types: [] }, settings: { logo_width: 150 }, form: {} });
+  const build = (sec) => {
+    const schema = readSchema(sec.type); const settings = {};
+    for (const s of schema.settings || []) if ('default' in s) settings[s.id] = s.default;
+    Object.assign(settings, sec.settings || {});
+    const blocks = (sec.block_order || []).map((b) => {
+      const bl = sec.blocks[b]; const bs = (schema.blocks || []).find((x) => x.type === bl.type) || { settings: [] };
+      const st = {}; for (const s of bs.settings) if ('default' in s) st[s.id] = s.default; Object.assign(st, bl.settings);
+      return { ...bl, settings: st, shopify_attributes: '' };
+    });
+    blocks.size = blocks.length; return { settings, blocks, schema };
+  };
   for (const id of index.order) {
     const sec = index.sections[id]; if (!sec.type.startsWith('bbb-')) continue;
     const schema = readSchema(sec.type); const settings = {};
@@ -27,8 +49,10 @@ const product = { title: 'The Dozen', url: '#', selected_or_first_available_vari
     if (schema.settings.some((s) => s.type === 'product')) { settings.price_product = product; settings.product = product; }
     const blocks = (sec.block_order || []).map((b) => ({ ...sec.blocks[b], shopify_attributes: '' }));
     blocks.size = blocks.length;
-    html += await engine.renderFile(sec.type, { section: { id, settings, blocks }, request: { page_type: 'index', design_mode: false }, routes: { all_products_collection_url: '#', root_url: '/' }, shop: { name: 'Bad Boy Bagel Co.' }, settings: { logo_width: 150 } });
+    html += await renderSection(sec.type, ctxFor(id, settings, blocks));
   }
+  let footerHtml = '';
+  for (const id of footerGroup.order) { const sec = footerGroup.sections[id]; const b = build(sec); footerHtml += await renderSection(sec.type, ctxFor(id, b.settings, b.blocks)); }
   // Dawn-like color scheme variables from settings_data
   const sd = JSON.parse(fs.readFileSync(path.join(THEME, 'config', 'settings_data.json'), 'utf8'));
   const preset = sd.presets[sd.current];
@@ -43,7 +67,7 @@ const product = { title: 'The Dozen', url: '#', selected_or_first_available_vari
   <header class="color-scheme-1 gradient" style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #ddd"><span>☰</span><img src="${asset('bbb-logo-600.webp')}" width="150" height="108" alt="Bad Boy Bagel Co."><span>🛒</span></header>`;
   const page = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>${root}\n${css}</style>
   <link rel="stylesheet" href="${asset('base.css')}"><link rel="stylesheet" href="${asset('bbb-tokens.css')}"><link rel="stylesheet" href="${asset('bbb-sections.css')}"></head>
-  <body class="gradient">${header}<main>${html}</main><footer class="footer color-scheme-5" style="padding:40px;background:#101010;color:#fff">Footer (Dawn)</footer></body></html>`;
+  <body class="gradient">${header}<main>${html}</main>${footerHtml}</body></html>`;
   fs.writeFileSync(OUT, page);
   console.log('rendered', OUT);
 })().catch((e) => { console.error(e); process.exit(1); });

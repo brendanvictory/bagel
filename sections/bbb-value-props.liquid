@@ -1,21 +1,24 @@
-{%- comment -%} Bad Boy Bagel Co. — Value propositions {%- endcomment -%}
+{%- comment -%} Bad Boy Bagel Co. — Why us: eyebrow, heading, intro, value cards {%- endcomment -%}
 <section
+  id="{{ section.settings.anchor | default: 'why' | handleize }}"
   class="bbb-values color-{{ section.settings.color_scheme }} gradient"
   style="--bbb-pad-top: {{ section.settings.padding_top }}px; --bbb-pad-bottom: {{ section.settings.padding_bottom }}px;"
   aria-labelledby="bbb-values-heading-{{ section.id }}"
 >
   <div class="page-width bbb-section">
     <header class="bbb-section__header">
+      {%- if section.settings.eyebrow != blank -%}<p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
       <h2 id="bbb-values-heading-{{ section.id }}" class="bbb-display bbb-display--l">
         {{ section.settings.heading | escape }}
         {%- if section.settings.heading_accent != blank %} <span class="bbb-accent">{{ section.settings.heading_accent | escape }}</span>{%- endif -%}
       </h2>
+      {%- if section.settings.text != blank -%}<div class="rte bbb-values__intro">{{ section.settings.text }}</div>{%- endif -%}
     </header>
     <ul class="bbb-values__grid" role="list">
       {%- for block in section.blocks -%}
         <li class="bbb-card" {{ block.shopify_attributes }}>
           <h3 class="bbb-card__title">{{ block.settings.title | escape }}</h3>
-          <div class="rte">{{ block.settings.text }}</div>
+          {%- if block.settings.text != blank -%}<div class="rte">{{ block.settings.text }}</div>{%- endif -%}
         </li>
       {%- endfor -%}
     </ul>
@@ -24,13 +27,16 @@
 
 {% schema %}
 {
-  "name": "BBB Value props",
+  "name": "BBB Why us",
   "tag": "div",
   "class": "section",
   "max_blocks": 6,
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Why go" },
-    { "type": "text", "id": "heading_accent", "label": "Heading accent", "default": "bad boy" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Why Bad Boy Bagel Co." },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "We know" },
+    { "type": "text", "id": "heading_accent", "label": "Heading accent", "default": "bagels." },
+    { "type": "richtext", "id": "text", "label": "Intro", "default": "<p>We have 28 retail locations and have been in the bagel business in New York for over 30 years.</p>" },
+    { "type": "text", "id": "anchor", "label": "Anchor for links", "default": "why", "info": "Footer and buttons can link here with /#why" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
     { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 },
     { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 }
@@ -41,19 +47,10 @@
       "name": "Value",
       "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "Value" },
-        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Short, verifiable benefit.</p>", "info": "Keep claims verified: no freshness windows, origin or shipping speed unless confirmed." }
+        { "type": "richtext", "id": "text", "label": "Text (optional)", "info": "Keep claims verified." }
       ]
     }
   ],
-  "presets": [
-    {
-      "name": "BBB Value props",
-      "blocks": [
-        { "type": "value", "settings": { "title": "Your flavors", "text": "<p>Build the dozen you actually want. 4 sleeves, up to 4 flavors.</p>" } },
-        { "type": "value", "settings": { "title": "Save every box", "text": "<p>Subscribe and pay less on every shipment. Skip or cancel from your account.</p>" } },
-        { "type": "value", "settings": { "title": "Easy to stash", "text": "<p>Each flavor comes in its own sleeve of 3, so it's easy to share, stash and portion.</p>" } }
-      ]
-    }
-  ]
+  "presets": [ { "name": "BBB Why us" } ]
 }
 {% endschema %}

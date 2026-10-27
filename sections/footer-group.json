@@ -3,23 +3,105 @@
   "type": "footer",
   "sections": {
     "footer": {
-      "type": "footer",
-      "blocks": {},
-      "block_order": [],
-      "settings": {
-        "color_scheme": "scheme-1",
-        "newsletter_enable": true,
-        "newsletter_heading": "Subscribe to our emails",
-        "enable_follow_on_shop": true,
-        "show_social": true,
-        "enable_country_selector": true,
-        "enable_language_selector": true,
-        "payment_enable": true,
-        "show_policy": true,
-        "margin_top": 0,
-        "padding_top": 36,
-        "padding_bottom": 36
-      }
+      "type": "bbb-footer",
+      "blocks": {
+        "c_shop": {
+          "type": "column",
+          "settings": {
+            "title": "Shop"
+          }
+        },
+        "l_build": {
+          "type": "link",
+          "settings": {
+            "label": "Build your box",
+            "path": "/collections/all"
+          }
+        },
+        "l_sub": {
+          "type": "link",
+          "settings": {
+            "label": "Subscribe & save",
+            "path": "/#subscribe"
+          }
+        },
+        "c_learn": {
+          "type": "column",
+          "settings": {
+            "title": "Learn"
+          }
+        },
+        "l_how": {
+          "type": "link",
+          "settings": {
+            "label": "How it works",
+            "path": "/#how-it-works"
+          }
+        },
+        "l_why": {
+          "type": "link",
+          "settings": {
+            "label": "Why Bad Boy",
+            "path": "/#why"
+          }
+        },
+        "l_proc": {
+          "type": "link",
+          "settings": {
+            "label": "Our process",
+            "path": "/#process"
+          }
+        },
+        "l_about": {
+          "type": "link",
+          "settings": {
+            "label": "About us",
+            "path": "/#about"
+          }
+        },
+        "l_rev": {
+          "type": "link",
+          "settings": {
+            "label": "Testimonials",
+            "path": "/#reviews"
+          }
+        },
+        "l_faq": {
+          "type": "link",
+          "settings": {
+            "label": "FAQ",
+            "path": "/#faq"
+          }
+        },
+        "c_help": {
+          "type": "column",
+          "settings": {
+            "title": "Help"
+          }
+        },
+        "l_contact": {
+          "type": "link",
+          "settings": {
+            "label": "Contact us",
+            "path": "/pages/contact"
+          }
+        }
+      },
+      "block_order": [
+        "c_shop",
+        "l_build",
+        "l_sub",
+        "c_learn",
+        "l_how",
+        "l_why",
+        "l_proc",
+        "l_about",
+        "l_rev",
+        "l_faq",
+        "c_help",
+        "l_contact"
+      ],
+      "settings": {}
     }
   },
   "order": [

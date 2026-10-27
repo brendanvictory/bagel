@@ -1,6 +1,6 @@
 {%- comment -%} Bad Boy Bagel Co. — How it works (numbered steps) {%- endcomment -%}
 <section
-  id="how-it-works"
+  id="{{ section.settings.anchor | default: 'how-it-works' | handleize }}"
   class="bbb-steps color-{{ section.settings.color_scheme }} gradient"
   style="--bbb-pad-top: {{ section.settings.padding_top }}px; --bbb-pad-bottom: {{ section.settings.padding_bottom }}px;"
   aria-labelledby="bbb-steps-heading-{{ section.id }}"
@@ -40,6 +40,7 @@
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How it works" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Pick. We bake. We ship." },
     { "type": "richtext", "id": "text", "label": "Intro" },
+    { "type": "text", "id": "anchor", "label": "Anchor for links", "default": "how-it-works" },
     { "type": "text", "id": "cta_label", "label": "Button label", "default": "Build your box" },
     { "type": "url", "id": "cta_link", "label": "Button link" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2" },

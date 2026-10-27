@@ -1,0 +1,108 @@
+{%- comment -%}
+  Bad Boy Bagel Co. — Footer
+  Link columns are blocks edited in the Theme Editor (no store menu needed).
+  Each link uses either a picked URL or a path such as /#faq or /pages/contact.
+  Policy links come from Settings > Policies automatically.
+{%- endcomment -%}
+<footer class="footer bbb-footer color-{{ section.settings.color_scheme }} gradient" aria-label="Footer">
+  <div class="page-width bbb-footer__inner">
+    <div class="bbb-footer__brand">
+      <a href="{{ routes.root_url }}" class="bbb-footer__logo">
+        <img src="{{ 'bbb-logo-600.webp' | asset_url }}" width="180" height="129" alt="{{ shop.name | escape }} home" loading="lazy">
+      </a>
+      {%- if section.settings.tagline != blank -%}<p class="bbb-footer__tagline">{{ section.settings.tagline | escape }}</p>{%- endif -%}
+      {%- if section.settings.cta_label != blank -%}
+        <a href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}" class="button button--primary bbb-footer__cta">{{ section.settings.cta_label | escape }}</a>
+      {%- endif -%}
+    </div>
+
+    <div class="bbb-footer__cols">
+      {%- for col in section.blocks -%}
+        {%- if col.type == 'column' -%}
+          {%- assign start_i = forloop.index0 | plus: 1 -%}
+          <nav class="bbb-footer__col" aria-label="{{ col.settings.title | escape }}" {{ col.shopify_attributes }}>
+            <h2 class="bbb-footer__heading">{{ col.settings.title | escape }}</h2>
+            <ul class="bbb-footer__links" role="list">
+              {%- for block in section.blocks offset: start_i -%}
+                {%- if block.type == 'column' -%}{%- break -%}{%- endif -%}
+                {%- liquid
+                  assign href = block.settings.url
+                  if href == blank
+                    assign href = block.settings.path | default: '/'
+                    assign first = href | slice: 0
+                    if first == '#'
+                      assign href = routes.root_url | append: href
+                    endif
+                  endif
+                -%}
+                <li {{ block.shopify_attributes }}><a href="{{ href }}" class="bbb-footer__link">{{ block.settings.label | escape }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </nav>
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if section.settings.show_contact -%}
+        <div class="bbb-footer__col">
+          <h2 class="bbb-footer__heading">Contact</h2>
+          <ul class="bbb-footer__links" role="list">
+            {%- if section.settings.email != blank -%}<li><a class="bbb-footer__link" href="mailto:{{ section.settings.email }}">{{ section.settings.email | escape | replace: '@', '@<wbr>' }}</a></li>{%- endif -%}
+            {%- if section.settings.address != blank -%}<li><address class="bbb-footer__address">{{ section.settings.address | newline_to_br }}</address></li>{%- endif -%}
+          </ul>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="page-width bbb-footer__bottom">
+    <p class="bbb-footer__copy">&copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }}</p>
+    {%- if shop.policies.size > 0 -%}
+      <ul class="bbb-footer__policies" role="list">
+        {%- for policy in shop.policies -%}
+          {%- if policy != blank -%}<li><a href="{{ policy.url }}" class="bbb-footer__link">{{ policy.title | escape }}</a></li>{%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+    {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+      <ul class="bbb-footer__pay" role="list" aria-label="Payment methods">
+        {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>{%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "BBB Footer",
+  "tag": "div",
+  "class": "section",
+  "max_blocks": 30,
+  "settings": [
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "New York bagels, shipped." },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Build your box" },
+    { "type": "url", "id": "cta_link", "label": "Button link" },
+    { "type": "checkbox", "id": "show_contact", "label": "Show contact column", "default": true },
+    { "type": "text", "id": "email", "label": "Email", "default": "help@badboybagelco.com" },
+    { "type": "textarea", "id": "address", "label": "Address", "default": "111 Broadway\nAmityville, NY 11701" },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-5" }
+  ],
+  "blocks": [
+    {
+      "type": "column",
+      "name": "Column heading",
+      "settings": [ { "type": "text", "id": "title", "label": "Heading", "default": "Shop" } ]
+    },
+    {
+      "type": "link",
+      "name": "Link",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Link" },
+        { "type": "url", "id": "url", "label": "Link (picker)" },
+        { "type": "text", "id": "path", "label": "Or path", "info": "Use /#faq, /#about, /#process, /#reviews, /#how-it-works, /#why or /pages/contact. Ignored when a link is picked above." }
+      ]
+    }
+  ],
+  "presets": [ { "name": "BBB Footer" } ]
+}
+{% endschema %}
