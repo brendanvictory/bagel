@@ -15,25 +15,38 @@ Test environment: unpublished development theme on a dev/staging store, Shopify 
 - [ ] Graffiti art never clipped at 360 / 390 / 768 / 1024 / 1440 px
 
 ## 2. Box builder (P0) — mirrors ADR-002 POC script
-- [ ] Choose size → step through flavors → "X of Y selected" updates and is announced to screen readers (`aria-live="polite"`)
-- [ ] Add-to-cart disabled until count is exactly Y; clear error text explains why
-- [ ] Per-flavor min/max enforced; sold-out flavors disabled and labeled
+- [ ] Builder counts in sleeves: "X of 4 sleeves (3 bagels each)" updates and is announced to screen readers (`aria-live="polite"`)
+- [ ] Add-to-cart disabled until exactly 4 sleeves are chosen; 5th sleeve cannot be added; clear error text explains why
+- [ ] Same flavor allowed in multiple sleeves (if Q-BOX-3b confirmed); never more than 4 flavors; sold-out flavors disabled and labeled
 - [ ] Rapid taps / double-click on Add produce exactly one cart line
 - [ ] Back button / refresh preserves or cleanly resets selection
 - [ ] Edit box from cart restores prior selection (if supported by chosen option)
-- [ ] Tampered request (11 or 13 items via `/cart/add.js`) rejected or corrected at cart/checkout
-- [ ] Flavor breakdown visible in: cart drawer, cart page, checkout, order confirmation email, admin order, packing slip
+- [ ] Tampered request (3 or 5 sleeves via `/cart/add.js`) rejected or corrected at cart/checkout
+- [ ] Sleeve breakdown (e.g., "Everything ×2, Plain ×1, Sesame ×1") visible in: cart drawer, cart page, checkout, order confirmation email, admin order, packing slip
 - [ ] Price and currency formatting correct; discount code applies as configured
 
 ## 3. Subscriptions (P0/P1)
-- [ ] One-time vs subscription choice is explicit; interval, recurring price/discount and terms link shown before cart and in cart
+- [ ] One-time ($44.95) vs Subscribe & save ($39.95/month) shown side by side; customer makes an active choice (ADR-007)
+- [ ] Renewal disclosure ("renews monthly at $39.95 + shipping until you cancel") and terms link appear next to the add-to-cart button, before payment details, and in cart
+- [ ] Prices come from Shopify product/selling plan, not theme code
 - [ ] First subscription order: correct composition
-- [ ] 1st and 2nd renewal: correct composition and price
+- [ ] 1st and 2nd renewal: correct composition and $39.95 price
 - [ ] Customer changes flavors in portal → next renewal reflects change
 - [ ] Skip, pause, resume, cancel work; notifications sent
 - [ ] Failed payment → dunning behavior documented
 - [ ] Flavor out of stock at renewal → behavior documented + manual fallback SOP
 - [ ] Subscription indicator visible on admin order / pick list
+
+## 3b. Post-purchase upsells (ADR-008)
+- [ ] Card checkout (Shopify Payments, test mode): offer page appears after payment, before order status
+- [ ] Accept "6 free minis" ($0) → added to the same order, on packing slip, ships with the box
+- [ ] Accept "free bagel chips" → same checks; up to 3 offers max per checkout
+- [ ] Decline → customer lands on order status page normally
+- [ ] Subscription order + accepted upsell → upsell is one-time; next renewal does NOT include it (unless Q-UP-2 says otherwise)
+- [ ] Apple Pay / Google Pay / Shop Pay checkout → document whether offer appears (expected: not for wallets)
+- [ ] Fulfillment hold releases (after order status visit or ~1 hour) before commissary cutoff
+- [ ] Owner can create, edit, pause and A/B a new offer in the app without code
+- [ ] Upsell revenue/accept rate visible in app or Shopify reports (pixels see only the initial purchase)
 
 ## 4. Cart & checkout
 - [ ] Native Shopify checkout only; express wallets as eligible
@@ -51,7 +64,7 @@ Test environment: unpublished development theme on a dev/staging store, Shopify 
 - [ ] Full keyboard path: home → build box → cart → checkout start
 - [ ] Visible focus on every control (≥ 3:1 against background)
 - [ ] Text contrast ≥ 4.5:1 (note: #7BAFD4 on white fails for text — display only)
-- [ ] Stepper buttons have accessible names ("Add one Everything bagel")
+- [ ] Stepper buttons have accessible names ("Add one sleeve of Everything")
 - [ ] Tap targets ≥ 24×24 px (aim 44×44)
 - [ ] VoiceOver iOS + TalkBack Android pass on box builder
 - [ ] Respects `prefers-reduced-motion`

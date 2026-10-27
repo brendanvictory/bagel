@@ -34,7 +34,9 @@ Source of truth: `Bad_Boy_Bagel_Co_Claude_Shopify_Build_Scope.docx` v1.0. Decisi
 3. **Trademark clearance on "Bad Boy"** — "Bad Boy" is an existing mark used by other companies in several categories. Not a dev blocker, but worth a quick attorney search before printing packaging or buying ad volume. (Not legal advice.)
 4. **Logo production files** — raster-only logo will look soft in the header at 2x/3x and can't be recolored to #7BAFD4. Need vector master.
 5. **Claims/compliance** — no freshness windows, NYC-origin, "best," or guarantee claims without your sign-off; allergen info required for food (sesame is a major allergen in the US).
-6. **App cost creep** — subscription app fees (0% to ~1.5% + per-order fee) on top of Shopify Payments 2.9% + 30¢ (Basic).
+6. **Post-purchase upsell reach** — Shopify doesn't show the post-purchase page to Apple Pay, Google Pay, Klarna/Affirm or gift-card buyers, so a share of mobile buyers will never see it. Also only one app per store can run post-purchase offers (ADR-008).
+7. **Auto-renewal compliance** — subscribe-and-save must use clear disclosure and affirmative consent under state auto-renewal laws (ADR-007). Counsel should approve the final terms.
+8. **App cost creep** — subscription app fees (0% to ~1.5% + per-order fee) on top of Shopify Payments 2.9% + 30¢ (Basic).
 
 ---
 
@@ -48,10 +50,19 @@ Source of truth: `Bad_Boy_Bagel_Co_Claude_Shopify_Build_Scope.docx` v1.0. Decisi
 **Catalog & box (blocks ADR-002 POC config + Phase 2)**
 - Q-BOX-1: Box sizes — 6, 12, 18, 24? Is 12 the only launch size?
 - Q-BOX-2: Launch flavor list (and any premium flavors with an upcharge)?
-- Q-BOX-3: Per-flavor min/max in a box? Any packing rule like "2 sleeves of 6, max 2 flavors"?
-- Q-BOX-4: Add-ons: cream cheese/spreads, minis, merch? (Spreads are more perishable — cold chain?)
+- ~~Q-BOX-3~~ **Answered:** sleeves of 3, one flavor per sleeve; dozen = 4 sleeves, max 4 flavors.
+- Q-BOX-3b: Can a customer pick the same flavor for 2–4 sleeves? (Assumed yes.)
+- Q-BOX-4: Add-ons beyond the upsells (cream cheese/spreads, merch)? (Spreads are more perishable — cold chain?)
 - Q-BOX-5: Curated "house assortment" box in addition to build-your-own?
-- Q-BOX-6: Prices, and subscription discount % (e.g., 10%)?
+- ~~Q-BOX-6~~ **Answered:** $44.95 one-time / $39.95 monthly subscription.
+
+**Pricing & upsells (new)**
+- Q-PRICE-1: Is shipping included in $44.95 / $39.95, or charged on top?
+- Q-PRICE-2: "Monthly" = same date each calendar month, or every 4 weeks?
+- Q-PRICE-3: Dozen only at launch, or also a half dozen (2 sleeves)?
+- Q-UP-1: Mini bagels and bagel chips — real SKUs the commissary already makes? Pack weight?
+- Q-UP-2: Should a post-purchase item ever recur on future shipments, or always be one-time?
+- Q-UP-3: Paid upsell ideas too (e.g., extra sleeve at a discount, spreads), or free gifts only?
 
 **Operations (blocks ADR-002 choice between A and C)**
 - Q-OPS-1: Does the commissary bake to order, or hold flavor inventory that can run out?
@@ -66,7 +77,7 @@ Source of truth: `Bad_Boy_Bagel_Co_Claude_Shopify_Build_Scope.docx` v1.0. Decisi
 - Q-SHIP-5: Holiday blackout dates; freeze/storage guidance the commissary stands behind?
 
 **Subscriptions**
-- Q-SUB-1: Intervals to offer: every 2 weeks / 4 weeks / monthly?
+- ~~Q-SUB-1~~ **Answered:** monthly only (see Q-PRICE-2).
 - Q-SUB-2: Max monthly budget for a subscription app; OK with % transaction fees?
 - Q-SUB-3: Policy on skips, pauses, cancellation deadlines before renewal.
 
@@ -103,12 +114,14 @@ Timing ranges are from scope §11 and depend on answers/approvals above.
 
 ### Phase 2 — Catalog, box builder, cart (5–10 days)
 - Products/variants/collections created in admin (or via CSV); metafields for ingredients, allergens, storage
-- Box builder per approved ADR-002 option, with live "X of 12" count, accessible steppers, validation, sold-out handling, edit-from-cart
+- Sleeve products: one SKU per flavor ("Everything — Sleeve of 3"), plus Mini Bagels ×6 and Bagel Chips as upsell SKUs
+- Box builder per approved ADR-002 option, with live "X of 4 sleeves" count, accessible steppers, validation, sold-out handling, edit-from-cart
 - Cart shows flavor breakdown; packing slip template shows it too
 **Exit gate:** POC test script passes on the real build.
 
 ### Phase 3 — Subscriptions + shipping + ops (4–8 days)
-- Selling plans/intervals and disclosures; customer portal link; notifications
+- Monthly selling plan at $39.95; one-time $44.95; auto-renewal disclosures per ADR-007; customer portal link; notifications
+- Post-purchase upsell app per ADR-008: launch offers (6 free minis, free bagel chips), rules, $0-offer handling, owner training on adding new offers
 - Shipping profiles, zones, rates, exclusions; cutoff messaging driven by settings (not hardcoded)
 - Exception SOPs drafted for the commissary
 
