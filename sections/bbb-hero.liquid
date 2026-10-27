@@ -19,8 +19,14 @@
   assign bg = section.settings.image
   assign bg_mobile = section.settings.image_mobile | default: section.settings.image
   assign has_bg = false
-  if layout == 'background' and bg != blank
-    assign has_bg = true
+  assign use_bundled = false
+  if layout == 'background'
+    if bg != blank
+      assign has_bg = true
+    elsif section.settings.use_bundled_photo
+      assign has_bg = true
+      assign use_bundled = true
+    endif
   endif
   assign overlay = section.settings.overlay_opacity | divided_by: 100.0
 -%}
@@ -33,6 +39,28 @@
   {%- if has_bg -%}
     {%- comment -%} One <picture>: phones download only the mobile crop (if set), desktops only the wide image. {%- endcomment -%}
     <div class="bbb-hero__bg" aria-hidden="true">
+      {%- if use_bundled -%}
+        {%- comment -%} Owner-supplied bagel photo shipped with the theme (assets/bbb-hero-bagels-*). {%- endcomment -%}
+        <picture>
+          <source
+            media="(max-width: 749px)"
+            srcset="{{ 'bbb-hero-bagels-mobile-480.webp' | asset_url }} 480w, {{ 'bbb-hero-bagels-mobile-614.webp' | asset_url }} 614w"
+            sizes="100vw"
+          >
+          <img
+            src="{{ 'bbb-hero-bagels-1024.webp' | asset_url }}"
+            srcset="{{ 'bbb-hero-bagels-768.webp' | asset_url }} 768w, {{ 'bbb-hero-bagels-1024.webp' | asset_url }} 1024w"
+            sizes="100vw"
+            width="1024"
+            height="768"
+            alt=""
+            class="bbb-hero__bg-img"
+            style="object-position: 55% 55%;"
+            fetchpriority="high"
+            loading="eager"
+          >
+        </picture>
+      {%- else -%}
       <picture>
         {%- if section.settings.image_mobile != blank -%}
           <source
@@ -54,6 +82,7 @@
           loading="eager"
         >
       </picture>
+      {%- endif -%}
     </div>
   {%- endif -%}
 
@@ -151,7 +180,7 @@
     {%- endif -%}
   </div>
 
-  {%- if layout == 'background' and bg == blank and request.design_mode -%}
+  {%- if layout == 'background' and has_bg == false and request.design_mode -%}
     <p class="bbb-editor-note bbb-hero__note">Add a bagel assortment photo in this section's “Background image” setting.</p>
   {%- endif -%}
 </section>
@@ -202,6 +231,9 @@
     {
       "type": "image_picker", "id": "image", "label": "Background / main image",
       "info": "Photo background: an assortment of your bagels, at least 2400px wide. Set the focal point in Content > Files so the crop keeps the bagels in view."
+    },
+    {
+      "type": "checkbox", "id": "use_bundled_photo", "label": "Use the bundled bagel assortment photo when no image is chosen", "default": true
     },
     {
       "type": "image_picker", "id": "image_mobile", "label": "Mobile background image (optional)",
