@@ -7,7 +7,8 @@ Last updated: 2026-10-27 (rev 2: sleeve model, pricing, post-purchase upsells) �
 
 - **R1 — Sleeves of 3.** Bagels are packed in sleeves of 3, one flavor per sleeve. A dozen = 4 sleeves, so a dozen can hold at most 4 flavors.
 - **R2 — Post-purchase one-click upsells.** After checkout, offer one-click add-ons (examples: 6 free mini bagels, free bagel chips). The owner must be able to add new offer variations without code.
-- **R3 — Subscribe & save pricing.** Dozen: **$44.95 one-time**, **$39.95 per shipment** ($5.00 / ~11.1% off). Shipping model still open: see ADR-009.
+- **R3 — Subscribe & save pricing (revised 2026-10-27).** Dozen: **$45.95 one-time**, **$39.95 per shipment every 4 weeks** ($6.00 / ~13% off). **Shipping included** in both (ADR-009 Option A).
+- **R8 — Add-on prices.** Mini Bagels (6) **$9.95**, Bagel Chips **$9.95**; they recur on every subscription shipment once added.
 - **R4 — Cadence is every 4 weeks** (13 shipments/year, not 12). Customer-facing copy says "every 4 weeks," never "monthly."
 - **R5 — The same flavor may fill more than one sleeve** (e.g., 4 × Everything is valid).
 - **R6 — Upsell items recur.** Mini bagels and bagel chips are existing commissary products. Once accepted, an upsell item is added to **every future shipment** of that subscription.
@@ -215,7 +216,7 @@ Split upsells into two places instead of forcing everything through the post-pur
 
 ## ADR-009 — Shipping model and ship-day rules
 
-**Status:** OPEN — needs carrier quotes before deciding.
+**Status:** **DECIDED 2026-10-27 — Option A, shipping included** in $45.95 / $39.95. Store needs a $0 shipping rate for these products (Settings → Shipping and delivery). Margin risk on far zones remains with the business — carrier quotes still recommended.
 
 **Owner input:** either shipping is included in $44.95 / $39.95, **or** prices drop significantly and the customer picks a shipping speed. Ship-day rules: **3-day ships Mon–Tue only; 2-day ships Mon–Wed only** (keeps bagels out of carrier weekends).
 

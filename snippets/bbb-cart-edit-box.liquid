@@ -1,0 +1,47 @@
+{%- comment -%}
+  Bad Boy Bagel Co. — cart line helper for Build Your Box lines.
+  Box line   → "Edit box" link back to the builder with sleeves, add-ons and plan restored.
+  Add-on line → small "In your box" note.
+  Accepts: item (line item)
+{%- endcomment -%}
+{%- assign box_id = item.properties['_box_id'] -%}
+{%- if box_id != blank -%}
+  {%- if item.properties['Sleeve 1'] != blank -%}
+    {%- liquid
+      assign sleeve_list = ''
+      for i in (1..12)
+        assign key = 'Sleeve ' | append: i
+        assign v = item.properties[key]
+        if v == blank
+          break
+        endif
+        if sleeve_list != ''
+          assign sleeve_list = sleeve_list | append: ','
+        endif
+        assign sleeve_list = sleeve_list | append: v
+      endfor
+
+      assign addon_ids = ''
+      for other in cart.items
+        if other.key != item.key and other.properties['_box_id'] == box_id
+          if addon_ids != ''
+            assign addon_ids = addon_ids | append: ','
+          endif
+          assign addon_ids = addon_ids | append: other.variant_id
+        endif
+      endfor
+
+      if item.selling_plan_allocation
+        assign opt = item.selling_plan_allocation.selling_plan.id
+      else
+        assign opt = 'once'
+      endif
+    -%}
+    <a
+      class="link bbb-cart-edit"
+      href="{{ item.product.url }}?s={{ sleeve_list | url_encode }}&o={{ opt }}{% if addon_ids != '' %}&a={{ addon_ids | url_encode }}{% endif %}&edit={{ box_id | url_encode }}"
+    >Edit box<span class="visually-hidden"> {{ item.product.title | escape }}</span></a>
+  {%- else -%}
+    <p class="product-option bbb-cart-addon-note">In your box</p>
+  {%- endif -%}
+{%- endif -%}

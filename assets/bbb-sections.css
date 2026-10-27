@@ -366,3 +366,7 @@ textarea.bbb-form__input { min-height: 12rem; resize: vertical; }
 /* Contact column spans the full row on phones so the email never breaks mid-word */
 .bbb-footer__link, .bbb-footer__address { overflow-wrap: break-word; }
 @media screen and (max-width: 749px) { .bbb-footer__cols > .bbb-footer__col:last-child { grid-column: 1 / -1; } }
+
+/* Cart: Build Your Box helpers */
+.bbb-cart-edit { display: inline-flex; align-items: center; min-height: 3.6rem; font-weight: 700; font-size: 1.4rem; }
+.bbb-cart-addon-note { font-size: 1.3rem; opacity: 0.8; }

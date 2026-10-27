@@ -24,7 +24,7 @@
           "type": "link",
           "settings": {
             "label": "Build your box",
-            "path": "/collections/all"
+            "path": "/products/build-your-box"
           }
         },
         "l_sub": {
@@ -110,7 +110,9 @@
         "c_help",
         "l_contact"
       ],
-      "settings": {}
+      "settings": {
+        "cta_link": "shopify://products/build-your-box"
+      }
     }
   },
   "order": [

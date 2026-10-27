@@ -1,0 +1,326 @@
+{%- comment -%}
+  Bad Boy Bagel Co. — Build Your Box (ADR-002 Option C)
+  Data (all Shopify-native, nothing hardcoded):
+    product.metafields.custom.flavors          list of bagel_flavor metaobjects (name, description, allergens, available)
+    product.metafields.custom.addons           list of add-on products
+    product.metafields.custom.sleeves_per_box  default 4
+    product.metafields.custom.bagels_per_sleeve default 3
+    product price + selling plans             one-time price and subscription plans (Shopify Subscriptions app)
+  Cart: 1 box line with properties "Sleeve 1".."Sleeve N" + hidden "_box_id"; add-ons are
+  separate lines with the same "_box_id" and the same selling plan so they recur.
+{%- endcomment -%}
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign sleeves = product.metafields.custom.sleeves_per_box.value | default: 4
+  assign per_sleeve = product.metafields.custom.bagels_per_sleeve.value | default: 3
+  assign total_bagels = sleeves | times: per_sleeve
+  assign flavors = product.metafields.custom.flavors.value
+  assign addons = product.metafields.custom.addons.value
+
+  assign best_alloc = nil
+  for alloc in variant.selling_plan_allocations
+    if best_alloc == nil or alloc.price < best_alloc.price
+      assign best_alloc = alloc
+    endif
+  endfor
+  assign has_plans = false
+  if variant.selling_plan_allocations.size > 0
+    assign has_plans = true
+  endif
+  if best_alloc and variant.price > best_alloc.price
+    assign save_pct = variant.price | minus: best_alloc.price | times: 100.0 | divided_by: variant.price | round
+  endif
+  assign default_option = section.settings.default_option
+  if has_plans == false
+    assign default_option = 'once'
+  endif
+-%}
+
+<section
+  class="bbb-builder color-{{ section.settings.color_scheme }} gradient"
+  data-bbb-builder
+  aria-labelledby="bbb-builder-title-{{ section.id }}"
+>
+  <div class="page-width bbb-builder__wrap">
+    {%- if section.settings.banner != blank -%}
+      <p class="bbb-builder__banner">
+        <svg aria-hidden="true" focusable="false" width="34" height="22" viewBox="0 0 34 22"><path d="M1 3h19v13H1zM20 7h7l5 5v4h-12z" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="7" cy="18" r="2.5" fill="currentColor"/><circle cx="26" cy="18" r="2.5" fill="currentColor"/></svg>
+        <span>{{ section.settings.banner | escape }}</span>
+      </p>
+    {%- endif -%}
+
+    <header class="bbb-builder__head">
+      <h1 id="bbb-builder-title-{{ section.id }}" class="bbb-display bbb-display--l">{{ section.settings.heading | default: product.title | escape }}</h1>
+      <p class="bbb-builder__sub">
+        {{- section.settings.subheading | replace: '[sleeves]', sleeves | replace: '[per_sleeve]', per_sleeve | replace: '[total]', total_bagels | escape -}}
+      </p>
+    </header>
+
+    {%- if flavors == blank -%}
+      <p class="bbb-editor-note">Add flavors to this product's “Box flavors” field in Shopify admin to use the builder.</p>
+    {%- else -%}
+    <noscript><p class="bbb-editor-note">The box builder needs JavaScript. Please enable it, or contact us to order.</p></noscript>
+
+    <div class="bbb-builder__grid">
+      <div class="bbb-builder__main">
+
+        {%- comment -%} STEP 1 — sleeves {%- endcomment -%}
+        <section class="bbb-panel" aria-labelledby="bbb-step1-{{ section.id }}">
+          <h2 class="bbb-panel__head" id="bbb-step1-{{ section.id }}">
+            <span class="bbb-panel__num" aria-hidden="true">1</span>
+            {{ section.settings.step1_title | replace: '[sleeves]', sleeves | escape }}
+          </h2>
+          <div class="bbb-panel__body">
+            <p class="bbb-builder__hint">{{ section.settings.step1_hint | replace: '[sleeves]', sleeves | replace: '[per_sleeve]', per_sleeve | escape }}</p>
+
+            <div class="bbb-slots" data-bbb-slots aria-label="Your sleeves">
+              {%- for i in (1..sleeves) -%}
+                <button type="button" class="bbb-slot" data-bbb-slot="{{ forloop.index0 }}" disabled>
+                  <span class="bbb-slot__n">Sleeve {{ i }}</span>
+                  <span class="bbb-slot__flavor" data-bbb-slot-label>Empty</span>
+                </button>
+              {%- endfor -%}
+            </div>
+            <p class="bbb-progress" data-bbb-progress aria-live="polite">0 of {{ sleeves }} sleeves selected</p>
+
+            <ul class="bbb-flavors" role="list">
+              {%- for f in flavors -%}
+                {%- liquid
+                  assign f_available = true
+                  if f.available.value == false
+                    assign f_available = false
+                  endif
+                -%}
+                <li class="bbb-flavor{% unless f_available %} is-unavailable{% endunless %}" data-bbb-flavor="{{ f.system.handle | escape }}" data-name="{{ f.name.value | escape }}"{% unless f_available %} data-unavailable{% endunless %}>
+                  <div class="bbb-flavor__info">
+                    <span class="bbb-flavor__name" id="bbb-fl-{{ section.id }}-{{ f.system.handle }}">{{ f.name.value | escape }}</span>
+                    {%- if f.description.value != blank -%}<span class="bbb-flavor__desc">{{ f.description.value | escape }}</span>{%- endif -%}
+                    {%- if f.allergens.value != blank -%}<span class="bbb-flavor__allergen">{{ f.allergens.value | escape }}</span>{%- endif -%}
+                    {%- unless f_available -%}<span class="bbb-flavor__desc">Unavailable right now</span>{%- endunless -%}
+                  </div>
+                  <div class="bbb-stepper" role="group" aria-labelledby="bbb-fl-{{ section.id }}-{{ f.system.handle }}">
+                    <button type="button" class="bbb-stepper__btn" data-bbb-dec aria-label="Remove one sleeve of {{ f.name.value | escape }}" disabled>
+                      <svg aria-hidden="true" focusable="false" viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+                    </button>
+                    <output class="bbb-stepper__count" data-bbb-count aria-label="{{ f.name.value | escape }} sleeves">0</output>
+                    <button type="button" class="bbb-stepper__btn bbb-stepper__btn--add" data-bbb-inc aria-label="Add one sleeve of {{ f.name.value | escape }}"{% unless f_available %} disabled{% endunless %}>
+                      <svg aria-hidden="true" focusable="false" viewBox="0 0 16 16" width="16" height="16"><path d="M3 8h10M8 3v10" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+                    </button>
+                  </div>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        </section>
+
+        {%- comment -%} STEP 2 — add-ons {%- endcomment -%}
+        {%- if addons != blank -%}
+          <section class="bbb-panel" aria-labelledby="bbb-step2-{{ section.id }}">
+            <h2 class="bbb-panel__head" id="bbb-step2-{{ section.id }}">
+              <span class="bbb-panel__num" aria-hidden="true">2</span>
+              {{ section.settings.step2_title | escape }}
+            </h2>
+            <div class="bbb-panel__body">
+              {%- if section.settings.step2_hint != blank -%}<p class="bbb-builder__hint">{{ section.settings.step2_hint | escape }}</p>{%- endif -%}
+              <ul class="bbb-addons" role="list">
+                {%- for a in addons -%}
+                  {%- assign av = a.selected_or_first_available_variant -%}
+                  {%- if av -%}
+                    <li>
+                      <label class="bbb-addon">
+                        <input type="checkbox" class="bbb-addon__input" data-bbb-addon="{{ av.id }}" value="{{ av.id }}"{% unless av.available %} disabled{% endunless %}>
+                        <span class="bbb-addon__box" aria-hidden="true"></span>
+                        <span class="bbb-addon__name">{{ a.title | escape }}</span>
+                        <span class="bbb-addon__price">+{{ av.price | money }}<span class="bbb-addon__every" data-bbb-every hidden> every box</span></span>
+                      </label>
+                    </li>
+                  {%- endif -%}
+                {%- endfor -%}
+              </ul>
+            </div>
+          </section>
+        {%- endif -%}
+
+        {%- comment -%} STEP 3 — order options {%- endcomment -%}
+        {%- capture step_num -%}{% if addons != blank %}3{% else %}2{% endif %}{%- endcapture -%}
+        <section class="bbb-panel" aria-labelledby="bbb-step3-{{ section.id }}">
+          <h2 class="bbb-panel__head" id="bbb-step3-{{ section.id }}">
+            <span class="bbb-panel__num" aria-hidden="true">{{ step_num }}</span>
+            {{ section.settings.step3_title | escape }}
+          </h2>
+          <div class="bbb-panel__body">
+            <fieldset class="bbb-options">
+              <legend class="bbb-sr-only">Purchase option</legend>
+
+              <label class="bbb-option">
+                <input type="radio" name="bbb-purchase-{{ section.id }}" value="once" data-bbb-option{% if default_option == 'once' %} checked{% endif %}>
+                <span class="bbb-option__radio" aria-hidden="true"></span>
+                <span class="bbb-option__name">{{ section.settings.once_label | escape }}</span>
+                <span class="bbb-option__price">{{ variant.price | money }}</span>
+              </label>
+
+              {%- if has_plans -%}
+                <div class="bbb-option bbb-option--sub" data-bbb-sub-card>
+                  <label class="bbb-option__row">
+                    <input type="radio" name="bbb-purchase-{{ section.id }}" value="subscription" data-bbb-option{% if default_option == 'subscription' %} checked{% endif %}>
+                    <span class="bbb-option__radio" aria-hidden="true"></span>
+                    <span class="bbb-option__name">
+                      {{ section.settings.sub_label | escape }}
+                      {%- if save_pct and save_pct > 0 %} <span class="bbb-option__badge">{{ save_pct }}% off</span>{%- endif -%}
+                    </span>
+                    <span class="bbb-option__price" data-bbb-sub-price>{{ best_alloc.price | money }}</span>
+                  </label>
+                  <div class="bbb-option__more">
+                    {%- if variant.selling_plan_allocations.size > 1 -%}
+                      <label class="bbb-option__freq-label" for="bbb-freq-{{ section.id }}">Choose frequency</label>
+                      <select id="bbb-freq-{{ section.id }}" class="bbb-form__input" data-bbb-plan>
+                        {%- for alloc in variant.selling_plan_allocations -%}
+                          <option value="{{ alloc.selling_plan.id }}" data-price="{{ alloc.price }}"{% if alloc.selling_plan.id == best_alloc.selling_plan.id %} selected{% endif %}>{{ alloc.selling_plan.name | escape }}</option>
+                        {%- endfor -%}
+                      </select>
+                    {%- else -%}
+                      <input type="hidden" value="{{ best_alloc.selling_plan.id }}" data-bbb-plan>
+                      <p class="bbb-option__freq">{{ best_alloc.selling_plan.name | escape }}</p>
+                    {%- endif -%}
+                    {%- if section.settings.sub_note != blank -%}<p class="bbb-option__note">{{ section.settings.sub_note | escape }}</p>{%- endif -%}
+                  </div>
+                </div>
+              {%- elsif request.design_mode -%}
+                <p class="bbb-editor-note">No subscription plan on this product yet. Create one in the Shopify Subscriptions app (every 4 weeks, $39.95) and the Subscribe &amp; Save option appears here automatically.</p>
+              {%- endif -%}
+            </fieldset>
+          </div>
+        </section>
+      </div>
+
+      {%- comment -%} Summary / add to cart {%- endcomment -%}
+      <aside class="bbb-summary" aria-labelledby="bbb-summary-{{ section.id }}">
+        <div class="bbb-panel bbb-panel--sticky">
+          <h2 class="bbb-panel__head" id="bbb-summary-{{ section.id }}">Your box</h2>
+          <div class="bbb-panel__body">
+            <ul class="bbb-summary__list" role="list" data-bbb-summary-list>
+              <li class="bbb-summary__empty">Pick {{ sleeves }} sleeves to fill your box.</li>
+            </ul>
+            <p class="bbb-summary__total"><span>Total</span> <strong data-bbb-total>{{ variant.price | money }}</strong></p>
+            {%- if section.settings.shipping_note != blank -%}<p class="bbb-summary__ship">{{ section.settings.shipping_note | escape }}</p>{%- endif -%}
+            <p class="bbb-builder__error" data-bbb-error role="alert" hidden></p>
+            <button type="button" class="button button--primary bbb-summary__add" data-bbb-add aria-describedby="bbb-disclosure-{{ section.id }}">
+              <span data-bbb-add-label>{{ section.settings.add_label | escape }}</span>
+            </button>
+            <div class="bbb-summary__disclosure" id="bbb-disclosure-{{ section.id }}" data-bbb-disclosure hidden>
+              {{ section.settings.disclosure | replace: '[price]', '<span data-bbb-disc-price></span>' | replace: '[frequency]', '<span data-bbb-disc-freq></span>' }}
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    {%- comment -%} Mobile sticky bar {%- endcomment -%}
+    <div class="bbb-builder__bar" data-bbb-bar>
+      <span class="bbb-builder__bar-count" data-bbb-bar-count>0 / {{ sleeves }}</span>
+      <span class="bbb-builder__bar-total" data-bbb-bar-total>{{ variant.price | money }}</span>
+      <button type="button" class="button button--primary" data-bbb-add>{{ section.settings.bar_label | escape }}</button>
+    </div>
+
+    {%- comment -%} Config for bbb-box-builder.js — product data only, no secrets {%- endcomment -%}
+    <script type="application/json" data-bbb-config>
+      {
+        "productId": {{ product.id | json }},
+        "productUrl": {{ product.url | json }},
+        "variantId": {{ variant.id | json }},
+        "sleeves": {{ sleeves | json }},
+        "perSleeve": {{ per_sleeve | json }},
+        "oncePrice": {{ variant.price | json }},
+        "moneyFormat": {{ shop.money_format | json }},
+        "cartAddUrl": {{ routes.cart_add_url | append: '.js' | json }},
+        "cartUrl": {{ routes.cart_url | json }},
+        "cartJsUrl": {{ routes.cart_url | append: '.js' | json }},
+        "cartUpdateUrl": {{ routes.cart_update_url | append: '.js' | json }},
+        "plans": [
+          {%- for alloc in variant.selling_plan_allocations -%}
+            { "id": {{ alloc.selling_plan.id | json }}, "name": {{ alloc.selling_plan.name | json }}, "price": {{ alloc.price | json }} }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ],
+        "addons": [
+          {%- for a in addons -%}
+            {%- assign av = a.selected_or_first_available_variant -%}
+            {
+              "variantId": {{ av.id | json }},
+              "title": {{ a.title | json }},
+              "price": {{ av.price | json }},
+              "plans": {
+                {%- for alloc in av.selling_plan_allocations -%}
+                  {{ alloc.selling_plan.id | append: '' | json }}: {{ alloc.price | json }}{% unless forloop.last %},{% endunless %}
+                {%- endfor -%}
+              },
+              "planNames": {
+                {%- for alloc in av.selling_plan_allocations -%}
+                  {{ alloc.selling_plan.id | append: '' | json }}: {{ alloc.selling_plan.name | json }}{% unless forloop.last %},{% endunless %}
+                {%- endfor -%}
+              }
+            }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ],
+        "labels": {
+          "progress": {{ section.settings.progress_label | json }},
+          "needMore": {{ section.settings.error_need_more | json }},
+          "chooseOption": {{ section.settings.error_choose_option | json }},
+          "adding": "Adding…",
+          "failed": "Sorry, something went wrong adding your box. Please try again."
+        }
+      }
+    </script>
+    {%- endif -%}
+  </div>
+</section>
+
+{{ 'bbb-box-builder.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'bbb-box-builder.js' | asset_url }}" defer="defer"></script>
+
+<script type="application/ld+json">
+  {{ product | structured_data }}
+</script>
+
+{% schema %}
+{
+  "name": "BBB Box builder",
+  "tag": "div",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "banner", "label": "Top banner", "default": "Order today & get FREE shipping!", "info": "Shipping is included in the box price (ADR-009)." },
+    { "type": "text", "id": "heading", "label": "Heading", "info": "Defaults to the product title." },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "[sleeves] sleeves of [per_sleeve] — [total] bagels, your flavors.", "info": "Use [sleeves], [per_sleeve] and [total]; filled from the product." },
+    { "type": "header", "content": "Steps" },
+    { "type": "text", "id": "step1_title", "label": "Step 1 title", "default": "Pick your [sleeves] sleeves" },
+    { "type": "text", "id": "step1_hint", "label": "Step 1 hint", "default": "Each sleeve holds [per_sleeve] bagels of one flavor. Pick up to [sleeves] flavors, or the same flavor more than once." },
+    { "type": "text", "id": "progress_label", "label": "Progress text", "default": "[n] of [total] sleeves selected", "info": "Use [n] and [total]." },
+    { "type": "text", "id": "step2_title", "label": "Step 2 title", "default": "Add-ons" },
+    { "type": "text", "id": "step2_hint", "label": "Step 2 hint", "default": "Subscribers get add-ons in every box." },
+    { "type": "text", "id": "step3_title", "label": "Step 3 title", "default": "Order options" },
+    { "type": "text", "id": "once_label", "label": "One-time label", "default": "One-time purchase" },
+    { "type": "text", "id": "sub_label", "label": "Subscription label", "default": "Subscribe and Save" },
+    { "type": "text", "id": "sub_note", "label": "Subscription note", "default": "*Cancel, pause and adjust anytime.", "info": "Make sure the Shopify Subscriptions customer portal supports each action you list." },
+    {
+      "type": "select", "id": "default_option", "label": "Pre-selected purchase option", "default": "none",
+      "info": "Several state auto-renewal laws expect the customer to actively choose a subscription. Talk to counsel before pre-selecting it.",
+      "options": [
+        { "value": "none", "label": "None (customer chooses)" },
+        { "value": "subscription", "label": "Subscribe and Save" },
+        { "value": "once", "label": "One-time purchase" }
+      ]
+    },
+    { "type": "header", "content": "Summary" },
+    { "type": "text", "id": "shipping_note", "label": "Shipping note", "default": "Shipping included." },
+    { "type": "text", "id": "add_label", "label": "Add to cart label", "default": "Add box to cart" },
+    { "type": "text", "id": "bar_label", "label": "Mobile bar button label", "default": "Add to cart" },
+    { "type": "text", "id": "error_need_more", "label": "Error: box not full", "default": "Pick [remaining] more sleeve(s) to fill your box." },
+    { "type": "text", "id": "error_choose_option", "label": "Error: no purchase option", "default": "Choose one-time purchase or Subscribe and Save." },
+    {
+      "type": "richtext", "id": "disclosure", "label": "Subscription disclosure (shown when subscribing)",
+      "default": "<p>Renews automatically [frequency] at [price] (shipping included) until you cancel. Cancel anytime in your account before your next renewal. <a href=\"/policies/terms-of-service\">Subscription terms</a>.</p>",
+      "info": "[price] and [frequency] are filled in live. Have counsel approve this text."
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2" }
+  ]
+}
+{% endschema %}
