@@ -1,8 +1,12 @@
 {%- comment -%}
   Bad Boy Bagel Co. — Hero
-  Headline (H1 on the homepage), subcopy, primary/secondary CTA, optional
-  image, optional "from" price read live from a chosen product, trust chips
-  (blocks), and an optional mobile sticky CTA.
+  Layouts:
+    background — full-bleed photo (e.g., bagel assortment) behind the copy,
+                 with an adjustable dark overlay for legibility. Optional
+                 separate mobile crop. Focal point set in Shopify Files is used.
+    split      — copy beside an image (or logo art).
+  Headline is the page H1 on the homepage. Price line is read live from a
+  chosen product. Optional mobile sticky CTA.
 {%- endcomment -%}
 {%- liquid
   assign box = section.settings.price_product
@@ -10,14 +14,58 @@
   if request.page_type != 'index' and heading_tag == 'h1'
     assign heading_tag = 'h2'
   endif
+
+  assign layout = section.settings.layout
+  assign bg = section.settings.image
+  assign bg_mobile = section.settings.image_mobile | default: section.settings.image
+  assign has_bg = false
+  if layout == 'background' and bg != blank
+    assign has_bg = true
+  endif
+  assign overlay = section.settings.overlay_opacity | divided_by: 100.0
 -%}
 <section
   id="bbb-hero-{{ section.id }}"
-  class="bbb-hero color-{{ section.settings.color_scheme }} gradient{% if section.settings.spray %} bbb-spray{% endif %}"
-  style="--bbb-pad-top: {{ section.settings.padding_top }}px; --bbb-pad-bottom: {{ section.settings.padding_bottom }}px;"
+  class="bbb-hero bbb-hero--{{ layout }} bbb-hero--h-{{ section.settings.height }} color-{{ section.settings.color_scheme }} gradient{% if section.settings.spray and has_bg == false %} bbb-spray{% endif %}{% if has_bg %} bbb-hero--has-bg{% endif %}"
+  style="--bbb-pad-top: {{ section.settings.padding_top }}px; --bbb-pad-bottom: {{ section.settings.padding_bottom }}px; --bbb-overlay: {{ overlay }};"
   aria-labelledby="bbb-hero-heading-{{ section.id }}"
 >
-  <div class="page-width bbb-section bbb-hero__grid{% if section.settings.image == blank and section.settings.show_logo_art == false %} bbb-hero__grid--solo{% endif %}">
+  {%- if has_bg -%}
+    {%- comment -%} One <picture>: phones download only the mobile crop (if set), desktops only the wide image. {%- endcomment -%}
+    <div class="bbb-hero__bg" aria-hidden="true">
+      <picture>
+        {%- if section.settings.image_mobile != blank -%}
+          <source
+            media="(max-width: 749px)"
+            srcset="{% for w in (1..5) %}{% assign px = w | times: 250 | plus: 250 %}{{ bg_mobile | image_url: width: px }} {{ px }}w{% unless forloop.last %}, {% endunless %}{% endfor %}"
+            sizes="100vw"
+          >
+        {%- endif -%}
+        <img
+          src="{{ bg | image_url: width: 1500 }}"
+          srcset="{% for w in (1..7) %}{% assign px = w | times: 300 | plus: 75 %}{{ bg | image_url: width: px }} {{ px }}w, {% endfor %}{{ bg | image_url: width: 2400 }} 2400w"
+          sizes="100vw"
+          width="{{ bg.width }}"
+          height="{{ bg.height }}"
+          alt=""
+          class="bbb-hero__bg-img"
+          style="object-position: {{ bg.presentation.focal_point | default: '50% 50%' }};"
+          fetchpriority="high"
+          loading="eager"
+        >
+      </picture>
+    </div>
+  {%- endif -%}
+
+  {%- liquid
+    assign solo = false
+    if layout == 'background'
+      assign solo = true
+    elsif section.settings.image == blank and section.settings.show_logo_art == false
+      assign solo = true
+    endif
+  -%}
+  <div class="page-width bbb-section bbb-hero__grid{% if solo %} bbb-hero__grid--solo{% endif %}">
     <div class="bbb-hero__copy">
       {%- if section.settings.eyebrow != blank -%}
         <p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>
@@ -76,30 +124,36 @@
       {%- endif -%}
     </div>
 
-    {%- if section.settings.image != blank -%}
-      <div class="bbb-hero__media">
-        {{
-          section.settings.image
-          | image_url: width: 1400
-          | image_tag:
-            loading: 'eager',
-            fetchpriority: 'high',
-            widths: '375, 550, 750, 1000, 1400',
-            sizes: '(min-width: 990px) 50vw, 100vw',
-            class: 'bbb-hero__img'
-        }}
-      </div>
-    {%- elsif section.settings.show_logo_art -%}
-      <div class="bbb-hero__media bbb-hero__media--logo" aria-hidden="true">
-        <img
-          src="{{ 'bbb-logo-1200.webp' | asset_url }}"
-          srcset="{{ 'bbb-logo-600.webp' | asset_url }} 600w, {{ 'bbb-logo-1200.webp' | asset_url }} 1200w"
-          sizes="(min-width: 990px) 45vw, 90vw"
-          width="1200" height="863" alt="" fetchpriority="high"
-        >
-      </div>
+    {%- if layout == 'split' -%}
+      {%- if section.settings.image != blank -%}
+        <div class="bbb-hero__media">
+          {{
+            section.settings.image
+            | image_url: width: 1400
+            | image_tag:
+              loading: 'eager',
+              fetchpriority: 'high',
+              widths: '375, 550, 750, 1000, 1400',
+              sizes: '(min-width: 990px) 50vw, 100vw',
+              class: 'bbb-hero__img'
+          }}
+        </div>
+      {%- elsif section.settings.show_logo_art -%}
+        <div class="bbb-hero__media bbb-hero__media--logo" aria-hidden="true">
+          <img
+            src="{{ 'bbb-logo-1200.webp' | asset_url }}"
+            srcset="{{ 'bbb-logo-600.webp' | asset_url }} 600w, {{ 'bbb-logo-1200.webp' | asset_url }} 1200w"
+            sizes="(min-width: 990px) 45vw, 90vw"
+            width="1200" height="863" alt="" fetchpriority="high"
+          >
+        </div>
+      {%- endif -%}
     {%- endif -%}
   </div>
+
+  {%- if layout == 'background' and bg == blank and request.design_mode -%}
+    <p class="bbb-editor-note bbb-hero__note">Add a bagel assortment photo in this section's “Background image” setting.</p>
+  {%- endif -%}
 </section>
 
 {%- if section.settings.sticky_cta and section.settings.cta_label != blank -%}
@@ -118,6 +172,13 @@
   "class": "section",
   "max_blocks": 4,
   "settings": [
+    {
+      "type": "select", "id": "layout", "label": "Layout", "default": "background",
+      "options": [
+        { "value": "background", "label": "Photo background" },
+        { "value": "split", "label": "Copy beside image" }
+      ]
+    },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "New York-style bagels, shipped" },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Build your" },
     { "type": "text", "id": "heading_accent", "label": "Heading accent (Carolina blue)", "default": "bad boy box" },
@@ -137,12 +198,31 @@
     { "type": "url", "id": "cta_link", "label": "Primary button link" },
     { "type": "text", "id": "cta2_label", "label": "Secondary button label", "default": "How it works" },
     { "type": "url", "id": "cta2_link", "label": "Secondary button link" },
-    { "type": "header", "content": "Media" },
-    { "type": "image_picker", "id": "image", "label": "Image", "info": "Real product photography. Falls back to the logo art when empty." },
-    { "type": "checkbox", "id": "show_logo_art", "label": "Show logo art when no image", "default": true },
+    { "type": "header", "content": "Image" },
+    {
+      "type": "image_picker", "id": "image", "label": "Background / main image",
+      "info": "Photo background: an assortment of your bagels, at least 2400px wide. Set the focal point in Content > Files so the crop keeps the bagels in view."
+    },
+    {
+      "type": "image_picker", "id": "image_mobile", "label": "Mobile background image (optional)",
+      "info": "A taller crop for phones. Uses the main image when empty."
+    },
+    {
+      "type": "range", "id": "overlay_opacity", "label": "Overlay darkness", "min": 0, "max": 90, "step": 5, "unit": "%", "default": 55,
+      "info": "Keep high enough that white text stays readable over busy areas of the photo."
+    },
+    {
+      "type": "select", "id": "height", "label": "Height (photo background)", "default": "medium",
+      "options": [
+        { "value": "small", "label": "Small" },
+        { "value": "medium", "label": "Medium" },
+        { "value": "large", "label": "Large" }
+      ]
+    },
+    { "type": "checkbox", "id": "show_logo_art", "label": "Copy beside image: show logo art when no image", "default": true },
     { "type": "header", "content": "Style" },
-    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-5" },
-    { "type": "checkbox", "id": "spray", "label": "Spray-paint dots", "default": true },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "info": "Use a dark scheme for photo backgrounds so text stays light.", "default": "scheme-5" },
+    { "type": "checkbox", "id": "spray", "label": "Spray-paint dots (no-photo only)", "default": true },
     { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 40 },
     { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
     { "type": "header", "content": "Mobile sticky button" },

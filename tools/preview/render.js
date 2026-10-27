@@ -8,12 +8,13 @@ engine.registerTag('schema', Skip);
 const asset = (f) => 'file://' + path.join(THEME, 'assets', f);
 engine.registerFilter('asset_url', asset);
 engine.registerFilter('money', (c) => '$' + (Number(c) / 100).toFixed(2));
-engine.registerFilter('image_url', (x) => x);
+engine.registerFilter('image_url', (x) => String(x));
 engine.registerFilter('image_tag', () => '');
 engine.registerFilter('json', (x) => JSON.stringify(x));
 engine.registerFilter('t', (x) => x);
 const readSchema = (type) => { const s = fs.readFileSync(path.join(THEME, 'sections', type + '.liquid'), 'utf8'); const m = s.match(/{% schema %}([\s\S]*?){% endschema %}/); return JSON.parse(m[1]); };
 const index = JSON.parse(fs.readFileSync(path.join(THEME, 'templates', 'index.json'), 'utf8'));
+const standin = { toString(){return 'file://'+__dirname+'/standin.jpg'}, width: 2400, height: 1350, presentation: { focal_point: '50% 50%' } };
 const product = { title: 'The Dozen', url: '#', selected_or_first_available_variant: { price: 4495, selling_plan_allocations: [{ price: 3995, selling_plan: { name: 'Delivered every 4 weeks' } }] } };
 (async () => {
   let html = '';
@@ -22,6 +23,7 @@ const product = { title: 'The Dozen', url: '#', selected_or_first_available_vari
     const schema = readSchema(sec.type); const settings = {};
     for (const s of schema.settings || []) if ('default' in s) settings[s.id] = s.default;
     Object.assign(settings, sec.settings || {});
+    if (sec.type === 'bbb-hero' && process.env.STANDIN) settings.image = standin;
     if (schema.settings.some((s) => s.type === 'product')) { settings.price_product = product; settings.product = product; }
     const blocks = (sec.block_order || []).map((b) => ({ ...sec.blocks[b], shopify_attributes: '' }));
     blocks.size = blocks.length;

@@ -28,6 +28,12 @@ Date: 2026-10-27 · Status: **code complete locally; not yet on the store** (see
 - `sections/header-group.json` — black announcement bar, sticky header, selectors off
 - `templates/index.json` — homepage composition
 
+### Change 2026-10-27 (owner request): hero photo background
+- `sections/bbb-hero.liquid` — new **Layout: Photo background** (default) for a bagel-assortment photo; optional separate mobile crop delivered via one `<picture>` (phones download only the mobile image); honors the focal point set in Content → Files; **Overlay darkness** slider (default 55%) plus a gradient behind the copy; **Height** small/medium/large. Old side-by-side layout kept as "Copy beside image."
+- `assets/bbb-sections.css` — photo-background styles.
+- Tested with a deliberately busy, bright stand-in image: white text stays readable at 390 and 1440 px; no horizontal scroll at any breakpoint; Theme Check 0 errors.
+- **Needs from owner:** a rights-cleared photo of *your* bagel assortment, ideally ≥ 2400 px wide, landscape, with space on the left for text; optionally a 4:5 crop for phones.
+
 ## 2. Preview instructions
 Blocked until GitHub is linked (see below). Once pushed: Admin → Online Store → Themes → Add theme → Connect from GitHub → `brendanvictory/bagel`, branch `dev` → Preview. Then in Theme Editor, set **BBB Hero → Show price from product** and **BBB Subscribe & save → Box product** once the box product exists.
 

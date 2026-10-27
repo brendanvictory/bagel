@@ -162,3 +162,46 @@ body.bbb-has-sticky-cta { padding-bottom: 7.6rem; }
   border: 0.2rem dashed currentColor; border-radius: var(--bbb-radius);
   padding: var(--bbb-space-2); margin: var(--bbb-space-2) auto; max-width: 72rem; font-size: 1.4rem;
 }
+
+/* ---------- Hero: photo background layout ---------- */
+.bbb-hero--background { position: relative; overflow: hidden; }
+.bbb-hero--has-bg { display: grid; align-items: center; }
+.bbb-hero--h-small.bbb-hero--has-bg  { min-height: 52svh; }
+.bbb-hero--h-medium.bbb-hero--has-bg { min-height: 68svh; }
+.bbb-hero--h-large.bbb-hero--has-bg  { min-height: 84svh; }
+@media screen and (min-width: 990px) {
+  .bbb-hero--h-small.bbb-hero--has-bg  { min-height: 48rem; }
+  .bbb-hero--h-medium.bbb-hero--has-bg { min-height: 62rem; }
+  .bbb-hero--h-large.bbb-hero--has-bg  { min-height: 76rem; }
+}
+.bbb-hero__bg { position: absolute; inset: 0; z-index: 0; }
+.bbb-hero__bg picture, .bbb-hero__bg-img { display: block; width: 100%; height: 100%; }
+.bbb-hero__bg-img { object-fit: cover; }
+/* Overlay: flat darkening + a stronger gradient behind the text side */
+.bbb-hero__bg::after {
+  content: '';
+  position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, rgba(16,16,16,0.15) 0%, rgba(16,16,16,0.35) 100%),
+    rgba(16,16,16, var(--bbb-overlay, 0.55));
+}
+@media screen and (min-width: 990px) {
+  .bbb-hero__bg::after {
+    background:
+      linear-gradient(90deg, rgba(16,16,16,0.55) 0%, rgba(16,16,16,0.15) 65%, rgba(16,16,16,0) 100%),
+      rgba(16,16,16, var(--bbb-overlay, 0.55));
+  }
+}
+.bbb-hero--has-bg .bbb-hero__grid { position: relative; z-index: 1; width: 100%; }
+.bbb-hero--has-bg .bbb-hero__copy { color: #fff; text-shadow: 0 0.1rem 0.6rem rgba(0,0,0,0.45); }
+.bbb-hero--has-bg .bbb-hero__copy .bbb-display { color: #fff; }
+.bbb-hero--has-bg .bbb-chip { background: rgba(16,16,16,0.45); }
+/* Photo background: copy is left-aligned on desktop, not centered */
+@media screen and (min-width: 990px) {
+  .bbb-hero--background .bbb-hero__grid--solo { text-align: left; }
+  .bbb-hero--background .bbb-hero__grid--solo .bbb-cta-row,
+  .bbb-hero--background .bbb-hero__grid--solo .bbb-hero__chips { justify-content: flex-start; }
+  .bbb-hero--background .bbb-hero__copy { max-width: 64rem; }
+}
+.bbb-hero__note { position: relative; z-index: 1; }
+.bbb-hero--has-bg .button { text-shadow: none; }
