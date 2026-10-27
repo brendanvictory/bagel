@@ -29,7 +29,15 @@ Last updated: 2026-10-27 (rev 2: sleeve model, pricing, post-purchase upsells) �
 
 ## ADR-002 — Mix-and-match box + subscription architecture (P0 GATE)
 
-**Status:** PROPOSED — **no box-builder code until you pick an option.**
+**Status:** **APPROVED 2026-10-27 — Option C** (custom theme builder + Shopify Subscriptions app). Owner inputs: commissary bakes to order (no per-flavor inventory); 10 launch flavors (Plain, Everything, Sesame, Poppy, Onion, Garlic, Cinnamon Raisin, Egg, Whole Wheat, Pumpernickel). **Exit condition:** if the renewal test shows the Shopify Subscriptions app does not carry the 4 sleeve selections onto renewal orders, fall back to Option A (Appstle).
+
+**Implementation of C:**
+- Box product "Build Your Dozen" ($44.95), template `product.build-your-box`. Flavors are `bagel_flavor` metaobjects referenced from the product metafield `custom.flavors`; add-ons from `custom.addons`.
+- Cart line = 1 box with line-item properties `Sleeve 1`…`Sleeve 4` (one flavor each, repeats allowed) plus hidden `_box_id`. Add-ons are separate lines tagged with the same `_box_id` and the same selling plan, so they recur with the subscription (R6).
+- Selling plan is created **inside the Shopify Subscriptions app** (not via API) so that app owns and renews the contracts.
+- Server-side validation: not in theme. Price is fixed per box regardless of flavors, so a tampered request can only produce an odd flavor list, not a wrong price. Follow-up: Cart and Checkout Validation Function in a small custom app (plan eligibility to verify).
+
+**Original status:** PROPOSED — no box-builder code until you pick an option.
 
 ### The constraint (verified 2026-10-27)
 
