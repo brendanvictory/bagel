@@ -26,8 +26,8 @@ Test environment: unpublished development theme on a dev/staging store, Shopify 
 - [ ] Price and currency formatting correct; discount code applies as configured
 
 ## 3. Subscriptions (P0/P1)
-- [ ] One-time ($44.95) vs Subscribe & save ($39.95/month) shown side by side; customer makes an active choice (ADR-007)
-- [ ] Renewal disclosure ("renews monthly at $39.95 + shipping until you cancel") and terms link appear next to the add-to-cart button, before payment details, and in cart
+- [ ] One-time ($44.95) vs Subscribe & save ($39.95 every 4 weeks) shown side by side; customer makes an active choice (ADR-007)
+- [ ] Renewal disclosure ("renews every 4 weeks at $39.95 … until you cancel") and terms link appear next to the add-to-cart button, before payment details, and in cart
 - [ ] Prices come from Shopify product/selling plan, not theme code
 - [ ] First subscription order: correct composition
 - [ ] 1st and 2nd renewal: correct composition and $39.95 price
@@ -42,7 +42,9 @@ Test environment: unpublished development theme on a dev/staging store, Shopify 
 - [ ] Accept "6 free minis" ($0) → added to the same order, on packing slip, ships with the box
 - [ ] Accept "free bagel chips" → same checks; up to 3 offers max per checkout
 - [ ] Decline → customer lands on order status page normally
-- [ ] Subscription order + accepted upsell → upsell is one-time; next renewal does NOT include it (unless Q-UP-2 says otherwise)
+- [ ] Builder "add to every box" items (minis, chips) appear on first order and on renewals 1 and 2; removable in customer portal
+- [ ] Post-purchase offer on a subscription order: behavior matches ADR-008 (recurring only if app verified; otherwise clearly labeled "this box only")
+- [ ] $0 recurring lines renew correctly (or fallback pricing applied)
 - [ ] Apple Pay / Google Pay / Shop Pay checkout → document whether offer appears (expected: not for wallets)
 - [ ] Fulfillment hold releases (after order status visit or ~1 hour) before commissary cutoff
 - [ ] Owner can create, edit, pause and A/B a new offer in the app without code
@@ -56,6 +58,8 @@ Test environment: unpublished development theme on a dev/staging store, Shopify 
 ## 5. Shipping & ops (owner-supplied test cases)
 - [ ] Rates per zone match approved table; excluded regions blocked with clear message
 - [ ] Cutoff / ship-day copy matches settings and is not hardcoded
+- [ ] 3-day orders placed Wed–Sun and 2-day orders placed Thu–Sun show "ships next Monday"; SOP batches them accordingly
+- [ ] Renewals bill on the anchored weekday (if supported) and the delivery method carries over
 - [ ] Order notification, shipping confirmation, tracking links correct
 - [ ] Packing slip shows per-box flavor counts, gift note, customer note, subscription flag
 - [ ] Exception SOPs exist: missed cutoff, damage, wrong flavor, refund/reship, nondelivery, OOS, address change, renewal interruption

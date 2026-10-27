@@ -7,7 +7,11 @@ Last updated: 2026-10-27 (rev 2: sleeve model, pricing, post-purchase upsells) �
 
 - **R1 — Sleeves of 3.** Bagels are packed in sleeves of 3, one flavor per sleeve. A dozen = 4 sleeves, so a dozen can hold at most 4 flavors.
 - **R2 — Post-purchase one-click upsells.** After checkout, offer one-click add-ons (examples: 6 free mini bagels, free bagel chips). The owner must be able to add new offer variations without code.
-- **R3 — Subscribe & save pricing.** Dozen: **$44.95 one-time**, **$39.95 per monthly shipment** ($5.00 / ~11.1% off).
+- **R3 — Subscribe & save pricing.** Dozen: **$44.95 one-time**, **$39.95 per shipment** ($5.00 / ~11.1% off). Shipping model still open: see ADR-009.
+- **R4 — Cadence is every 4 weeks** (13 shipments/year, not 12). Customer-facing copy says "every 4 weeks," never "monthly."
+- **R5 — The same flavor may fill more than one sleeve** (e.g., 4 × Everything is valid).
+- **R6 — Upsell items recur.** Mini bagels and bagel chips are existing commissary products. Once accepted, an upsell item is added to **every future shipment** of that subscription.
+- **R7 — Ship-day windows.** 3-day service ships Mon–Tue only; 2-day service ships Mon–Wed only.
 
 ---
 
@@ -56,7 +60,8 @@ Sources: Shopify Help Center (bundles eligibility), shopify.dev (bundles; subscr
 - **The unit of selection is a sleeve, not a bagel.** The builder asks for 4 sleeves ("Pick 4 sleeves — 3 bagels each"), not 12 individual bagels. That's fewer taps on mobile, and the "max 4 flavors" rule enforces itself.
 - **Each flavor becomes a sleeve SKU** (e.g., "Everything — Sleeve of 3"). The pick list then reads "Everything × 2 sleeves, Plain × 1, Sesame × 1," which matches how packers work.
 - **The box price is fixed** regardless of flavor mix. Fixed-price boxes are the simplest case for every option: Appstle's fixed-price build-a-box, Skio's Static Build-a-Box, or Option C's single product with two prices.
-- **One interval (monthly)** cuts subscription test scope roughly in half.
+- **One interval (every 4 weeks)** cuts subscription test scope roughly in half.
+- **R6 (recurring upsells) pulls the other way.** The accepted item has to be written into the subscription contract, not just the first order. Upsell-app docs (AfterSell) only confirm "modify an existing subscription" when connected to **Recharge, Skio, Loop or Stay AI** — Appstle and Shopify's own Subscriptions app aren't confirmed. If we take R6 to mean post-purchase acceptance, that favors Option B (or Loop as a new Option D to price out). See ADR-008 for a design that avoids this.
 - Net effect: **Option C gets more attractive** (one product, one selling plan, four sleeve picks stored on the line). Option A is still the safer bet for per-flavor inventory and customer self-serve flavor changes.
 
 ### Recommendation
@@ -81,7 +86,10 @@ Each run on the dev store with Shopify's Bogus Gateway (no real money):
 8. Apply a discount code to one-time and to subscription → confirm pricing.
 9. Tamper test: post a 3-sleeve or 5-sleeve box via `/cart/add.js` → confirm it is blocked or corrected server-side (cart validation Function or app logic).
 10. Price check: one-time box charges $44.95; subscription box charges $39.95 on the first order **and** on each renewal.
-11. Post-purchase upsell (ADR-008): after a subscription checkout, accept a $0 "6 free minis" offer → confirm it lands on the same order, ships with the box, and does **not** recur on the next renewal (unless we decide it should).
+11. Recurring add-on (R6, ADR-008): add "6 free minis" in the builder step → confirm it is on the first order **and** on renewals 1 and 2, and that the customer can remove it in the portal.
+12. Post-purchase offer on a subscription order: accept "free bagel chips" → record whether the app can add it to the subscription contract (recurring) or only to this one order.
+13. Renewal timing (R4, ADR-009): first order on a Monday → renewals bill on Mondays (28 days); first order on a Thursday → record when renewals bill and how the ship-day window is applied.
+14. Shipping on renewals: confirm the delivery method and price chosen at first checkout carry onto renewal orders, and how a customer changes it.
 
 Output: `docs/poc/ADR-002-evidence.md` with screenshots per step, pass/fail table.
 
@@ -135,19 +143,21 @@ Proposed: design tokens use **#7BAFD4** as `--color-brand` per scope; the logo s
 
 **Status:** PROPOSED (prices APPROVED by owner; presentation needs approval)
 
-**Pricing (owner-confirmed):** Dozen = $44.95 one-time · $39.95 per monthly shipment.
+**Pricing (owner-confirmed):** Dozen = $44.95 one-time · $39.95 per shipment, every 4 weeks (R4). If ADR-009 picks customer-selected shipping, these prices drop and are re-approved.
 
 **Implementation:** Prices live in Shopify, never in theme code.
 - One-time: product/variant price = $44.95.
-- Subscription: one selling plan, "Delivered monthly," with a fixed-amount discount of $5.00 (or a fixed $39.95 price — whichever the chosen app supports). If you later change $44.95, the subscription price must still land on $39.95 — confirm which the app keeps fixed.
+- Subscription: one selling plan, "Delivered every 4 weeks," with a fixed-amount discount of $5.00 (or a fixed $39.95 price — whichever the chosen app supports). If you later change $44.95, the subscription price must still land on $39.95 — confirm which the app keeps fixed.
 
 **Presentation on the product/builder page:**
-- Two clearly labeled options, with **"Subscribe & save $5 — $39.95/month"** shown first and visually featured, plus "One-time purchase — $44.95."
+- Two clearly labeled options, with **"Subscribe & save $5 — $39.95 every 4 weeks"** shown first and visually featured, plus "One-time purchase — $44.95."
 - **Recommendation: the customer actively picks one.** Don't silently pre-check subscription. Several state auto-renewal laws require express affirmative consent and clear terms before billing info is collected — California, for example, requires express affirmative consent. New York's amended law (effective Nov 5, 2025) requires point-of-sale disclosures before billing information is requested. Featuring subscribe-and-save is fine; a buried pre-selection is the risk.
-- Next to the add-to-cart button for subscriptions: "Renews monthly at $39.95 + shipping until you cancel. Skip, pause or cancel anytime in your account." Link to subscription terms.
+- Next to the add-to-cart button for subscriptions: "Renews every 4 weeks at $39.95 [+ shipping, if ADR-009 B] until you cancel. Skip, pause or cancel anytime in your account." Link to subscription terms.
 - The federal FTC "click-to-cancel" rule was vacated by the Eighth Circuit in July 2025, so state laws are what currently bind. *Not legal advice — have counsel approve the final disclosure text and subscription terms.*
 
-**Open questions:** Q-PRICE-1 shipping included or extra? Q-PRICE-2 "monthly" = calendar month or every 4 weeks? Q-PRICE-3 any other sizes (half dozen = 2 sleeves)?
+**Answered:** every 4 weeks (R4). **Open:** shipping model (ADR-009); Q-PRICE-3 any other sizes (half dozen = 2 sleeves)?
+
+**Every-4-weeks side effect worth using:** 28 days is exactly 4 weeks, so renewals always fall on the **same weekday** as the first order. If the subscription app lets us anchor the billing day (verify in POC), we can bill renewals on Sunday/Monday so they land inside every ship window.
 
 ---
 
@@ -163,7 +173,7 @@ Proposed: design tokens use **#7BAFD4** as `--color-brand` per scope; the logo s
 - Max **3 accepted offers per checkout**; order must be ≥ $0.50; Online Store channel only.
 - Orders are placed on a short **fulfillment hold** (released when the customer reaches the order status page, or after 1 hour). Commissary cutoffs must account for this.
 - Analytics pixels only see the **initial** purchase; upsell revenue must be read from Shopify reports or the app.
-- If the order already contains a subscription, post-purchase offers can only be **one-time** products — you can't add a second subscription or convert to one there (per UpsellPlus docs). That fits "6 free minis this shipment," but "add chips to every monthly box" would have to happen in the subscription portal instead.
+- If the order already contains a subscription, post-purchase offers can only be **one-time** products — you can't add a second subscription or convert to one there (per UpsellPlus docs). That conflicts with R6 (upsells recur) — see "Design for R6" below.
 
 ### "Free" offers
 A $0 offer (free minis/chips) is an engagement/retention gift, not AOV. Shopify's docs don't say how a $0 offer is processed — **must be tested in the POC** (some apps implement it as a 100% discount). Free items also add pack weight and cost; confirm with the commissary they can be added late.
@@ -177,6 +187,41 @@ A $0 offer (free minis/chips) is an engagement/retention gift, not AOV. Shopify'
 | Cost | Included or tier-gated — verify | Monthly fee, usually by order volume — **verify on live listings before approval** | Dev time + must request live access from Shopify; ongoing maintenance on an unversioned API |
 | Recommendation | Check in POC; use if it covers R2 | **Default recommendation** if 8A can't do $0 offers and rule targeting | Not recommended |
 
+### Design for R6 (recurring upsells) — RECOMMENDED
+
+Split upsells into two places instead of forcing everything through the post-purchase page:
+
+1. **Recurring add-ons go in the builder, before checkout** — a final "Add to every box" step after the 4 sleeves: "+ 6 mini bagels — FREE every shipment," "+ Bagel chips — FREE every shipment." Because they're in the cart with the subscription, they become part of the subscription contract natively and recur on every renewal with every subscription option (A, B or C). They also reach **Apple Pay / Google Pay buyers**, who never see a post-purchase page. Offers are managed as theme settings (pick product, label, on/off) — editable without code.
+2. **Post-purchase page is for one-time "this box only" extras**, or recurring adds **only if** the chosen apps can write to the existing subscription. Per AfterSell's docs that's confirmed only with Recharge, Skio, Loop or Stay AI connected; UpsellPlus's Appstle integration describes upgrading a subscription, not adding an item to it. **Unverified for Appstle and Shopify Subscriptions.**
+
+**Business check:** a free item on every renewal is a permanent cost on every 4-week shipment. Confirm minis/chips cost + pack weight fits the $39.95 margin, or make them paid add-ons (e.g., "+$4.95 every box").
+
+**Free $0 lines in subscriptions:** confirm in POC that the subscription app renews a $0 line (some apps skip or reject $0 contract lines). Fallback: small price with an equal automatic discount.
+
 **Next step:** during the ADR-002 POC, test 8A on Appstle. If it falls short, shortlist two 8B apps with verified current pricing for your approval.
 
 **Offer catalog model:** each upsell item (Mini bagels ×6, Bagel chips) is a normal Shopify product with its own SKU, so it shows on the pick list. Offer rules (who sees what, price $0 or discounted) live in the app, editable by you.
+
+
+---
+
+## ADR-009 — Shipping model and ship-day rules
+
+**Status:** OPEN — needs carrier quotes before deciding.
+
+**Owner input:** either shipping is included in $44.95 / $39.95, **or** prices drop significantly and the customer picks a shipping speed. Ship-day rules: **3-day ships Mon–Tue only; 2-day ships Mon–Wed only** (keeps bagels out of carrier weekends).
+
+| | **A. Shipping included** | **B. Lower price + customer selects speed** | **C. Hybrid (recommended to evaluate)** |
+|---|---|---|---|
+| Customer sees | One clean price, "free shipping" | Lower headline price; shipping added at checkout | Price includes 3-day; 2-day is a paid upgrade |
+| Margin risk | High on far zones/2-day — you eat the worst case | Lowest — customer pays real speed cost | Medium — you eat 3-day, they pay for speed |
+| Paid-ads fit | Strongest ("free shipping" offer) | Weakest (surprise cost at checkout lowers conversion) | Strong |
+| Build effort | Lowest | Medium | Medium |
+
+**How ship-day rules work on Shopify:** Shopify shipping rates set the **price** of each method, not which weekday it ships. So the rule is enforced in two places:
+1. **Fulfillment:** orders are batched — a 3-day order placed Wed–Sun ships the next Monday; a 2-day order placed Thu–Sun ships the next Monday. Written into the commissary SOP and, if their ship software supports it, a ship-date rule.
+2. **Customer messaging:** method names/descriptions and an on-page notice computed from cutoff settings ("Order by Tue 11:59pm ET for 3-day — ships Tue"; otherwise "ships next Monday"). Cutoff times live in theme settings, not hardcoded. No promised delivery date until carrier transit times are verified.
+
+**Renewals:** combined with every-4-weeks billing on a fixed weekday (ADR-007), anchoring renewals to Sunday/Monday means subscription boxes always ship at the start of a window.
+
+**Needed to decide:** ship-from ZIP, carrier, packed weight/dimensions, and carrier cost for 2-day and 3-day across zones 2–8. With that, I'll build a margin table for A/B/C.

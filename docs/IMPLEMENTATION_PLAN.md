@@ -51,17 +51,17 @@ Source of truth: `Bad_Boy_Bagel_Co_Claude_Shopify_Build_Scope.docx` v1.0. Decisi
 - Q-BOX-1: Box sizes — 6, 12, 18, 24? Is 12 the only launch size?
 - Q-BOX-2: Launch flavor list (and any premium flavors with an upcharge)?
 - ~~Q-BOX-3~~ **Answered:** sleeves of 3, one flavor per sleeve; dozen = 4 sleeves, max 4 flavors.
-- Q-BOX-3b: Can a customer pick the same flavor for 2–4 sleeves? (Assumed yes.)
+- ~~Q-BOX-3b~~ **Answered:** yes, same flavor allowed in multiple sleeves.
 - Q-BOX-4: Add-ons beyond the upsells (cream cheese/spreads, merch)? (Spreads are more perishable — cold chain?)
 - Q-BOX-5: Curated "house assortment" box in addition to build-your-own?
-- ~~Q-BOX-6~~ **Answered:** $44.95 one-time / $39.95 monthly subscription.
+- ~~Q-BOX-6~~ **Answered:** $44.95 one-time / $39.95 per shipment every 4 weeks.
 
 **Pricing & upsells (new)**
-- Q-PRICE-1: Is shipping included in $44.95 / $39.95, or charged on top?
-- Q-PRICE-2: "Monthly" = same date each calendar month, or every 4 weeks?
+- Q-PRICE-1: **Partly answered** — included, or lower price + customer-selected speed (ADR-009). Needs carrier quotes to decide.
+- ~~Q-PRICE-2~~ **Answered:** every 4 weeks.
 - Q-PRICE-3: Dozen only at launch, or also a half dozen (2 sleeves)?
-- Q-UP-1: Mini bagels and bagel chips — real SKUs the commissary already makes? Pack weight?
-- Q-UP-2: Should a post-purchase item ever recur on future shipments, or always be one-time?
+- ~~Q-UP-1~~ **Answered:** yes, existing products. Still need: unit cost and pack weight.
+- ~~Q-UP-2~~ **Answered:** upsells recur on every shipment (ADR-008 design for R6).
 - Q-UP-3: Paid upsell ideas too (e.g., extra sleeve at a discount, spreads), or free gifts only?
 
 **Operations (blocks ADR-002 choice between A and C)**
@@ -69,7 +69,12 @@ Source of truth: `Bad_Boy_Bagel_Co_Claude_Shopify_Build_Scope.docx` v1.0. Decisi
 - Q-OPS-2: What does the commissary use to pick/pack today — printed Shopify packing slips, a 3PL/WMS, ShipStation, other?
 - Q-OPS-3: Packaging: box/sleeve format, max flavors per box, packed weight and dimensions?
 
+**Store setup (blocks POC)** — owner creating a new Shopify store
+- Q-ACC-4: Store's `.myshopify.com` URL once created.
+- Q-ACC-5: Approval to install Appstle (free plan/trial) and Shopify Subscriptions (free) on it for the POC; payments in test mode only.
+
 **Shipping (blocks Phase 3)**
+- Q-SHIP-0: Carrier cost for 2-day and 3-day across zones 2–8 at the packed weight (needed for ADR-009).
 - Q-SHIP-1: Ship-from ZIP, carrier, service (overnight / 2-day / ground)?
 - Q-SHIP-2: Ship days and production cutoff (e.g., orders by 12pm ET Mon–Wed ship next morning)?
 - Q-SHIP-3: Excluded destinations (AK, HI, PR, APO, PO boxes)?
@@ -77,7 +82,7 @@ Source of truth: `Bad_Boy_Bagel_Co_Claude_Shopify_Build_Scope.docx` v1.0. Decisi
 - Q-SHIP-5: Holiday blackout dates; freeze/storage guidance the commissary stands behind?
 
 **Subscriptions**
-- ~~Q-SUB-1~~ **Answered:** monthly only (see Q-PRICE-2).
+- ~~Q-SUB-1~~ **Answered:** every 4 weeks only.
 - Q-SUB-2: Max monthly budget for a subscription app; OK with % transaction fees?
 - Q-SUB-3: Policy on skips, pauses, cancellation deadlines before renewal.
 
@@ -120,7 +125,7 @@ Timing ranges are from scope §11 and depend on answers/approvals above.
 **Exit gate:** POC test script passes on the real build.
 
 ### Phase 3 — Subscriptions + shipping + ops (4–8 days)
-- Monthly selling plan at $39.95; one-time $44.95; auto-renewal disclosures per ADR-007; customer portal link; notifications
+- Every-4-weeks selling plan at $39.95, billing day anchored if supported; one-time $44.95; auto-renewal disclosures per ADR-007; customer portal link; notifications
 - Post-purchase upsell app per ADR-008: launch offers (6 free minis, free bagel chips), rules, $0-offer handling, owner training on adding new offers
 - Shipping profiles, zones, rates, exclusions; cutoff messaging driven by settings (not hardcoded)
 - Exception SOPs drafted for the commissary
