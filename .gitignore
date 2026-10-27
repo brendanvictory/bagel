@@ -1,0 +1,21 @@
+# Allowlist: only theme folders, docs and tools are tracked.
+/*
+!/.gitignore
+!/README.md
+!/LICENSE-dawn.md
+!/assets/
+!/blocks/
+!/config/
+!/layout/
+!/locales/
+!/sections/
+!/snippets/
+!/templates/
+!/docs/
+!/tools/
+
+.DS_Store
+node_modules/
+.env
+.env.*
+*.log

@@ -1,0 +1,22 @@
+{%- comment -%}
+  Bad Boy Bagel Co. logo fallback.
+  Used by the header when no logo is chosen in Theme settings > Logo.
+  Uploading a logo in the Theme Editor overrides this automatically.
+  Accepts: class (string)
+{%- endcomment -%}
+{%- liquid
+  assign logo_w = settings.logo_width | default: 140
+  assign logo_h = logo_w | times: 899 | divided_by: 1250
+-%}
+<div class="header__heading-logo-wrapper">
+  <img
+    src="{{ 'bbb-logo-600.webp' | asset_url }}"
+    srcset="{{ 'bbb-logo-600.webp' | asset_url }} 600w, {{ 'bbb-logo-1200.webp' | asset_url }} 1200w"
+    sizes="{{ logo_w }}px"
+    width="{{ logo_w }}"
+    height="{{ logo_h }}"
+    alt="{{ shop.name | escape }}"
+    class="{{ class | default: 'header__heading-logo' }}"
+    fetchpriority="high"
+  >
+</div>

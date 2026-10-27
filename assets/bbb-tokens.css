@@ -1,0 +1,140 @@
+/* =========================================================
+   Bad Boy Bagel Co. — design tokens + brand layer
+   Loaded after base.css. Colors for sections come from Dawn
+   color schemes (Theme settings > Colors); these tokens cover
+   brand-only values and shared component styling.
+   ========================================================= */
+
+@font-face {
+  font-family: 'BBB Marker';
+  src: url('bbb-permanent-marker.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Palette */
+  --bbb-blue: #7bafd4;          /* Carolina blue — display/decoration; never body text on white */
+  --bbb-black: #101010;
+  --bbb-white: #ffffff;
+  --bbb-paper: #f7f5f0;
+
+  /* Type */
+  --bbb-font-display: 'BBB Marker', 'Marker Felt', 'Comic Sans MS', cursive;
+  --bbb-display-xl: clamp(3.4rem, 9vw, 7.2rem);
+  --bbb-display-l: clamp(2.8rem, 6vw, 5rem);
+  --bbb-display-m: clamp(2.4rem, 4.2vw, 3.6rem);
+
+  /* Space (Dawn uses 10px root: 1rem = 10px) */
+  --bbb-space-1: 0.8rem;
+  --bbb-space-2: 1.6rem;
+  --bbb-space-3: 2.4rem;
+  --bbb-space-4: 3.2rem;
+  --bbb-space-6: 4.8rem;
+  --bbb-space-8: 6.4rem;
+
+  --bbb-radius: 1rem;
+  --bbb-radius-pill: 999px;
+  --bbb-border: 0.2rem solid rgb(var(--color-foreground));
+  --bbb-sticker-shadow: 0.5rem 0.5rem 0 var(--bbb-black);
+
+  --bbb-focus: 0.3rem solid var(--bbb-blue);
+  --bbb-focus-offset: 0.3rem;
+  --bbb-tap: 4.4rem;
+}
+
+/* ---------- Display type ---------- */
+.bbb-display {
+  font-family: var(--bbb-font-display);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.02;
+  text-transform: uppercase;
+  word-break: normal;
+  overflow-wrap: anywhere;
+  margin: 0;
+}
+.bbb-display--xl { font-size: var(--bbb-display-xl); }
+.bbb-display--l  { font-size: var(--bbb-display-l); }
+.bbb-display--m  { font-size: var(--bbb-display-m); }
+
+.bbb-accent { color: var(--bbb-blue); }
+.color-scheme-3 .bbb-accent { color: var(--bbb-white); text-shadow: 0.2rem 0.2rem 0 var(--bbb-black); }
+
+/* Carolina blue on light backgrounds is display-only: give it a black outline for legibility */
+.color-scheme-1 .bbb-accent,
+.color-scheme-2 .bbb-accent {
+  color: var(--bbb-blue);
+  -webkit-text-stroke: 0.12rem var(--bbb-black);
+  paint-order: stroke fill;
+}
+
+.bbb-eyebrow {
+  display: inline-block;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 0 0 var(--bbb-space-1);
+}
+
+/* ---------- Section rhythm ---------- */
+.bbb-section { padding-block: var(--bbb-pad-top, 4.8rem) var(--bbb-pad-bottom, 4.8rem); }
+@media screen and (min-width: 750px) {
+  .bbb-section { padding-block: calc(var(--bbb-pad-top, 4.8rem) * 1.33) calc(var(--bbb-pad-bottom, 4.8rem) * 1.33); }
+}
+.bbb-section__header { text-align: center; max-width: 72rem; margin: 0 auto var(--bbb-space-4); }
+.bbb-section__header p { margin: var(--bbb-space-1) 0 0; font-size: 1.7rem; }
+
+/* ---------- Buttons ---------- */
+.bbb-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bbb-space-2);
+  align-items: center;
+}
+.bbb-cta-row .button { min-height: var(--bbb-tap); min-width: 18rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.bbb-cta-note { font-size: 1.3rem; opacity: 0.85; margin: var(--bbb-space-1) 0 0; }
+
+/* ---------- Focus (WCAG 2.2 visible focus) ---------- */
+.bbb-section :focus-visible,
+.bbb-faq summary:focus-visible {
+  outline: var(--bbb-focus);
+  outline-offset: var(--bbb-focus-offset);
+  box-shadow: 0 0 0 0.6rem var(--bbb-black);
+}
+
+/* ---------- Spray texture (pure CSS, decorative) ---------- */
+.bbb-spray {
+  position: relative;
+  isolation: isolate;
+}
+.bbb-spray::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.55;
+  background-image:
+    radial-gradient(circle at 8% 18%, var(--bbb-blue) 0 0.35rem, transparent 0.4rem),
+    radial-gradient(circle at 14% 26%, var(--bbb-blue) 0 0.15rem, transparent 0.2rem),
+    radial-gradient(circle at 88% 12%, var(--bbb-blue) 0 0.25rem, transparent 0.3rem),
+    radial-gradient(circle at 93% 22%, var(--bbb-blue) 0 0.12rem, transparent 0.16rem),
+    radial-gradient(circle at 80% 84%, var(--bbb-blue) 0 0.3rem, transparent 0.35rem),
+    radial-gradient(circle at 6% 78%, var(--bbb-blue) 0 0.18rem, transparent 0.22rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bbb-section *, .bbb-section *::before, .bbb-section *::after { transition: none !important; animation: none !important; }
+}
+
+/* ---------- Screen reader helper ---------- */
+.bbb-sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap; border: 0;
+}

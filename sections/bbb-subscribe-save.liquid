@@ -1,0 +1,96 @@
+{%- comment -%}
+  Bad Boy Bagel Co. — Subscribe & save vs one-time
+  All prices are read live from the chosen product and its selling plans.
+  If no subscription app/selling plan is attached yet, only the one-time
+  card shows and a Theme Editor-only notice explains why.
+{%- endcomment -%}
+{%- liquid
+  assign box = section.settings.product
+  if box != blank
+    assign v = box.selected_or_first_available_variant
+    assign sub_alloc = nil
+    for alloc in v.selling_plan_allocations
+      if sub_alloc == nil or alloc.price < sub_alloc.price
+        assign sub_alloc = alloc
+      endif
+    endfor
+  endif
+-%}
+<section
+  id="subscribe"
+  class="bbb-subsave color-{{ section.settings.color_scheme }} gradient"
+  style="--bbb-pad-top: {{ section.settings.padding_top }}px; --bbb-pad-bottom: {{ section.settings.padding_bottom }}px;"
+  aria-labelledby="bbb-subsave-heading-{{ section.id }}"
+>
+  <div class="page-width bbb-section">
+    <header class="bbb-section__header">
+      {%- if section.settings.eyebrow != blank -%}<p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+      <h2 id="bbb-subsave-heading-{{ section.id }}" class="bbb-display bbb-display--l">{{ section.settings.heading | escape }}</h2>
+      {%- if section.settings.text != blank -%}<div class="rte">{{ section.settings.text }}</div>{%- endif -%}
+    </header>
+
+    {%- if box == blank -%}
+      {%- if request.design_mode -%}
+        <p class="bbb-editor-note">Choose the box product in this section's settings to show live prices.</p>
+      {%- endif -%}
+    {%- else -%}
+      <div class="bbb-subsave__grid">
+        {%- if sub_alloc != nil -%}
+          <article class="bbb-plan bbb-plan--featured" aria-labelledby="bbb-plan-sub-{{ section.id }}">
+            {%- if section.settings.badge != blank -%}<p class="bbb-plan__badge">{{ section.settings.badge | escape }}</p>{%- endif -%}
+            <h3 id="bbb-plan-sub-{{ section.id }}" class="bbb-plan__name">{{ section.settings.sub_label | escape }}</h3>
+            <p class="bbb-plan__price">
+              <span class="bbb-plan__amount">{{ sub_alloc.price | money }}</span>
+              <span class="bbb-plan__per">{{ sub_alloc.selling_plan.name | escape }}</span>
+            </p>
+            {%- if v.price > sub_alloc.price -%}
+              <p class="bbb-plan__save">You save {{ v.price | minus: sub_alloc.price | money }} every box</p>
+            {%- endif -%}
+            {%- if section.settings.sub_points != blank -%}<div class="rte bbb-plan__points">{{ section.settings.sub_points }}</div>{%- endif -%}
+          </article>
+        {%- elsif request.design_mode -%}
+          <p class="bbb-editor-note">No subscription plan is attached to “{{ box.title | escape }}” yet. The subscribe &amp; save card appears automatically once the subscription app adds one.</p>
+        {%- endif -%}
+
+        <article class="bbb-plan" aria-labelledby="bbb-plan-once-{{ section.id }}">
+          <h3 id="bbb-plan-once-{{ section.id }}" class="bbb-plan__name">{{ section.settings.once_label | escape }}</h3>
+          <p class="bbb-plan__price"><span class="bbb-plan__amount">{{ v.price | money }}</span> <span class="bbb-plan__per">per box</span></p>
+          {%- if section.settings.once_points != blank -%}<div class="rte bbb-plan__points">{{ section.settings.once_points }}</div>{%- endif -%}
+        </article>
+      </div>
+
+      <div class="bbb-cta-row bbb-cta-row--center">
+        <a href="{{ section.settings.cta_link | default: box.url }}" class="button button--primary">{{ section.settings.cta_label | escape }}</a>
+      </div>
+      {%- if section.settings.disclosure != blank and sub_alloc != nil -%}
+        <div class="bbb-subsave__disclosure rte">{{ section.settings.disclosure }}</div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "BBB Subscribe & save",
+  "tag": "div",
+  "class": "section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Box product", "info": "Prices and the subscription plan name are read live from this product." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Subscribe & save" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Never run out" },
+    { "type": "richtext", "id": "text", "label": "Intro" },
+    { "type": "text", "id": "badge", "label": "Featured badge", "default": "Best value" },
+    { "type": "text", "id": "sub_label", "label": "Subscription card title", "default": "Subscribe & save" },
+    { "type": "richtext", "id": "sub_points", "label": "Subscription points", "default": "<ul><li>Delivered every 4 weeks</li><li>Change your flavors anytime</li><li>Skip, pause or cancel from your account</li></ul>", "info": "Confirm each point matches what the subscription app actually supports." },
+    { "type": "text", "id": "once_label", "label": "One-time card title", "default": "One-time box" },
+    { "type": "richtext", "id": "once_points", "label": "One-time points", "default": "<ul><li>Same build-your-own dozen</li><li>No commitment</li></ul>" },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Build your box" },
+    { "type": "url", "id": "cta_link", "label": "Button link", "info": "Defaults to the box product page." },
+    { "type": "richtext", "id": "disclosure", "label": "Auto-renewal disclosure", "default": "<p>Subscriptions renew automatically every 4 weeks at the price shown until you cancel. Cancel anytime in your account before your next renewal. <a href=\"/policies/terms-of-service\">Subscription terms</a>.</p>", "info": "Have counsel approve this text. Shown only when a subscription plan exists." },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 }
+  ],
+  "presets": [ { "name": "BBB Subscribe & save" } ]
+}
+{% endschema %}

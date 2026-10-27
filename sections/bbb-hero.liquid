@@ -1,0 +1,172 @@
+{%- comment -%}
+  Bad Boy Bagel Co. — Hero
+  Headline (H1 on the homepage), subcopy, primary/secondary CTA, optional
+  image, optional "from" price read live from a chosen product, trust chips
+  (blocks), and an optional mobile sticky CTA.
+{%- endcomment -%}
+{%- liquid
+  assign box = section.settings.price_product
+  assign heading_tag = section.settings.heading_tag
+  if request.page_type != 'index' and heading_tag == 'h1'
+    assign heading_tag = 'h2'
+  endif
+-%}
+<section
+  id="bbb-hero-{{ section.id }}"
+  class="bbb-hero color-{{ section.settings.color_scheme }} gradient{% if section.settings.spray %} bbb-spray{% endif %}"
+  style="--bbb-pad-top: {{ section.settings.padding_top }}px; --bbb-pad-bottom: {{ section.settings.padding_bottom }}px;"
+  aria-labelledby="bbb-hero-heading-{{ section.id }}"
+>
+  <div class="page-width bbb-section bbb-hero__grid{% if section.settings.image == blank and section.settings.show_logo_art == false %} bbb-hero__grid--solo{% endif %}">
+    <div class="bbb-hero__copy">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+
+      <{{ heading_tag }} id="bbb-hero-heading-{{ section.id }}" class="bbb-display bbb-display--xl">
+        {{ section.settings.heading | escape }}
+        {%- if section.settings.heading_accent != blank %}
+          <span class="bbb-accent">{{ section.settings.heading_accent | escape }}</span>
+        {%- endif -%}
+      </{{ heading_tag }}>
+
+      {%- if section.settings.subheading != blank -%}
+        <div class="bbb-hero__sub rte">{{ section.settings.subheading }}</div>
+      {%- endif -%}
+
+      {%- if box != blank and section.settings.show_price -%}
+        {%- liquid
+          assign v = box.selected_or_first_available_variant
+          assign sub_price = nil
+          for alloc in v.selling_plan_allocations
+            if sub_price == nil or alloc.price < sub_price
+              assign sub_price = alloc.price
+            endif
+          endfor
+        -%}
+        <p class="bbb-hero__price">
+          {%- if sub_price != nil and sub_price < v.price -%}
+            <strong>{{ sub_price | money }}</strong> per box with subscribe &amp; save
+            <span class="bbb-hero__price-alt">or {{ v.price | money }} one-time</span>
+          {%- else -%}
+            <strong>{{ v.price | money }}</strong> per box
+          {%- endif -%}
+        </p>
+      {%- endif -%}
+
+      <div class="bbb-cta-row">
+        {%- if section.settings.cta_label != blank -%}
+          <a href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}" class="button button--primary" id="bbb-hero-cta-{{ section.id }}">
+            {{- section.settings.cta_label | escape -}}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.cta2_label != blank -%}
+          <a href="{{ section.settings.cta2_link | default: '#how-it-works' }}" class="button button--secondary">
+            {{- section.settings.cta2_label | escape -}}
+          </a>
+        {%- endif -%}
+      </div>
+
+      {%- if section.blocks.size > 0 -%}
+        <ul class="bbb-hero__chips" role="list">
+          {%- for block in section.blocks -%}
+            <li class="bbb-chip" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.image != blank -%}
+      <div class="bbb-hero__media">
+        {{
+          section.settings.image
+          | image_url: width: 1400
+          | image_tag:
+            loading: 'eager',
+            fetchpriority: 'high',
+            widths: '375, 550, 750, 1000, 1400',
+            sizes: '(min-width: 990px) 50vw, 100vw',
+            class: 'bbb-hero__img'
+        }}
+      </div>
+    {%- elsif section.settings.show_logo_art -%}
+      <div class="bbb-hero__media bbb-hero__media--logo" aria-hidden="true">
+        <img
+          src="{{ 'bbb-logo-1200.webp' | asset_url }}"
+          srcset="{{ 'bbb-logo-600.webp' | asset_url }} 600w, {{ 'bbb-logo-1200.webp' | asset_url }} 1200w"
+          sizes="(min-width: 990px) 45vw, 90vw"
+          width="1200" height="863" alt="" fetchpriority="high"
+        >
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{%- if section.settings.sticky_cta and section.settings.cta_label != blank -%}
+  <div class="bbb-sticky-cta color-{{ section.settings.sticky_color_scheme }}" data-bbb-sticky="{{ section.id }}" hidden>
+    <a href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}" class="button button--primary">
+      {{- section.settings.cta_label | escape -}}
+    </a>
+  </div>
+  <script src="{{ 'bbb-sticky-cta.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "BBB Hero",
+  "tag": "div",
+  "class": "section",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "New York-style bagels, shipped" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Build your" },
+    { "type": "text", "id": "heading_accent", "label": "Heading accent (Carolina blue)", "default": "bad boy box" },
+    {
+      "type": "select", "id": "heading_tag", "label": "Heading level", "default": "h1",
+      "info": "Use H1 for the first hero on the homepage only.",
+      "options": [ { "value": "h1", "label": "H1" }, { "value": "h2", "label": "H2" } ]
+    },
+    { "type": "richtext", "id": "subheading", "label": "Subheading", "default": "<p>Pick 4 sleeves. 3 bagels each. Your flavors, your rules.</p>" },
+    {
+      "type": "product", "id": "price_product", "label": "Show price from product",
+      "info": "Price and subscribe & save price are read live from this product. Nothing is typed in by hand."
+    },
+    { "type": "checkbox", "id": "show_price", "label": "Show price line", "default": true },
+    { "type": "header", "content": "Buttons" },
+    { "type": "text", "id": "cta_label", "label": "Primary button label", "default": "Build your box" },
+    { "type": "url", "id": "cta_link", "label": "Primary button link" },
+    { "type": "text", "id": "cta2_label", "label": "Secondary button label", "default": "How it works" },
+    { "type": "url", "id": "cta2_link", "label": "Secondary button link" },
+    { "type": "header", "content": "Media" },
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Real product photography. Falls back to the logo art when empty." },
+    { "type": "checkbox", "id": "show_logo_art", "label": "Show logo art when no image", "default": true },
+    { "type": "header", "content": "Style" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-5" },
+    { "type": "checkbox", "id": "spray", "label": "Spray-paint dots", "default": true },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 40 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+    { "type": "header", "content": "Mobile sticky button" },
+    { "type": "checkbox", "id": "sticky_cta", "label": "Show sticky button on mobile after scrolling past hero", "default": true },
+    { "type": "color_scheme", "id": "sticky_color_scheme", "label": "Sticky bar color scheme", "default": "scheme-3" }
+  ],
+  "blocks": [
+    {
+      "type": "chip",
+      "name": "Trust chip",
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Sleeves of 3", "info": "Only claims you can back up (no unverified shipping speeds, awards or guarantees)." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "BBB Hero",
+      "blocks": [
+        { "type": "chip", "settings": { "text": "4 sleeves × 3 bagels" } },
+        { "type": "chip", "settings": { "text": "Up to 4 flavors" } },
+        { "type": "chip", "settings": { "text": "Subscribe & save" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

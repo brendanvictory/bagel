@@ -1,0 +1,164 @@
+/* Bad Boy Bagel Co. — homepage section styles (mobile-first) */
+
+/* ---------- Hero ---------- */
+.bbb-hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--bbb-space-4);
+  align-items: center;
+}
+.bbb-hero__copy { min-width: 0; display: flex; flex-direction: column; gap: var(--bbb-space-2); }
+.bbb-hero__sub { font-size: 1.8rem; max-width: 52rem; }
+.bbb-hero__sub p { margin: 0; }
+.bbb-hero__price { margin: 0; font-size: 1.6rem; }
+.bbb-hero__price strong { font-size: 2.2rem; }
+.bbb-hero__price-alt { display: block; opacity: 0.8; font-size: 1.4rem; }
+.bbb-hero__chips {
+  display: flex; flex-wrap: wrap; gap: var(--bbb-space-1);
+  list-style: none; padding: 0; margin: var(--bbb-space-1) 0 0;
+}
+.bbb-chip {
+  border: 0.15rem solid currentColor;
+  border-radius: var(--bbb-radius-pill);
+  padding: 0.5rem 1.2rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+.bbb-hero__media { order: -1; }
+.bbb-hero__media img { width: 100%; height: auto; display: block; }
+/* Mobile: keep the headline and CTA above the fold */
+.bbb-hero__img { border-radius: var(--bbb-radius); max-height: 38vh; object-fit: cover; }
+/* The header already shows the logo on mobile, so the logo-art fallback is desktop-only */
+.bbb-hero__media--logo { display: none; }
+.bbb-hero__media--logo img { max-width: 52rem; margin-inline: auto; }
+
+@media screen and (min-width: 990px) {
+  .bbb-hero__grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: var(--bbb-space-8); }
+  .bbb-hero__grid--solo { grid-template-columns: minmax(0, 1fr); text-align: center; }
+  .bbb-hero__grid--solo .bbb-cta-row, .bbb-hero__grid--solo .bbb-hero__chips { justify-content: center; }
+  .bbb-hero__media { order: 0; }
+  .bbb-hero__media--logo { display: block; }
+  .bbb-hero__img { max-height: none; }
+}
+
+/* ---------- Sticky mobile CTA ---------- */
+.bbb-sticky-cta {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 3;
+  padding: 1rem 1.6rem calc(1rem + env(safe-area-inset-bottom));
+  background: rgb(var(--color-background));
+  border-top: 0.2rem solid rgb(var(--color-foreground));
+}
+.bbb-sticky-cta .button { width: 100%; min-height: var(--bbb-tap); font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+body.bbb-has-sticky-cta { padding-bottom: 7.6rem; }
+@media screen and (min-width: 750px) {
+  .bbb-sticky-cta { display: none !important; }
+  body.bbb-has-sticky-cta { padding-bottom: 0; }
+}
+
+/* ---------- Steps ---------- */
+.bbb-steps__list {
+  display: grid; gap: var(--bbb-space-3);
+  list-style: none; padding: 0; margin: 0 0 var(--bbb-space-4);
+  counter-reset: none;
+}
+.bbb-steps__item {
+  position: relative;
+  padding: var(--bbb-space-3);
+  padding-top: var(--bbb-space-6);
+  background: rgb(var(--color-background));
+  border: var(--bbb-border);
+  border-radius: var(--bbb-radius);
+  box-shadow: var(--bbb-sticker-shadow);
+}
+.bbb-steps__num {
+  position: absolute; top: -1.8rem; left: var(--bbb-space-3);
+  display: grid; place-items: center;
+  width: 5.2rem; height: 5.2rem;
+  border-radius: 50%;
+  background: var(--bbb-blue); color: var(--bbb-black);
+  border: 0.2rem solid var(--bbb-black);
+  font-size: 2.8rem;
+}
+.bbb-steps__title { margin: 0 0 0.6rem; font-size: 2rem; }
+.bbb-steps__item .rte p { margin: 0; }
+@media screen and (min-width: 750px) {
+  .bbb-steps__list { grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr)); gap: var(--bbb-space-4); }
+}
+
+/* ---------- Cards / value props / quotes ---------- */
+.bbb-values__grid, .bbb-quotes__grid {
+  display: grid; gap: var(--bbb-space-2);
+  list-style: none; padding: 0; margin: 0;
+}
+.bbb-card {
+  padding: var(--bbb-space-3);
+  border: var(--bbb-border);
+  border-radius: var(--bbb-radius);
+  background: rgb(var(--color-background));
+}
+.bbb-card__title { margin: 0 0 0.6rem; font-size: 2rem; }
+.bbb-card .rte p { margin: 0; }
+@media screen and (min-width: 750px) {
+  .bbb-values__grid, .bbb-quotes__grid { grid-template-columns: repeat(auto-fit, minmax(26rem, 1fr)); gap: var(--bbb-space-3); }
+}
+.bbb-quotes figure { margin: 0; }
+.bbb-quotes__text { margin: 0 0 var(--bbb-space-2); font-size: 1.7rem; font-style: normal; }
+.bbb-quotes__text p { margin: 0; }
+.bbb-quotes__who { font-weight: 700; font-size: 1.4rem; }
+
+/* ---------- Subscribe & save ---------- */
+.bbb-subsave__grid {
+  display: grid; gap: var(--bbb-space-3);
+  max-width: 84rem; margin: 0 auto var(--bbb-space-4);
+}
+@media screen and (min-width: 750px) { .bbb-subsave__grid { grid-template-columns: 1fr 1fr; align-items: stretch; } }
+.bbb-plan {
+  position: relative;
+  padding: var(--bbb-space-4) var(--bbb-space-3) var(--bbb-space-3);
+  border: var(--bbb-border);
+  border-radius: var(--bbb-radius);
+  background: rgb(var(--color-background));
+}
+.bbb-plan--featured { background: var(--bbb-blue); color: var(--bbb-black); box-shadow: var(--bbb-sticker-shadow); border-color: var(--bbb-black); }
+.bbb-plan__badge {
+  position: absolute; top: -1.4rem; left: var(--bbb-space-3); margin: 0;
+  background: var(--bbb-black); color: var(--bbb-white);
+  padding: 0.4rem 1.2rem; border-radius: var(--bbb-radius-pill);
+  font-size: 1.2rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+}
+.bbb-plan__name { margin: 0 0 var(--bbb-space-1); font-size: 2rem; }
+.bbb-plan__price { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0.6rem; }
+.bbb-plan__amount { font-size: 3.6rem; font-weight: 800; line-height: 1; }
+.bbb-plan__per { font-size: 1.4rem; }
+.bbb-plan__save { margin: var(--bbb-space-1) 0 0; font-weight: 700; }
+.bbb-plan__points ul { margin: var(--bbb-space-2) 0 0; padding-left: 2rem; }
+.bbb-plan__points li { margin-bottom: 0.4rem; }
+.bbb-subsave__disclosure { max-width: 72rem; margin: var(--bbb-space-2) auto 0; font-size: 1.3rem; text-align: center; }
+
+/* ---------- FAQ ---------- */
+.bbb-faq__list { display: grid; gap: var(--bbb-space-1); }
+.bbb-faq__item { border: var(--bbb-border); border-radius: var(--bbb-radius); background: rgb(var(--color-background)); }
+.bbb-faq__q {
+  display: flex; justify-content: space-between; align-items: center; gap: var(--bbb-space-2);
+  min-height: var(--bbb-tap); padding: 1.4rem var(--bbb-space-2);
+  cursor: pointer; list-style: none; font-weight: 700; font-size: 1.7rem;
+}
+.bbb-faq__q::-webkit-details-marker { display: none; }
+.bbb-faq__icon { flex: none; width: 1.4rem; height: 1.4rem; position: relative; }
+.bbb-faq__icon::before, .bbb-faq__icon::after {
+  content: ''; position: absolute; inset: 50% 0 auto; height: 0.2rem; background: currentColor; transform: translateY(-50%);
+}
+.bbb-faq__icon::after { transform: translateY(-50%) rotate(90deg); transition: transform 0.2s; }
+.bbb-faq__item[open] .bbb-faq__icon::after { transform: translateY(-50%) rotate(0deg); }
+.bbb-faq__a { padding: 0 var(--bbb-space-2) var(--bbb-space-2); }
+.bbb-faq__a p:first-child { margin-top: 0; }
+
+/* ---------- CTA band / misc ---------- */
+.bbb-cta-band__inner { text-align: center; display: grid; gap: var(--bbb-space-2); justify-items: center; }
+.bbb-cta-row--center { justify-content: center; }
+.bbb-editor-note {
+  border: 0.2rem dashed currentColor; border-radius: var(--bbb-radius);
+  padding: var(--bbb-space-2); margin: var(--bbb-space-2) auto; max-width: 72rem; font-size: 1.4rem;
+}

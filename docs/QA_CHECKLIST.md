@@ -87,6 +87,7 @@ Test environment: unpublished development theme on a dev/staging store, Shopify 
 - [ ] Unique titles/meta descriptions; canonical tags; sitemap.xml; robots
 - [ ] Product schema valid (Rich Results Test); FAQ markup only where content is on-page
 - [ ] All images have meaningful alt text
+- [ ] No "[OWNER TO CONFIRM]" placeholders remain (FAQ, policies)
 - [ ] No unverified claims anywhere (shipping speed, freshness, awards, guarantees)
 - [ ] Policy pages present and owner-approved; allergens on every PDP
 

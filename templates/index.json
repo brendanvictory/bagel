@@ -1,0 +1,198 @@
+{
+  "sections": {
+    "hero": {
+      "type": "bbb-hero",
+      "blocks": {
+        "c1": {
+          "type": "chip",
+          "settings": {
+            "text": "4 sleeves \u00d7 3 bagels"
+          }
+        },
+        "c2": {
+          "type": "chip",
+          "settings": {
+            "text": "Up to 4 flavors"
+          }
+        },
+        "c3": {
+          "type": "chip",
+          "settings": {
+            "text": "Subscribe & save"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3"
+      ],
+      "settings": {}
+    },
+    "how": {
+      "type": "bbb-how-it-works",
+      "blocks": {
+        "s1": {
+          "type": "step",
+          "settings": {
+            "title": "Pick 4 sleeves",
+            "text": "<p>Every dozen is 4 sleeves of 3. Choose up to 4 flavors \u2014 or go all-in on one.</p>"
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "title": "We bake & pack",
+            "text": "<p>Our commissary bakes your bagels and packs each flavor in its own sleeve.</p>"
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "title": "We ship it to you",
+            "text": "<p>Your box ships to your door. Subscribe and it comes back every 4 weeks.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "settings": {}
+    },
+    "values": {
+      "type": "bbb-value-props",
+      "blocks": {
+        "v1": {
+          "type": "value",
+          "settings": {
+            "title": "Your flavors",
+            "text": "<p>Build the dozen you actually want. 4 sleeves, up to 4 flavors.</p>"
+          }
+        },
+        "v2": {
+          "type": "value",
+          "settings": {
+            "title": "Save every box",
+            "text": "<p>Subscribe and pay less on every shipment. Skip or cancel from your account.</p>"
+          }
+        },
+        "v3": {
+          "type": "value",
+          "settings": {
+            "title": "Easy to stash",
+            "text": "<p>Each flavor comes in its own sleeve of 3, so it's easy to share, stash and portion.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "v1",
+        "v2",
+        "v3"
+      ],
+      "settings": {}
+    },
+    "subsave": {
+      "type": "bbb-subscribe-save",
+      "settings": {}
+    },
+    "quotes": {
+      "type": "bbb-testimonials",
+      "settings": {}
+    },
+    "faq": {
+      "type": "bbb-faq",
+      "blocks": {
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "How does the box work?",
+            "answer": "<p>Every dozen is 4 sleeves of 3 bagels. Pick a flavor for each sleeve \u2014 up to 4 flavors, or the same flavor in every sleeve.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "How often do subscriptions ship?",
+            "answer": "<p>Every 4 weeks. You can change flavors, skip, pause or cancel from your account.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "Where do you ship, and how fast?",
+            "answer": "<p>[OWNER TO CONFIRM: shipping regions, ship days and transit times.]</p>"
+          }
+        },
+        "q4": {
+          "type": "question",
+          "settings": {
+            "question": "How should I store my bagels?",
+            "answer": "<p>[OWNER TO CONFIRM: storage, freezing and reheating guidance from the commissary.]</p>"
+          }
+        },
+        "q5": {
+          "type": "question",
+          "settings": {
+            "question": "What about allergens?",
+            "answer": "<p>[OWNER TO CONFIRM: allergen statement per flavor. Note: sesame is a major allergen.]</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5"
+      ],
+      "settings": {}
+    },
+    "news": {
+      "type": "newsletter",
+      "blocks": {
+        "h": {
+          "type": "heading",
+          "settings": {
+            "heading": "Get on the list",
+            "heading_size": "h1"
+          }
+        },
+        "p": {
+          "type": "paragraph",
+          "settings": {
+            "text": "<p>New flavors and drops, straight to your inbox.</p>"
+          }
+        },
+        "f": {
+          "type": "email_form",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "h",
+        "p",
+        "f"
+      ],
+      "settings": {
+        "color_scheme": "scheme-2",
+        "full_width": true
+      }
+    },
+    "cta": {
+      "type": "bbb-cta-band",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "how",
+    "values",
+    "subsave",
+    "quotes",
+    "faq",
+    "news",
+    "cta"
+  ]
+}

@@ -10,9 +10,9 @@ Source of truth: `Bad_Boy_Bagel_Co_Claude_Shopify_Build_Scope.docx` v1.0. Decisi
 ### What exists
 | Item | Status |
 |---|---|
-| Shopify store | **None.** From-scratch build. |
+| Shopify store | `bagelboys.myshopify.com` — created 2026-10-27. |
 | Shopify Partner account / dev store | Unknown — needed for free testing (Q-ACC-1). |
-| Theme repo | None. Local repo initialized here with `docs/` only. |
+| Theme repo | `github.com/brendanvictory/bagel` (push pending GitHub link). Local repo has Phase 1 theme. |
 | Domain | Not chosen/approved. |
 | Brand assets | One 1254×1254 RGB PNG logo, off-white background, no transparency, no vector. Blue samples ≈ #65BCFD vs scope target #7BAFD4. |
 | Product photos, copy, menu, prices | None supplied. |
@@ -109,6 +109,7 @@ Timing ranges are from scope §11 and depend on answers/approvals above.
 **Exit gate:** ADR-001 and ADR-002 approved.
 
 ### Phase 1 — Theme foundation (4–6 days)
+**Status 2026-10-27:** code complete locally (Dawn 16.0.0 base, tokens, homepage sections). Push blocked until GitHub is linked. See `docs/PHASE_1_REPORT.md`.
 - `shopify theme init` from the reference theme; Git repo; `.gitignore` (no `.env`, no `config/settings_data.json` secrets — it has none, but app keys never go in theme)
 - Design tokens in `assets/bbb-tokens.css` (palette, type scale, spacing, radii, focus ring)
 - Typography: graffiti display face for headlines only (licensed web font — need your pick or approval), clean sans for UI
