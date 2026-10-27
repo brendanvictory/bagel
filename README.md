@@ -23,4 +23,4 @@ Store: `bagelboys.myshopify.com`. Docs: `docs/IMPLEMENTATION_PLAN.md`, `docs/DEC
 
 ## Third-party assets
 - Dawn — Shopify, see `LICENSE-dawn.md`.
-- Permanent Marker font — Apache 2.0, see `docs/licenses/`.
+- Outfit font — SIL Open Font License 1.1, see `docs/licenses/`.

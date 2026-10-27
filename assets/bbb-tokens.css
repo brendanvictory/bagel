@@ -6,11 +6,22 @@
    ========================================================= */
 
 @font-face {
-  font-family: 'BBB Marker';
-  src: url('bbb-permanent-marker.woff2') format('woff2');
-  font-weight: 400;
+  font-family: 'Outfit';
+  src: url('bbb-outfit-var.woff2') format('woff2-variations'), url('bbb-outfit-var.woff2') format('woff2');
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
+}
+
+/* Outfit everywhere (overrides Dawn's font settings). Checkout uses Shopify's own branding settings. */
+:root {
+  --font-body-family: 'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-body-style: normal;
+  --font-body-weight: 400;
+  --font-body-weight-bold: 700;
+  --font-heading-family: 'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-heading-style: normal;
+  --font-heading-weight: 800;
 }
 
 :root {
@@ -21,9 +32,9 @@
   --bbb-paper: #f7f5f0;
 
   /* Type */
-  --bbb-font-display: 'BBB Marker', 'Marker Felt', 'Comic Sans MS', cursive;
-  --bbb-display-xl: clamp(3.4rem, 9vw, 7.2rem);
-  --bbb-display-l: clamp(2.8rem, 6vw, 5rem);
+  --bbb-font-display: 'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --bbb-display-xl: clamp(4.2rem, 10.5vw, 7.6rem);
+  --bbb-display-l: clamp(3rem, 6.5vw, 5.2rem);
   --bbb-display-m: clamp(2.4rem, 4.2vw, 3.6rem);
 
   /* Space (Dawn uses 10px root: 1rem = 10px) */
@@ -47,9 +58,9 @@
 /* ---------- Display type ---------- */
 .bbb-display {
   font-family: var(--bbb-font-display);
-  font-weight: 400;
-  letter-spacing: 0.01em;
-  line-height: 1.02;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 0.98;
   text-transform: uppercase;
   word-break: normal;
   overflow-wrap: anywhere;
