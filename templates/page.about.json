@@ -21,8 +21,12 @@
         "cta2_label": "Why Bad Boy",
         "cta2_link": "shopify://pages/why-bad-boy-bagels",
         "show_image": true,
+        "image": "shopify://shop_images/Warm_Morning_at_the_Neighborhood_Bagel_Shop.png",
         "image_alt": "Inside the Bad Boy Bagel Co. commissary",
-        "color_scheme": "scheme-5"
+        "spray": true,
+        "color_scheme": "scheme-5",
+        "padding_top": 48,
+        "padding_bottom": 56
       }
     },
     "numbers": {
@@ -52,10 +56,15 @@
         "heading": "Three decades of",
         "heading_accent": "bagels.",
         "text": "<p>Thirty-plus years teaches you a few things: how a good bagel should taste, what New Yorkers will (and won't) put up with, and how to get it right every single morning.</p>",
+        "use_bundled_photo": true,
         "bundled_photo": "scatter",
         "image_alt": "An assortment of bagels on a white background",
+        "cta_label": "",
+        "cta_link": "",
+        "anchor": "numbers",
         "color_scheme": "scheme-1",
-        "anchor": "numbers"
+        "padding_top": 48,
+        "padding_bottom": 48
       }
     },
     "commissary": {
@@ -89,6 +98,7 @@
         "p3"
       ],
       "settings": {
+        "image": "shopify://shop_images/Branded_Bagel_Box_at_the_Doorstep.png",
         "image_alt": "Bagels coming out of the oven at our Long Island commissary",
         "image_position": "right",
         "ratio": "4 / 3",
@@ -96,12 +106,18 @@
         "heading": "From our oven",
         "heading_accent": "to your door.",
         "text": "<p>Every Bad Boy box is baked at our commissary on Long Island, New York. Our kosher facility runs a peanut-free process, and the same New York team that bakes your bagels is the one answering your emails.</p>",
-        "color_scheme": "scheme-2"
+        "cta_label": "",
+        "cta_link": "",
+        "anchor": "",
+        "color_scheme": "scheme-2",
+        "padding_top": 48,
+        "padding_bottom": 48
       }
     },
     "promise": {
       "type": "bbb-image-text",
       "settings": {
+        "image": "shopify://shop_images/Small_delivery_truck_crossing_the_US_map.png",
         "image_alt": "A Bad Boy Bagel Co. box packed with four sleeves of bagels",
         "image_position": "left",
         "ratio": "1 / 1",
@@ -111,7 +127,10 @@
         "text": "<p>Plenty of people grew up on New York bagels and moved somewhere that just doesn't get it. Plenty more have never had a real one. Bad Boy Bagel Co. is how we fix that — pick your flavors, we bake and ship, and you're eating New York bagels at home.</p>",
         "cta_label": "Build your box",
         "cta_link": "shopify://products/build-your-box",
-        "color_scheme": "scheme-1"
+        "anchor": "",
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 48
       }
     },
     "cta": {
@@ -123,7 +142,10 @@
         "cta_link": "shopify://products/build-your-box",
         "bundled_bg": "pile",
         "overlay_opacity": 55,
-        "color_scheme": "scheme-3"
+        "spray": true,
+        "color_scheme": "scheme-3",
+        "padding_top": 56,
+        "padding_bottom": 56
       }
     }
   },
