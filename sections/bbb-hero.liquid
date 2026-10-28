@@ -11,7 +11,7 @@
 {%- liquid
   assign box = section.settings.price_product
   assign heading_tag = section.settings.heading_tag
-  if request.page_type != 'index' and heading_tag == 'h1'
+  if request.page_type == 'product' and heading_tag == 'h1'
     assign heading_tag = 'h2'
   endif
 
