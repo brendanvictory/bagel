@@ -218,6 +218,8 @@ Split upsells into two places instead of forcing everything through the post-pur
 
 **Status:** **DECIDED 2026-10-27 — Option A, shipping included** in $45.95 / $39.95. Store needs a $0 shipping rate for these products (Settings → Shipping and delivery). Margin risk on far zones remains with the business — carrier quotes still recommended.
 
+**Implemented 2026-10-28 (owner approved):** delivery profile **"Bagel boxes — shipping included"** holds Build Your Dozen, Mini Bagels (6) and Bagel Chips. Ships from 111 Broadway, Amityville. Zone **"Lower 48 + DC"**, single rate **"Free shipping" $0.00** ("Included in your box price. Ships Monday–Wednesday."). **Not served (no rate → checkout blocks):** Alaska, Hawaii, US territories, APO/FPO/DPO — default chosen by Claude, owner can add them. General profile left as-is (Standard $8 / Express $15) for any future non-box products. Test order #1001 (before the fix) charged $15; its subscription contract still carries $8 renewal shipping — edit or cancel that test contract.
+
 **Owner input:** either shipping is included in $44.95 / $39.95, **or** prices drop significantly and the customer picks a shipping speed. Ship-day rules: **3-day ships Mon–Tue only; 2-day ships Mon–Wed only** (keeps bagels out of carrier weekends).
 
 | | **A. Shipping included** | **B. Lower price + customer selects speed** | **C. Hybrid (recommended to evaluate)** |
