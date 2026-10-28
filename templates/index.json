@@ -20,7 +20,7 @@
         "heading_tag": "h1",
         "subheading": "<p>Pick 4 sleeves. 3 bagels each. Your flavors, your rules.</p>",
         "price_product": "build-your-box",
-        "show_price": true,
+        "show_price": false,
         "cta_label": "Build your box",
         "cta_link": "shopify://products/build-your-box",
         "cta2_label": "How it works",
@@ -77,6 +77,24 @@
         "color_scheme": "scheme-2",
         "padding_top": 48,
         "padding_bottom": 48
+      }
+    },
+    "gallery": {
+      "type": "bbb-flavor-gallery",
+      "settings": {
+        "product": "build-your-box",
+        "eyebrow": "The lineup",
+        "heading": "Pick your",
+        "heading_accent": "flavors.",
+        "text": "<p>Hand-rolled, baked and shipped the same day. Tap a flavor to start your box.</p>",
+        "card_cta": "Start a box",
+        "cta_label": "Build your box",
+        "show_addons": true,
+        "hide_unavailable": true,
+        "anchor": "flavors",
+        "color_scheme": "",
+        "padding_top": 56,
+        "padding_bottom": 56
       }
     },
     "values": {
@@ -156,14 +174,14 @@
         "heading_accent": "",
         "text": "<p>We've been in the bagel business in New York for over 30 years and run 28 retail locations. Now we ship straight from our Long Island commissary to your door.</p>",
         "use_bundled_photo": true,
+        "bundled_photo": "scatter",
         "image_alt": "An assortment of bagels on a white background",
         "cta_label": "",
         "cta_link": "",
         "anchor": "about",
         "color_scheme": "scheme-2",
         "padding_top": 48,
-        "padding_bottom": 48,
-        "bundled_photo": "scatter"
+        "padding_bottom": 48
       }
     },
     "process": {
@@ -345,18 +363,12 @@
         "text": "",
         "cta_label": "Build your box",
         "cta_link": "shopify://products/build-your-box",
+        "bundled_bg": "pile",
+        "overlay_opacity": 55,
         "spray": true,
         "color_scheme": "scheme-3",
         "padding_top": 56,
-        "padding_bottom": 56,
-        "bundled_bg": "pile",
-        "overlay_opacity": 55
-      }
-    },
-    "gallery": {
-      "type": "bbb-flavor-gallery",
-      "settings": {
-        "product": "build-your-box"
+        "padding_bottom": 56
       }
     }
   },
