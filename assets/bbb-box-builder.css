@@ -259,3 +259,4 @@
 }
 .bbb-builder--embedded:not(.is-onscreen) .bbb-bar { display: none; }
 .bbb-lead__ok .button { min-width: 20rem; min-height: var(--bbb-tap, 4.4rem); }
+.bbb-builder { scroll-margin-top: 10rem; }

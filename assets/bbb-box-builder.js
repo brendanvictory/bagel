@@ -220,7 +220,8 @@
     syncUrl(push && !replace);
     if (focus) {
       // Scroll to the top of the builder (the page top on the product page; below the hero on landing pages)
-      const top = Math.max(0, root.getBoundingClientRect().top + window.scrollY - 12);
+      const hdr = document.querySelector('.section-header');
+      const top = Math.max(0, root.getBoundingClientRect().top + window.scrollY - 12 - (hdr ? hdr.offsetHeight : 0));
       window.scrollTo({ top: top < 240 ? 0 : top, behavior: 'instant' in document.documentElement.style ? 'instant' : 'auto' });
       const h = $(`[data-bbb-focus="${step}"]`);
       if (h) h.focus({ preventScroll: true });
