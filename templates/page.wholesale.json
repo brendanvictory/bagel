@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "hero": {
@@ -9,9 +18,15 @@
         "text": "<p>Serving breakfast? We've been baking bagels for New Yorkers for over 30 years across 28 retail locations. Let's talk about bringing them to your counter, office or event.</p>",
         "cta_label": "Start an inquiry",
         "cta_link": "/pages/wholesale#inquire",
+        "cta2_label": "",
+        "cta2_link": "",
         "show_image": true,
+        "image": "shopify://shop_images/Rugged_Bagel_Co-founders_Laughing_in_Bakery.png",
         "image_alt": "Trays of bagels ready for wholesale delivery",
-        "color_scheme": "scheme-5"
+        "spray": true,
+        "color_scheme": "scheme-5",
+        "padding_top": 48,
+        "padding_bottom": 56
       }
     },
     "offer": {
@@ -56,9 +71,11 @@
         "eyebrow": "What you get",
         "heading": "Wholesale,",
         "heading_accent": "the Bad Boy way.",
-        "color_scheme": "scheme-1",
+        "text": "<p>Here's what working with us looks like.</p>",
         "anchor": "offer",
-        "text": "<p>Here's what working with us looks like.</p>"
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 48
       }
     },
     "fit": {
@@ -67,37 +84,43 @@
         "p1": {
           "type": "point",
           "settings": {
-            "title": "Cafés and coffee shops"
+            "title": "Cafés and coffee shops",
+            "text": ""
           }
         },
         "p2": {
           "type": "point",
           "settings": {
-            "title": "Delis and markets"
+            "title": "Delis and markets",
+            "text": ""
           }
         },
         "p3": {
           "type": "point",
           "settings": {
-            "title": "Restaurants and brunch spots"
+            "title": "Restaurants and brunch spots",
+            "text": ""
           }
         },
         "p4": {
           "type": "point",
           "settings": {
-            "title": "Caterers and events"
+            "title": "Caterers and events",
+            "text": ""
           }
         },
         "p5": {
           "type": "point",
           "settings": {
-            "title": "Offices and corporate breakfasts"
+            "title": "Offices and corporate breakfasts",
+            "text": ""
           }
         },
         "p6": {
           "type": "point",
           "settings": {
-            "title": "Hotels"
+            "title": "Hotels",
+            "text": ""
           }
         }
       },
@@ -117,12 +140,29 @@
         "heading": "Anywhere people",
         "heading_accent": "eat breakfast.",
         "text": "<p>Whether you need a few dozen a week or a standing daily order, tell us what you're working with.</p>",
-        "color_scheme": "scheme-2"
+        "cta_label": "",
+        "cta_link": "",
+        "anchor": "",
+        "color_scheme": "scheme-2",
+        "padding_top": 48,
+        "padding_bottom": 48
       }
     },
     "form": {
       "type": "bbb-wholesale-form",
-      "settings": {}
+      "settings": {
+        "eyebrow": "Wholesale inquiry",
+        "heading": "Let's talk bagels.",
+        "text": "<p>Tell us a little about your business and we'll get back to you with options and pricing.</p>",
+        "email": "help@badboybagelco.com",
+        "business_types": "Café or coffee shop, Deli or market, Restaurant, Caterer or events, Office or corporate, Hotel, School or institution, Other",
+        "button": "Send inquiry",
+        "success": "Thanks! We got your inquiry and our team will be in touch soon.",
+        "anchor": "inquire",
+        "color_scheme": "",
+        "padding_top": 56,
+        "padding_bottom": 64
+      }
     }
   },
   "order": [
