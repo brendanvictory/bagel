@@ -4,8 +4,9 @@ Online Store 2.0 theme for Bad Boy Bagel Co., built on Shopify Dawn 16.0.0.
 Store: `bagelboys.myshopify.com`. Docs: `docs/IMPLEMENTATION_PLAN.md`, `docs/DECISIONS.md`, `docs/QA_CHECKLIST.md`.
 
 ## Branches
-- `dev` — connected to the store as an **unpublished** theme via Shopify's GitHub integration. Every push updates it.
-- `main` — reviewed, releasable state. Nothing is published without owner approval.
+- `dev` — connected to the **LIVE** theme (published 2026-10-28). Every push here changes the storefront. Only merge `staging` → `dev` after owner approval.
+- `staging` — work in progress. Connect it in Shopify as a second, **unpublished** theme (Add theme → Connect from GitHub → `staging`) to preview changes before they go live.
+- `main` — planning docs / release snapshots.
 
 ## Preview
 1. Shopify admin → Online Store → Themes → Add theme → **Connect from GitHub** → repo `brendanvictory/bagel`, branch `dev`.
