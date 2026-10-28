@@ -9,7 +9,7 @@ Store: `bagelboys.myshopify.com`. Docs: `docs/IMPLEMENTATION_PLAN.md`, `docs/DEC
 - `main` — planning docs / release snapshots.
 
 ## Preview
-1. Shopify admin → Online Store → Themes → Add theme → **Connect from GitHub** → repo `brendanvictory/bagel`, branch `dev`.
+1. Shopify admin → Online Store → Themes → **bagel/staging** (unpublished, connected to branch `staging`). Live theme is **bagel/dev**.
 2. On the new theme: **⋯ → Preview** for a shareable preview link, or **Customize** for the Theme Editor.
 3. Local alternative (on a machine that can reach Shopify): `npm i -g @shopify/cli` then `shopify theme dev --store bagelboys.myshopify.com`.
 
