@@ -133,6 +133,7 @@
         "p6"
       ],
       "settings": {
+        "image": "shopify://shop_images/Warm_morning_bagel_cafe.png",
         "image_alt": "Bagels on a café counter",
         "image_position": "right",
         "ratio": "4 / 3",
