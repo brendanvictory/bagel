@@ -1,0 +1,196 @@
+{
+  "sections": {
+    "hero": {
+      "type": "bbb-page-hero",
+      "settings": {
+        "eyebrow": "Why Bad Boy Bagels",
+        "heading": "We know",
+        "heading_accent": "bagels.",
+        "text": "<p>Anyone can put a bagel in a box. We've spent over 30 years making them for New Yorkers across 28 retail locations — here's what that means for the dozen on your doorstep.</p>",
+        "cta_label": "Build your box",
+        "cta_link": "shopify://products/build-your-box",
+        "show_image": true,
+        "image_alt": "A dozen fresh Bad Boy bagels",
+        "color_scheme": "scheme-5"
+      }
+    },
+    "reasons": {
+      "type": "bbb-value-props",
+      "blocks": {
+        "r1": {
+          "type": "value",
+          "settings": {
+            "title": "Real New York bagel people",
+            "text": "<p>30+ years in the business and 28 retail locations. This isn't our first dozen.</p>"
+          }
+        },
+        "r2": {
+          "type": "value",
+          "settings": {
+            "title": "Baked and shipped the same day",
+            "text": "<p>Your bagels leave our Long Island commissary the day they're baked.</p>"
+          }
+        },
+        "r3": {
+          "type": "value",
+          "settings": {
+            "title": "No preservatives",
+            "text": "<p>Just bagels. Enjoy them within 24 hours, freeze the rest.</p>"
+          }
+        },
+        "r4": {
+          "type": "value",
+          "settings": {
+            "title": "Kosher facility, peanut-free process",
+            "text": "<p>Baked in our kosher commissary with a peanut-free process.</p>"
+          }
+        },
+        "r5": {
+          "type": "value",
+          "settings": {
+            "title": "Your dozen, your way",
+            "text": "<p>Four sleeves of three. Mix up to four flavors or go all-in on one.</p>"
+          }
+        },
+        "r6": {
+          "type": "value",
+          "settings": {
+            "title": "Free shipping, every box",
+            "text": "<p>Shipping is included in the price — no surprise fees at checkout.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "r1",
+        "r2",
+        "r3",
+        "r4",
+        "r5",
+        "r6"
+      ],
+      "settings": {
+        "eyebrow": "The short version",
+        "heading": "Six reasons to go",
+        "heading_accent": "bad boy.",
+        "color_scheme": "scheme-1",
+        "anchor": "reasons",
+        "text": "<p>Here's what goes into every box.</p>"
+      }
+    },
+    "sleeves": {
+      "type": "bbb-image-text",
+      "blocks": {
+        "p1": {
+          "type": "point",
+          "settings": {
+            "title": "Eat some now",
+            "text": "open a sleeve, toast, done."
+          }
+        },
+        "p2": {
+          "type": "point",
+          "settings": {
+            "title": "Freeze the rest",
+            "text": "each sleeve goes straight in the freezer."
+          }
+        },
+        "p3": {
+          "type": "point",
+          "settings": {
+            "title": "Reheat in under a minute",
+            "text": "microwave 30 seconds, then toast."
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {
+        "image_alt": "Bagels packed in sleeves of three",
+        "image_position": "right",
+        "ratio": "4 / 3",
+        "eyebrow": "Sleeves of 3, on purpose",
+        "heading": "Built for",
+        "heading_accent": "real mornings.",
+        "text": "<p>Every flavor comes in its own sleeve of three. That makes your dozen easy to split, share and stash — no more stale bagels at the bottom of a bag.</p>",
+        "color_scheme": "scheme-2"
+      }
+    },
+    "subscribe": {
+      "type": "bbb-image-text",
+      "blocks": {
+        "p1": {
+          "type": "point",
+          "settings": {
+            "title": "Delivered every 4 weeks",
+            "text": "automatically."
+          }
+        },
+        "p2": {
+          "type": "point",
+          "settings": {
+            "title": "Save on every box",
+            "text": "compared with a one-time order."
+          }
+        },
+        "p3": {
+          "type": "point",
+          "settings": {
+            "title": "You're in control",
+            "text": "skip, pause or cancel from your account."
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {
+        "image_alt": "A Bad Boy Bagel Co. box on a doorstep",
+        "image_position": "left",
+        "ratio": "4 / 3",
+        "eyebrow": "Subscribe and save",
+        "heading": "Never run",
+        "heading_accent": "out.",
+        "text": "<p>Set it once and a fresh dozen shows up every four weeks — for less than a one-time box.</p>",
+        "cta_label": "Build your box",
+        "cta_link": "shopify://products/build-your-box",
+        "color_scheme": "scheme-1"
+      }
+    },
+    "gallery": {
+      "type": "bbb-flavor-gallery",
+      "settings": {
+        "product": "build-your-box",
+        "eyebrow": "The lineup",
+        "heading": "Pick your",
+        "heading_accent": "flavors.",
+        "text": "<p>Tap a flavor to start your box.</p>",
+        "color_scheme": "scheme-2"
+      }
+    },
+    "cta": {
+      "type": "bbb-cta-band",
+      "settings": {
+        "heading": "Your dozen. Your rules.",
+        "text": "<p>Build your box in under a minute.</p>",
+        "cta_label": "Build your box",
+        "cta_link": "shopify://products/build-your-box",
+        "bundled_bg": "pile",
+        "overlay_opacity": 55,
+        "color_scheme": "scheme-3"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "reasons",
+    "sleeves",
+    "subscribe",
+    "gallery",
+    "cta"
+  ]
+}

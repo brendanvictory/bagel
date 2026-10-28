@@ -1,0 +1,134 @@
+{
+  "sections": {
+    "hero": {
+      "type": "bbb-page-hero",
+      "settings": {
+        "eyebrow": "Wholesale",
+        "heading": "Bagels for your",
+        "heading_accent": "business.",
+        "text": "<p>Serving breakfast? We've been baking bagels for New Yorkers for over 30 years across 28 retail locations. Let's talk about bringing them to your counter, office or event.</p>",
+        "cta_label": "Start an inquiry",
+        "cta_link": "/pages/wholesale#inquire",
+        "show_image": true,
+        "image_alt": "Trays of bagels ready for wholesale delivery",
+        "color_scheme": "scheme-5"
+      }
+    },
+    "offer": {
+      "type": "bbb-value-props",
+      "blocks": {
+        "o1": {
+          "type": "value",
+          "settings": {
+            "title": "The full lineup",
+            "text": "<p>Plain, Everything, Sesame, Poppy, Onion, Garlic, Cinnamon Raisin, Egg, Whole Wheat and Pumpernickel.</p>"
+          }
+        },
+        "o2": {
+          "type": "value",
+          "settings": {
+            "title": "Baked on Long Island",
+            "text": "<p>From our kosher commissary with a peanut-free process — and no preservatives.</p>"
+          }
+        },
+        "o3": {
+          "type": "value",
+          "settings": {
+            "title": "Built around you",
+            "text": "<p>Tell us your volume and schedule, and we'll work out the details with you.</p>"
+          }
+        },
+        "o4": {
+          "type": "value",
+          "settings": {
+            "title": "A real New York team",
+            "text": "<p>You'll talk to the people who bake your bagels, not a call center.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "o1",
+        "o2",
+        "o3",
+        "o4"
+      ],
+      "settings": {
+        "eyebrow": "What you get",
+        "heading": "Wholesale,",
+        "heading_accent": "the Bad Boy way.",
+        "color_scheme": "scheme-1",
+        "anchor": "offer",
+        "text": "<p>Here's what working with us looks like.</p>"
+      }
+    },
+    "fit": {
+      "type": "bbb-image-text",
+      "blocks": {
+        "p1": {
+          "type": "point",
+          "settings": {
+            "title": "Cafés and coffee shops"
+          }
+        },
+        "p2": {
+          "type": "point",
+          "settings": {
+            "title": "Delis and markets"
+          }
+        },
+        "p3": {
+          "type": "point",
+          "settings": {
+            "title": "Restaurants and brunch spots"
+          }
+        },
+        "p4": {
+          "type": "point",
+          "settings": {
+            "title": "Caterers and events"
+          }
+        },
+        "p5": {
+          "type": "point",
+          "settings": {
+            "title": "Offices and corporate breakfasts"
+          }
+        },
+        "p6": {
+          "type": "point",
+          "settings": {
+            "title": "Hotels"
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3",
+        "p4",
+        "p5",
+        "p6"
+      ],
+      "settings": {
+        "image_alt": "Bagels on a café counter",
+        "image_position": "right",
+        "ratio": "4 / 3",
+        "eyebrow": "Great for",
+        "heading": "Anywhere people",
+        "heading_accent": "eat breakfast.",
+        "text": "<p>Whether you need a few dozen a week or a standing daily order, tell us what you're working with.</p>",
+        "color_scheme": "scheme-2"
+      }
+    },
+    "form": {
+      "type": "bbb-wholesale-form",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "offer",
+    "fit",
+    "form"
+  ]
+}

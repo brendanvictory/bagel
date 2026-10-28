@@ -14,7 +14,7 @@
       </h2>
       {%- if section.settings.text != blank -%}<div class="rte bbb-values__intro">{{ section.settings.text }}</div>{%- endif -%}
     </header>
-    <ul class="bbb-values__grid" role="list">
+    <ul class="bbb-values__grid bbb-values__grid--n{{ section.blocks.size }}" role="list">
       {%- for block in section.blocks -%}
         <li class="bbb-card" {{ block.shopify_attributes }}>
           <h3 class="bbb-card__title">{{ block.settings.title | escape }}</h3>

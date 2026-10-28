@@ -1,0 +1,111 @@
+{%- comment -%}
+  Bad Boy Bagel Co. — Wholesale inquiry form
+  Posts to Shopify's built-in contact form (no app). Messages go to the store's sender email
+  (Settings → Notifications) and are tagged "wholesale" with reason "Wholesale inquiry".
+{%- endcomment -%}
+{%- assign types = section.settings.business_types | split: ',' -%}
+<section
+  id="{{ section.settings.anchor | default: 'inquire' | handleize }}"
+  class="bbb-wform color-{{ section.settings.color_scheme | default: 'scheme-2' }} gradient"
+  style="--bbb-pad-top: {{ section.settings.padding_top }}px; --bbb-pad-bottom: {{ section.settings.padding_bottom }}px;"
+  aria-labelledby="bbb-wform-{{ section.id }}"
+>
+  <div class="page-width bbb-section bbb-wform__grid">
+    <div class="bbb-wform__intro">
+      {%- if section.settings.eyebrow != blank -%}<p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+      <h2 id="bbb-wform-{{ section.id }}" class="bbb-display bbb-display--l">{{ section.settings.heading | escape }}</h2>
+      {%- if section.settings.text != blank -%}<div class="rte">{{ section.settings.text }}</div>{%- endif -%}
+      {%- if section.settings.email != blank -%}
+        <p class="bbb-wform__alt">Prefer email? <a class="link" href="mailto:{{ section.settings.email }}?subject=Wholesale%20inquiry">{{ section.settings.email | escape }}</a></p>
+      {%- endif -%}
+    </div>
+
+    <div class="bbb-card bbb-contact__form-wrap">
+      {%- form 'contact', id: 'BbbWholesaleForm', class: 'bbb-form' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="bbb-form__success" role="status" tabindex="-1" autofocus>{{ section.settings.success | escape }}</p>
+        {%- elsif form.errors -%}
+          <div class="bbb-form__errors" role="alert" tabindex="-1" autofocus>
+            <p><strong>Please fix the following:</strong></p>
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+        <input type="hidden" name="contact[tags]" value="wholesale">
+        <input type="hidden" name="contact[reason]" value="Wholesale inquiry">
+
+        <div class="bbb-form__2col">
+          <div class="bbb-form__row">
+            <label class="bbb-form__label" for="BbbW-name">Your name <span aria-hidden="true">*</span></label>
+            <input class="bbb-form__input" id="BbbW-name" type="text" name="contact[name]" autocomplete="name" required value="{{ form.name }}">
+          </div>
+          <div class="bbb-form__row">
+            <label class="bbb-form__label" for="BbbW-business">Business name <span aria-hidden="true">*</span></label>
+            <input class="bbb-form__input" id="BbbW-business" type="text" name="contact[business]" autocomplete="organization" required>
+          </div>
+          <div class="bbb-form__row">
+            <label class="bbb-form__label" for="BbbW-email">Email <span aria-hidden="true">*</span></label>
+            <input class="bbb-form__input" id="BbbW-email" type="email" name="contact[email]" autocomplete="email" spellcheck="false" autocapitalize="off" required value="{{ form.email }}"
+              {% if form.errors contains 'email' %}aria-invalid="true" aria-describedby="BbbW-email-error"{% endif %}>
+            {%- if form.errors contains 'email' -%}
+              <p id="BbbW-email-error" class="bbb-form__field-error">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+            {%- endif -%}
+          </div>
+          <div class="bbb-form__row">
+            <label class="bbb-form__label" for="BbbW-phone">Phone</label>
+            <input class="bbb-form__input" id="BbbW-phone" type="tel" name="contact[phone]" autocomplete="tel" inputmode="tel">
+          </div>
+          <div class="bbb-form__row">
+            <label class="bbb-form__label" for="BbbW-type">Type of business <span aria-hidden="true">*</span></label>
+            <select class="bbb-form__input" id="BbbW-type" name="contact[business_type]" required>
+              <option value="" disabled selected>Choose one</option>
+              {%- for t in types -%}{%- assign t = t | strip -%}{%- if t != blank -%}<option value="{{ t | escape }}">{{ t | escape }}</option>{%- endif -%}{%- endfor -%}
+            </select>
+          </div>
+          <div class="bbb-form__row">
+            <label class="bbb-form__label" for="BbbW-location">City &amp; state <span aria-hidden="true">*</span></label>
+            <input class="bbb-form__input" id="BbbW-location" type="text" name="contact[location]" autocomplete="address-level2" required>
+          </div>
+          <div class="bbb-form__row bbb-form__row--full">
+            <label class="bbb-form__label" for="BbbW-volume">Estimated dozens per week</label>
+            <select class="bbb-form__input" id="BbbW-volume" name="contact[weekly_volume]">
+              <option value="" selected>Not sure yet</option>
+              <option>Under 10 dozen</option>
+              <option>10–25 dozen</option>
+              <option>25–50 dozen</option>
+              <option>50–100 dozen</option>
+              <option>100+ dozen</option>
+            </select>
+          </div>
+          <div class="bbb-form__row bbb-form__row--full">
+            <label class="bbb-form__label" for="BbbW-body">Tell us what you need</label>
+            <textarea class="bbb-form__input" id="BbbW-body" name="contact[body]" rows="5" placeholder="Flavors, how often, delivery or pickup, start date…">{{ form.body }}</textarea>
+          </div>
+        </div>
+        <p class="bbb-form__req"><span aria-hidden="true">*</span> Required</p>
+        <button type="submit" class="button button--primary bbb-form__submit">{{ section.settings.button | escape }}</button>
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "BBB Wholesale form",
+  "tag": "div",
+  "class": "section",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Wholesale inquiry" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Let's talk bagels." },
+    { "type": "richtext", "id": "text", "label": "Intro", "default": "<p>Tell us a little about your business and we'll get back to you with options and pricing.</p>" },
+    { "type": "text", "id": "email", "label": "Email shown as alternative", "default": "help@badboybagelco.com" },
+    { "type": "text", "id": "business_types", "label": "Business types (comma-separated)", "default": "Café or coffee shop, Deli or market, Restaurant, Caterer or events, Office or corporate, Hotel, School or institution, Other" },
+    { "type": "text", "id": "button", "label": "Button label", "default": "Send inquiry" },
+    { "type": "text", "id": "success", "label": "Success message", "default": "Thanks! We got your inquiry and our team will be in touch soon." },
+    { "type": "text", "id": "anchor", "label": "Anchor for links", "default": "inquire" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 64 }
+  ],
+  "presets": [ { "name": "BBB Wholesale form" } ]
+}
+{% endschema %}

@@ -1,0 +1,24 @@
+{%- comment -%}
+  Bad Boy Bagel Co. — image or branded placeholder.
+  Accepts:
+    image  (image object or blank)
+    alt    (string)          sizes (string)
+    ratio  (string, e.g. '4 / 3')   label (string shown in the Theme Editor only)
+    eager  (boolean)
+  When image is blank, renders a neutral tile with Shopify's placeholder art. A "Photo placeholder"
+  label is shown only in the Theme Editor, so customers never see instructions.
+{%- endcomment -%}
+<div class="bbb-ph" style="--bbb-ph-ratio: {{ ratio | default: '4 / 3' }};">
+  {%- if image != blank -%}
+    {%- if eager -%}
+      {{ image | image_url: width: 1400 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '375, 550, 750, 1000, 1400', sizes: sizes, alt: alt, class: 'bbb-ph__img' }}
+    {%- else -%}
+      {{ image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '375, 550, 750, 1000, 1400', sizes: sizes, alt: alt, class: 'bbb-ph__img' }}
+    {%- endif -%}
+  {%- else -%}
+    <div class="bbb-ph__empty" role="img" aria-label="{{ alt | default: 'Photo coming soon' | escape }}">
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'bbb-ph__svg' }}
+      {%- if request.design_mode -%}<span class="bbb-ph__label">{{ label | default: 'Photo placeholder — choose an image in this section' | escape }}</span>{%- endif -%}
+    </div>
+  {%- endif -%}
+</div>

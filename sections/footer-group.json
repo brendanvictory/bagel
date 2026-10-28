@@ -51,7 +51,7 @@
           "type": "link",
           "settings": {
             "label": "Why Bad Boy",
-            "path": "/#why"
+            "path": "/pages/why-bad-boy-bagels"
           }
         },
         "l_proc": {
@@ -65,7 +65,7 @@
           "type": "link",
           "settings": {
             "label": "About us",
-            "path": "/#about"
+            "path": "/pages/about-us"
           }
         },
         "l_rev": {
@@ -101,6 +101,13 @@
             "label": "Flavors",
             "path": "/#flavors"
           }
+        },
+        "l_wholesale": {
+          "type": "link",
+          "settings": {
+            "label": "Wholesale",
+            "path": "/pages/wholesale"
+          }
         }
       },
       "block_order": [
@@ -116,7 +123,8 @@
         "l_rev",
         "l_faq",
         "c_help",
-        "l_contact"
+        "l_contact",
+        "l_wholesale"
       ],
       "settings": {
         "cta_link": "shopify://products/build-your-box"

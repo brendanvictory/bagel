@@ -1,0 +1,128 @@
+{
+  "sections": {
+    "hero": {
+      "type": "bbb-page-hero",
+      "settings": {
+        "eyebrow": "About us",
+        "heading": "New York bagel",
+        "heading_accent": "people.",
+        "text": "<p>Bad Boy Bagel Co. is built by people who've spent their working lives behind a bagel counter. We've been in the bagel business in New York for over 30 years, and today we run 28 retail locations.</p><p>Now we're shipping the bagels we know best — straight from our Long Island commissary to your door.</p>",
+        "cta_label": "Build your box",
+        "cta_link": "shopify://products/build-your-box",
+        "cta2_label": "Why Bad Boy",
+        "cta2_link": "shopify://pages/why-bad-boy-bagels",
+        "show_image": true,
+        "image_alt": "Inside the Bad Boy Bagel Co. commissary",
+        "color_scheme": "scheme-5"
+      }
+    },
+    "numbers": {
+      "type": "bbb-about",
+      "blocks": {
+        "s1": {
+          "type": "stat",
+          "settings": {
+            "value": "30+",
+            "label": "Years in the NY bagel business"
+          }
+        },
+        "s2": {
+          "type": "stat",
+          "settings": {
+            "value": "28",
+            "label": "Retail locations"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2"
+      ],
+      "settings": {
+        "eyebrow": "By the numbers",
+        "heading": "Three decades of",
+        "heading_accent": "bagels.",
+        "text": "<p>Thirty-plus years teaches you a few things: how a good bagel should taste, what New Yorkers will (and won't) put up with, and how to get it right every single morning.</p>",
+        "bundled_photo": "scatter",
+        "image_alt": "An assortment of bagels on a white background",
+        "color_scheme": "scheme-1",
+        "anchor": "numbers"
+      }
+    },
+    "commissary": {
+      "type": "bbb-image-text",
+      "blocks": {
+        "p1": {
+          "type": "point",
+          "settings": {
+            "title": "Baked and shipped the same day",
+            "text": "your box leaves the day it's baked."
+          }
+        },
+        "p2": {
+          "type": "point",
+          "settings": {
+            "title": "Shipped Monday–Wednesday",
+            "text": "so it never sits in a warehouse over the weekend."
+          }
+        },
+        "p3": {
+          "type": "point",
+          "settings": {
+            "title": "No preservatives",
+            "text": "just bagels. Eat within 24 hours or freeze the rest."
+          }
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2",
+        "p3"
+      ],
+      "settings": {
+        "image_alt": "Bagels coming out of the oven at our Long Island commissary",
+        "image_position": "right",
+        "ratio": "4 / 3",
+        "eyebrow": "Where they're made",
+        "heading": "From our oven",
+        "heading_accent": "to your door.",
+        "text": "<p>Every Bad Boy box is baked at our commissary on Long Island, New York. Our kosher facility runs a peanut-free process, and the same New York team that bakes your bagels is the one answering your emails.</p>",
+        "color_scheme": "scheme-2"
+      }
+    },
+    "promise": {
+      "type": "bbb-image-text",
+      "settings": {
+        "image_alt": "A Bad Boy Bagel Co. box packed with four sleeves of bagels",
+        "image_position": "left",
+        "ratio": "1 / 1",
+        "eyebrow": "Why we started shipping",
+        "heading": "Good bagels",
+        "heading_accent": "shouldn't need a zip code.",
+        "text": "<p>Plenty of people grew up on New York bagels and moved somewhere that just doesn't get it. Plenty more have never had a real one. Bad Boy Bagel Co. is how we fix that — pick your flavors, we bake and ship, and you're eating New York bagels at home.</p>",
+        "cta_label": "Build your box",
+        "cta_link": "shopify://products/build-your-box",
+        "color_scheme": "scheme-1"
+      }
+    },
+    "cta": {
+      "type": "bbb-cta-band",
+      "settings": {
+        "heading": "Taste the 30 years.",
+        "text": "<p>Four sleeves, up to four flavors, free shipping included.</p>",
+        "cta_label": "Build your box",
+        "cta_link": "shopify://products/build-your-box",
+        "bundled_bg": "pile",
+        "overlay_opacity": 55,
+        "color_scheme": "scheme-3"
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "numbers",
+    "commissary",
+    "promise",
+    "cta"
+  ]
+}

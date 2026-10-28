@@ -15,6 +15,7 @@ engine.registerFilter('json', (x) => JSON.stringify(x));
 engine.registerFilter('t', (x) => x);
 engine.registerFilter('handleize', (x) => String(x || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
 engine.registerFilter('default_errors', () => '');
+engine.registerFilter('placeholder_svg_tag', (n, cls) => `<svg class="${cls}" viewBox="0 0 100 75"><rect x="20" y="15" width="60" height="45" rx="4"/></svg>`);
 engine.registerFilter('url_encode', (x) => encodeURIComponent(x));
 engine.registerFilter('payment_type_svg_tag', () => '');
 const renderSection = async (type, ctx) => {
@@ -33,7 +34,7 @@ const mockFlavors = fnames.map((n) => { const h = n.toLowerCase().replace(/ /g, 
 const product = { title: 'The Dozen', url: '/products/build-your-box', metafields: { custom: { flavors: { value: mockFlavors }, addons: { value: [] } } }, selected_or_first_available_variant: { price: 4495, selling_plan_allocations: [{ price: 3995, selling_plan: { name: 'Delivered every 4 weeks' } }] } };
 (async () => {
   let html = '';
-  const ctxFor = (id, settings, blocks) => ({ section: { id, settings, blocks }, request: { page_type: TEMPLATE === 'index' ? 'index' : 'page', design_mode: !!process.env.DESIGN }, routes: { all_products_collection_url: '/collections/all', root_url: '/' }, shop: { name: 'Bad Boy Bagel Co.', policies: [], enabled_payment_types: [] }, settings: { logo_width: 150 }, form: {} });
+  const ctxFor = (id, settings, blocks) => ({ page: { title: 'Page' }, section: { id, settings, blocks }, request: { page_type: TEMPLATE === 'index' ? 'index' : 'page', design_mode: !!process.env.DESIGN }, routes: { all_products_collection_url: '/collections/all', root_url: '/' }, shop: { name: 'Bad Boy Bagel Co.', policies: [], enabled_payment_types: [] }, settings: { logo_width: 150 }, form: {} });
   const build = (sec) => {
     const schema = readSchema(sec.type); const settings = {};
     for (const s of schema.settings || []) if ('default' in s) settings[s.id] = s.default;

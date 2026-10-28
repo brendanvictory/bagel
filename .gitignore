@@ -1,6 +1,7 @@
 # Allowlist: only theme folders, docs and tools are tracked.
 /*
 !/.gitignore
+!/.theme-check.yml
 !/README.md
 !/LICENSE-dawn.md
 !/assets/
