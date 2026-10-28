@@ -454,3 +454,22 @@ textarea.bbb-form__input { min-height: 12rem; resize: vertical; }
 
 /* Why-us grid: 3 or 6 cards sit in rows of 3 */
 @media screen and (min-width: 990px) { .bbb-values__grid--n3, .bbb-values__grid--n6 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
+/* ---------- Header: desktop menu bold, centered, spread across the space between logo and icons ---------- */
+@media screen and (min-width: 990px) {
+  .header.header--middle-left:not(.drawer-menu) { grid-template-columns: auto minmax(0, 1fr) auto; column-gap: 3.2rem; }
+  .header--middle-left .header__inline-menu { justify-self: stretch; }
+  .header--middle-left .header__inline-menu > .list-menu--inline { display: flex; width: 100%; justify-content: space-evenly; flex-wrap: nowrap; }
+  .header__inline-menu .header__menu-item {
+    font-weight: 800; font-size: 1.6rem; text-transform: uppercase; letter-spacing: 0.06em;
+    color: rgb(var(--color-foreground)); white-space: nowrap; padding-inline: 0.8rem;
+  }
+  .header__inline-menu .header__active-menu-item,
+  .header__inline-menu .header__menu-item:hover span {
+    text-decoration: underline; text-decoration-color: var(--bbb-blue);
+    text-decoration-thickness: 0.3rem; text-underline-offset: 0.6rem;
+  }
+}
+@media screen and (min-width: 990px) and (max-width: 1199px) {
+  .header__inline-menu .header__menu-item { font-size: 1.4rem; letter-spacing: 0.03em; padding-inline: 0.4rem; }
+}
