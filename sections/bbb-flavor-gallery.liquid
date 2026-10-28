@@ -1,0 +1,97 @@
+{%- comment -%}
+  Bad Boy Bagel Co. — Flavor gallery (homepage)
+  Shows every flavor on the chosen box product (photo + name) and, optionally, add-on products
+  that have a photo. Each flavor links to the builder with that flavor already in Sleeve 1.
+  Data comes from product.metafields.custom.flavors / addons — nothing hardcoded.
+{%- endcomment -%}
+{%- liquid
+  assign box = section.settings.product
+  assign flavors = box.metafields.custom.flavors.value
+  assign addons = box.metafields.custom.addons.value
+-%}
+<section
+  id="{{ section.settings.anchor | default: 'flavors' | handleize }}"
+  class="bbb-gallery color-{{ section.settings.color_scheme | default: 'scheme-1' }} gradient"
+  style="--bbb-pad-top: {{ section.settings.padding_top }}px; --bbb-pad-bottom: {{ section.settings.padding_bottom }}px;"
+  aria-labelledby="bbb-gallery-heading-{{ section.id }}"
+>
+  <div class="page-width bbb-section">
+    <header class="bbb-section__header">
+      {%- if section.settings.eyebrow != blank -%}<p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+      <h2 id="bbb-gallery-heading-{{ section.id }}" class="bbb-display bbb-display--l">
+        {{ section.settings.heading | escape }}
+        {%- if section.settings.heading_accent != blank %} <span class="bbb-accent">{{ section.settings.heading_accent | escape }}</span>{%- endif -%}
+      </h2>
+      {%- if section.settings.text != blank -%}<div class="rte">{{ section.settings.text }}</div>{%- endif -%}
+    </header>
+
+    {%- if box == blank or flavors == blank -%}
+      {%- if request.design_mode -%}<p class="bbb-editor-note">Choose the box product in this section's settings to show its flavors.</p>{%- endif -%}
+    {%- else -%}
+      <ul class="bbb-gallery__grid" role="list">
+        {%- for f in flavors -%}
+          {%- if f.available.value == false and section.settings.hide_unavailable -%}{%- continue -%}{%- endif -%}
+          {%- assign f_img = f.image.value -%}
+          <li class="bbb-gallery__item">
+            <a class="bbb-gallery__card" href="{{ box.url }}?s={{ f.system.handle | url_encode }}">
+              <span class="bbb-gallery__media">
+                {%- if f_img != blank -%}
+                  {{ f_img | image_url: width: 600 | image_tag: loading: 'lazy', widths: '200, 300, 400, 600', sizes: '(min-width: 1100px) 220px, (min-width: 750px) 30vw, 46vw', alt: '', class: 'bbb-gallery__img' }}
+                {%- else -%}
+                  <span class="bbb-fcard__noimg" aria-hidden="true"></span>
+                {%- endif -%}
+              </span>
+              <span class="bbb-gallery__name">{{ f.name.value | escape }}</span>
+              <span class="bbb-gallery__cta" aria-hidden="true">{{ section.settings.card_cta | escape }} →</span>
+              <span class="bbb-sr-only">: {{ section.settings.card_cta | escape }}</span>
+            </a>
+          </li>
+        {%- endfor -%}
+        {%- if section.settings.show_addons -%}
+          {%- for a in addons -%}
+            {%- if a.featured_image != blank -%}
+              <li class="bbb-gallery__item">
+                <a class="bbb-gallery__card" href="{{ box.url }}">
+                  <span class="bbb-gallery__media">
+                    {{ a.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', widths: '200, 300, 400, 600', sizes: '(min-width: 1100px) 220px, (min-width: 750px) 30vw, 46vw', alt: '', class: 'bbb-gallery__img' }}
+                  </span>
+                  <span class="bbb-gallery__name">{{ a.title | escape }}</span>
+                  <span class="bbb-gallery__cta" aria-hidden="true">Add-on →</span>
+                </a>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        {%- endif -%}
+      </ul>
+      {%- if section.settings.cta_label != blank -%}
+        <div class="bbb-cta-row bbb-cta-row--center">
+          <a href="{{ box.url }}" class="button button--primary">{{ section.settings.cta_label | escape }}</a>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "BBB Flavor gallery",
+  "tag": "div",
+  "class": "section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Box product", "info": "Flavors and photos come from this product's Box flavors field." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The lineup" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Pick your" },
+    { "type": "text", "id": "heading_accent", "label": "Heading accent", "default": "flavors." },
+    { "type": "richtext", "id": "text", "label": "Intro", "default": "<p>Hand-rolled, baked and shipped the same day. Tap a flavor to start your box.</p>" },
+    { "type": "text", "id": "card_cta", "label": "Card link text", "default": "Start a box" },
+    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Build your box" },
+    { "type": "checkbox", "id": "show_addons", "label": "Also show add-ons that have a photo", "default": true },
+    { "type": "checkbox", "id": "hide_unavailable", "label": "Hide unavailable flavors", "default": true },
+    { "type": "text", "id": "anchor", "label": "Anchor for links", "default": "flavors" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 56 }
+  ],
+  "presets": [ { "name": "BBB Flavor gallery" } ]
+}
+{% endschema %}

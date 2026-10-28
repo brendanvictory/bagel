@@ -4,7 +4,7 @@
 {%- endcomment -%}
 <section
   id="faq"
-  class="bbb-faq color-{{ section.settings.color_scheme }} gradient"
+  class="bbb-faq color-{{ section.settings.color_scheme | default: 'scheme-2' }} gradient"
   style="--bbb-pad-top: {{ section.settings.padding_top }}px; --bbb-pad-bottom: {{ section.settings.padding_bottom }}px;"
   aria-labelledby="bbb-faq-heading-{{ section.id }}"
 >

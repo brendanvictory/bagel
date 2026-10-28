@@ -94,6 +94,13 @@
             "label": "Contact us",
             "path": "/pages/contact"
           }
+        },
+        "l_flavors": {
+          "type": "link",
+          "settings": {
+            "label": "Flavors",
+            "path": "/#flavors"
+          }
         }
       },
       "block_order": [
@@ -101,6 +108,7 @@
         "l_build",
         "l_sub",
         "c_learn",
+        "l_flavors",
         "l_how",
         "l_why",
         "l_proc",

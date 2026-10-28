@@ -15,7 +15,7 @@
 {%- if section.blocks.size > 0 or show_samples -%}
   <section
     id="{{ section.settings.anchor | default: 'reviews' | handleize }}"
-    class="bbb-quotes color-{{ section.settings.color_scheme }} gradient"
+    class="bbb-quotes color-{{ section.settings.color_scheme | default: 'scheme-5' }} gradient"
     style="--bbb-pad-top: {{ section.settings.padding_top }}px; --bbb-pad-bottom: {{ section.settings.padding_bottom }}px; --bbb-marquee-duration: {{ section.settings.speed }}s;"
     aria-labelledby="bbb-quotes-heading-{{ section.id }}"
   >

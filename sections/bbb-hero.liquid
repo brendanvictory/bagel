@@ -32,7 +32,7 @@
 -%}
 <section
   id="bbb-hero-{{ section.id }}"
-  class="bbb-hero bbb-hero--{{ layout }} bbb-hero--align-{{ section.settings.text_align }} bbb-hero--h-{{ section.settings.height }} color-{{ section.settings.color_scheme }} gradient{% if section.settings.spray and has_bg == false %} bbb-spray{% endif %}{% if has_bg %} bbb-hero--has-bg{% endif %}"
+  class="bbb-hero bbb-hero--{{ layout }} bbb-hero--align-{{ section.settings.text_align }} bbb-hero--h-{{ section.settings.height }} color-{{ section.settings.color_scheme | default: 'scheme-5' }} gradient{% if section.settings.spray and has_bg == false %} bbb-spray{% endif %}{% if has_bg %} bbb-hero--has-bg{% endif %}"
   style="--bbb-pad-top: {{ section.settings.padding_top }}px; --bbb-pad-bottom: {{ section.settings.padding_bottom }}px; --bbb-overlay: {{ overlay }};"
   aria-labelledby="bbb-hero-heading-{{ section.id }}"
 >
@@ -186,7 +186,7 @@
 </section>
 
 {%- if section.settings.sticky_cta and section.settings.cta_label != blank -%}
-  <div class="bbb-sticky-cta color-{{ section.settings.sticky_color_scheme }}" data-bbb-sticky="{{ section.id }}" hidden>
+  <div class="bbb-sticky-cta color-{{ section.settings.sticky_color_scheme | default: 'scheme-3' }}" data-bbb-sticky="{{ section.id }}" hidden>
     <a href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}" class="button button--primary">
       {{- section.settings.cta_label | escape -}}
     </a>

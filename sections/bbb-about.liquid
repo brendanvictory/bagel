@@ -1,7 +1,7 @@
 {%- comment -%} Bad Boy Bagel Co. — About us: image + story + optional stats {%- endcomment -%}
 <section
   id="{{ section.settings.anchor | default: 'about' | handleize }}"
-  class="bbb-about color-{{ section.settings.color_scheme }} gradient"
+  class="bbb-about color-{{ section.settings.color_scheme | default: 'scheme-2' }} gradient"
   style="--bbb-pad-top: {{ section.settings.padding_top }}px; --bbb-pad-bottom: {{ section.settings.padding_bottom }}px;"
   aria-labelledby="bbb-about-heading-{{ section.id }}"
 >
@@ -12,14 +12,25 @@
       </div>
     {%- elsif section.settings.use_bundled_photo -%}
       <div class="bbb-about__media">
-        <img
-          src="{{ 'bbb-hero-bagels-768.webp' | asset_url }}"
-          srcset="{{ 'bbb-hero-bagels-768.webp' | asset_url }} 768w, {{ 'bbb-hero-bagels-1024.webp' | asset_url }} 1024w"
-          sizes="(min-width: 990px) 45vw, 100vw"
-          width="1024" height="768" loading="lazy"
-          alt="{{ section.settings.image_alt | escape }}"
-          class="bbb-about__img"
-        >
+        {%- if section.settings.bundled_photo == 'scatter' -%}
+          <img
+            src="{{ 'bbb-bagels-scatter-700.webp' | asset_url }}"
+            srcset="{{ 'bbb-bagels-scatter-700.webp' | asset_url }} 700w, {{ 'bbb-bagels-scatter-1254.webp' | asset_url }} 1254w"
+            sizes="(min-width: 990px) 45vw, 100vw"
+            width="1254" height="1254" loading="lazy"
+            alt="{{ section.settings.image_alt | escape }}"
+            class="bbb-about__img bbb-about__img--square"
+          >
+        {%- else -%}
+          <img
+            src="{{ 'bbb-hero-bagels-768.webp' | asset_url }}"
+            srcset="{{ 'bbb-hero-bagels-768.webp' | asset_url }} 768w, {{ 'bbb-hero-bagels-1024.webp' | asset_url }} 1024w"
+            sizes="(min-width: 990px) 45vw, 100vw"
+            width="1024" height="768" loading="lazy"
+            alt="{{ section.settings.image_alt | escape }}"
+            class="bbb-about__img"
+          >
+        {%- endif -%}
       </div>
     {%- endif -%}
 
@@ -68,7 +79,11 @@
     },
     { "type": "image_picker", "id": "image", "label": "Image" },
     { "type": "checkbox", "id": "use_bundled_photo", "label": "Use the bundled bagel photo when no image is chosen", "default": true },
-    { "type": "text", "id": "image_alt", "label": "Bundled photo alt text", "default": "Racks of fresh sesame, plain and egg bagels" },
+    {
+      "type": "select", "id": "bundled_photo", "label": "Bundled photo", "default": "scatter",
+      "options": [ { "value": "scatter", "label": "Bagels on white" }, { "value": "racks", "label": "Bagel racks" } ]
+    },
+    { "type": "text", "id": "image_alt", "label": "Bundled photo alt text", "default": "An assortment of bagels on a white background" },
     { "type": "text", "id": "cta_label", "label": "Button label" },
     { "type": "url", "id": "cta_link", "label": "Button link" },
     { "type": "text", "id": "anchor", "label": "Anchor for links", "default": "about" },

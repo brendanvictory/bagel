@@ -48,6 +48,14 @@ Date: 2026-10-27 · Architecture: ADR-002 **Option C** (custom theme builder + S
 - Products were not on the Online Store channel (storefront 404) — published all three.
 - Builder now matches add-ons to the box's plan by **delivery frequency option** ("Deliver every 4 weeks"), not by plan name, so add-ons recur even though the plan names differ. Frequency text shows the option value. 46/46 tests pass.
 
+### Update 2026-10-28 — redesign (owner request)
+- **Two pages at one URL** (`/products/build-your-box`): page 1 *Pick your 4 sleeves* — flavor photo grid, 4 photo sleeve slots, progress, **no prices anywhere** (incl. mobile bar); page 2 (`?step=2`) *Finish your order* — box summary with photos, add-ons, Subscribe and Save (Save $6, $45.95 struck) / One-time, order summary with free shipping, **Checkout → straight to Shopify checkout** (setting can switch to cart). Browser Back/Forward move between pages; refresh keeps everything; an incomplete box can't open page 2.
+- **Flavor photos:** 10 images imported from the owner's Google Drive folder into Shopify Files (Shopify fetched them directly) and attached to each `bagel_flavor` via a new `image` field. Editable in Content → Metaobjects.
+- **Homepage:** new `bbb-flavor-gallery` section after How it works (each flavor links to the builder with that flavor pre-filled; add-ons appear once they have photos). Owner's bagel "scatter" photo now in About us; "pile" photo is the background of the closing CTA band.
+- **Bug fixed:** Theme Editor had saved blank color schemes for 10 homepage sections (and the mobile sticky bar), so they rendered without their colors. All BBB sections now fall back to their default scheme; values written back.
+- **Bug fixed:** renewal note read "every every 4 weeks".
+- Tests: **55/55 pass**; Theme Check 0 errors; no horizontal scroll 360–1440 on both pages.
+
 ## 5. Blockers / open risks (honest status)
 1. **Renewal composition is unproven.** Whether Shopify Subscriptions copies the `Sleeve 1–4` properties onto renewal orders must be tested with a real test checkout + renewal (ADR-002 POC steps 3–6). If it doesn't, ADR-002 says fall back to Appstle.
 2. **Two plans → one or two renewal orders?** If box and add-ons sit on different plans, Shopify may create two subscription contracts (two renewal orders, two shipments). Must check in the same test. Fallbacks: one shared plan with a %-discount and adjusted add-on prices, or Appstle.

@@ -1,7 +1,7 @@
 {%- comment -%} Bad Boy Bagel Co. — Why us: eyebrow, heading, intro, value cards {%- endcomment -%}
 <section
   id="{{ section.settings.anchor | default: 'why' | handleize }}"
-  class="bbb-values color-{{ section.settings.color_scheme }} gradient"
+  class="bbb-values color-{{ section.settings.color_scheme | default: 'scheme-1' }} gradient"
   style="--bbb-pad-top: {{ section.settings.padding_top }}px; --bbb-pad-bottom: {{ section.settings.padding_bottom }}px;"
   aria-labelledby="bbb-values-heading-{{ section.id }}"
 >

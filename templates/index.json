@@ -29,12 +29,12 @@
         "overlay_opacity": 55,
         "height": "medium",
         "show_logo_art": true,
-        "color_scheme": "",
+        "color_scheme": "scheme-5",
         "spray": true,
         "padding_top": 40,
         "padding_bottom": 56,
         "sticky_cta": true,
-        "sticky_color_scheme": ""
+        "sticky_color_scheme": "scheme-3"
       }
     },
     "how": {
@@ -74,7 +74,7 @@
         "anchor": "how-it-works",
         "cta_label": "Build your box",
         "cta_link": "shopify://products/build-your-box",
-        "color_scheme": "",
+        "color_scheme": "scheme-2",
         "padding_top": 48,
         "padding_bottom": 48
       }
@@ -123,7 +123,7 @@
         "heading_accent": "bagels.",
         "text": "<p>We have 28 retail locations and have been in the bagel business in New York for over 30 years.</p>",
         "anchor": "why",
-        "color_scheme": "",
+        "color_scheme": "scheme-1",
         "padding_top": 48,
         "padding_bottom": 48
       }
@@ -156,13 +156,14 @@
         "heading_accent": "",
         "text": "<p>We've been in the bagel business in New York for over 30 years and run 28 retail locations. Now we ship straight from our Long Island commissary to your door.</p>",
         "use_bundled_photo": true,
-        "image_alt": "Racks of fresh sesame, plain and egg bagels",
+        "image_alt": "An assortment of bagels on a white background",
         "cta_label": "",
         "cta_link": "",
         "anchor": "about",
-        "color_scheme": "",
+        "color_scheme": "scheme-2",
         "padding_top": 48,
-        "padding_bottom": 48
+        "padding_bottom": 48,
+        "bundled_photo": "scatter"
       }
     },
     "process": {
@@ -213,7 +214,7 @@
         "text": "",
         "anchor": "process",
         "spray": true,
-        "color_scheme": "",
+        "color_scheme": "scheme-5",
         "padding_top": 56,
         "padding_bottom": 56
       }
@@ -233,7 +234,7 @@
         "cta_label": "Build your box",
         "cta_link": "shopify://products/build-your-box",
         "disclosure": "<p>Subscriptions renew automatically every 4 weeks at the price shown until you cancel. Cancel anytime in your account before your next renewal. <a href=\"/policies/terms-of-service\">Subscription terms</a>.</p>",
-        "color_scheme": "",
+        "color_scheme": "scheme-1",
         "padding_top": 48,
         "padding_bottom": 48
       }
@@ -245,7 +246,7 @@
         "heading": "What people are saying",
         "speed": 50,
         "anchor": "reviews",
-        "color_scheme": "",
+        "color_scheme": "scheme-5",
         "padding_top": 48,
         "padding_bottom": 56
       }
@@ -299,7 +300,7 @@
       "settings": {
         "heading": "Questions?",
         "schema": true,
-        "color_scheme": "",
+        "color_scheme": "scheme-2",
         "padding_top": 48,
         "padding_bottom": 48
       }
@@ -345,15 +346,24 @@
         "cta_label": "Build your box",
         "cta_link": "shopify://products/build-your-box",
         "spray": true,
-        "color_scheme": "",
+        "color_scheme": "scheme-3",
         "padding_top": 56,
-        "padding_bottom": 56
+        "padding_bottom": 56,
+        "bundled_bg": "pile",
+        "overlay_opacity": 55
+      }
+    },
+    "gallery": {
+      "type": "bbb-flavor-gallery",
+      "settings": {
+        "product": "build-your-box"
       }
     }
   },
   "order": [
     "hero",
     "how",
+    "gallery",
     "values",
     "about",
     "process",

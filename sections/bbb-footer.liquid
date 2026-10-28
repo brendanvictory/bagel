@@ -4,7 +4,7 @@
   Each link uses either a picked URL or a path such as /#faq or /pages/contact.
   Policy links come from Settings > Policies automatically.
 {%- endcomment -%}
-<footer class="footer bbb-footer color-{{ section.settings.color_scheme }} gradient" aria-label="Footer">
+<footer class="footer bbb-footer color-{{ section.settings.color_scheme | default: 'scheme-5' }} gradient" aria-label="Footer">
   <div class="page-width bbb-footer__inner">
     <div class="bbb-footer__brand">
       <a href="{{ routes.root_url }}" class="bbb-footer__logo">

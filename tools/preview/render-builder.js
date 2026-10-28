@@ -9,9 +9,14 @@ engine.registerFilter('asset_url', (f) => '/assets/' + f);
 engine.registerFilter('stylesheet_tag', (u) => `<link rel="stylesheet" href="${u}">`);
 engine.registerFilter('money', (c) => '$' + (Number(c) / 100).toFixed(2));
 engine.registerFilter('json', (x) => JSON.stringify(x));
+engine.registerFilter('image_url', (img) => (img && img.src) || String(img || ''));
+engine.registerFilter('image_tag', (url, ...args) => { const o = {}; for (let i = 0; i < args.length; i++) { const a = args[i]; if (Array.isArray(a)) o[a[0]] = a[1]; } return `<img src="${url}" alt="${o.alt || ''}" class="${o.class || ''}" loading="lazy">`; });
+engine.registerFilter('money_without_trailing_zeros', (c) => { const v = (Number(c) / 100).toFixed(2); return '$' + v.replace(/\.00$/, ''); });
+engine.registerFilter('map', (arr, key) => (arr || []).map((x) => x[key]));
 engine.registerFilter('structured_data', () => '{}');
 const names = ['Plain','Everything','Sesame','Poppy','Onion','Garlic','Cinnamon Raisin','Egg','Whole Wheat','Pumpernickel'];
-const flavors = names.map((n) => ({ system: { handle: n.toLowerCase().replace(/ /g, '-') }, name: { value: n }, available: { value: n !== 'Pumpernickel' }, description: { value: '' }, allergens: { value: '' } }));
+const NOIMG = process.env.NOIMG === '1';
+const flavors = names.map((n) => { const h = n.toLowerCase().replace(/ /g, '-'); return { system: { handle: h }, name: { value: n }, available: { value: n !== 'Pumpernickel' }, description: { value: '' }, allergens: { value: n === 'Sesame' ? 'Contains sesame' : '' }, image: { value: NOIMG ? '' : { src: '/img/' + h + '.png', alt: n } } }; });
 const plan = { id: 690001, name: 'Deliver every 4 weeks, $6.00 off', options: [{ name: 'Delivery frequency', value: 'Deliver every 4 weeks' }] };
 const addonPlan = { id: 690002, name: 'Deliver every 4 weeks', options: [{ name: 'Delivery frequency', value: 'Deliver every 4 weeks' }] };
 const addon = (id, t, pl) => ({ title: t, selected_or_first_available_variant: { id, price: 995, available: true, selling_plan_allocations: WITH_PLAN ? [{ price: 995, selling_plan: pl || plan }] : [] } });
@@ -23,7 +28,7 @@ const product = { id: 1, url: '/products/build-your-box', title: 'Build Your Doz
   const schema = JSON.parse(src.match(/{% schema %}([\s\S]*?){% endschema %}/)[1]);
   const settings = {}; for (const s of schema.settings) if ('default' in s) settings[s.id] = s.default;
   const html = await engine.parseAndRender(src, { section: { id: 'b1', settings }, product, shop: { money_format: '${{amount}}' }, request: { design_mode: false },
-    routes: { cart_add_url: '/cart/add', cart_url: '/cart', cart_update_url: '/cart/update' } });
+    routes: { cart_add_url: '/cart/add', cart_url: '/cart', cart_update_url: '/cart/update' }, product_title: 'x' });
   const sd = JSON.parse(fs.readFileSync(path.join(THEME, 'config', 'settings_data.json'), 'utf8').replace(/^\s*\/\*[\s\S]*?\*\//, ''));
   const preset = sd.presets[sd.current] || Object.values(sd.presets)[0];
   const rgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)).join(',');

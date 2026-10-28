@@ -1,7 +1,7 @@
 {%- comment -%} Bad Boy Bagel Co. — How it works (numbered steps) {%- endcomment -%}
 <section
   id="{{ section.settings.anchor | default: 'how-it-works' | handleize }}"
-  class="bbb-steps color-{{ section.settings.color_scheme }} gradient"
+  class="bbb-steps color-{{ section.settings.color_scheme | default: 'scheme-2' }} gradient"
   style="--bbb-pad-top: {{ section.settings.padding_top }}px; --bbb-pad-bottom: {{ section.settings.padding_bottom }}px;"
   aria-labelledby="bbb-steps-heading-{{ section.id }}"
 >

@@ -18,7 +18,7 @@
 -%}
 <section
   id="subscribe"
-  class="bbb-subsave color-{{ section.settings.color_scheme }} gradient"
+  class="bbb-subsave color-{{ section.settings.color_scheme | default: 'scheme-1' }} gradient"
   style="--bbb-pad-top: {{ section.settings.padding_top }}px; --bbb-pad-bottom: {{ section.settings.padding_bottom }}px;"
   aria-labelledby="bbb-subsave-heading-{{ section.id }}"
 >

@@ -1,7 +1,7 @@
 {%- comment -%} Bad Boy Bagel Co. — Our process: horizontal timeline (vertical on mobile) {%- endcomment -%}
 <section
   id="{{ section.settings.anchor | default: 'process' | handleize }}"
-  class="bbb-process color-{{ section.settings.color_scheme }} gradient{% if section.settings.spray %} bbb-spray{% endif %}"
+  class="bbb-process color-{{ section.settings.color_scheme | default: 'scheme-5' }} gradient{% if section.settings.spray %} bbb-spray{% endif %}"
   style="--bbb-pad-top: {{ section.settings.padding_top }}px; --bbb-pad-bottom: {{ section.settings.padding_bottom }}px;"
   aria-labelledby="bbb-process-heading-{{ section.id }}"
 >

@@ -1,5 +1,6 @@
 // Static approximation of the homepage for visual QA only (not Shopify rendering).
 const fs = require('fs'), path = require('path');
+const readJson = (f) => JSON.parse(fs.readFileSync(f, 'utf8').replace(/^\s*\/\*[\s\S]*?\*\//, ''));
 const { Liquid, Tag } = require('liquidjs');
 const THEME = process.argv[2], OUT = process.argv[3], TEMPLATE = process.argv[4] || 'index';
 const engine = new Liquid({ root: [path.join(THEME, 'sections'), path.join(THEME, 'snippets')], extname: '.liquid', jsTruthy: false });
@@ -8,12 +9,13 @@ engine.registerTag('schema', Skip);
 const asset = (f) => 'file://' + path.join(THEME, 'assets', f);
 engine.registerFilter('asset_url', asset);
 engine.registerFilter('money', (c) => '$' + (Number(c) / 100).toFixed(2));
-engine.registerFilter('image_url', (x) => String(x));
-engine.registerFilter('image_tag', () => '');
+engine.registerFilter('image_url', (x) => (x && x.src) || String(x));
+engine.registerFilter('image_tag', (url, ...args) => { const o = {}; args.forEach((a) => Array.isArray(a) && (o[a[0]] = a[1])); return `<img src="${url}" alt="${o.alt || ''}" class="${o.class || ''}">`; });
 engine.registerFilter('json', (x) => JSON.stringify(x));
 engine.registerFilter('t', (x) => x);
 engine.registerFilter('handleize', (x) => String(x || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''));
 engine.registerFilter('default_errors', () => '');
+engine.registerFilter('url_encode', (x) => encodeURIComponent(x));
 engine.registerFilter('payment_type_svg_tag', () => '');
 const renderSection = async (type, ctx) => {
   let src = fs.readFileSync(path.join(THEME, 'sections', type + '.liquid'), 'utf8');
@@ -22,10 +24,13 @@ const renderSection = async (type, ctx) => {
   return engine.parseAndRender(src, ctx);
 };
 const readSchema = (type) => { const s = fs.readFileSync(path.join(THEME, 'sections', type + '.liquid'), 'utf8'); const m = s.match(/{% schema %}([\s\S]*?){% endschema %}/); return JSON.parse(m[1]); };
-const index = JSON.parse(fs.readFileSync(path.join(THEME, 'templates', TEMPLATE + '.json'), 'utf8'));
-const footerGroup = JSON.parse(fs.readFileSync(path.join(THEME, 'sections', 'footer-group.json'), 'utf8'));
+const index = readJson(path.join(THEME, 'templates', TEMPLATE + '.json'));
+const footerGroup = readJson(path.join(THEME, 'sections', 'footer-group.json'));
 const standin = { toString(){return 'file://'+__dirname+'/standin.jpg'}, width: 2400, height: 1350, presentation: { focal_point: '50% 50%' } };
-const product = { title: 'The Dozen', url: '#', selected_or_first_available_variant: { price: 4495, selling_plan_allocations: [{ price: 3995, selling_plan: { name: 'Delivered every 4 weeks' } }] } };
+// GALLERY_MOCK
+const fnames = ['Plain','Everything','Sesame','Poppy','Onion','Garlic','Cinnamon Raisin','Egg','Whole Wheat','Pumpernickel'];
+const mockFlavors = fnames.map((n) => { const h = n.toLowerCase().replace(/ /g, '-'); return { system: { handle: h }, name: { value: n }, available: { value: true }, image: { value: { src: 'file://' + __dirname + '/builder/img/' + h + '.png' } } }; });
+const product = { title: 'The Dozen', url: '/products/build-your-box', metafields: { custom: { flavors: { value: mockFlavors }, addons: { value: [] } } }, selected_or_first_available_variant: { price: 4495, selling_plan_allocations: [{ price: 3995, selling_plan: { name: 'Delivered every 4 weeks' } }] } };
 (async () => {
   let html = '';
   const ctxFor = (id, settings, blocks) => ({ section: { id, settings, blocks }, request: { page_type: TEMPLATE === 'index' ? 'index' : 'page', design_mode: !!process.env.DESIGN }, routes: { all_products_collection_url: '/collections/all', root_url: '/' }, shop: { name: 'Bad Boy Bagel Co.', policies: [], enabled_payment_types: [] }, settings: { logo_width: 150 }, form: {} });
@@ -54,7 +59,7 @@ const product = { title: 'The Dozen', url: '#', selected_or_first_available_vari
   let footerHtml = '';
   for (const id of footerGroup.order) { const sec = footerGroup.sections[id]; const b = build(sec); footerHtml += await renderSection(sec.type, ctxFor(id, b.settings, b.blocks)); }
   // Dawn-like color scheme variables from settings_data
-  const sd = JSON.parse(fs.readFileSync(path.join(THEME, 'config', 'settings_data.json'), 'utf8'));
+  const sd = readJson(path.join(THEME, 'config', 'settings_data.json'));
   const preset = sd.presets[sd.current];
   const rgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)).join(',');
   let css = '';
