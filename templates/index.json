@@ -26,7 +26,7 @@
         "cta2_label": "How it works",
         "cta2_link": "",
         "use_bundled_photo": true,
-        "overlay_opacity": 55,
+        "overlay_opacity": 30,
         "height": "medium",
         "show_logo_art": true,
         "color_scheme": "scheme-5",
