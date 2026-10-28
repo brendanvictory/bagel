@@ -1,7 +1,10 @@
-/* Bad Boy Bagel Co. — Build Your Box (ADR-002 Option C), two pages
+/* Bad Boy Bagel Co. — Build Your Box (ADR-002 Option C)
    Page 1: pick exactly N sleeves (default 4), repeats allowed, no pricing shown.
+   Lead step (optional): name, email, phone, ZIP → delivery check → Shopify customer tagged "lead".
    Page 2: add-ons, one-time vs subscription, pricing, checkout.
-   State mirrors to the URL (?s=…&o=once|<planId>&a=…&step=2) so refresh and Back work.
+   Promo mode (landing pages): a free one-time item rides with the box; the discount code is applied
+   on the way to checkout via /discount/<code>?redirect=….
+   State mirrors to the URL (?s=…&o=once|<planId>&a=…&step=lead|2) so refresh and Back work.
    Edit from cart: ?edit=<box_id> pre-fills and replaces the old box + its add-ons.
    Cart payload: box line (properties "Sleeve 1..N" + "_box_id") + add-on lines (same "_box_id",
    subscribed on a plan with the same delivery frequency). Shopify prices every line itself. */
@@ -66,6 +69,25 @@
     const t = (p.key || p.name).toLowerCase().split(',')[0].replace(/^(deliver(ed|y)?|ships?|renews?)\s+/, '').trim();
     return /^every\b/.test(t) ? t : `every ${t}`;
   };
+  const promoOn = () => !!(cfg.promo && cfg.promo.variantId && cfg.promo.code);
+
+  // ---------- lead step ----------
+  const LEAD_KEY = 'bbb_lead_v1';
+  const leadStored = () => { try { return !!window.localStorage.getItem(LEAD_KEY); } catch (e) { return false; } };
+  let leadDoneThisVisit = false;
+  const needLead = () => !!(cfg.lead && cfg.lead.enabled && $('[data-bbb-view="lead"]')) && !state.editBoxId && !leadDoneThisVisit && !leadStored();
+  // Lower 48 + DC only: reject AK, HI, PR/VI, Guam & Pacific territories, APO/FPO, unassigned 000–004.
+  const zipDeliverable = (zip) => {
+    const p = Number(zip.slice(0, 3));
+    if (p <= 4) return false;
+    if (p >= 6 && p <= 9) return false;     // PR, VI
+    if (p >= 90 && p <= 99) return false;   // APO/FPO AE
+    if (p === 340) return false;            // APO/FPO AA
+    if (p >= 962 && p <= 969) return false; // APO/FPO AP, HI, Guam & Pacific
+    if (p >= 995) return false;             // AK
+    return true;
+  };
+
   const counts = () => state.sleeves.reduce((m, h) => ((m[h] = (m[h] || 0) + 1), m), {});
 
   // ---------- render ----------
@@ -158,6 +180,7 @@
       const label = state.option === 'subscription' ? `${cfg.title} (${freqText()})` : cfg.title;
       row(label, state.option ? formatMoney(boxPrice()) : '—');
       chosenAddons().forEach((a) => row(a.title, formatMoney(addonPrice(a))));
+      if (promoOn()) row(cfg.promo.title, 'Free');
       row('Shipping', 'Free');
     }
     const t = state.option ? formatMoney(total()) : '—';
@@ -180,24 +203,30 @@
   const render = () => { renderPage1(); renderPage2(); syncUrl(); };
 
   // ---------- pages ----------
-  const showStep = (step, { push = true, focus = true } = {}) => {
-    if (step === 2 && !isFull()) step = 1;
+  const ORDER = ['1', 'lead', '2'];
+  const showStep = (step, { push = true, focus = true, replace = false } = {}) => {
+    if (step !== 1 && !isFull()) step = 1;
+    if (step === 2 && needLead()) step = 'lead';
+    if (step === 'lead' && !needLead()) step = isFull() ? 2 : 1;
     state.step = step;
     root.dataset.step = String(step);
     $$('[data-bbb-view]').forEach((v) => (v.hidden = v.dataset.bbbView !== String(step)));
     $$('[data-bbb-stepnav]').forEach((li) => {
       if (li.dataset.bbbStepnav === String(step)) li.setAttribute('aria-current', 'step');
       else li.removeAttribute('aria-current');
-      li.classList.toggle('is-done', Number(li.dataset.bbbStepnav) < step);
+      li.classList.toggle('is-done', ORDER.indexOf(li.dataset.bbbStepnav) < ORDER.indexOf(String(step)));
     });
     hideErrors();
-    syncUrl(push);
+    syncUrl(push && !replace);
     if (focus) {
-      window.scrollTo({ top: 0, behavior: 'instant' in document.documentElement.style ? 'instant' : 'auto' });
+      // Scroll to the top of the builder (the page top on the product page; below the hero on landing pages)
+      const top = Math.max(0, root.getBoundingClientRect().top + window.scrollY - 12);
+      window.scrollTo({ top: top < 240 ? 0 : top, behavior: 'instant' in document.documentElement.style ? 'instant' : 'auto' });
       const h = $(`[data-bbb-focus="${step}"]`);
       if (h) h.focus({ preventScroll: true });
     }
-    document.dispatchEvent(new CustomEvent(step === 2 ? 'bbb:builder-complete' : 'bbb:builder-step1', { detail: { sleeves: state.sleeves.slice() } }));
+    const ev = step === 2 ? 'bbb:builder-complete' : step === 'lead' ? 'bbb:builder-lead' : 'bbb:builder-step1';
+    document.dispatchEvent(new CustomEvent(ev, { detail: { sleeves: state.sleeves.slice() } }));
   };
 
   // ---------- URL state ----------
@@ -208,7 +237,7 @@
     set('o', state.option === 'subscription' ? String(state.planId || '') : state.option || '');
     set('a', Array.from(state.addons).join(','));
     set('edit', state.editBoxId);
-    set('step', state.step === 2 ? '2' : '');
+    set('step', state.step === 2 ? '2' : state.step === 'lead' ? 'lead' : '');
     return url;
   };
   function syncUrl(push = false) {
@@ -233,7 +262,8 @@
       if (cfg.addons.some((a) => String(a.variantId) === id)) state.addons.add(id);
     });
     state.editBoxId = p.get('edit') || null;
-    return p.get('step') === '2' ? 2 : 1;
+    const st = p.get('step');
+    return st === '2' ? 2 : st === 'lead' ? 'lead' : 1;
   };
 
   window.addEventListener('popstate', () => {
@@ -286,7 +316,8 @@
       return;
     }
     if (back) {
-      if (window.history.state && window.history.state.bbbStep === 2) window.history.back();
+      const hs = window.history.state;
+      if (hs && hs.bbbStep != null && hs.bbbStep !== 1) window.history.back();
       else showStep(1);
     }
   });
@@ -308,6 +339,84 @@
     }
     render();
   });
+
+  // ---------- lead form ----------
+  const leadForm = root.querySelector('#BbbLeadForm');
+  if (leadForm) {
+    const f = (sel) => leadForm.querySelector(sel);
+    const okBox = $('[data-bbb-lead-ok]');
+    const fill = (tpl, zip) => String(tpl || '').replace('[zip]', zip);
+    const fieldError = (input, msg) => {
+      showError('lead', msg);
+      if (input) { input.setAttribute('aria-invalid', 'true'); input.focus(); }
+    };
+    const goOn = () => { showStep(2, { replace: true }); };
+
+    leadForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideErrors();
+      leadForm.querySelectorAll('[aria-invalid]').forEach((i) => i.removeAttribute('aria-invalid'));
+      const nameEl = f('[data-bbb-lead-name]');
+      const emailEl = f('[data-bbb-lead-email]');
+      const phoneEl = f('[data-bbb-lead-phone]');
+      const zipEl = f('[data-bbb-lead-zip]');
+      const smsEl = f('[data-bbb-lead-sms]');
+      const name = nameEl.value.trim().replace(/\s+/g, ' ');
+      const email = emailEl.value.trim();
+      const zip = (zipEl.value.match(/^\s*(\d{5})(?:-?\d{4})?\s*$/) || [])[1];
+      const digits = phoneEl ? phoneEl.value.replace(/\D/g, '') : '';
+      let phone = '';
+      if (digits.length === 10) phone = `+1${digits}`;
+      else if (digits.length === 11 && digits[0] === '1') phone = `+${digits}`;
+
+      if (!name) return fieldError(nameEl, 'Please enter your name.');
+      if (!zip) return fieldError(zipEl, 'Please enter a 5-digit ZIP code.');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return fieldError(emailEl, 'Please enter a valid email address.');
+      if (digits && !phone) return fieldError(phoneEl, 'Please enter a 10-digit US phone number, or leave it blank.');
+
+      const ok = zipDeliverable(zip);
+      const parts = name.split(' ');
+      f('[data-bbb-lead-first]').value = parts.shift();
+      f('[data-bbb-lead-last]').value = parts.join(' ');
+      const tags = ['lead', `lead-${cfg.lead.source || 'builder'}`, `zip-${zip}`];
+      if (smsEl && smsEl.checked && phone) tags.push('sms-optin');
+      if (!ok) tags.push('out-of-area');
+      f('[data-bbb-lead-tags]').value = tags.join(', ');
+
+      const btn = f('[data-bbb-lead-submit]');
+      btn.disabled = true; btn.setAttribute('aria-busy', 'true');
+      const body = new URLSearchParams(new FormData(leadForm));
+      if (phone) body.set('contact[phone]', phone);
+      let saved = false;
+      try {
+        const res = await fetch(leadForm.action, { method: 'POST', body, headers: { Accept: 'text/html', 'Content-Type': 'application/x-www-form-urlencoded' }, credentials: 'same-origin' });
+        saved = res.ok && /customer_posted=true/.test(res.url);
+        if (!saved && phone && res.ok && !/challenge/.test(res.url)) {
+          // Shopify rejected the phone (e.g. already on another customer) — save the lead without it.
+          body.delete('contact[phone]');
+          const res2 = await fetch(leadForm.action, { method: 'POST', body, headers: { Accept: 'text/html', 'Content-Type': 'application/x-www-form-urlencoded' }, credentials: 'same-origin' });
+          saved = res2.ok && /customer_posted=true/.test(res2.url);
+        }
+      } catch (err) { saved = false; }
+      btn.disabled = false; btn.removeAttribute('aria-busy');
+      document.dispatchEvent(new CustomEvent('bbb:lead', { detail: { deliverable: ok, saved, source: cfg.lead.source } }));
+
+      if (!ok) { showError('lead', fill(cfg.lead.outText, zip)); zipEl.setAttribute('aria-invalid', 'true'); zipEl.focus(); return; }
+
+      leadDoneThisVisit = true;
+      try { window.localStorage.setItem(LEAD_KEY, JSON.stringify({ zip, at: Date.now() })); } catch (err) { /* private mode */ }
+      leadForm.hidden = true;
+      if (okBox) {
+        okBox.hidden = false;
+        $('[data-bbb-lead-ok-text]', okBox).textContent = fill(cfg.lead.okText, zip);
+        okBox.focus({ preventScroll: true });
+      }
+      const nav = $('[data-bbb-nav-lead]');
+      if (nav) nav.classList.add('is-done');
+      window.setTimeout(() => { if (state.step === 'lead') goOn(); }, 1400);
+    });
+    root.addEventListener('click', (e) => { if (e.target.closest('[data-bbb-lead-continue]')) goOn(); });
+  }
 
   // ---------- add to cart → checkout ----------
   const newBoxId = () => (window.crypto && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`).slice(0, 13);
@@ -348,6 +457,8 @@
       const ap = addonPlanId(a);
       items.push({ id: a.variantId, quantity: 1, properties: { _box_id: boxId }, ...(ap ? { selling_plan: Number(ap) } : {}) });
     });
+    // Free offer item: always one-time (never on a plan), so it ships once with the first box.
+    if (promoOn()) items.push({ id: cfg.promo.variantId, quantity: 1, properties: { _box_id: boxId, _offer: cfg.promo.code } });
 
     try {
       if (state.editBoxId) await removeOldBox(state.editBoxId);
@@ -361,7 +472,8 @@
         throw new Error(body.description || body.message || cfg.labels.failed);
       }
       document.dispatchEvent(new CustomEvent('bbb:box-added', { detail: { boxId, sleeves: state.sleeves.slice(), option: state.option } }));
-      window.location.href = cfg.after === 'cart' ? cfg.cartUrl : '/checkout';
+      const dest = cfg.after === 'cart' ? cfg.cartUrl : '/checkout';
+      window.location.href = promoOn() ? `/discount/${encodeURIComponent(cfg.promo.code)}?redirect=${encodeURIComponent(dest)}` : dest;
     } catch (err) {
       showError(2, err.message || cfg.labels.failed);
       buttons.forEach((b) => { b.removeAttribute('aria-busy'); b.disabled = false; });
@@ -377,6 +489,11 @@
       $$('[data-bbb-add]').forEach((b) => { b.removeAttribute('aria-busy'); b.disabled = false; });
     }
   });
+
+  // Embedded on a landing page: only show the mobile bottom bar while the builder is on screen.
+  if (root.classList.contains('bbb-builder--embedded') && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([entry]) => root.classList.toggle('is-onscreen', entry.isIntersecting)).observe(root);
+  }
 
   // ---------- init ----------
   const checked = $('[data-bbb-option]:checked');

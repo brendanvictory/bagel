@@ -241,3 +241,19 @@ Split upsells into two places instead of forcing everything through the post-pur
 ## Owner-confirmed claims (for copy)
 - 2026-10-28: bagels are **hand-rolled**; About Us line "built by people who've spent their working lives behind a bagel counter" confirmed accurate.
 - Earlier: 30+ years in NY bagel business; 28 retail locations; Long Island commissary (111 Broadway, Amityville); baked and shipped same day; ships Mon–Wed; no preservatives; kosher facility with peanut-free process.
+
+## ADR-010 — Lead capture before Subscribe & Save (owner request 2026-10-28)
+**Decision:** a "Delivery check" step between page 1 (sleeves) and page 2 (add-ons, plan, price).
+- Fields: name, ZIP (required), email (required), phone (optional), unticked text-message opt-in.
+- The ZIP check is real: lower 48 + DC pass; AK, HI, PR/VI, Guam/Pacific territories and APO/FPO get an honest "we can't ship there yet" message and don't continue.
+- Saved with Shopify's built-in customer form (no app, $0): creates or updates a customer **subscribed to email marketing**, tagged `lead`, `lead-<source>` (`lead-builder`, `lead-free-minis`), `zip-<ZIP>`, `sms-optin` (box ticked and phone given), `out-of-area`. The disclosure under the button says so.
+- Text messages: the `sms-optin` tag records the opt-in only. Shopify's customer form can't set SMS consent; texting needs an SMS tool (e.g. Shopify Messaging or Klaviyo) that imports these opt-ins. Counsel should review the SMS wording before any texts go out.
+- After success: green check, then auto-continue to page 2 (Back from page 2 returns to page 1). Shown once per device (localStorage) and skipped for signed-in customers and cart edits. If saving fails (network, spam challenge) the shopper continues anyway — a sale is never blocked by lead capture.
+- Remarketing audience: Customers → segment `customer_tags CONTAINS 'lead' AND number_of_orders = 0` (in Shopify Email, or exported to Meta/Google). Not done: putting the email into the checkout URL for Shopify's abandoned-checkout emails, because that puts personal data in URLs that analytics pixels can read.
+- Events for analytics later: `bbb:builder-lead`, `bbb:lead` (no personal data in the event detail).
+
+## ADR-011 — "Buy a dozen, get 6 mini bagels free" landing page (owner request 2026-10-28)
+- Page `/pages/free-minis` (template `page.free-minis`): hero, deal steps, box builder in promo mode, about, offer FAQ, CTA. Only ad traffic to this page gets the offer (owner choice).
+- Discount code **FREEMINIS** (Buy X Get Y; created 2026-10-28, `DiscountCodeNode/1544605925618`): buy 1 Build Your Dozen (one-time or subscription) → 1 Mini Bagels (6) at 100% off; one use per order and per customer; combines with shipping discounts only.
+- The builder adds the free minis as a **one-time** line (`_offer: FREEMINIS`, same `_box_id`), so they ship with the first box only (owner choice), then sends the shopper through `/discount/FREEMINIS?redirect=/checkout`. Minis are not offered again as a paid add-on on this page. Shopify doesn't let BXGY codes be limited to one-time lines, so if someone adds a subscribed minis pack from elsewhere, check which line the code discounted.
+- Known limit: "Edit box" from the cart goes to the regular builder, so editing drops the free pack (the cart shows "Free with your dozen" on that line).

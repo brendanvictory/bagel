@@ -23,7 +23,7 @@
 
       assign addon_ids = ''
       for other in cart.items
-        if other.key != item.key and other.properties['_box_id'] == box_id
+        if other.key != item.key and other.properties['_box_id'] == box_id and other.properties['_offer'] == blank
           if addon_ids != ''
             assign addon_ids = addon_ids | append: ','
           endif
@@ -42,6 +42,10 @@
       href="{{ item.product.url }}?s={{ sleeve_list | url_encode }}&o={{ opt }}{% if addon_ids != '' %}&a={{ addon_ids | url_encode }}{% endif %}&edit={{ box_id | url_encode }}"
     >Edit box<span class="visually-hidden"> {{ item.product.title | escape }}</span></a>
   {%- else -%}
-    <p class="product-option bbb-cart-addon-note">In your box</p>
+    {%- if item.properties['_offer'] != blank -%}
+      <p class="product-option bbb-cart-addon-note">Free with your dozen</p>
+    {%- else -%}
+      <p class="product-option bbb-cart-addon-note">In your box</p>
+    {%- endif -%}
   {%- endif -%}
 {%- endif -%}

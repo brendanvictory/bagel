@@ -14,12 +14,33 @@
   "_box_id", subscribed on a plan with the same delivery frequency so they recur.
 {%- endcomment -%}
 {%- liquid
-  assign variant = product.selected_or_first_available_variant
-  assign sleeves = product.metafields.custom.sleeves_per_box.value | default: 4
-  assign per_sleeve = product.metafields.custom.bagels_per_sleeve.value | default: 3
+  # Box product: the section's product setting (landing pages) or the page's product (product template)
+  assign bp = product
+  if section.settings.product != blank
+    assign bp = section.settings.product
+  endif
+  assign heading_tag = section.settings.heading_tag | default: 'h1'
+
+  # Promo mode: one unit of promo_product added free as a one-time line; promo_code applied at checkout
+  assign promo = section.settings.promo_product
+  assign promo_v = promo.selected_or_first_available_variant
+  assign promo_on = false
+  if promo != blank and section.settings.promo_code != blank and promo_v.available
+    assign promo_on = true
+  endif
+
+  # Lead step (delivery check) between page 1 and page 2; skipped for signed-in customers
+  assign lead_on = section.settings.lead_enabled
+  if customer
+    assign lead_on = false
+  endif
+
+  assign variant = bp.selected_or_first_available_variant
+  assign sleeves = bp.metafields.custom.sleeves_per_box.value | default: 4
+  assign per_sleeve = bp.metafields.custom.bagels_per_sleeve.value | default: 3
   assign total_bagels = sleeves | times: per_sleeve
-  assign flavors = product.metafields.custom.flavors.value
-  assign addons = product.metafields.custom.addons.value
+  assign flavors = bp.metafields.custom.flavors.value
+  assign addons = bp.metafields.custom.addons.value
 
   assign best_alloc = nil
   for alloc in variant.selling_plan_allocations
@@ -42,7 +63,8 @@
 -%}
 
 <section
-  class="bbb-builder color-{{ section.settings.color_scheme | default: 'scheme-2' }} gradient"
+  id="{{ section.settings.anchor | default: 'build' | handleize }}"
+  class="bbb-builder{% if promo_on %} bbb-builder--promo{% endif %}{% if section.settings.product != blank %} bbb-builder--embedded{% endif %} color-{{ section.settings.color_scheme | default: 'scheme-2' }} gradient"
   data-bbb-builder
   data-step="1"
   aria-labelledby="bbb-builder-title-{{ section.id }}"
@@ -51,8 +73,13 @@
     <nav class="bbb-stepnav" aria-label="Order steps">
       <ol class="bbb-stepnav__list" role="list">
         <li class="bbb-stepnav__item" data-bbb-stepnav="1" aria-current="step"><span class="bbb-stepnav__dot" aria-hidden="true">1</span> <span class="bbb-stepnav__label">{{ section.settings.nav1 | escape }}</span></li>
-        <li class="bbb-stepnav__item" data-bbb-stepnav="2"><span class="bbb-stepnav__dot" aria-hidden="true">2</span> <span class="bbb-stepnav__label">{{ section.settings.nav2 | escape }}</span></li>
-        <li class="bbb-stepnav__item"><span class="bbb-stepnav__dot" aria-hidden="true">3</span> <span class="bbb-stepnav__label">Checkout</span></li>
+        {%- assign nav_n = 2 -%}
+        {%- if lead_on -%}
+          <li class="bbb-stepnav__item" data-bbb-stepnav="lead" data-bbb-nav-lead><span class="bbb-stepnav__dot" aria-hidden="true">2</span> <span class="bbb-stepnav__label">Delivery check</span></li>
+          {%- assign nav_n = 3 -%}
+        {%- endif -%}
+        <li class="bbb-stepnav__item" data-bbb-stepnav="2"><span class="bbb-stepnav__dot" aria-hidden="true">{{ nav_n }}</span> <span class="bbb-stepnav__label">{{ section.settings.nav2 | escape }}</span></li>
+        <li class="bbb-stepnav__item"><span class="bbb-stepnav__dot" aria-hidden="true">{{ nav_n | plus: 1 }}</span> <span class="bbb-stepnav__label">Checkout</span></li>
       </ol>
     </nav>
 
@@ -65,11 +92,19 @@
     <div class="bbb-view" data-bbb-view="1">
       <header class="bbb-builder__head">
         {%- if section.settings.eyebrow != blank -%}<p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
-        <h1 id="bbb-builder-title-{{ section.id }}" class="bbb-display bbb-display--l" tabindex="-1" data-bbb-focus="1">{{ section.settings.heading | default: product.title | escape }}</h1>
+        <{{ heading_tag }} id="bbb-builder-title-{{ section.id }}" class="bbb-display bbb-display--l" tabindex="-1" data-bbb-focus="1">{{ section.settings.heading | default: bp.title | escape }}</{{ heading_tag }}>
         <p class="bbb-builder__sub">
           {{- section.settings.subheading | replace: '[sleeves]', sleeves | replace: '[per_sleeve]', per_sleeve | replace: '[total]', total_bagels | escape -}}
         </p>
       </header>
+      {%- if promo_on -%}
+        <div class="bbb-promo bbb-promo--banner">
+          <span class="bbb-promo__media" aria-hidden="true">
+            {%- if promo.featured_image != blank -%}{{ promo.featured_image | image_url: width: 200 | image_tag: loading: 'lazy', alt: '', class: 'bbb-promo__img' }}{%- endif -%}
+          </span>
+          <p class="bbb-promo__text"><span class="bbb-promo__tag">Free</span> <strong>{{ promo.title | escape }}</strong> comes free with this box.</p>
+        </div>
+      {%- endif -%}
 
       <div class="bbb-tray" aria-label="Your sleeves">
         <ol class="bbb-tray__slots" role="list" data-bbb-slots>
@@ -137,6 +172,70 @@
       </div>
     </div>
 
+    {%- comment -%}
+      ================= LEAD STEP — delivery check =================
+      Posts to Shopify's customer form (no app): creates/updates a customer subscribed to email marketing,
+      tagged lead, lead-<source>, zip-<ZIP>, sms-optin (if ticked) and out-of-area (if we can't ship there).
+      Name and ZIP inputs have no name attribute; JS maps them into first/last name and tags.
+    {%- endcomment -%}
+    {%- if lead_on -%}
+      <div class="bbb-view" data-bbb-view="lead" hidden>
+        <header class="bbb-builder__head bbb-builder__head--left">
+          <button type="button" class="bbb-back link" data-bbb-back>
+            <svg aria-hidden="true" focusable="false" viewBox="0 0 16 16" width="14" height="14"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            {{ section.settings.back_label | escape }}
+          </button>
+          <h2 class="bbb-display bbb-display--l" tabindex="-1" data-bbb-focus="lead">{{ section.settings.lead_heading | escape }}</h2>
+          {%- if section.settings.lead_text != blank -%}<p class="bbb-builder__sub">{{ section.settings.lead_text | escape }}</p>{%- endif -%}
+        </header>
+
+        <div class="bbb-card2 bbb-lead">
+          {%- form 'customer', id: 'BbbLeadForm', class: 'bbb-form bbb-lead__form', novalidate: 'novalidate' -%}
+            <input type="hidden" name="contact[tags]" value="lead" data-bbb-lead-tags>
+            <input type="hidden" name="contact[first_name]" data-bbb-lead-first>
+            <input type="hidden" name="contact[last_name]" data-bbb-lead-last>
+            <div class="bbb-form__2col">
+              <div class="bbb-form__row">
+                <label class="bbb-form__label" for="BbbLead-name">Name <span aria-hidden="true">*</span></label>
+                <input class="bbb-form__input" id="BbbLead-name" type="text" autocomplete="name" required aria-required="true" data-bbb-lead-name>
+              </div>
+              <div class="bbb-form__row">
+                <label class="bbb-form__label" for="BbbLead-zip">ZIP code <span aria-hidden="true">*</span></label>
+                <input class="bbb-form__input" id="BbbLead-zip" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="10" required aria-required="true" data-bbb-lead-zip>
+              </div>
+              <div class="bbb-form__row">
+                <label class="bbb-form__label" for="BbbLead-email">Email <span aria-hidden="true">*</span></label>
+                <input class="bbb-form__input" id="BbbLead-email" type="email" name="contact[email]" autocomplete="email" spellcheck="false" autocapitalize="off" required aria-required="true" data-bbb-lead-email>
+              </div>
+              <div class="bbb-form__row">
+                <label class="bbb-form__label" for="BbbLead-phone">Phone <span class="bbb-form__opt">(optional)</span></label>
+                <input class="bbb-form__input" id="BbbLead-phone" type="tel" autocomplete="tel" inputmode="tel" data-bbb-lead-phone>
+              </div>
+              {%- if section.settings.lead_sms_text != blank -%}
+                <div class="bbb-form__row bbb-form__row--full">
+                  <label class="bbb-lead__check">
+                    <input type="checkbox" data-bbb-lead-sms>
+                    <span>{{ section.settings.lead_sms_text | escape }}</span>
+                  </label>
+                </div>
+              {%- endif -%}
+            </div>
+            <p class="bbb-builder__error" data-bbb-error="lead" role="alert" hidden></p>
+            <button type="submit" class="button button--primary bbb-form__submit bbb-lead__submit" data-bbb-lead-submit>{{ section.settings.lead_button | escape }}</button>
+            {%- if section.settings.lead_disclosure != blank -%}<div class="bbb-lead__disclosure">{{ section.settings.lead_disclosure }}</div>{%- endif -%}
+          {%- endform -%}
+
+          <div class="bbb-lead__ok" data-bbb-lead-ok hidden tabindex="-1">
+            <span class="bbb-lead__tick" aria-hidden="true">
+              <svg viewBox="0 0 48 48" width="48" height="48" focusable="false"><circle cx="24" cy="24" r="22" fill="currentColor"/><path d="m14 25 7 7 13-15" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <p class="bbb-lead__ok-title" role="status" data-bbb-lead-ok-text></p>
+            <button type="button" class="button button--primary" data-bbb-lead-continue>Continue</button>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+
     {%- comment -%} ================= PAGE 2 — ADD-ONS, OPTIONS, PRICING ================= {%- endcomment -%}
     <div class="bbb-view" data-bbb-view="2" hidden>
       <header class="bbb-builder__head bbb-builder__head--left">
@@ -157,6 +256,20 @@
             <ul class="bbb-boxsum" role="list" data-bbb-boxsum></ul>
           </section>
 
+          {%- if promo_on -%}
+            <section class="bbb-card2 bbb-promo bbb-promo--card" aria-labelledby="bbb-promo-{{ section.id }}">
+              <span class="bbb-promo__media" aria-hidden="true">
+                {%- if promo.featured_image != blank -%}{{ promo.featured_image | image_url: width: 240 | image_tag: loading: 'lazy', alt: '', class: 'bbb-promo__img' }}{%- endif -%}
+              </span>
+              <div class="bbb-promo__body">
+                <p class="bbb-promo__tag">Free with your dozen</p>
+                <h3 class="bbb-card2__title" id="bbb-promo-{{ section.id }}">{{ promo.title | escape }}</h3>
+                {%- if section.settings.promo_note != blank -%}<p class="bbb-promo__note">{{ section.settings.promo_note | escape }}</p>{%- endif -%}
+              </div>
+              <p class="bbb-promo__price"><s>{{ promo_v.price | money }}</s> <strong>Free</strong></p>
+            </section>
+          {%- endif -%}
+
           {%- if addons != blank -%}
             <section class="bbb-card2" aria-labelledby="bbb-addons-{{ section.id }}">
               <div class="bbb-card2__head">
@@ -165,6 +278,7 @@
               </div>
               <ul class="bbb-addons" role="list">
                 {%- for a in addons -%}
+                  {%- if promo_on and a.id == promo.id -%}{%- continue -%}{%- endif -%}
                   {%- assign av = a.selected_or_first_available_variant -%}
                   {%- if av -%}
                     <li>
@@ -271,9 +385,9 @@
 
     <script type="application/json" data-bbb-config>
       {
-        "productId": {{ product.id | json }},
+        "productId": {{ bp.id | json }},
         "variantId": {{ variant.id | json }},
-        "title": {{ product.title | json }},
+        "title": {{ bp.title | json }},
         "sleeves": {{ sleeves | json }},
         "perSleeve": {{ per_sleeve | json }},
         "oncePrice": {{ variant.price | json }},
@@ -288,9 +402,25 @@
             { "id": {{ alloc.selling_plan.id | json }}, "name": {{ alloc.selling_plan.name | json }}, "key": {{ alloc.selling_plan.options | map: 'value' | join: ' / ' | json }}, "price": {{ alloc.price | json }} }{% unless forloop.last %},{% endunless %}
           {%- endfor -%}
         ],
+        "promo": {%- if promo_on -%}{
+          "variantId": {{ promo_v.id | json }},
+          "title": {{ promo.title | json }},
+          "price": {{ promo_v.price | json }},
+          "code": {{ section.settings.promo_code | strip | json }}
+        }{%- else -%}null{%- endif -%},
+        "lead": {
+          "enabled": {{ lead_on | json }},
+          "source": {{ section.settings.lead_source | default: 'builder' | handleize | json }},
+          "okText": "Good news — we deliver to [zip]!",
+          "outText": "Sorry — we can't ship to [zip] yet. We ship to the lower 48 states and Washington, DC."
+        },
         "addons": [
+          {%- assign printed = false -%}
           {%- for a in addons -%}
+            {%- if promo_on and a.id == promo.id -%}{%- continue -%}{%- endif -%}
             {%- assign av = a.selected_or_first_available_variant -%}
+            {%- if printed -%},{%- endif -%}
+            {%- assign printed = true -%}
             {
               "variantId": {{ av.id | json }},
               "title": {{ a.title | json }},
@@ -310,7 +440,7 @@
                   {{ alloc.selling_plan.id | append: '' | json }}: {{ alloc.selling_plan.options | map: 'value' | join: ' / ' | json }}{% unless forloop.last %},{% endunless %}
                 {%- endfor -%}
               }
-            }{% unless forloop.last %},{% endunless %}
+            }
           {%- endfor -%}
         ],
         "labels": {
@@ -329,9 +459,11 @@
 {{ 'bbb-box-builder.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'bbb-box-builder.js' | asset_url }}" defer="defer"></script>
 
+{%- if template.name == 'product' and section.settings.product == blank -%}
 <script type="application/ld+json">
-  {{ product | structured_data }}
+  {{ bp | structured_data }}
 </script>
+{%- endif -%}
 
 {% schema %}
 {
@@ -339,6 +471,13 @@
   "tag": "div",
   "class": "section",
   "settings": [
+    { "type": "product", "id": "product", "label": "Box product", "info": "Leave empty on the box's own product page. Choose the box when using this section on a landing page." },
+    {
+      "type": "select", "id": "heading_tag", "label": "Page 1 heading level", "default": "h1",
+      "info": "Use H2 when the page already has a hero with an H1 (landing pages).",
+      "options": [ { "value": "h1", "label": "H1" }, { "value": "h2", "label": "H2" } ]
+    },
+    { "type": "text", "id": "anchor", "label": "Anchor for links", "default": "build", "info": "Buttons can link to #build." },
     { "type": "header", "content": "Page 1 — pick sleeves (no pricing)" },
     { "type": "text", "id": "nav1", "label": "Step 1 name", "default": "Pick flavors" },
     { "type": "text", "id": "nav2", "label": "Step 2 name", "default": "Add-ons & plan" },
@@ -350,6 +489,21 @@
     { "type": "text", "id": "next_label", "label": "Next button", "default": "Next: add-ons & pricing" },
     { "type": "text", "id": "bar_next_label", "label": "Mobile bar Next button", "default": "Next" },
     { "type": "text", "id": "error_need_more", "label": "Error: box not full", "default": "Pick [remaining] more sleeve(s) to fill your box." },
+    { "type": "header", "content": "Delivery check (lead capture)" },
+    { "type": "checkbox", "id": "lead_enabled", "label": "Ask for name, email, phone and ZIP before page 2", "default": true, "info": "Saves a Shopify customer subscribed to email, tagged lead. Skipped for signed-in customers and after someone completes it once on this device." },
+    { "type": "text", "id": "lead_source", "label": "Source tag", "default": "builder", "info": "Added as lead-<source>, e.g. lead-builder or lead-free-minis." },
+    { "type": "text", "id": "lead_heading", "label": "Heading", "default": "Do we deliver to you?" },
+    { "type": "text", "id": "lead_text", "label": "Intro", "default": "Enter your ZIP to check delivery, and we'll save your box so you can pick up where you left off." },
+    { "type": "text", "id": "lead_button", "label": "Button", "default": "Check delivery" },
+    { "type": "text", "id": "lead_sms_text", "label": "Text-message opt-in label", "default": "Text me offers and updates from Bad Boy Bagel Co. Msg & data rates may apply. Reply STOP to opt out. Not required to buy.", "info": "Leave the checkbox unticked by default (US texting law). Clear to hide." },
+    {
+      "type": "richtext", "id": "lead_disclosure", "label": "Disclosure under the button",
+      "default": "<p>By continuing you agree to get emails from Bad Boy Bagel Co. about your box and offers. Unsubscribe anytime. <a href=\"/policies/privacy-policy\">Privacy policy</a>.</p>"
+    },
+    { "type": "header", "content": "Free item offer (landing pages)" },
+    { "type": "product", "id": "promo_product", "label": "Free item", "info": "One unit is added free with the box as a one-time item. Only active when a discount code is set." },
+    { "type": "text", "id": "promo_code", "label": "Discount code", "info": "A Buy X Get Y code in Shopify admin → Discounts that makes the free item $0. Applied automatically at checkout." },
+    { "type": "text", "id": "promo_note", "label": "Page 2 note", "default": "Ships with your first box." },
     { "type": "header", "content": "Page 2 — add-ons, plan, pricing" },
     { "type": "text", "id": "back_label", "label": "Back link", "default": "Edit flavors" },
     { "type": "text", "id": "page2_heading", "label": "Heading", "default": "Finish your order" },

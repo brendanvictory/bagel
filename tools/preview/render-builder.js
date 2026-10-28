@@ -5,6 +5,18 @@ const THEME = process.argv[2], OUT = process.argv[3], WITH_PLAN = process.argv[4
 const engine = new Liquid({ jsTruthy: false });
 class Skip extends Tag { constructor(t, r, l) { super(t, r, l); while (r.length) { const x = r.shift(); if (x.name === 'end' + t.name) return; } } *render() { return ''; } }
 engine.registerTag('schema', Skip);
+// {% form 'customer', id: 'X', class: 'y' %}…{% endform %} → <form action="/contact#X"> with Shopify's hidden inputs
+engine.registerTag('form', class extends Tag {
+  constructor(t, r, l) { super(t, r, l); this.args = t.args; this.tpl = []; const st = l.parser.parseStream(r).on('tag:endform', () => st.stop()).on('template', (x) => this.tpl.push(x)).on('end', () => { throw new Error('form not closed'); }); st.start(); }
+  *render(ctx, emitter) {
+    const id = (this.args.match(/id:\s*'([^']+)'/) || [])[1] || '';
+    const cls = (this.args.match(/class:\s*'([^']+)'/) || [])[1] || '';
+    const type = (this.args.match(/^'([^']+)'/) || [])[1] || '';
+    emitter.write(`<form method="post" action="/contact#${id}" id="${id}" class="${cls}" accept-charset="UTF-8" novalidate><input type="hidden" name="form_type" value="${type}"><input type="hidden" name="utf8" value="✓">`);
+    yield this.liquid.renderer.renderTemplates(this.tpl, ctx, emitter);
+    emitter.write('</form>');
+  }
+});
 engine.registerFilter('asset_url', (f) => '/assets/' + f);
 engine.registerFilter('stylesheet_tag', (u) => `<link rel="stylesheet" href="${u}">`);
 engine.registerFilter('money', (c) => '$' + (Number(c) / 100).toFixed(2));
@@ -27,7 +39,12 @@ const product = { id: 1, url: '/products/build-your-box', title: 'Build Your Doz
   let src = fs.readFileSync(path.join(THEME, 'sections', 'bbb-box-builder.liquid'), 'utf8');
   const schema = JSON.parse(src.match(/{% schema %}([\s\S]*?){% endschema %}/)[1]);
   const settings = {}; for (const s of schema.settings) if ('default' in s) settings[s.id] = s.default;
-  const html = await engine.parseAndRender(src, { section: { id: 'b1', settings }, product, shop: { money_format: '${{amount}}' }, request: { design_mode: false },
+  if (process.env.PROMO === '1') {
+    Object.assign(settings, { product, heading_tag: 'h2', lead_source: 'free-minis', promo_product: product.metafields.custom.addons.value[0], promo_code: 'FREEMINIS' });
+    product.metafields.custom.addons.value[0].id = 501; product.metafields.custom.addons.value[1].id = 502;
+    product.metafields.custom.addons.value[0].featured_image = { src: '/img/minis.png' };
+  }
+  const html = await engine.parseAndRender(src, { section: { id: 'b1', settings }, product, shop: { money_format: '${{amount}}' }, request: { design_mode: false }, template: { name: process.env.PROMO === '1' ? 'page' : 'product' },
     routes: { cart_add_url: '/cart/add', cart_url: '/cart', cart_update_url: '/cart/update' }, product_title: 'x' });
   const sd = JSON.parse(fs.readFileSync(path.join(THEME, 'config', 'settings_data.json'), 'utf8').replace(/^\s*\/\*[\s\S]*?\*\//, ''));
   const preset = sd.presets[sd.current] || Object.values(sd.presets)[0];

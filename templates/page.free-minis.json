@@ -1,0 +1,222 @@
+{
+  "sections": {
+    "hero": {
+      "type": "bbb-hero",
+      "blocks": {
+        "c1": {
+          "type": "chip",
+          "settings": {
+            "text": "6 free mini bagels"
+          }
+        },
+        "c2": {
+          "type": "chip",
+          "settings": {
+            "text": "Free shipping"
+          }
+        },
+        "c3": {
+          "type": "chip",
+          "settings": {
+            "text": "Mix up to 4 flavors"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3"
+      ],
+      "settings": {
+        "layout": "background",
+        "text_align": "center",
+        "eyebrow": "The Bad Boy dozen deal",
+        "heading": "Buy a dozen.",
+        "heading_accent": "Get 6 minis free.",
+        "heading_tag": "h1",
+        "subheading": "<p>Build a dozen hand-rolled New York bagels your way and we'll add 6 mini bagels on us. Shipping's included.</p>",
+        "price_product": "build-your-box",
+        "show_price": false,
+        "cta_label": "Claim my free minis",
+        "cta_link": "/pages/free-minis#build",
+        "cta2_label": "",
+        "cta2_link": "",
+        "use_bundled_photo": true,
+        "overlay_opacity": 55,
+        "height": "medium",
+        "show_logo_art": true,
+        "color_scheme": "scheme-5",
+        "spray": true,
+        "padding_top": 40,
+        "padding_bottom": 56,
+        "sticky_cta": true,
+        "sticky_color_scheme": "scheme-3"
+      }
+    },
+    "deal": {
+      "type": "bbb-how-it-works",
+      "blocks": {
+        "s1": {
+          "type": "step",
+          "settings": {
+            "title": "Build your dozen",
+            "text": "<p>Pick 4 sleeves of 3. Mix up to 4 flavors, or go all-in on your favorite.</p>"
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "title": "6 minis, on us",
+            "text": "<p>Your free Mini Bagels (6) are added to your box automatically. No code to type.</p>"
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "title": "Shipped free",
+            "text": "<p>Baked and shipped the same day from our Long Island commissary. Enjoy now or freeze for later.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "settings": {
+        "eyebrow": "How the deal works",
+        "heading": "12 bagels. 6 minis. Zero shipping fees.",
+        "text": "",
+        "anchor": "deal",
+        "cta_label": "",
+        "cta_link": "",
+        "color_scheme": "scheme-2",
+        "padding_top": 48,
+        "padding_bottom": 24
+      }
+    },
+    "builder": {
+      "type": "bbb-box-builder",
+      "settings": {
+        "product": "build-your-box",
+        "heading_tag": "h2",
+        "anchor": "build",
+        "eyebrow": "Your box",
+        "heading": "Build your dozen",
+        "lead_enabled": true,
+        "lead_source": "free-minis",
+        "lead_text": "Enter your ZIP to check delivery. We'll hold your box and your free minis.",
+        "promo_product": "mini-bagels-6",
+        "promo_code": "FREEMINIS",
+        "promo_note": "Ships with your first box. Added automatically at checkout.",
+        "default_option": "none",
+        "after_add": "checkout",
+        "color_scheme": "scheme-2"
+      }
+    },
+    "about": {
+      "type": "bbb-about",
+      "blocks": {
+        "a1": {
+          "type": "stat",
+          "settings": {
+            "value": "30+",
+            "label": "Years in the NY bagel business"
+          }
+        },
+        "a2": {
+          "type": "stat",
+          "settings": {
+            "value": "28",
+            "label": "Retail locations"
+          }
+        }
+      },
+      "block_order": [
+        "a1",
+        "a2"
+      ],
+      "settings": {
+        "eyebrow": "Who's baking",
+        "heading": "New York bagel people.",
+        "heading_accent": "",
+        "text": "<p>We've been in the bagel business in New York for over 30 years and run 28 retail locations. Every bagel is hand-rolled and shipped from our Long Island commissary the day it's baked.</p>",
+        "use_bundled_photo": true,
+        "bundled_photo": "scatter",
+        "image_alt": "An assortment of bagels on a white background",
+        "cta_label": "Build my box",
+        "cta_link": "/pages/free-minis#build",
+        "anchor": "about",
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 48
+      }
+    },
+    "faq": {
+      "type": "bbb-faq",
+      "blocks": {
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "How do I get the 6 free mini bagels?",
+            "answer": "<p>Build your dozen on this page and check out. A pack of Mini Bagels (6) is added to your box and the discount is applied at checkout automatically. One free pack per order, one per customer.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "Does it work with Subscribe and Save?",
+            "answer": "<p>Yes. Your free minis ship with your first box. After that, each delivery is your dozen plus any add-ons you chose.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "Where do you ship, and how fast?",
+            "answer": "<p>We ship from our commissary on Long Island, NY, and only ship Monday through Wednesday. If you place an order Wednesday through Sunday, it ships fresh the following Monday. We ship to the lower 48 states and Washington, DC — we can't ship to Alaska, Hawaii, US territories, APO/FPO addresses or outside the US.</p>"
+          }
+        },
+        "q4": {
+          "type": "question",
+          "settings": {
+            "question": "How should I store my bagels?",
+            "answer": "<p>We don't use preservatives. Once your bagels are delivered, eat them within 24 hours and freeze what you don't eat. When you're ready, microwave for 30 seconds, toast and enjoy.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4"
+      ],
+      "settings": {
+        "heading": "The fine print",
+        "schema": false
+      }
+    },
+    "cta": {
+      "type": "bbb-cta-band",
+      "settings": {
+        "heading": "Your dozen + 6 free minis.",
+        "text": "",
+        "cta_label": "Build my box",
+        "cta_link": "/pages/free-minis#build",
+        "bundled_bg": "pile",
+        "overlay_opacity": 55,
+        "spray": true,
+        "color_scheme": "scheme-3",
+        "padding_top": 56,
+        "padding_bottom": 56
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "deal",
+    "builder",
+    "about",
+    "faq",
+    "cta"
+  ]
+}
