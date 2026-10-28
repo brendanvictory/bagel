@@ -290,7 +290,7 @@
           "type": "question",
           "settings": {
             "question": "Where do you ship, and how fast?",
-            "answer": "<p>We ship from our commissary on Long Island, NY, and only ship Monday through Wednesday. If you place an order Wednesday through Sunday, it ships fresh the following Monday.</p>"
+            "answer": "<p>We ship from our commissary on Long Island, NY, and only ship Monday through Wednesday. If you place an order Wednesday through Sunday, it ships fresh the following Monday. We ship to the lower 48 states and Washington, DC — we can't ship to Alaska, Hawaii, US territories, APO/FPO addresses or outside the US.</p>"
           }
         },
         "q4": {
