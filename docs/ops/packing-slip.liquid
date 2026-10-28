@@ -1,0 +1,232 @@
+{%- comment -%}
+  Bad Boy Bagel Co. — Packing slip
+  Install: Shopify admin → Settings → Shipping and delivery → Documents → Packing slip template
+           → replace everything with this file → Save. ("Revert to default" restores Shopify's.)
+
+  What packers see per shipment:
+    1. PACK THIS BOX — one block per Build Your Dozen box: each sleeve's flavor, sleeves grouped by
+       flavor with bagel counts, and the add-ons that belong to that box (matched by hidden _box_id).
+    2. Any other items in the shipment.
+    3. Flavor totals for the whole shipment (bake/pick list), notes, ship-to.
+  Safety: a box with no flavors recorded prints a red "STOP — no flavors" warning instead of packing blind.
+  Uses only documented packing-slip variables (order, shipping_address, line_items_in_shipment,
+  line_item.properties, includes_all_line_items_in_order).
+{%- endcomment -%}
+{%- assign bagels_per_sleeve = 3 -%}
+<div class="wrapper">
+  <div class="header">
+    <div class="shop-title">{{ shop.name }}</div>
+    <div class="order-title">
+      <div class="order-number">{{ order.name }}</div>
+      <div class="order-date">{{ order.created_at | date: "%b %e, %Y" }}</div>
+    </div>
+  </div>
+
+  {%- comment -%} ---------- Collect box ids and loose items ---------- {%- endcomment -%}
+  {%- assign box_ids = '' -%}
+  {%- assign box_keys = '|' -%}
+  {%- for line_item in line_items_in_shipment -%}
+    {%- assign has_sleeve = false -%}
+    {%- assign this_box = '' -%}
+    {%- for p in line_item.properties -%}
+      {%- if p.first == '_box_id' -%}{%- assign this_box = p.last -%}{%- endif -%}
+      {%- assign key_start = p.first | slice: 0, 6 -%}
+      {%- if key_start == 'Sleeve' and p.last != blank -%}{%- assign has_sleeve = true -%}{%- endif -%}
+    {%- endfor -%}
+    {%- if line_item.title contains 'Build Your Dozen' or has_sleeve -%}
+      {%- assign box_ids = box_ids | append: '|' | append: forloop.index -%}
+      {%- if this_box != '' -%}{%- assign box_keys = box_keys | append: this_box | append: '|' -%}{%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- comment -%} ---------- PACK THIS BOX ---------- {%- endcomment -%}
+  {%- assign box_number = 0 -%}
+  {%- assign all_flavors = '' -%}
+  {%- for line_item in line_items_in_shipment -%}
+    {%- assign idx = forloop.index | prepend: '|' -%}
+    {%- assign idx_end = idx | append: '|' -%}
+    {%- assign test_list = box_ids | append: '|' -%}
+    {%- unless test_list contains idx_end -%}{%- continue -%}{%- endunless -%}
+
+    {%- assign this_box = '' -%}
+    {%- assign sleeves = '' -%}
+    {%- for p in line_item.properties -%}
+      {%- if p.first == '_box_id' -%}{%- assign this_box = p.last -%}{%- endif -%}
+      {%- assign key_start = p.first | slice: 0, 6 -%}
+      {%- if key_start == 'Sleeve' and p.last != blank -%}
+        {%- assign sleeves = sleeves | append: p.last | append: '~~' -%}
+      {%- endif -%}
+    {%- endfor -%}
+    {%- assign sleeve_list = sleeves | split: '~~' -%}
+    {%- assign unique_flavors = sleeve_list | uniq -%}
+
+    {%- for q in (1..line_item.shipping_quantity) -%}
+      {%- assign box_number = box_number | plus: 1 -%}
+      <div class="box">
+        <div class="box-head">
+          <span class="box-title">PACK BOX {{ box_number }}</span>
+          <span class="box-sub">{{ line_item.title }}{% if line_item.sku != blank %} · {{ line_item.sku }}{% endif %}</span>
+        </div>
+
+        {%- if sleeve_list.size == 0 -%}
+          <div class="stop">STOP — no flavors recorded on this box. Check the order (and subscription) in Shopify before packing.</div>
+        {%- else -%}
+          <table class="sleeves">
+            <tr><th>Flavor</th><th class="num">Sleeves</th><th class="num">Bagels</th></tr>
+            {%- for f in unique_flavors -%}
+              {%- assign n = 0 -%}
+              {%- for s in sleeve_list -%}{%- if s == f -%}{%- assign n = n | plus: 1 -%}{%- endif -%}{%- endfor -%}
+              <tr>
+                <td class="flavor"><span class="check"></span>{{ f }}</td>
+                <td class="num">{{ n }}</td>
+                <td class="num">{{ n | times: bagels_per_sleeve }}</td>
+              </tr>
+            {%- endfor -%}
+            <tr class="total"><td>Total</td><td class="num">{{ sleeve_list.size }}</td><td class="num">{{ sleeve_list.size | times: bagels_per_sleeve }}</td></tr>
+          </table>
+          <div class="sleeve-order">
+            {%- for s in sleeve_list -%}Sleeve {{ forloop.index }}: {{ s }}{% unless forloop.last %} &nbsp;·&nbsp; {% endunless %}{%- endfor -%}
+          </div>
+          {%- for s in sleeve_list -%}{%- assign all_flavors = all_flavors | append: s | append: '~~' -%}{%- endfor -%}
+        {%- endif -%}
+
+        {%- assign addon_count = 0 -%}
+        {%- capture addons_html -%}
+          {%- if this_box != '' -%}
+            {%- for other in line_items_in_shipment -%}
+              {%- assign other_box = '' -%}
+              {%- assign other_is_box = false -%}
+              {%- for p in other.properties -%}
+                {%- if p.first == '_box_id' -%}{%- assign other_box = p.last -%}{%- endif -%}
+                {%- assign ks = p.first | slice: 0, 6 -%}
+                {%- if ks == 'Sleeve' -%}{%- assign other_is_box = true -%}{%- endif -%}
+              {%- endfor -%}
+              {%- if other_box == this_box and other_is_box == false and other.title != line_item.title -%}
+                {%- assign addon_count = addon_count | plus: 1 -%}
+                <tr><td class="flavor"><span class="check"></span>{{ other.title }}{% if other.variant_title != blank %} — {{ other.variant_title }}{% endif %}</td><td class="num">× {{ other.shipping_quantity }}</td></tr>
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+        {%- endcapture -%}
+        <div class="addons">
+          <div class="label">Add-ons in this box</div>
+          {%- if addon_count > 0 -%}
+            <table class="sleeves">{{ addons_html }}</table>
+          {%- else -%}
+            <div class="none">None</div>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+  {%- endfor -%}
+
+  {%- comment -%} ---------- Other items (not part of a box) ---------- {%- endcomment -%}
+  {%- capture loose -%}
+    {%- for line_item in line_items_in_shipment -%}
+      {%- assign idx_end = forloop.index | prepend: '|' | append: '|' -%}
+      {%- assign test_list = box_ids | append: '|' -%}
+      {%- if test_list contains idx_end -%}{%- continue -%}{%- endif -%}
+      {%- assign lb = '' -%}
+      {%- for p in line_item.properties -%}{%- if p.first == '_box_id' -%}{%- assign lb = p.last -%}{%- endif -%}{%- endfor -%}
+      {%- if lb != '' -%}
+        {%- assign lb_key = lb | prepend: '|' | append: '|' -%}
+        {%- if box_keys contains lb_key -%}{%- continue -%}{%- endif -%}
+      {%- endif -%}
+      <tr><td class="flavor"><span class="check"></span>{{ line_item.title }}{% if line_item.variant_title != blank %} — {{ line_item.variant_title }}{% endif %}{% if line_item.sku != blank %} <span class="sku">{{ line_item.sku }}</span>{% endif %}</td><td class="num">× {{ line_item.shipping_quantity }}</td></tr>
+    {%- endfor -%}
+  {%- endcapture -%}
+  {%- assign loose_trim = loose | strip -%}
+  {%- if loose_trim != '' -%}
+    <div class="box box--plain">
+      <div class="box-head"><span class="box-title">{% if box_number > 0 %}ALSO PACK{% else %}PACK{% endif %}</span></div>
+      <table class="sleeves">{{ loose }}</table>
+    </div>
+  {%- endif -%}
+
+  {%- comment -%} ---------- Shipment flavor totals (only useful with 2+ boxes) ---------- {%- endcomment -%}
+  {%- if box_number > 1 -%}
+    {%- assign all_list = all_flavors | split: '~~' -%}
+    {%- assign all_unique = all_list | uniq | sort -%}
+    <div class="totals">
+      <div class="label">Flavor totals for this shipment</div>
+      {%- for f in all_unique -%}
+        {%- assign n = 0 -%}
+        {%- for s in all_list -%}{%- if s == f -%}{%- assign n = n | plus: 1 -%}{%- endif -%}{%- endfor -%}
+        <span class="pill">{{ f }}: {{ n }} sleeve{% if n != 1 %}s{% endif %}</span>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  {%- unless includes_all_line_items_in_order -%}
+    <div class="partial">Other items from this order are not in this shipment.</div>
+  {%- endunless -%}
+
+  {%- if order.note != blank -%}
+    <div class="notes">
+      <div class="label">Customer / gift note</div>
+      <div>{{ order.note }}</div>
+    </div>
+  {%- endif -%}
+
+  <div class="addresses">
+    <div>
+      <div class="label">Ship to</div>
+      {%- if shipping_address != blank -%}
+        <div>{{ shipping_address.name }}</div>
+        {%- if shipping_address.company != blank -%}<div>{{ shipping_address.company }}</div>{%- endif -%}
+        <div>{{ shipping_address.address1 }}</div>
+        {%- if shipping_address.address2 != blank -%}<div>{{ shipping_address.address2 }}</div>{%- endif -%}
+        <div>{{ shipping_address.city }}, {{ shipping_address.province_code }} {{ shipping_address.zip }}</div>
+        {%- if shipping_address.phone != blank -%}<div>{{ shipping_address.phone }}</div>{%- endif -%}
+      {%- else -%}
+        <div>No shipping address</div>
+      {%- endif -%}
+    </div>
+    <div class="order-meta">
+      <div class="label">Order</div>
+      <div>{{ order.name }}</div>
+      <div>{{ customer.name }}</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Questions? {{ shop.email }} · {{ shop.domain }}<br>
+    Eat within 24 hours or freeze. Reheat: microwave 30 seconds, then toast.
+  </div>
+</div>
+
+<style type="text/css">
+  body { font-size: 15px; }
+  * { box-sizing: border-box; }
+  .wrapper { width: 7.5in; margin: auto; padding: 0.2in 0; font-family: "Helvetica Neue", Arial, sans-serif; color: #000; }
+  .header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #000; padding-bottom: 8px; margin-bottom: 14px; }
+  .shop-title { font-size: 22px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; }
+  .order-title { text-align: right; }
+  .order-number { font-size: 30px; font-weight: 800; line-height: 1; }
+  .order-date { font-size: 13px; }
+  .box { border: 3px solid #000; border-radius: 6px; padding: 10px 14px 12px; margin-bottom: 14px; page-break-inside: avoid; }
+  .box--plain { border-width: 2px; }
+  .box-head { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid #000; padding-bottom: 6px; margin-bottom: 8px; }
+  .box-title { font-size: 22px; font-weight: 800; letter-spacing: 0.04em; }
+  .box-sub { font-size: 13px; }
+  table.sleeves { width: 100%; border-collapse: collapse; font-size: 18px; }
+  table.sleeves th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; border-bottom: 1px solid #000; padding: 2px 0; }
+  table.sleeves td { padding: 5px 0; border-bottom: 1px dashed #999; }
+  table.sleeves .num { text-align: right; width: 18%; font-weight: 800; }
+  table.sleeves .flavor { font-weight: 700; }
+  table.sleeves tr.total td { border-bottom: 0; border-top: 2px solid #000; font-weight: 800; font-size: 15px; }
+  .check { display: inline-block; width: 16px; height: 16px; border: 2px solid #000; margin-right: 10px; vertical-align: -2px; }
+  .sleeve-order { margin-top: 6px; font-size: 12px; }
+  .addons { margin-top: 10px; }
+  .label { font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+  .none { font-size: 14px; }
+  .sku { font-size: 12px; font-weight: 400; }
+  .stop { border: 3px solid #c00; color: #c00; font-weight: 800; font-size: 18px; padding: 10px; }
+  .totals { margin: 4px 0 14px; }
+  .pill { display: inline-block; border: 1px solid #000; border-radius: 999px; padding: 2px 10px; margin: 0 6px 6px 0; font-size: 13px; font-weight: 700; }
+  .partial { font-size: 13px; font-style: italic; margin-bottom: 12px; }
+  .notes { border: 2px dashed #000; padding: 8px 12px; margin-bottom: 14px; font-size: 15px; }
+  .addresses { display: flex; justify-content: space-between; gap: 24px; font-size: 14px; line-height: 1.45; border-top: 1px solid #000; padding-top: 10px; }
+  .order-meta { text-align: right; }
+  .footer { margin-top: 16px; text-align: center; font-size: 11px; line-height: 1.5; }
+</style>
