@@ -14,9 +14,9 @@
       "settings": {
         "layout": "background",
         "text_align": "center",
-        "eyebrow": "New York bagels, shipped.",
+        "eyebrow": "New York bagels, delivered.",
         "heading": "Build your",
-        "heading_accent": "bad boy box",
+        "heading_accent": "Bagel Box",
         "heading_tag": "h1",
         "subheading": "<p>Pick 4 sleeves. 3 bagels each. Your flavors, your rules.</p>",
         "price_product": "build-your-box",
