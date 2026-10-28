@@ -236,3 +236,8 @@ Split upsells into two places instead of forcing everything through the post-pur
 **Renewals:** combined with every-4-weeks billing on a fixed weekday (ADR-007), anchoring renewals to Sunday/Monday means subscription boxes always ship at the start of a window.
 
 **Needed to decide:** ship-from ZIP, carrier, packed weight/dimensions, and carrier cost for 2-day and 3-day across zones 2–8. With that, I'll build a margin table for A/B/C.
+
+
+## Owner-confirmed claims (for copy)
+- 2026-10-28: bagels are **hand-rolled**; About Us line "built by people who've spent their working lives behind a bagel counter" confirmed accurate.
+- Earlier: 30+ years in NY bagel business; 28 retail locations; Long Island commissary (111 Broadway, Amityville); baked and shipped same day; ships Mon–Wed; no preservatives; kosher facility with peanut-free process.
