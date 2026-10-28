@@ -103,7 +103,7 @@
         "anchor": "build",
         "eyebrow": "Your box",
         "heading": "Build your dozen",
-        "lead_enabled": true,
+        "lead_enabled": false,
         "lead_source": "free-minis",
         "lead_text": "Enter your ZIP to check delivery. We'll hold your box and your free minis.",
         "promo_product": "mini-bagels-6",

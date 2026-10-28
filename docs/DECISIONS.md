@@ -243,6 +243,7 @@ Split upsells into two places instead of forcing everything through the post-pur
 - Earlier: 30+ years in NY bagel business; 28 retail locations; Long Island commissary (111 Broadway, Amityville); baked and shipped same day; ships Mon–Wed; no preservatives; kosher facility with peanut-free process.
 
 ## ADR-010 — Lead capture before Subscribe & Save (owner request 2026-10-28)
+**Status 2026-10-28 (13:41 ET): turned OFF by owner** — `lead_enabled` is false in `product.build-your-box` and `page.free-minis` and the default is off. Code stays in the builder; tick “Ask for name, email, phone and ZIP before page 2” in the Theme Editor to bring it back.
 **Decision:** a "Delivery check" step between page 1 (sleeves) and page 2 (add-ons, plan, price).
 - Fields: name, ZIP (required), email (required), phone (optional), unticked text-message opt-in.
 - The ZIP check is real: lower 48 + DC pass; AK, HI, PR/VI, Guam/Pacific territories and APO/FPO get an honest "we can't ship there yet" message and don't continue.

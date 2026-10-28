@@ -161,6 +161,11 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   console.log('12. No subscription plan');
   await p.goto('http://test.local/noplan.html?s=plain,plain,plain,plain&step=2'); await p.waitForLoadState('networkidle');
   ok(!(await p.$('[data-bbb-option][value="subscription"]')) && await p.isChecked('[data-bbb-option][value="once"]') && (await total()) === '$45.95', 'only one-time, pre-selected, $45.95');
+  ok(!(await p.$('[data-bbb-view="lead"]')) && !(await p.$('[data-bbb-stepnav="lead"]')), 'delivery check off: no lead view or step');
+  await p.evaluate(() => localStorage.clear());
+  await p.goto('http://test.local/noplan.html?s=plain,plain,plain,plain'); await p.waitForLoadState('networkidle');
+  await p.click(barNext);
+  ok((await step()) === '2', 'delivery check off: Next goes straight to page 2');
 
   console.log('13. Delivery check (lead step)');
   const ctx2 = await b.newContext({ viewport: { width: 390, height: 844 } });

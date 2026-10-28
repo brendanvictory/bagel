@@ -39,6 +39,7 @@ const product = { id: 1, url: '/products/build-your-box', title: 'Build Your Doz
   let src = fs.readFileSync(path.join(THEME, 'sections', 'bbb-box-builder.liquid'), 'utf8');
   const schema = JSON.parse(src.match(/{% schema %}([\s\S]*?){% endschema %}/)[1]);
   const settings = {}; for (const s of schema.settings) if ('default' in s) settings[s.id] = s.default;
+  settings.lead_enabled = process.env.NOLEAD !== '1'; // step is off in the live templates; keep it under test
   if (process.env.PROMO === '1') {
     Object.assign(settings, { product, heading_tag: 'h2', lead_source: 'free-minis', promo_product: product.metafields.custom.addons.value[0], promo_code: 'FREEMINIS' });
     product.metafields.custom.addons.value[0].id = 501; product.metafields.custom.addons.value[1].id = 502;

@@ -2,7 +2,9 @@
   "sections": {
     "builder": {
       "type": "bbb-box-builder",
-      "settings": {}
+      "settings": {
+        "lead_enabled": false
+      }
     },
     "faq": {
       "type": "bbb-faq",
