@@ -43,6 +43,11 @@ Date: 2026-10-27 · Architecture: ADR-002 **Option C** (custom theme builder + S
 5. **Shipping:** in Settings → Shipping and delivery, give these products a **$0 rate** (shipping is included in the price).
 6. **Payments:** test mode / Bogus Gateway on.
 
+### Update 2026-10-27 (evening)
+- Owner set products Active and created Shopify Subscriptions plans: box "Deliver every 4 weeks, $6.00 off" (fixed $6 → $39.95); add-ons "Deliver every 4 weeks" (no discount). Verified via Admin API: both 4-week billing and delivery.
+- Products were not on the Online Store channel (storefront 404) — published all three.
+- Builder now matches add-ons to the box's plan by **delivery frequency option** ("Deliver every 4 weeks"), not by plan name, so add-ons recur even though the plan names differ. Frequency text shows the option value. 46/46 tests pass.
+
 ## 5. Blockers / open risks (honest status)
 1. **Renewal composition is unproven.** Whether Shopify Subscriptions copies the `Sleeve 1–4` properties onto renewal orders must be tested with a real test checkout + renewal (ADR-002 POC steps 3–6). If it doesn't, ADR-002 says fall back to Appstle.
 2. **Two plans → one or two renewal orders?** If box and add-ons sit on different plans, Shopify may create two subscription contracts (two renewal orders, two shipments). Must check in the same test. Fallbacks: one shared plan with a %-discount and adjusted add-on prices, or Appstle.

@@ -46,7 +46,12 @@
     if (state.option !== 'subscription' || !state.planId) return null;
     if (a.plans[String(state.planId)] != null) return String(state.planId);
     const p = plan();
-    const match = p && Object.entries(a.planNames || {}).find(([, name]) => name.trim().toLowerCase() === p.name.trim().toLowerCase());
+    if (!p) return null;
+    const norm = (x) => String(x || '').trim().toLowerCase();
+    // 1) same delivery frequency option (e.g., "Deliver every 4 weeks"), 2) same plan name.
+    const byKey = p.key && Object.entries(a.planKeys || {}).find(([, k]) => norm(k) === norm(p.key));
+    const byName = Object.entries(a.planNames || {}).find(([, n]) => norm(n) === norm(p.name));
+    const match = byKey || byName;
     return match ? match[0] : null;
   };
   const addonPrice = (a) => {
@@ -123,7 +128,7 @@
       disc.hidden = !(state.option === 'subscription' && p);
       if (p) {
         $$('[data-bbb-disc-price]', disc).forEach((e) => (e.textContent = formatMoney(total())));
-        const freq = p.name.toLowerCase().replace(/^(delivered|ships?|renews?)\s+/, '');
+        const freq = (p.key || p.name).toLowerCase().split(',')[0].replace(/^(deliver(ed|y)?|ships?|renews?)\s+/, '').trim();
         $$('[data-bbb-disc-freq]', disc).forEach((e) => (e.textContent = freq));
       }
     }

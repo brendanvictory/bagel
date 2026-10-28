@@ -73,7 +73,7 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   ok(items[0].id === 67907099787506 && items[0].selling_plan === 690001, 'box line has variant + selling plan');
   ok(['Sleeve 1', 'Sleeve 2', 'Sleeve 3', 'Sleeve 4'].map((k) => items[0].properties[k]).join('|') === 'Everything|Plain|Sesame|Everything' || ['Sleeve 1','Sleeve 2','Sleeve 3','Sleeve 4'].every((k) => items[0].properties[k]), 'box line has Sleeve 1–4 properties');
   ok(!!items[0].properties._box_id && items[1].properties._box_id === items[0].properties._box_id, 'add-on linked by the same _box_id');
-  ok(items[1].id === 1001 && items[1].selling_plan === 690001, 'add-on subscribed on the same plan (recurs)');
+  ok(items[1].id === 1001 && items[1].selling_plan === 690002, 'add-on subscribed on its own every-4-weeks plan (recurs)');
   ok(Object.keys(items[0].properties).filter((k) => k.startsWith('Sleeve')).length === 4, 'exactly 4 sleeve properties');
 
   console.log('8. Refresh restores state');
@@ -115,7 +115,11 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   ok((await total()).trim() === '$49.90', 'chips priced from their own plan ($39.95 + $9.95)');
   await p.click('.bbb-summary__add', { force: true }); await p.waitForURL('**/cart');
   { const it = calls.find((c) => c.path === '/cart/add.js').body.items;
-    ok(it[0].selling_plan === 690001 && it[1].id === 1002 && it[1].selling_plan === 690002, 'chips subscribed on their matching every-4-weeks plan'); }
+    ok(it[0].selling_plan === 690001 && it[1].id === 1002 && it[1].selling_plan === 690002, 'chips matched by delivery frequency, not plan name'); }
+  console.log('11c. Frequency text');
+  await go('?s=plain,plain,plain,plain&o=690001');
+  ok((await p.textContent('.bbb-option__freq')).trim() === 'Deliver every 4 weeks', 'card shows "Deliver every 4 weeks" (not the $6 off plan name)');
+  ok((await p.textContent('[data-bbb-disclosure]')).includes('Renews automatically every 4 weeks at $39.95'), 'disclosure reads "every 4 weeks at $39.95"');
   console.log('12. No plan on product');
   await p.goto('http://test.local/noplan.html'); await p.waitForLoadState('networkidle');
   ok(!(await p.$('[data-bbb-option][value="subscription"]')) && await p.isChecked('[data-bbb-option][value="once"]'), 'only one-time option, pre-selected');

@@ -12,12 +12,12 @@ engine.registerFilter('json', (x) => JSON.stringify(x));
 engine.registerFilter('structured_data', () => '{}');
 const names = ['Plain','Everything','Sesame','Poppy','Onion','Garlic','Cinnamon Raisin','Egg','Whole Wheat','Pumpernickel'];
 const flavors = names.map((n) => ({ system: { handle: n.toLowerCase().replace(/ /g, '-') }, name: { value: n }, available: { value: n !== 'Pumpernickel' }, description: { value: '' }, allergens: { value: '' } }));
-const plan = { id: 690001, name: 'Delivered every 4 weeks' };
-const addonPlan = { id: 690002, name: 'Delivered every 4 weeks' };
+const plan = { id: 690001, name: 'Deliver every 4 weeks, $6.00 off', options: [{ name: 'Delivery frequency', value: 'Deliver every 4 weeks' }] };
+const addonPlan = { id: 690002, name: 'Deliver every 4 weeks', options: [{ name: 'Delivery frequency', value: 'Deliver every 4 weeks' }] };
 const addon = (id, t, pl) => ({ title: t, selected_or_first_available_variant: { id, price: 995, available: true, selling_plan_allocations: WITH_PLAN ? [{ price: 995, selling_plan: pl || plan }] : [] } });
 const product = { id: 1, url: '/products/build-your-box', title: 'Build Your Dozen',
   selected_or_first_available_variant: { id: 67907099787506, price: 4595, selling_plan_allocations: WITH_PLAN ? [{ price: 3995, selling_plan: plan }] : [] },
-  metafields: { custom: { flavors: { value: flavors }, addons: { value: [addon(1001, 'Mini Bagels (6)'), addon(1002, 'Bagel Chips', addonPlan)] }, sleeves_per_box: { value: 4 }, bagels_per_sleeve: { value: 3 } } } };
+  metafields: { custom: { flavors: { value: flavors }, addons: { value: [addon(1001, 'Mini Bagels (6)', addonPlan), addon(1002, 'Bagel Chips', addonPlan)] }, sleeves_per_box: { value: 4 }, bagels_per_sleeve: { value: 3 } } } };
 (async () => {
   let src = fs.readFileSync(path.join(THEME, 'sections', 'bbb-box-builder.liquid'), 'utf8');
   const schema = JSON.parse(src.match(/{% schema %}([\s\S]*?){% endschema %}/)[1]);

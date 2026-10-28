@@ -175,12 +175,12 @@
                       <label class="bbb-option__freq-label" for="bbb-freq-{{ section.id }}">Choose frequency</label>
                       <select id="bbb-freq-{{ section.id }}" class="bbb-form__input" data-bbb-plan>
                         {%- for alloc in variant.selling_plan_allocations -%}
-                          <option value="{{ alloc.selling_plan.id }}" data-price="{{ alloc.price }}"{% if alloc.selling_plan.id == best_alloc.selling_plan.id %} selected{% endif %}>{{ alloc.selling_plan.name | escape }}</option>
+                          <option value="{{ alloc.selling_plan.id }}" data-price="{{ alloc.price }}"{% if alloc.selling_plan.id == best_alloc.selling_plan.id %} selected{% endif %}>{{ alloc.selling_plan.options | map: 'value' | join: ' / ' | default: alloc.selling_plan.name | escape }}</option>
                         {%- endfor -%}
                       </select>
                     {%- else -%}
                       <input type="hidden" value="{{ best_alloc.selling_plan.id }}" data-bbb-plan>
-                      <p class="bbb-option__freq">{{ best_alloc.selling_plan.name | escape }}</p>
+                      <p class="bbb-option__freq">{{ best_alloc.selling_plan.options | map: 'value' | join: ' / ' | default: best_alloc.selling_plan.name | escape }}</p>
                     {%- endif -%}
                     {%- if section.settings.sub_note != blank -%}<p class="bbb-option__note">{{ section.settings.sub_note | escape }}</p>{%- endif -%}
                   </div>
@@ -238,7 +238,7 @@
         "cartUpdateUrl": {{ routes.cart_update_url | append: '.js' | json }},
         "plans": [
           {%- for alloc in variant.selling_plan_allocations -%}
-            { "id": {{ alloc.selling_plan.id | json }}, "name": {{ alloc.selling_plan.name | json }}, "price": {{ alloc.price | json }} }{% unless forloop.last %},{% endunless %}
+            { "id": {{ alloc.selling_plan.id | json }}, "name": {{ alloc.selling_plan.name | json }}, "key": {{ alloc.selling_plan.options | map: 'value' | join: ' / ' | json }}, "price": {{ alloc.price | json }} }{% unless forloop.last %},{% endunless %}
           {%- endfor -%}
         ],
         "addons": [
@@ -256,6 +256,11 @@
               "planNames": {
                 {%- for alloc in av.selling_plan_allocations -%}
                   {{ alloc.selling_plan.id | append: '' | json }}: {{ alloc.selling_plan.name | json }}{% unless forloop.last %},{% endunless %}
+                {%- endfor -%}
+              },
+              "planKeys": {
+                {%- for alloc in av.selling_plan_allocations -%}
+                  {{ alloc.selling_plan.id | append: '' | json }}: {{ alloc.selling_plan.options | map: 'value' | join: ' / ' | json }}{% unless forloop.last %},{% endunless %}
                 {%- endfor -%}
               }
             }{% unless forloop.last %},{% endunless %}
