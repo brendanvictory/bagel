@@ -18,9 +18,15 @@
         "text": "<p>Anyone can put a bagel in a box. We've spent over 30 years making them for New Yorkers across 28 retail locations — here's what that means for the dozen on your doorstep.</p>",
         "cta_label": "Build your box",
         "cta_link": "shopify://products/build-your-box",
+        "cta2_label": "",
+        "cta2_link": "",
         "show_image": true,
+        "image": "shopify://shop_images/Warm_Morning_at_the_Neighborhood_Bagel_Shop.png",
         "image_alt": "A dozen fresh Bad Boy bagels",
-        "color_scheme": "scheme-5"
+        "spray": true,
+        "color_scheme": "scheme-5",
+        "padding_top": 48,
+        "padding_bottom": 56
       }
     },
     "reasons": {
@@ -81,9 +87,11 @@
         "eyebrow": "The short version",
         "heading": "Six reasons to go",
         "heading_accent": "bad boy.",
-        "color_scheme": "scheme-1",
+        "text": "<p>Here's what goes into every box.</p>",
         "anchor": "reasons",
-        "text": "<p>Here's what goes into every box.</p>"
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 48
       }
     },
     "sleeves": {
@@ -117,6 +125,7 @@
         "p3"
       ],
       "settings": {
+        "image": "shopify://shop_images/Family_bagel_breakfast_in_sunlight.png",
         "image_alt": "Bagels packed in sleeves of three",
         "image_position": "right",
         "ratio": "4 / 3",
@@ -124,7 +133,12 @@
         "heading": "Built for",
         "heading_accent": "real mornings.",
         "text": "<p>Every flavor comes in its own sleeve of three. That makes your dozen easy to split, share and stash — no more stale bagels at the bottom of a bag.</p>",
-        "color_scheme": "scheme-2"
+        "cta_label": "",
+        "cta_link": "",
+        "anchor": "",
+        "color_scheme": "scheme-2",
+        "padding_top": 48,
+        "padding_bottom": 48
       }
     },
     "subscribe": {
@@ -158,6 +172,7 @@
         "p3"
       ],
       "settings": {
+        "image": "shopify://shop_images/Colorful_bagels_on_pure_white.png",
         "image_alt": "A Bad Boy Bagel Co. box on a doorstep",
         "image_position": "left",
         "ratio": "4 / 3",
@@ -167,7 +182,10 @@
         "text": "<p>Set it once and a fresh dozen shows up every four weeks — for less than a one-time box.</p>",
         "cta_label": "Build your box",
         "cta_link": "shopify://products/build-your-box",
-        "color_scheme": "scheme-1"
+        "anchor": "",
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 48
       }
     },
     "gallery": {
@@ -178,7 +196,14 @@
         "heading": "Pick your",
         "heading_accent": "flavors.",
         "text": "<p>Tap a flavor to start your box.</p>",
-        "color_scheme": "scheme-2"
+        "card_cta": "Start a box",
+        "cta_label": "Build your box",
+        "show_addons": true,
+        "hide_unavailable": true,
+        "anchor": "flavors",
+        "color_scheme": "scheme-2",
+        "padding_top": 56,
+        "padding_bottom": 56
       }
     },
     "cta": {
@@ -190,7 +215,10 @@
         "cta_link": "shopify://products/build-your-box",
         "bundled_bg": "pile",
         "overlay_opacity": 55,
-        "color_scheme": "scheme-3"
+        "spray": true,
+        "color_scheme": "scheme-3",
+        "padding_top": 56,
+        "padding_bottom": 56
       }
     }
   },
