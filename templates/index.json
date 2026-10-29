@@ -25,6 +25,7 @@
         "cta_link": "shopify://products/build-your-box",
         "cta2_label": "How it works",
         "cta2_link": "",
+        "image": "shopify://shop_images/Colorful_bagels_on_pure_white.png",
         "use_bundled_photo": true,
         "overlay_opacity": 30,
         "height": "medium",
