@@ -5,7 +5,7 @@ Last updated: 2026-10-27 (rev 2: sleeve model, pricing, post-purchase upsells) �
 
 ## Owner-confirmed requirements (2026-10-27)
 
-- **R1 — Sleeves of 3.** Bagels are packed in sleeves of 3, one flavor per sleeve. A dozen = 4 sleeves, so a dozen can hold at most 4 flavors.
+- **R1 — Sleeves of 4** *(corrected by owner 2026-10-30; was sleeves of 3)*. Bagels are packed in sleeves of 4, one flavor per sleeve. A dozen = 3 sleeves, so a dozen can hold at most 3 flavors. Set by product metafields `custom.sleeves_per_box` = 3 and `custom.bagels_per_sleeve` = 4; the builder, cart properties (`Sleeve 1–3`) and packing slip follow them. Orders #1001/#1002 and the test contract predate the change and carry 4 sleeves.
 - **R2 — Post-purchase one-click upsells.** After checkout, offer one-click add-ons (examples: 6 free mini bagels, free bagel chips). The owner must be able to add new offer variations without code.
 - **R3 — Subscribe & save pricing (revised 2026-10-27).** Dozen: **$45.95 one-time**, **$39.95 per shipment every 4 weeks** ($6.00 / ~13% off). **Shipping included** in both (ADR-009 Option A).
 - **R8 — Add-on prices.** Mini Bagels (6) **$9.95**, Bagel Chips **$9.95**; they recur on every subscription shipment once added.
@@ -66,7 +66,7 @@ Sources: Shopify Help Center (bundles eligibility), shopify.dev (bundles; subscr
 
 ### How R1 and R3 change the options
 
-- **The unit of selection is a sleeve, not a bagel.** The builder asks for 4 sleeves ("Pick 4 sleeves — 3 bagels each"), not 12 individual bagels. That's fewer taps on mobile, and the "max 4 flavors" rule enforces itself.
+- **The unit of selection is a sleeve, not a bagel.** The builder asks for 3 sleeves ("Pick 3 sleeves — 4 bagels each"), not 12 individual bagels. That's fewer taps on mobile, and the "max 3 flavors" rule enforces itself.
 - **Each flavor becomes a sleeve SKU** (e.g., "Everything — Sleeve of 3"). The pick list then reads "Everything × 2 sleeves, Plain × 1, Sesame × 1," which matches how packers work.
 - **The box price is fixed** regardless of flavor mix. Fixed-price boxes are the simplest case for every option: Appstle's fixed-price build-a-box, Skio's Static Build-a-Box, or Option C's single product with two prices.
 - **One interval (every 4 weeks)** cuts subscription test scope roughly in half.
@@ -85,7 +85,7 @@ Sources: Shopify Help Center (bundles eligibility), shopify.dev (bundles; subscr
 
 Each run on the dev store with Shopify's Bogus Gateway (no real money):
 
-1. Build a dozen from 4 sleeves: 2 × Everything, 1 × Plain, 1 × Sesame. Also test 4 different flavors, and 4 × the same flavor. Confirm a 5th sleeve can't be added.
+1. Build a dozen from 3 sleeves: 2 × Everything, 1 × Plain. Also test 3 different flavors, and 3 × the same flavor. Confirm a 4th sleeve can't be added.
 2. Check out one-time → screenshot cart, order admin, packing slip.
 3. Check out subscription (every 2 weeks) → same screenshots + subscription contract record.
 4. Trigger first renewal (app's "process now"/billing attempt) → confirm the renewal order contains the same four flavors and counts.
@@ -200,7 +200,7 @@ A $0 offer (free minis/chips) is an engagement/retention gift, not AOV. Shopify'
 
 Split upsells into two places instead of forcing everything through the post-purchase page:
 
-1. **Recurring add-ons go in the builder, before checkout** — a final "Add to every box" step after the 4 sleeves: "+ 6 mini bagels — FREE every shipment," "+ Bagel chips — FREE every shipment." Because they're in the cart with the subscription, they become part of the subscription contract natively and recur on every renewal with every subscription option (A, B or C). They also reach **Apple Pay / Google Pay buyers**, who never see a post-purchase page. Offers are managed as theme settings (pick product, label, on/off) — editable without code.
+1. **Recurring add-ons go in the builder, before checkout** — a final "Add to every box" step after the sleeves: "+ 6 mini bagels — FREE every shipment," "+ Bagel chips — FREE every shipment." Because they're in the cart with the subscription, they become part of the subscription contract natively and recur on every renewal with every subscription option (A, B or C). They also reach **Apple Pay / Google Pay buyers**, who never see a post-purchase page. Offers are managed as theme settings (pick product, label, on/off) — editable without code.
 2. **Post-purchase page is for one-time "this box only" extras**, or recurring adds **only if** the chosen apps can write to the existing subscription. Per AfterSell's docs that's confirmed only with Recharge, Skio, Loop or Stay AI connected; UpsellPlus's Appstle integration describes upgrading a subscription, not adding an item to it. **Unverified for Appstle and Shopify Subscriptions.**
 
 **Business check:** a free item on every renewal is a permanent cost on every 4-week shipment. Confirm minis/chips cost + pack weight fits the $39.95 margin, or make them paid add-ons (e.g., "+$4.95 every box").

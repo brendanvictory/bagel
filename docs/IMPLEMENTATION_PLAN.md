@@ -50,7 +50,7 @@ Source of truth: `Bad_Boy_Bagel_Co_Claude_Shopify_Build_Scope.docx` v1.0. Decisi
 **Catalog & box (blocks ADR-002 POC config + Phase 2)**
 - Q-BOX-1: Box sizes — 6, 12, 18, 24? Is 12 the only launch size?
 - Q-BOX-2: Launch flavor list (and any premium flavors with an upcharge)?
-- ~~Q-BOX-3~~ **Answered:** sleeves of 3, one flavor per sleeve; dozen = 4 sleeves, max 4 flavors.
+- ~~Q-BOX-3~~ **Answered:** sleeves of 4, one flavor per sleeve; dozen = 3 sleeves, max 3 flavors (corrected 2026-10-30).
 - ~~Q-BOX-3b~~ **Answered:** yes, same flavor allowed in multiple sleeves.
 - Q-BOX-4: Add-ons beyond the upsells (cream cheese/spreads, merch)? (Spreads are more perishable — cold chain?)
 - Q-BOX-5: Curated "house assortment" box in addition to build-your-own?
@@ -121,7 +121,7 @@ Timing ranges are from scope §11 and depend on answers/approvals above.
 ### Phase 2 — Catalog, box builder, cart (5–10 days)
 - Products/variants/collections created in admin (or via CSV); metafields for ingredients, allergens, storage
 - Sleeve products: one SKU per flavor ("Everything — Sleeve of 3"), plus Mini Bagels ×6 and Bagel Chips as upsell SKUs
-- Box builder per approved ADR-002 option, with live "X of 4 sleeves" count, accessible steppers, validation, sold-out handling, edit-from-cart
+- Box builder per approved ADR-002 option, with live "X of 3 sleeves" count, accessible steppers, validation, sold-out handling, edit-from-cart
 - Cart shows flavor breakdown; packing slip template shows it too
 **Exit gate:** POC test script passes on the real build.
 

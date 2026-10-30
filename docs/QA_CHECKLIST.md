@@ -15,8 +15,8 @@ Test environment: unpublished development theme on a dev/staging store, Shopify 
 - [ ] Graffiti art never clipped at 360 / 390 / 768 / 1024 / 1440 px
 
 ## 2. Box builder (P0) — mirrors ADR-002 POC script
-- [ ] Builder counts in sleeves: "X of 4 sleeves (3 bagels each)" updates and is announced to screen readers (`aria-live="polite"`)
-- [ ] Add-to-cart disabled until exactly 4 sleeves are chosen; 5th sleeve cannot be added; clear error text explains why
+- [ ] Builder counts in sleeves: "X of 3 sleeves (4 bagels each)" updates and is announced to screen readers (`aria-live="polite"`)
+- [ ] Add-to-cart disabled until exactly 3 sleeves are chosen; 4th sleeve cannot be added; clear error text explains why
 - [ ] Same flavor allowed in multiple sleeves (if Q-BOX-3b confirmed); never more than 4 flavors; sold-out flavors disabled and labeled
 - [ ] Rapid taps / double-click on Add produce exactly one cart line
 - [ ] Back button / refresh preserves or cleanly resets selection
