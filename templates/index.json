@@ -18,7 +18,7 @@
         "heading": "Build your",
         "heading_accent": "Bagel Box",
         "heading_tag": "h1",
-        "subheading": "<h2>Pick 4 sleeves. 3 bagels each. Your flavors, your rules.</h2><p>Always Free Shipping.&nbsp;</p>",
+        "subheading": "<h2>Pick 3 sleeves. 4 bagels each. Your flavors, your rules.</h2><p>Always Free Shipping.&nbsp;</p>",
         "price_product": "build-your-box",
         "show_price": false,
         "cta_label": "Build your box",
@@ -45,7 +45,7 @@
           "type": "step",
           "settings": {
             "title": "Pick your bagels",
-            "text": "<p>Every dozen is 4 sleeves of 3. Choose up to 4 flavors — or go all-in on one.</p>"
+            "text": "<p>Every dozen is 3 sleeves of 4. Choose up to 3 flavors — or go all-in on one.</p>"
           }
         },
         "s2": {
@@ -200,7 +200,7 @@
           "type": "stage",
           "settings": {
             "kicker": "Step 2",
-            "title": "Packed in sleeves of 3",
+            "title": "Packed in sleeves of 4",
             "text": "<p>Each flavor goes in its own sleeve the same day it's baked.</p>"
           }
         },
@@ -277,7 +277,7 @@
           "type": "question",
           "settings": {
             "question": "How does the box work?",
-            "answer": "<p>Every dozen is 4 sleeves of 3 bagels. Pick a flavor for each sleeve — up to 4 flavors, or the same flavor in every sleeve.</p>"
+            "answer": "<p>Every dozen is 3 sleeves of 4 bagels. Pick a flavor for each sleeve — up to 3 flavors, or the same flavor in every sleeve.</p>"
           }
         },
         "q2": {

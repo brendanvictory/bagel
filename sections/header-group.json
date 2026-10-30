@@ -17,7 +17,7 @@
         "announcement-bar-0": {
           "type": "announcement",
           "settings": {
-            "text": "Build your dozen: 4 sleeves, up to 4 flavors",
+            "text": "Build your dozen: 3 sleeves, up to 3 flavors",
             "text_alignment": "center",
             "color_scheme": "scheme-4",
             "link": ""

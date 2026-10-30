@@ -1,5 +1,5 @@
 /* Bad Boy Bagel Co. — Build Your Box (ADR-002 Option C)
-   Page 1: pick exactly N sleeves (default 4), repeats allowed, no pricing shown.
+   Page 1: pick exactly N sleeves (3 of 4 bagels per the product settings), repeats allowed, no pricing shown.
    Lead step (optional): name, email, phone, ZIP → delivery check → Shopify customer tagged "lead".
    Page 2: add-ons, one-time vs subscription, pricing, checkout.
    Promo mode (landing pages): a free one-time item rides with the box; the discount code is applied

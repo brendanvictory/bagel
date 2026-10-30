@@ -7,8 +7,8 @@
   Data (Shopify-native, nothing hardcoded):
     product.metafields.custom.flavors          bagel_flavor metaobjects (name, image, description, allergens, available)
     product.metafields.custom.addons           add-on products
-    product.metafields.custom.sleeves_per_box  default 4
-    product.metafields.custom.bagels_per_sleeve default 3
+    product.metafields.custom.sleeves_per_box  default 3
+    product.metafields.custom.bagels_per_sleeve default 4
     variant price + selling plans              one-time price and Shopify Subscriptions plans
   Cart: 1 box line with properties "Sleeve 1".."Sleeve N" + hidden "_box_id"; add-on lines with the same
   "_box_id", subscribed on a plan with the same delivery frequency so they recur.
@@ -36,8 +36,8 @@
   endif
 
   assign variant = bp.selected_or_first_available_variant
-  assign sleeves = bp.metafields.custom.sleeves_per_box.value | default: 4
-  assign per_sleeve = bp.metafields.custom.bagels_per_sleeve.value | default: 3
+  assign sleeves = bp.metafields.custom.sleeves_per_box.value | default: 3
+  assign per_sleeve = bp.metafields.custom.bagels_per_sleeve.value | default: 4
   assign total_bagels = sleeves | times: per_sleeve
   assign flavors = bp.metafields.custom.flavors.value
   assign addons = bp.metafields.custom.addons.value
@@ -92,7 +92,7 @@
     <div class="bbb-view" data-bbb-view="1">
       <header class="bbb-builder__head">
         {%- if section.settings.eyebrow != blank -%}<p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
-        <{{ heading_tag }} id="bbb-builder-title-{{ section.id }}" class="bbb-display bbb-display--l" tabindex="-1" data-bbb-focus="1">{{ section.settings.heading | default: bp.title | escape }}</{{ heading_tag }}>
+        <{{ heading_tag }} id="bbb-builder-title-{{ section.id }}" class="bbb-display bbb-display--l" tabindex="-1" data-bbb-focus="1">{{ section.settings.heading | default: bp.title | replace: '[sleeves]', sleeves | escape }}</{{ heading_tag }}>
         <p class="bbb-builder__sub">
           {{- section.settings.subheading | replace: '[sleeves]', sleeves | replace: '[per_sleeve]', per_sleeve | replace: '[total]', total_bagels | escape -}}
         </p>
@@ -107,7 +107,7 @@
       {%- endif -%}
 
       <div class="bbb-tray" aria-label="Your sleeves">
-        <ol class="bbb-tray__slots" role="list" data-bbb-slots>
+        <ol class="bbb-tray__slots" role="list" data-bbb-slots style="--bbb-sleeves: {{ sleeves }};">
           {%- for i in (1..sleeves) -%}
             <li>
               <button type="button" class="bbb-slot" data-bbb-slot="{{ forloop.index0 }}" disabled>
@@ -482,7 +482,7 @@
     { "type": "text", "id": "nav1", "label": "Step 1 name", "default": "Pick flavors" },
     { "type": "text", "id": "nav2", "label": "Step 2 name", "default": "Add-ons & plan" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Build your box" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Pick your 4 sleeves", "info": "Defaults to the product title when empty." },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Pick your [sleeves] sleeves", "info": "[sleeves] is filled from the product. Defaults to the product title when empty." },
     { "type": "text", "id": "subheading", "label": "Subheading", "default": "[sleeves] sleeves of [per_sleeve] — [total] bagels. Mix up to [sleeves] flavors, or double up on your favorite.", "info": "Use [sleeves], [per_sleeve] and [total]; filled from the product." },
     { "type": "text", "id": "tray_hint", "label": "Tray hint", "default": "Each sleeve holds [per_sleeve] bagels of one flavor. Tap a sleeve to remove it." },
     { "type": "text", "id": "progress_label", "label": "Progress text", "default": "[n] of [total] sleeves selected", "info": "Use [n] and [total]." },

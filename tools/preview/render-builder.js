@@ -34,7 +34,7 @@ const addonPlan = { id: 690002, name: 'Deliver every 4 weeks', options: [{ name:
 const addon = (id, t, pl) => ({ title: t, selected_or_first_available_variant: { id, price: 995, available: true, selling_plan_allocations: WITH_PLAN ? [{ price: 995, selling_plan: pl || plan }] : [] } });
 const product = { id: 1, url: '/products/build-your-box', title: 'Build Your Dozen',
   selected_or_first_available_variant: { id: 67907099787506, price: 4595, selling_plan_allocations: WITH_PLAN ? [{ price: 3995, selling_plan: plan }] : [] },
-  metafields: { custom: { flavors: { value: flavors }, addons: { value: [addon(1001, 'Mini Bagels (6)', addonPlan), addon(1002, 'Bagel Chips', addonPlan)] }, sleeves_per_box: { value: 4 }, bagels_per_sleeve: { value: 3 } } } };
+  metafields: { custom: { flavors: { value: flavors }, addons: { value: [addon(1001, 'Mini Bagels (6)', addonPlan), addon(1002, 'Bagel Chips', addonPlan)] }, sleeves_per_box: { value: 3 }, bagels_per_sleeve: { value: 4 } } } };
 (async () => {
   let src = fs.readFileSync(path.join(THEME, 'sections', 'bbb-box-builder.liquid'), 'utf8');
   const schema = JSON.parse(src.match(/{% schema %}([\s\S]*?){% endschema %}/)[1]);

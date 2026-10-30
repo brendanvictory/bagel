@@ -27,7 +27,7 @@
         "c3": {
           "type": "chip",
           "settings": {
-            "text": "Mix up to 4 flavors"
+            "text": "Mix up to 3 flavors"
           }
         }
       },
@@ -69,7 +69,7 @@
           "type": "step",
           "settings": {
             "title": "Build your dozen",
-            "text": "<p>Pick 4 sleeves of 3. Mix up to 4 flavors, or go all-in on your favorite.</p>"
+            "text": "<p>Pick 3 sleeves of 4. Mix up to 3 flavors, or go all-in on your favorite.</p>"
           }
         },
         "s2": {

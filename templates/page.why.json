@@ -64,7 +64,7 @@
           "type": "value",
           "settings": {
             "title": "Your dozen, your way",
-            "text": "<p>Four sleeves of three. Mix up to four flavors or go all-in on one.</p>"
+            "text": "<p>Three sleeves of four. Mix up to three flavors or go all-in on one.</p>"
           }
         },
         "r6": {
@@ -126,13 +126,13 @@
       ],
       "settings": {
         "image": "shopify://shop_images/Family_bagel_breakfast_in_sunlight.png",
-        "image_alt": "Bagels packed in sleeves of three",
+        "image_alt": "Bagels packed in sleeves of four",
         "image_position": "right",
         "ratio": "4 / 3",
-        "eyebrow": "Sleeves of 3, on purpose",
+        "eyebrow": "Sleeves of 4, on purpose",
         "heading": "Built for",
         "heading_accent": "real mornings.",
-        "text": "<p>Every flavor comes in its own sleeve of three. That makes your dozen easy to split, share and stash — no more stale bagels at the bottom of a bag.</p>",
+        "text": "<p>Every flavor comes in its own sleeve of four. That makes your dozen easy to split, share and stash — no more stale bagels at the bottom of a bag.</p>",
         "cta_label": "",
         "cta_link": "",
         "anchor": "",

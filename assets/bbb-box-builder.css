@@ -33,13 +33,13 @@
 .bbb-builder__sub { margin: 0; font-size: 1.7rem; color: var(--bbb-muted); max-width: 56rem; }
 .bbb-builder__head--left { text-align: left; justify-items: start; }
 
-/* ---------- Tray (4 sleeves) ---------- */
+/* ---------- Tray (one slot per sleeve) ---------- */
 .bbb-tray {
   background: var(--bbb-card); border: 0.1rem solid var(--bbb-line); border-radius: 1.6rem; padding: var(--bbb-space-2);
   display: grid; gap: var(--bbb-space-2); box-shadow: 0 0.2rem 1.2rem rgba(16,16,16,0.04);
 }
 @media screen and (min-width: 990px) { .bbb-tray { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); align-items: center; padding: var(--bbb-space-3); } }
-.bbb-tray__slots { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.8rem; }
+.bbb-tray__slots { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(var(--bbb-sleeves, 4), minmax(0, 1fr)); gap: 0.8rem; }
 .bbb-slot {
   width: 100%; display: grid; gap: 0.4rem; justify-items: center; padding: 0; border: 0; background: none; font: inherit; color: inherit; cursor: pointer;
 }
@@ -216,7 +216,7 @@
   .bbb-stepnav__item:not([aria-current='step']) .bbb-stepnav__label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .bbb-stepnav__item + .bbb-stepnav__item::before { width: 1.6rem; margin-right: 0.4rem; }
 }
-@media screen and (min-width: 990px) { .bbb-tray__slots { max-width: 52rem; } }
+@media screen and (min-width: 990px) { .bbb-tray__slots { max-width: calc(var(--bbb-sleeves, 4) * 13rem); } }
 
 /* ---------- Lead step (delivery check) ---------- */
 .bbb-builder[data-step='lead'] .bbb-bar { display: none; }
