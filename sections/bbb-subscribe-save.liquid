@@ -27,7 +27,7 @@
     <div class="nybe-subbanner__card">
       {%- assign sb_img = section.settings.banner_image | default: box.featured_image -%}
       {%- if sb_img != blank -%}
-        <div class="nybe-subbanner__media" aria-hidden="true">{{ sb_img | image_url: width: 640 | image_tag: loading: 'lazy', widths: '320, 480, 640', sizes: '(min-width: 750px) 300px, 70vw', alt: '' }}</div>
+        <div class="nybe-subbanner__media" aria-hidden="true">{{ sb_img | image_url: width: 1100 | image_tag: loading: 'lazy', widths: '400, 600, 800, 1100', sizes: '(min-width: 1200px) 420px, (min-width: 750px) 36vw, 100vw', alt: '' }}</div>
       {%- endif -%}
       <div class="nybe-subbanner__copy">
         {%- if section.settings.eyebrow != blank -%}<p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}

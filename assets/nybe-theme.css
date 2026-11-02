@@ -314,11 +314,13 @@ body { color: var(--nybe-navy); }
 
 /* ---------- Subscribe banner ---------- */
 .nybe-subbanner__card {
-  display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.8rem; align-items: center; max-width: 112rem; margin-inline: auto;
-  padding: 2.8rem 2.4rem 3.2rem; border-radius: 2.8rem; background: linear-gradient(120deg, #fff4e2 0%, #ffe8c8 100%); box-shadow: var(--nybe-shadow);
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; align-items: stretch; max-width: 112rem; margin-inline: auto; overflow: hidden;
+  padding: 0; border-radius: 2.8rem; background: linear-gradient(120deg, #fff4e2 0%, #ffe8c8 100%); box-shadow: var(--nybe-shadow);
 }
-.nybe-subbanner__media img { width: 100%; max-width: 32rem; height: auto; display: block; margin-inline: auto; border-radius: 1.6rem; mix-blend-mode: multiply; }
-.nybe-subbanner__copy { display: grid; gap: 1.6rem; justify-items: start; }
+/* Photo bleeds to the card edges: top/left/right on phones, top/bottom/left from tablet up */
+.nybe-subbanner__media { position: relative; aspect-ratio: 16 / 10; }
+.nybe-subbanner__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.nybe-subbanner__copy { display: grid; gap: 1.6rem; justify-items: start; align-content: center; padding: 2.8rem 2.4rem 3.2rem; }
 .nybe-subbanner__copy .bbb-eyebrow { margin: 0; display: inline-flex; align-items: center; gap: 1.2rem; }
 .nybe-subbanner__copy .bbb-eyebrow::after { content: ''; width: 3.6rem; height: 0.2rem; background: var(--nybe-orange); }
 .nybe-subbanner__copy .bbb-display { margin: 0; }
@@ -328,10 +330,12 @@ body { color: var(--nybe-navy); }
 .nybe-subbanner .bbb-subsave__disclosure { text-align: left; margin: 0.4rem 0 0; max-width: 64rem; font-size: 1.3rem; line-height: 1.6; letter-spacing: 0; color: var(--nybe-muted); }
 .nybe-subbanner .bbb-subsave__disclosure p { margin: 0; }
 @media screen and (min-width: 750px) {
-  .nybe-subbanner__card { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr); padding: 4rem 5.6rem 4rem 4rem; gap: 5.6rem; }
+  .nybe-subbanner__card { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr); }
+  .nybe-subbanner__media { aspect-ratio: auto; min-height: 32rem; }
+  .nybe-subbanner__copy { padding: 4rem 5.6rem 4rem 4.8rem; }
 }
 @media screen and (min-width: 990px) {
-  .nybe-subbanner__card { padding: 4.8rem 6.4rem 4.8rem 4.8rem; gap: 6.4rem; }
+  .nybe-subbanner__copy { padding: 5.6rem 6.4rem 5.6rem 6.4rem; }
 }
 
 /* ---------- FAQ (default list) ---------- */
