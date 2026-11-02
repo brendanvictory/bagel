@@ -69,6 +69,15 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   ok((await p.$$('.bbb-bar__dot.is-filled img')).length === 3, 'mobile bar shows 3 filled photo dots');
   await p.click('[data-bbb-slot="1"]');
   ok((await progress()) === '2 of 3 sleeves selected', 'tapping a sleeve removes it');
+  await p.evaluate(() => window.scrollTo(0, 0));
+  await p.click('[data-bbb-slot="2"]');
+  await p.waitForTimeout(700);
+  ok((await progress()) === '2 of 3 sleeves selected' && (await p.evaluate(() => window.scrollY)) > 100, 'tapping an empty sleeve scrolls to the flavors (box unchanged)');
+  ok(await p.evaluate(() => document.activeElement && document.activeElement.matches('[data-bbb-inc]')), 'empty sleeve tap moves focus to the first + button');
+  await p.evaluate(() => window.scrollTo(0, 0));
+  await p.click('.bbb-bar [data-bbb-dot="2"]', { force: true });
+  await p.waitForTimeout(700);
+  ok((await p.evaluate(() => window.scrollY)) > 100, 'tapping an empty sleeve in the bottom bar scrolls to the flavors');
   await inc('everything');
 
   console.log('4. Go to page 2');

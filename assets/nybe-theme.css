@@ -68,6 +68,8 @@ body { color: var(--nybe-navy); }
 }
 .button--primary:hover { background-image: linear-gradient(180deg, #d94512, #b53a09); }
 .button--primary:after { box-shadow: none; }
+/* no offset drop shadow on buttons (mockup) */
+.button:before, .shopify-payment-button__button--unbranded:before { box-shadow: none !important; }
 .color-scheme-4 .button--secondary:after, .color-scheme-5 .button--secondary:after { box-shadow: 0 0 0 0.2rem #fff; }
 .color-scheme-4 .button--secondary, .color-scheme-5 .button--secondary { background: transparent; }
 .color-scheme-4 .button--secondary, .color-scheme-5 .button--secondary { color: #fff; --border-opacity: 1; }

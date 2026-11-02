@@ -118,9 +118,8 @@
       img.innerHTML = '';
       const t = thumb(f);
       if (t) img.appendChild(t);
-      slot.disabled = !f;
       slot.classList.toggle('is-filled', !!f);
-      slot.setAttribute('aria-label', f ? `Sleeve ${i + 1}: ${f.name}. Remove` : `Sleeve ${i + 1}: empty`);
+      slot.setAttribute('aria-label', f ? `Sleeve ${i + 1}: ${f.name}. Remove` : `Sleeve ${i + 1}: empty. Choose a flavor`);
     });
     $$('[data-bbb-dot]').forEach((dot, i) => {
       const f = byHandle[state.sleeves[i]];
@@ -289,6 +288,21 @@
   };
   function hideErrors() { $$('[data-bbb-error]').forEach((el) => { el.hidden = true; el.textContent = ''; }); }
 
+  // ---------- navigation helpers (presentation) ----------
+  function scrollToFlavors(moveFocus) {
+    const target = $('.nybe-fhead') || $('.bbb-fgrid');
+    if (!target) return;
+    const hdr = document.querySelector('.section-header');
+    const offset = (hdr ? hdr.getBoundingClientRect().height : 0) + 12;
+    const top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - offset);
+    const smooth = !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    window.scrollTo({ top, behavior: smooth ? 'smooth' : 'auto' });
+    if (moveFocus) {
+      const firstAdd = $('[data-bbb-inc]:not([disabled])');
+      if (firstAdd) firstAdd.focus({ preventScroll: true });
+    }
+  }
+
   // ---------- events ----------
   root.addEventListener('click', (e) => {
     const inc = e.target.closest('[data-bbb-inc]');
@@ -307,11 +321,23 @@
       render();
       return;
     }
-    if (slot && !slot.disabled) {
-      state.sleeves.splice(Number(slot.dataset.bbbSlot), 1);
-      render();
-      const nextFocus = $$('[data-bbb-slot]').find((s) => !s.disabled) || $('[data-bbb-inc]:not([disabled])');
-      if (nextFocus) nextFocus.focus();
+    const dot = e.target.closest('[data-bbb-dot]');
+    if (slot) {
+      const idx = Number(slot.dataset.bbbSlot);
+      if (idx < state.sleeves.length) {
+        // Filled sleeve: tap removes it (unchanged)
+        state.sleeves.splice(idx, 1);
+        render();
+        const nextFocus = $('[data-bbb-slot].is-filled') || $('[data-bbb-inc]:not([disabled])');
+        if (nextFocus) nextFocus.focus();
+      } else {
+        // Empty sleeve: take the shopper to the flavor list
+        scrollToFlavors(true);
+      }
+      return;
+    }
+    if (dot && Number(dot.dataset.bbbDot) >= state.sleeves.length) {
+      scrollToFlavors(false);
       return;
     }
     if (next) {

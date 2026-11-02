@@ -155,7 +155,7 @@
         <ol class="bbb-tray__slots" role="list" data-bbb-slots style="--bbb-sleeves: {{ sleeves }};">
           {%- for i in (1..sleeves) -%}
             <li>
-              <button type="button" class="bbb-slot" data-bbb-slot="{{ forloop.index0 }}" disabled>
+              <button type="button" class="bbb-slot" data-bbb-slot="{{ forloop.index0 }}" aria-label="Sleeve {{ i }}: empty. Choose a flavor">
                 <span class="bbb-slot__img" aria-hidden="true"></span>
                 <span class="nybe-slot__plus" aria-hidden="true">{% render 'bbb-icon', name: 'plus', size: 26, stroke: 1.75 %}</span>
                 <span class="nybe-slot__x" aria-hidden="true">{% render 'bbb-icon', name: 'x', size: 14, stroke: 3 %}</span>

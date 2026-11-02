@@ -206,3 +206,21 @@
   .nybe-addon__desc { display: none; }
   .bbb-addon__every:not([hidden]) { display: block; font-size: 1.2rem; }
 }
+
+/* ---------- Mobile bottom bar: taller, bigger thumbnails and button ---------- */
+@media screen and (max-width: 989px) {
+  .bbb-builder { padding-bottom: 14rem; }
+  .bbb-bar { padding: 1.6rem 1.6rem calc(1.6rem + env(safe-area-inset-bottom)); border-top: 0; box-shadow: 0 -0.8rem 2.4rem rgba(8, 45, 92, 0.14); }
+  .bbb-bar__p1, .bbb-bar__p2 { gap: 1.4rem; }
+  .bbb-bar__dots { gap: 0.8rem; }
+  .bbb-bar__dot { width: 5.6rem; height: 5.6rem; border-radius: 1.2rem; border-width: 0.2rem; cursor: pointer; }
+  .bbb-bar__dot.is-filled { border-color: #f47b20; background: #fff6e8; cursor: default; }
+  .bbb-bar__count { font-size: 1.8rem; font-weight: 900; color: var(--bbb-ink); }
+  .bbb-bar__total { font-size: 2.4rem; font-weight: 900; }
+  .bbb-bar .button { min-height: 6rem; padding-inline: 3.2rem; font-size: 1.8rem; font-weight: 800; }
+}
+@media screen and (max-width: 374px) {
+  .bbb-bar__dot { width: 4.6rem; height: 4.6rem; }
+  .bbb-bar .button { padding-inline: 2.2rem; font-size: 1.6rem; }
+}
+.bbb-slot { cursor: pointer; }
