@@ -2,7 +2,7 @@
   Inline Lucide icons (https://lucide.dev, ISC License, © Lucide Contributors). Decorative by default.
   Usage: {% render 'bbb-icon', name: 'truck', size: 24, class: 'x' %}
   Names: search user cart menu x chevron-right chevron-down plus minus pencil truck package leaf map-pin
-         heart calendar star check check-circle smile arrow-right flame box wheat chef-hat clock shield bagel
+         heart calendar star check check-circle smile arrow-right flame box wheat chef-hat clock shield bagel gift layers
 {%- endcomment -%}
 {%- assign s = size | default: 24 -%}
 <svg class="bbb-icon{% if class %} {{ class }}{% endif %}" width="{{ s }}" height="{{ s }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="{{ stroke | default: 2 }}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -35,6 +35,8 @@
     {%- when 'clock' -%}<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
     {%- when 'shield' -%}<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>
     {%- when 'bagel' -%}{%- comment -%} custom (not Lucide): simple bagel ring {%- endcomment -%}<circle cx="12" cy="12" r="9.5"/><circle cx="12" cy="12" r="3.2"/><path d="M7.5 8.2l.6.4M15.8 7.6l.6-.3M17 13.6l.6.2M8.2 16.2l-.6.4M12 5.4v.6"/>
+    {%- when 'gift' -%}<rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/>
+    {%- when 'layers' -%}<path d="M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z"/><path d="M2 12a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 12"/><path d="M2 17a1 1 0 0 0 .58.91l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9A1 1 0 0 0 22 17"/>
     {%- else -%}<circle cx="12" cy="12" r="10"/>
   {%- endcase -%}
 </svg>
