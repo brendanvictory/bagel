@@ -234,7 +234,7 @@
         <ul class="nybe-benefit-row" role="list">
           {%- for blk in p1b -%}
             <li class="nybe-benefit-row__item" {{ blk.shopify_attributes }}>
-              {%- render 'bbb-icon', name: blk.settings.icon, size: 34, stroke: 1.6, class: 'nybe-benefit-row__icon' -%}
+              <span class="nybe-benefit-row__icon" aria-hidden="true">{%- render 'bbb-icon', name: blk.settings.icon, size: 26, stroke: 1.75 -%}</span>
               <span><strong>{{ blk.settings.title | escape }}</strong>{% if blk.settings.text != blank %}<span>{{ blk.settings.text | escape }}</span>{% endif %}</span>
             </li>
           {%- endfor -%}

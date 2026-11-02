@@ -117,15 +117,17 @@
 .bbb-checkout { font-size: 2rem; }
 
 /* ---------- Page 1 benefit row ---------- */
-.nybe-benefit-row { list-style: none; margin: 0.8rem 0 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 1.6rem; }
-.nybe-benefit-row__item { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.4rem; align-items: center; color: var(--bbb-ink); }
-.nybe-benefit-row__icon { color: #f47b20; }
-.nybe-benefit-row__item strong { display: block; font-size: 1.7rem; font-weight: 800; }
-.nybe-benefit-row__item span span { font-size: 1.4rem; color: var(--bbb-muted); }
+.nybe-benefit-row { list-style: none; margin: 0.8rem 0 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; }
+.nybe-benefit-row__item { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.6rem; align-items: center; padding: 1.6rem 0; color: var(--bbb-ink); }
+.nybe-benefit-row__item + .nybe-benefit-row__item { border-top: 0.1rem solid rgba(244, 123, 32, 0.3); }
+.nybe-benefit-row__icon { display: grid; place-items: center; width: 5.6rem; height: 5.6rem; border-radius: 50%; background: #f47b201a; color: #f47b20; }
+.nybe-benefit-row__icon .bbb-icon { display: block; width: 2.8rem; height: 2.8rem; overflow: visible; }
+.nybe-benefit-row__item strong { display: block; font-size: 1.7rem; font-weight: 800; line-height: 1.25; }
+.nybe-benefit-row__item span span { display: block; margin-top: 0.4rem; font-size: 1.45rem; line-height: 1.5; color: var(--bbb-muted); }
 @media screen and (min-width: 750px) {
   .nybe-benefit-row { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; }
   .nybe-benefit-row__item { justify-content: center; padding: 0.4rem 2.4rem; }
-  .nybe-benefit-row__item + .nybe-benefit-row__item { border-left: 0.1rem solid rgba(8, 45, 92, 0.2); }
+  .nybe-benefit-row__item + .nybe-benefit-row__item { border-top: 0; border-left: 0.1rem solid rgba(244, 123, 32, 0.3); }
 }
 
 /* ---------- Page 2 ---------- */
