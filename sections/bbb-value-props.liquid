@@ -20,8 +20,10 @@
       {%- for block in section.blocks -%}
         <li class="bbb-card" {{ block.shopify_attributes }}>
           {%- if block.settings.icon != blank and block.settings.icon != 'none' -%}<span class="nybe-card__icon" aria-hidden="true">{%- render 'bbb-icon', name: block.settings.icon, size: 34, stroke: 1.6 -%}</span>{%- endif -%}
-          <h3 class="bbb-card__title">{{ block.settings.title | escape }}</h3>
-          {%- if block.settings.text != blank -%}<div class="rte">{{ block.settings.text }}</div>{%- endif -%}
+          <div class="nybe-card__body">
+            <h3 class="bbb-card__title">{{ block.settings.title | escape }}</h3>
+            {%- if block.settings.text != blank -%}<div class="rte">{{ block.settings.text }}</div>{%- endif -%}
+          </div>
         </li>
       {%- endfor -%}
     </ul>
