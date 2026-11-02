@@ -36,6 +36,7 @@
           "type": "value",
           "settings": {
             "title": "The full lineup",
+            "icon": "bagel",
             "text": "<p>Plain, Everything, Sesame, Poppy, Onion, Garlic, Cinnamon Raisin, Egg, Whole Wheat and Pumpernickel.</p>"
           }
         },
@@ -43,6 +44,7 @@
           "type": "value",
           "settings": {
             "title": "Baked on Long Island",
+            "icon": "map-pin",
             "text": "<p>From our kosher commissary with a peanut-free process — and no preservatives.</p>"
           }
         },
@@ -50,6 +52,7 @@
           "type": "value",
           "settings": {
             "title": "Built around you",
+            "icon": "sliders",
             "text": "<p>Tell us your volume and schedule, and we'll work out the details with you.</p>"
           }
         },
@@ -57,6 +60,7 @@
           "type": "value",
           "settings": {
             "title": "A real New York team",
+            "icon": "users",
             "text": "<p>You'll talk to the people who bake your bagels, not a call center.</p>"
           }
         }
