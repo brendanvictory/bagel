@@ -113,6 +113,12 @@
   background-image: linear-gradient(180deg, #e8501a, #c9420c); color: #fff;
 }
 .bbb-next { padding-inline: 4rem; }
+/* Page 1: give the Next button room above (flavor grid) and below (benefit row) */
+@media screen and (min-width: 990px) {
+  .bbb-view__actions { margin: 5.6rem 0 6.4rem; }
+  .bbb-view__actions .bbb-next { min-height: 6.6rem; padding-inline: 5.6rem; font-size: 1.9rem; }
+  .bbb-view__actions + .nybe-benefit-row { margin-top: 0; padding-top: 4rem; border-top: 0.1rem solid rgba(244, 123, 32, 0.2); }
+}
 @media screen and (max-width: 749px) { .bbb-view__actions .bbb-next { width: 100%; min-width: 0; } }
 .bbb-checkout { font-size: 2rem; }
 
