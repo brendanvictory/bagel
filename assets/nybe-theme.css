@@ -41,7 +41,7 @@
 body { color: var(--nybe-navy); }
 
 /* ---------- Type ---------- */
-.bbb-display { font-weight: 900; letter-spacing: -0.015em; line-height: 0.96; color: rgb(var(--color-foreground)); }
+.bbb-display { font-weight: 900; letter-spacing: -0.015em; line-height: 1.03; color: rgb(var(--color-foreground)); }
 .bbb-accent,
 .color-scheme-1 .bbb-accent,
 .color-scheme-2 .bbb-accent { color: var(--nybe-orange-big); -webkit-text-stroke: 0; text-shadow: none; }
