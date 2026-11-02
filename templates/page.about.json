@@ -19,7 +19,7 @@
         "cta_label": "Build your box",
         "cta_link": "shopify://products/build-your-box",
         "cta2_label": "Why us",
-        "cta2_link": "shopify://pages/why-us",
+        "cta2_link": "shopify://pages/why-bad-boy-bagels",
         "show_image": true,
         "image": "shopify://shop_images/Warm_Morning_at_the_Neighborhood_Bagel_Shop.png",
         "image_alt": "Inside the New York Bagel Express commissary",
@@ -98,7 +98,7 @@
         "p3"
       ],
       "settings": {
-        "image": "shopify://shop_images/Branded_Bagel_Box_at_the_Doorstep.png",
+        "image": "shopify://shop_images/Centered_New_York_Bagel_Express_Logo.png",
         "image_alt": "Bagels coming out of the oven at our Long Island commissary",
         "image_position": "right",
         "ratio": "4 / 3",
