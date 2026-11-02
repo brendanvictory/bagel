@@ -15,19 +15,22 @@
         "c1": {
           "type": "chip",
           "settings": {
-            "text": "6 free mini bagels"
+            "text": "6 free mini bagels",
+            "icon": "gift"
           }
         },
         "c2": {
           "type": "chip",
           "settings": {
-            "text": "Free shipping"
+            "text": "Free shipping",
+            "icon": "truck"
           }
         },
         "c3": {
           "type": "chip",
           "settings": {
-            "text": "Mix up to 3 flavors"
+            "text": "Mix up to 3 flavors",
+            "icon": "layers"
           }
         }
       },
