@@ -50,9 +50,19 @@
           </li>
         {%- endfor -%}
         {%- if section.settings.promo_heading != blank -%}
-          {%- assign promo_img = section.settings.promo_image | default: addons.first.featured_image -%}
+          {%- liquid
+            assign promo_img = section.settings.promo_image
+            if promo_img == blank
+              for a in addons
+                if a.featured_image != blank
+                  assign promo_img = a.featured_image
+                  break
+                endif
+              endfor
+            endif
+          -%}
           <li class="bbb-gallery__item nybe-promo-tile">
-            <a class="nybe-promo-tile__card" href="{{ section.settings.promo_link | default: box.url }}">
+            <a class="nybe-promo-tile__card{% if promo_img == blank %} nybe-promo-tile__card--solo{% endif %}" href="{{ section.settings.promo_link | default: box.url }}">
               {%- if promo_img != blank -%}
                 <span class="nybe-promo-tile__media" aria-hidden="true">{{ promo_img | image_url: width: 300 | image_tag: loading: 'lazy', widths: '150, 300', sizes: '140px', alt: '' }}</span>
               {%- endif -%}
