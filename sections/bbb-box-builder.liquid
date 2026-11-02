@@ -426,6 +426,7 @@
         </div>
 
         <aside class="bbb-p2__side" aria-labelledby="bbb-summary-{{ section.id }}">
+          <div class="nybe-side-stick" data-nybe-side-stick>
           <div class="bbb-card2 bbb-card2--sticky">
             <h3 class="bbb-card2__title" id="bbb-summary-{{ section.id }}">Order summary</h3>
             <dl class="bbb-totals" data-bbb-totals></dl>
@@ -451,7 +452,25 @@
               {%- endfor -%}
             </ul>
           {%- endif -%}
+          </div>
         </aside>
+        <script>
+          /* Sticky order summary: if the sidebar is taller than the screen, pin it by its bottom edge
+             so every part stays reachable; it stops at the end of the left column. */
+          (function () {
+            var el = document.querySelector('[data-nybe-side-stick]');
+            if (!el || !window.matchMedia) return;
+            var mq = window.matchMedia('(min-width: 990px)');
+            function fit() {
+              if (!mq.matches) { el.style.removeProperty('--nybe-side-top'); return; }
+              var header = 120, room = window.innerHeight - el.offsetHeight - 24;
+              el.style.setProperty('--nybe-side-top', Math.min(header, room) + 'px');
+            }
+            fit();
+            window.addEventListener('resize', fit, { passive: true });
+            if (window.ResizeObserver) new ResizeObserver(fit).observe(el);
+          })();
+        </script>
       </div>
     </div>
 

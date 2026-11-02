@@ -265,3 +265,11 @@
   .bbb-builder[data-step='2'] .bbb-bar__total { font-size: 2.6rem; }
   .bbb-builder[data-step='2'] .bbb-bar__p2 .button { grid-area: btn; margin-left: 0; }
 }
+
+/* ---------- Page 2: sticky sidebar runs to the end of the left column ---------- */
+.nybe-side-stick { display: grid; gap: 0; }
+@media screen and (min-width: 990px) {
+  .bbb-p2__side { align-self: stretch; }
+  .bbb-p2__side .bbb-card2--sticky { position: static; }
+  .nybe-side-stick { position: sticky; top: var(--nybe-side-top, 12rem); }
+}
