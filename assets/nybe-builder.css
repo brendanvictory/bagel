@@ -182,7 +182,8 @@
 .nybe-perks { list-style: none; margin: 1.6rem 0 0; display: grid; gap: 0; padding: 1rem 2rem; background: #fff; }
 .nybe-perks__item { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.6rem; align-items: center; padding: 1.4rem 0; color: var(--bbb-ink); }
 .nybe-perks__item + .nybe-perks__item { border-top: 0.1rem solid var(--bbb-line); }
-.nybe-perks__icon { box-sizing: content-box; width: 2.6rem; height: 2.6rem; padding: 1.3rem; border-radius: 50%; background: #f47b201a; color: #f47b20; }
+.nybe-perks__icon { display: grid; place-items: center; flex: none; width: 5.2rem; height: 5.2rem; border-radius: 50%; background: #f47b201a; color: #f47b20; }
+.nybe-perks__icon .bbb-icon { display: block; width: 2.6rem; height: 2.6rem; overflow: visible; }
 .nybe-perks__item strong { display: block; font-size: 1.7rem; font-weight: 800; line-height: 1.25; }
 .nybe-perks__item span span { display: block; margin-top: 0.4rem; font-size: 1.4rem; line-height: 1.45; }
 

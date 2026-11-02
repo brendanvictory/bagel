@@ -445,7 +445,7 @@
             <ul class="bbb-card2 nybe-perks" role="list">
               {%- for blk in p2b -%}
                 <li class="nybe-perks__item" {{ blk.shopify_attributes }}>
-                  {%- render 'bbb-icon', name: blk.settings.icon, size: 34, stroke: 1.6, class: 'nybe-perks__icon' -%}
+                  <span class="nybe-perks__icon" aria-hidden="true">{%- render 'bbb-icon', name: blk.settings.icon, size: 26, stroke: 1.75 -%}</span>
                   <span><strong>{{ blk.settings.title | escape }}</strong>{% if blk.settings.text != blank %}<span>{{ blk.settings.text | escape }}</span>{% endif %}</span>
                 </li>
               {%- endfor -%}
