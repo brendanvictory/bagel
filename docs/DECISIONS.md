@@ -262,3 +262,12 @@ Split upsells into two places instead of forcing everything through the post-pur
 ## ADR-002 verification — renewal carries the box (2026-10-29)
 Renewal order **#1002** (`sourceName: subscription_contract_checkout_one`, tag "Subscription Recurring Order") from contract 43442241778 kept every line property: Build Your Dozen with `Sleeve 1–4` (Plain, Everything, Cinnamon Raisin, Egg) and `_box_id`, plus Bagel Chips on the 4-week plan with the same `_box_id`. **Option C (Shopify Subscriptions) confirmed — no Appstle fallback needed.**
 Note: the renewal charged $8 shipping because this test contract was created before the free-shipping profile (contracts keep their delivery price). New contracts get $0. Cancel this test contract.
+
+## ADR-012 — Rebrand to New York Bagel Express + mockup redesign (owner request 2026-11-02)
+- Visual layer only: `assets/nybe-theme.css`, `assets/nybe-builder.css`, `snippets/bbb-icon.liquid` (inline Lucide, ISC; `bagel` glyph is custom), `sections/bbb-trust-bar.liquid`, new layout/icon settings and builder presentation blocks. Builder/cart/subscription logic unchanged; the only JS edits are display strings (empty slot label, "You're saving $X").
+- Palette navy #082D5C / cream #FFF4E2 / orange #F47B20; orange used as small text or under white text is deepened (#B9520A, #D9650F, #E8501A→#C9420C) to meet WCAG AA.
+- Owner-approved claims (2026-11-02): kettle-boiled; money-back / 100% satisfaction guarantee; never frozen; fast shipping. **A refund policy that matches the guarantee must be published before launch** (none exists yet).
+- Not used from the mockups: "4.9/5 from 3,000+" rating (no cited source — owner chose "30+ Years of New York Bagels"), "Popular" badge (→ "Add to every box"), "save up to 15%" (actual saving is $6 ≈ 13% — banner shows the live amount), "New York Locations" (→ "Retail Locations").
+- Assets: footer uses a reversed logo (navy lettering → white) as shown in the mockup; bridge and skyline art had opaque backgrounds, cut out to transparency.
+- Store data: Why page renamed "Why New York Bagel Express", handle `why-us`, redirect from `/pages/why-bad-boy-bagels`; menu item "Why Us". Support email help@nybagelexpress.com.
+- Mobile flavor grid stays 2 columns (mockup shows 3) so the +/− controls stay tappable.
