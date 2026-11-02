@@ -38,7 +38,7 @@
       ],
       "settings": {
         "layout": "background",
-        "text_align": "center",
+        "text_align": "left",
         "eyebrow": "The New York dozen deal",
         "heading": "Buy a dozen.",
         "heading_accent": "Get 6 minis free.",
@@ -51,7 +51,7 @@
         "cta2_label": "",
         "cta2_link": "",
         "use_bundled_photo": true,
-        "overlay_opacity": 55,
+        "overlay_opacity": 0,
         "height": "medium",
         "show_logo_art": true,
         "color_scheme": "scheme-5",
