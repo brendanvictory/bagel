@@ -133,7 +133,8 @@ body { color: var(--nybe-navy); }
 .nybe-hero .bbb-cta-row .button { flex: 0 0 auto; min-height: 5.4rem; font-size: 1.6rem; }
 .nybe-hero .bbb-cta-row .button--secondary { font-size: 1.4rem; }
 @media screen and (max-width: 749px) {
-  .nybe-hero .bbb-cta-row { flex-direction: column; align-items: stretch; max-width: 32rem; }
+  .nybe-hero .bbb-cta-row { flex-direction: column; align-items: stretch; width: 100%; max-width: none; }
+  .nybe-hero .bbb-hero__copy { max-width: none; }
   .nybe-hero .bbb-cta-row .button { width: 100%; justify-content: center; }
 }
 /* Benefit row inside the hero (navy band on phones) */
