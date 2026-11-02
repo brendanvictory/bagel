@@ -244,8 +244,16 @@
 .bbb-promo__media { width: 6.4rem; height: 6.4rem; border-radius: 0.8rem; overflow: hidden; background: var(--bbb-tile, #f4f1ea); display: block; }
 .bbb-promo__img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .bbb-promo__tag { display: inline-block; margin: 0; padding: 0.2rem 0.8rem; border-radius: 99rem; background: var(--bbb-blue); color: var(--bbb-black, #000); font-weight: 800; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 0.06em; }
-.bbb-promo--banner { max-width: 72rem; margin: 0 auto var(--bbb-space-3, 2.4rem); padding: 1rem 1.4rem; border: 0.2rem solid var(--bbb-blue); border-radius: 1.2rem; background: #fff; }
-.bbb-promo--banner .bbb-promo__media { width: 5.2rem; height: 5.2rem; }
+.bbb-promo--banner { max-width: 88rem; margin: 0 auto var(--bbb-space-3, 2.4rem); padding: 1.6rem 2rem; gap: 1.6rem; border: 0.2rem solid var(--bbb-blue); border-radius: 1.6rem; background: #fff; }
+.bbb-promo--banner .bbb-promo__media { width: 7.2rem; height: 7.2rem; }
+.bbb-promo--banner .bbb-promo__text { font-size: 1.7rem; }
+.bbb-promo--banner .bbb-promo__tag { font-size: 1.3rem; padding: 0.3rem 1rem; }
+@media screen and (min-width: 750px) {
+  .bbb-promo--banner { padding: 2.2rem 3.2rem; gap: 2.4rem; border-width: 0.3rem; }
+  .bbb-promo--banner .bbb-promo__media { width: 10.4rem; height: 10.4rem; }
+  .bbb-promo--banner .bbb-promo__text { font-size: 2.2rem; }
+  .bbb-promo--banner .bbb-promo__tag { font-size: 1.5rem; padding: 0.4rem 1.2rem; }
+}
 .bbb-promo__text { margin: 0; font-size: 1.5rem; line-height: 1.4; }
 .bbb-promo--card { grid-template-columns: auto minmax(0, 1fr) auto; border: 0.2rem solid var(--bbb-blue); }
 .bbb-promo__body { display: grid; gap: 0.4rem; justify-items: start; }
