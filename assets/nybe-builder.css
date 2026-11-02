@@ -179,12 +179,12 @@
 .bbb-totals__ship { color: #1e7b34; }
 
 /* Perks card under the summary */
-.nybe-perks { list-style: none; margin: 1.6rem 0 0; display: grid; gap: 0; padding: 1rem 2rem; background: linear-gradient(120deg, #fff6e8, #fff1dc); }
+.nybe-perks { list-style: none; margin: 1.6rem 0 0; display: grid; gap: 0; padding: 1rem 2rem; background: #fff; }
 .nybe-perks__item { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 1.6rem; align-items: center; padding: 1.4rem 0; color: var(--bbb-ink); }
 .nybe-perks__item + .nybe-perks__item { border-top: 0.1rem solid var(--bbb-line); }
-.nybe-perks__icon { color: #f47b20; }
-.nybe-perks__item strong { display: block; font-size: 1.7rem; font-weight: 800; }
-.nybe-perks__item span span { font-size: 1.4rem; }
+.nybe-perks__icon { box-sizing: content-box; width: 2.6rem; height: 2.6rem; padding: 1.3rem; border-radius: 50%; background: #f47b201a; color: #f47b20; }
+.nybe-perks__item strong { display: block; font-size: 1.7rem; font-weight: 800; line-height: 1.25; }
+.nybe-perks__item span span { display: block; margin-top: 0.4rem; font-size: 1.4rem; line-height: 1.45; }
 
 /* Mobile bottom bar */
 .bbb-bar { background: rgba(255, 255, 255, 0.98); }
