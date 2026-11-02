@@ -376,16 +376,154 @@ body.bbb-has-sticky-cta { padding-bottom: 9.6rem; }
 @media screen and (min-width: 750px) { body.bbb-has-sticky-cta { padding-bottom: 0; } }
 
 /* ---------- Footer ---------- */
-.bbb-footer { position: relative; overflow: hidden; padding-top: 5.6rem; }
-.bbb-footer__logo img { width: 20rem; height: auto; }
-.bbb-footer__tagline { font-weight: 500; font-size: 1.6rem; color: rgba(255, 255, 255, 0.88); max-width: 24rem; }
-.bbb-footer__heading { color: #fff; font-size: 1.4rem; letter-spacing: 0.16em; }
-.bbb-footer__link { color: rgba(255, 255, 255, 0.85); }
-.bbb-footer__link:hover { color: #fff; }
-.nybe-footer__skyline { display: none; }
-.nybe-footer__skyline img { width: 100%; height: auto; display: block; }
-@media screen and (min-width: 1200px) {
-  .bbb-footer__inner { grid-template-columns: minmax(0, 0.9fr) minmax(0, 2fr) minmax(0, 1.1fr); gap: 4.8rem; align-items: start; }
-  .nybe-footer__skyline { display: block; align-self: end; max-width: 36rem; justify-self: end; }
+.nybe-footer {
+  --nf-bg: #012158; --nf-line: rgba(255, 255, 255, 0.16); --nf-muted: rgba(255, 255, 255, 0.78);
+  position: relative; overflow: hidden; isolation: isolate; color: #fff; background: var(--nf-bg);
+  padding: 4.8rem 0 2.4rem;
 }
-.bbb-footer__bottom { border-top-color: rgba(255, 255, 255, 0.18); color: rgba(255, 255, 255, 0.75); }
+.nybe-footer a { color: inherit; text-decoration: none; }
+.nybe-footer a:focus-visible, .nybe-footer summary:focus-visible, .nybe-footer button:focus-visible { outline: 0.2rem solid var(--nybe-orange); outline-offset: 0.3rem; border-radius: 0.4rem; }
+
+/* Skyline background: phones top right, desktop along the bottom (fades into navy) */
+.nybe-footer__bg { position: absolute; z-index: -1; inset: 0 0 auto 0; pointer-events: none; }
+.nybe-footer__bg img { display: block; width: 100%; height: auto; }
+/* Keep the bottom bar legible over the city lights */
+.nybe-footer__bg::after { content: ''; position: absolute; inset: auto 0 0 0; height: 12rem; background: linear-gradient(180deg, rgba(1, 33, 88, 0) 0%, rgba(1, 26, 70, 0.6) 100%); }
+@media screen and (max-width: 989px) { .nybe-footer__bg::after { display: none; } }
+@media screen and (min-width: 990px) {
+  .nybe-footer__bg { inset: auto 0 0 0; }
+  .nybe-footer__bg img { -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 35%); mask-image: linear-gradient(180deg, transparent 0%, #000 35%); }
+}
+
+.nybe-footer__main { display: grid; grid-template-columns: minmax(0, 1fr); gap: 3.2rem; }
+
+/* Brand */
+.nybe-footer__brand { display: grid; gap: 2rem; justify-items: start; }
+.nybe-footer__logo img { display: block; width: 20rem; height: auto; }
+.nybe-footer__tagline { margin: 0; font-size: 2.2rem; font-weight: 700; line-height: 1.3; max-width: 34rem; color: #fff; }
+.nybe-footer__benefits { list-style: none; margin: 0.4rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, auto); justify-content: start; width: 100%; }
+.nybe-footer__benefit { display: flex; align-items: center; gap: 1rem; padding: 0 1.6rem; font-size: 1.4rem; font-weight: 700; line-height: 1.3; }
+.nybe-footer__benefit:first-child { padding-left: 0; }
+.nybe-footer__benefit + .nybe-footer__benefit { border-left: 0.1rem solid rgba(255, 255, 255, 0.28); }
+.nybe-footer__benefit-icon { flex: none; color: var(--nybe-orange); width: 3rem; height: 3rem; }
+
+/* Link columns: accordions on phones */
+.nybe-footer__cols { display: grid; border-top: 0.1rem solid var(--nf-line); }
+.nybe-footer__col { border-bottom: 0.1rem solid var(--nf-line); }
+.nybe-footer__summary { display: flex; align-items: center; gap: 1.6rem; min-height: 6.4rem; cursor: pointer; list-style: none; }
+.nybe-footer__summary::-webkit-details-marker { display: none; }
+.nybe-footer__col-icon { flex: none; color: #fff; }
+.nybe-footer__heading { margin: 0; flex: 1; font-family: var(--font-heading-family); font-size: 1.9rem; font-weight: 700; letter-spacing: 0; text-transform: none; color: #fff; }
+.nybe-footer__chev { flex: none; transition: transform 0.2s ease; }
+.nybe-footer__col[open] .nybe-footer__chev { transform: rotate(180deg); }
+.nybe-footer__links { list-style: none; margin: 0; padding: 0 0 1.6rem 4.2rem; display: grid; gap: 0.2rem; }
+.nybe-footer__link { display: inline-flex; align-items: center; gap: 0.8rem; min-height: 4rem; font-size: 1.6rem; color: var(--nf-muted); }
+.nybe-footer__link:hover { color: #fff; }
+.nybe-footer__link--hl { color: #fff; }
+.nybe-footer__link--hl .bbb-icon { color: var(--nybe-orange); transition: transform 0.2s ease; }
+.nybe-footer__link--hl:hover .bbb-icon { transform: translateX(0.3rem); }
+.nybe-footer__address { font-style: normal; font-size: 1.6rem; line-height: 1.6; color: var(--nf-muted); }
+
+/* Newsletter */
+.nybe-footer__aside { display: grid; grid-template-columns: minmax(0, 1fr); gap: 3.2rem; min-width: 0; }
+.nybe-footer__news { min-width: 0; padding: 2.8rem 2.4rem; border-radius: 2rem; background: rgba(255, 255, 255, 0.06); border: 0.1rem solid rgba(255, 255, 255, 0.08); }
+.nybe-footer__news-title { margin: 0; font-family: var(--font-heading-family); font-size: 2.4rem; font-weight: 700; line-height: 1.2; letter-spacing: 0; color: #fff; }
+.nybe-footer__news-text { margin: 0.8rem 0 0; font-size: 1.6rem; line-height: 1.5; color: var(--nf-muted); }
+.nybe-footer__form { display: block; margin-top: 2rem; min-width: 0; }
+.nybe-footer__field { position: relative; width: 100%; min-width: 0; display: flex; align-items: stretch; height: 5.6rem; border-radius: 99rem; background: #fff; box-shadow: 0 0.6rem 2rem rgba(0, 0, 0, 0.18); }
+.nybe-footer__field-icon { position: absolute; left: 2rem; top: 50%; transform: translateY(-50%); color: var(--nybe-navy); opacity: 0.7; pointer-events: none; }
+.nybe-footer__field input {
+  flex: 1 1 0; width: 0; min-width: 0; border: 0; background: none; border-radius: 99rem 0 0 99rem; padding: 0 1.2rem 0 5.2rem;
+  font: inherit; font-size: 1.6rem; color: var(--nybe-navy); -webkit-appearance: none; appearance: none;
+}
+.nybe-footer__field input::placeholder { color: #6b7789; opacity: 1; }
+.nybe-footer__field input:focus { outline: none; }
+.nybe-footer__field:focus-within { box-shadow: 0 0 0 0.3rem rgba(244, 123, 32, 0.55), 0 0.6rem 2rem rgba(0, 0, 0, 0.18); }
+.nybe-footer__submit {
+  flex: none; border: 0; border-radius: 99rem; padding: 0 2.8rem; cursor: pointer; font: inherit; font-size: 1.7rem; font-weight: 800; color: #fff;
+  background: linear-gradient(180deg, #f8862a, #ea6a12); transition: filter 0.2s ease;
+}
+.nybe-footer__submit:hover { filter: brightness(1.06); }
+.nybe-footer__news-msg { margin: 1.2rem 0 0; font-size: 1.4rem; color: #c8f5d2; }
+.nybe-footer__news-msg--error { color: #ffc9b3; }
+
+/* Social */
+.nybe-footer__social { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; gap: 1.6rem; }
+.nybe-footer__social a {
+  display: grid; place-items: center; width: 5.2rem; height: 5.2rem; border-radius: 50%; color: #fff;
+  background: rgba(255, 255, 255, 0.1); transition: background 0.2s ease;
+}
+.nybe-footer__social a:hover { background: var(--nybe-orange); }
+.nybe-footer__social svg { width: 2.2rem; height: 2.2rem; }
+.nybe-footer__social svg path { fill: currentColor; }
+
+/* Bottom bar */
+.nybe-footer__bottom {
+  margin-top: 3.2rem; padding-top: 2.4rem; border-top: 0.1rem solid var(--nf-line);
+  display: flex; flex-direction: column; align-items: center; gap: 1.6rem; text-align: center; font-size: 1.4rem; color: var(--nf-muted);
+}
+.nybe-footer__copy { margin: 0; }
+.nybe-footer__pay { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; }
+.nybe-footer__pay .icon { width: 3.8rem; height: 2.4rem; display: block; }
+.nybe-footer__policies { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, auto); justify-content: center; row-gap: 0.2rem; }
+.nybe-footer__policies li { display: flex; align-items: center; }
+/* Phones: pairs with a divider between them, so no line ever starts with a divider */
+.nybe-footer__policies li:nth-child(odd) { justify-content: flex-end; }
+.nybe-footer__policies li:nth-child(odd)::after { content: ''; width: 0.1rem; height: 1.4rem; margin: 0 1.4rem; background: rgba(255, 255, 255, 0.35); }
+.nybe-footer__policies li:nth-child(odd):last-child { grid-column: 1 / -1; justify-content: center; }
+.nybe-footer__policies li:nth-child(odd):last-child::after { display: none; }
+.nybe-footer__policies a { display: inline-flex; align-items: center; min-height: 3.2rem; }
+.nybe-footer__policies a:hover { color: #fff; text-decoration: underline; text-underline-offset: 0.3rem; }
+
+@media screen and (max-width: 989px) {
+  /* Phones: mockup hides payment icons to keep the bottom calm */
+  .nybe-footer__pay { display: none; }
+}
+@media screen and (max-width: 420px) {
+  .nybe-footer__benefit { padding: 0 1rem; font-size: 1.3rem; gap: 0.8rem; }
+  .nybe-footer__benefit-icon { width: 2.6rem; height: 2.6rem; }
+  .nybe-footer__submit { padding: 0 2rem; }
+}
+
+/* Desktop: brand | three link columns | divider | newsletter */
+@media screen and (min-width: 990px) {
+  .nybe-footer { padding: 7.2rem 0 3.2rem; }
+  .nybe-footer__main { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.55fr) minmax(0, 1.5fr); gap: 4rem; align-items: start; }
+  .nybe-footer__logo img { width: 24rem; }
+  .nybe-footer__tagline { font-size: 2.6rem; max-width: 38rem; }
+  .nybe-footer__benefits { margin-top: 1.2rem; }
+  .nybe-footer__cols { grid-template-columns: repeat(3, minmax(0, auto)); justify-content: space-between; gap: 2.4rem; border-top: 0; padding-top: 0.8rem; }
+  .nybe-footer__col { border-bottom: 0; }
+  .nybe-footer__summary { min-height: 0; cursor: default; margin-bottom: 2rem; }
+  .nybe-footer__col-icon, .nybe-footer__chev { display: none; }
+  .nybe-footer__heading { position: relative; padding-bottom: 1.4rem; font-family: var(--font-body-family); font-size: 1.6rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; }
+  .nybe-footer__heading::after { content: ''; position: absolute; left: 0; bottom: 0; width: 3.2rem; height: 0.3rem; border-radius: 0.3rem; background: var(--nybe-orange); }
+  .nybe-footer__links { padding: 0; gap: 0.6rem; }
+  .nybe-footer__link { min-height: 3.6rem; }
+  .nybe-footer__aside { padding-left: 4rem; border-left: 0.1rem solid var(--nf-line); gap: 2.4rem; }
+  .nybe-footer__news { padding: 0; background: none; border: 0; border-radius: 0; }
+  .nybe-footer__news-title { font-size: clamp(2.4rem, 1.9vw, 2.8rem); }
+  .nybe-footer__social { justify-content: flex-start; }
+  .nybe-footer__main, .nybe-footer__bottom { max-width: 144rem; }
+  .nybe-footer__bottom {
+    margin-top: 12rem; padding-top: 2.4rem; display: grid; grid-template-columns: auto auto; justify-content: space-between; align-items: center;
+    gap: 1.6rem 3.2rem; text-align: left; font-size: 1.35rem;
+  }
+  .nybe-footer__copy { white-space: nowrap; }
+  .nybe-footer__pay { flex-wrap: nowrap; justify-content: flex-end; }
+  .nybe-footer__pay .icon { width: 3.4rem; height: 2.2rem; }
+  .nybe-footer__policies { grid-column: 1 / -1; display: flex; flex-wrap: wrap; justify-content: flex-start; }
+  .nybe-footer__policies li:nth-child(odd) { justify-content: flex-start; }
+  .nybe-footer__policies li::after, .nybe-footer__policies li:nth-child(odd)::after { display: none; }
+  .nybe-footer__policies li + li::before { content: ''; width: 0.1rem; height: 1.4rem; margin: 0 1.4rem; background: rgba(255, 255, 255, 0.35); }
+}
+/* Wide screens: everything on one line, like the mockup */
+@media screen and (min-width: 1500px) {
+  .nybe-footer__bottom { grid-template-columns: auto auto 1fr; }
+  .nybe-footer__pay { padding: 0 2.4rem; border-inline: 0.1rem solid var(--nf-line); }
+  .nybe-footer__policies { grid-column: auto; justify-content: flex-end; flex-wrap: nowrap; }
+}
+@media screen and (min-width: 990px) and (max-width: 1199px) {
+  .nybe-footer__main { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+  .nybe-footer__aside { grid-column: 1 / -1; padding-left: 0; border-left: 0; padding-top: 3.2rem; border-top: 0.1rem solid var(--nf-line); grid-template-columns: minmax(0, 1.4fr) auto; align-items: end; }
+}

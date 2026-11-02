@@ -17,14 +17,16 @@
         "c_shop": {
           "type": "column",
           "settings": {
-            "title": "Shop"
+            "title": "Shop",
+            "icon": "shopping-bag"
           }
         },
         "l_build": {
           "type": "link",
           "settings": {
             "label": "Build your box",
-            "path": "/products/build-your-box"
+            "path": "/products/build-your-box",
+            "highlight": true
           }
         },
         "l_sub": {
@@ -37,7 +39,8 @@
         "c_learn": {
           "type": "column",
           "settings": {
-            "title": "Learn"
+            "title": "Learn",
+            "icon": "book-open"
           }
         },
         "l_how": {
@@ -85,7 +88,8 @@
         "c_help": {
           "type": "column",
           "settings": {
-            "title": "Help"
+            "title": "Help",
+            "icon": "circle-help"
           }
         },
         "l_contact": {
@@ -108,9 +112,33 @@
             "label": "Wholesale",
             "path": "/pages/wholesale"
           }
+        },
+        "b_fast": {
+          "type": "benefit",
+          "settings": {
+            "icon": "truck",
+            "text": "Fast\nDelivery"
+          }
+        },
+        "b_quality": {
+          "type": "benefit",
+          "settings": {
+            "icon": "award",
+            "text": "NY\nQuality"
+          }
+        },
+        "b_fresh": {
+          "type": "benefit",
+          "settings": {
+            "icon": "leaf",
+            "text": "Always\nFresh"
+          }
         }
       },
       "block_order": [
+        "b_fast",
+        "b_quality",
+        "b_fresh",
         "c_shop",
         "l_build",
         "l_sub",
@@ -131,7 +159,8 @@
         "tagline": "New York bagels, delivered fresh to your door.",
         "cta_label": "",
         "email": "help@nybagelexpress.com",
-        "show_skyline": true
+        "show_skyline": true,
+        "show_contact": false
       }
     }
   },

@@ -1,30 +1,59 @@
 {%- comment -%}
-  New York Bagel Express — Footer (navy, reversed logo, NYC skyline art)
-  Link columns are blocks edited in the Theme Editor (no store menu needed).
-  Each link uses either a picked URL or a path such as /#faq or /pages/contact.
+  New York Bagel Express — Footer
+  Navy footer with a lazy-loaded NYC skyline background (desktop: bottom right,
+  phones: top right). Brand + benefits, link columns (accordions on phones),
+  newsletter signup, social icons, payment icons and policy links.
+  Benefits, column headings and links are blocks edited in the Theme Editor.
+  Social links come from Theme settings > Social media.
   Policy links come from Settings > Policies automatically.
 {%- endcomment -%}
-<footer class="footer bbb-footer color-{{ section.settings.color_scheme | default: 'scheme-5' }} gradient" aria-label="Footer">
-  <div class="page-width bbb-footer__inner">
-    <div class="bbb-footer__brand">
-      <a href="{{ routes.root_url }}" class="bbb-footer__logo">
-        <picture><source srcset="{{ 'nybe-logo-reverse-400.webp' | asset_url }}" type="image/webp"><img src="{{ 'nybe-logo-reverse.png' | asset_url }}" width="200" height="85" alt="{{ shop.name | escape }} home" loading="lazy"></picture>
+<footer class="footer bbb-footer nybe-footer color-{{ section.settings.color_scheme | default: 'scheme-5' }}" aria-label="Footer">
+  {%- if section.settings.show_skyline -%}
+    <picture class="nybe-footer__bg" aria-hidden="true">
+      <source media="(min-width: 990px)" type="image/webp"
+        srcset="{{ 'nybe-footer-skyline-1000.webp' | asset_url }} 1000w, {{ 'nybe-footer-skyline-1500.webp' | asset_url }} 1500w, {{ 'nybe-footer-skyline-2000.webp' | asset_url }} 2000w"
+        sizes="100vw">
+      <img
+        src="{{ 'nybe-footer-skyline-m-750.webp' | asset_url }}"
+        srcset="{{ 'nybe-footer-skyline-m-480.webp' | asset_url }} 480w, {{ 'nybe-footer-skyline-m-750.webp' | asset_url }} 750w, {{ 'nybe-footer-skyline-m-969.webp' | asset_url }} 969w"
+        sizes="100vw" width="969" height="380" alt="" loading="lazy" decoding="async" fetchpriority="low">
+    </picture>
+  {%- endif -%}
+
+  <div class="page-width nybe-footer__main">
+    <div class="nybe-footer__brand">
+      <a href="{{ routes.root_url }}" class="nybe-footer__logo">
+        <picture><source srcset="{{ 'nybe-logo-reverse-400.webp' | asset_url }}" type="image/webp"><img src="{{ 'nybe-logo-reverse.png' | asset_url }}" width="400" height="169" alt="{{ shop.name | escape }} home" loading="lazy" decoding="async"></picture>
       </a>
-      {%- if section.settings.tagline != blank -%}<p class="bbb-footer__tagline">{{ section.settings.tagline | escape }}</p>{%- endif -%}
-      {%- if section.settings.cta_label != blank -%}
-        <a href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}" class="button button--primary bbb-footer__cta">{{ section.settings.cta_label | escape }}</a>
+      {%- if section.settings.tagline != blank -%}<p class="nybe-footer__tagline">{{ section.settings.tagline | escape }}</p>{%- endif -%}
+
+      {%- assign benefits = section.blocks | where: 'type', 'benefit' -%}
+      {%- if benefits.size > 0 -%}
+        <ul class="nybe-footer__benefits" role="list">
+          {%- for b in benefits -%}
+            <li class="nybe-footer__benefit" {{ b.shopify_attributes }}>
+              {%- render 'bbb-icon', name: b.settings.icon, size: 34, stroke: 1.75, class: 'nybe-footer__benefit-icon' -%}
+              <span>{{ b.settings.text | escape | newline_to_br }}</span>
+            </li>
+          {%- endfor -%}
+        </ul>
       {%- endif -%}
     </div>
 
-    <div class="bbb-footer__cols">
+    <div class="nybe-footer__cols" data-nybe-footer-cols>
       {%- for col in section.blocks -%}
         {%- if col.type == 'column' -%}
           {%- assign start_i = forloop.index0 | plus: 1 -%}
-          <nav class="bbb-footer__col" aria-label="{{ col.settings.title | escape }}" {{ col.shopify_attributes }}>
-            <h2 class="bbb-footer__heading">{{ col.settings.title | escape }}</h2>
-            <ul class="bbb-footer__links" role="list">
+          <details class="nybe-footer__col" {{ col.shopify_attributes }}>
+            <summary class="nybe-footer__summary">
+              {%- if col.settings.icon != blank and col.settings.icon != 'none' -%}{%- render 'bbb-icon', name: col.settings.icon, size: 26, stroke: 1.75, class: 'nybe-footer__col-icon' -%}{%- endif -%}
+              <h2 class="nybe-footer__heading">{{ col.settings.title | escape }}</h2>
+              {%- render 'bbb-icon', name: 'chevron-down', size: 22, stroke: 2.25, class: 'nybe-footer__chev' -%}
+            </summary>
+            <ul class="nybe-footer__links" role="list">
               {%- for block in section.blocks offset: start_i -%}
                 {%- if block.type == 'column' -%}{%- break -%}{%- endif -%}
+                {%- if block.type != 'link' -%}{%- continue -%}{%- endif -%}
                 {%- liquid
                   assign href = block.settings.url
                   if href == blank
@@ -35,70 +64,155 @@
                     endif
                   endif
                 -%}
-                <li {{ block.shopify_attributes }}><a href="{{ href }}" class="bbb-footer__link">{{ block.settings.label | escape }}</a></li>
+                <li {{ block.shopify_attributes }}>
+                  <a href="{{ href }}" class="nybe-footer__link{% if block.settings.highlight %} nybe-footer__link--hl{% endif %}">
+                    {{- block.settings.label | escape -}}
+                    {%- if block.settings.highlight -%}{%- render 'bbb-icon', name: 'arrow-right', size: 18, stroke: 2.25 -%}{%- endif -%}
+                  </a>
+                </li>
               {%- endfor -%}
             </ul>
-          </nav>
+          </details>
         {%- endif -%}
       {%- endfor -%}
 
       {%- if section.settings.show_contact -%}
-        <div class="bbb-footer__col">
-          <h2 class="bbb-footer__heading">Contact</h2>
-          <ul class="bbb-footer__links" role="list">
-            {%- if section.settings.email != blank -%}<li><a class="bbb-footer__link" href="mailto:{{ section.settings.email }}">{{ section.settings.email | escape | replace: '@', '@<wbr>' }}</a></li>{%- endif -%}
-            {%- if section.settings.address != blank -%}<li><address class="bbb-footer__address">{{ section.settings.address | newline_to_br }}</address></li>{%- endif -%}
+        <details class="nybe-footer__col">
+          <summary class="nybe-footer__summary">
+            {%- render 'bbb-icon', name: 'mail', size: 26, stroke: 1.75, class: 'nybe-footer__col-icon' -%}
+            <h2 class="nybe-footer__heading">Contact</h2>
+            {%- render 'bbb-icon', name: 'chevron-down', size: 22, stroke: 2.25, class: 'nybe-footer__chev' -%}
+          </summary>
+          <ul class="nybe-footer__links" role="list">
+            {%- if section.settings.email != blank -%}<li><a class="nybe-footer__link" href="mailto:{{ section.settings.email }}">{{ section.settings.email | escape }}</a></li>{%- endif -%}
+            {%- if section.settings.address != blank -%}<li><address class="nybe-footer__address">{{ section.settings.address | escape | newline_to_br }}</address></li>{%- endif -%}
           </ul>
-        </div>
+        </details>
       {%- endif -%}
     </div>
 
-    {%- if section.settings.show_skyline -%}
-      <div class="nybe-footer__skyline" aria-hidden="true">
-        <picture><source srcset="{{ 'nybe-skyline.webp' | asset_url }}" type="image/webp"><img src="{{ 'nybe-skyline.png' | asset_url }}" width="533" height="202" alt="" loading="lazy"></picture>
-      </div>
-    {%- endif -%}
+    <div class="nybe-footer__aside">
+      {%- if section.settings.show_newsletter -%}
+        <div class="nybe-footer__news">
+          {%- if section.settings.newsletter_heading != blank -%}<h2 class="nybe-footer__news-title">{{ section.settings.newsletter_heading | escape }}</h2>{%- endif -%}
+          {%- if section.settings.newsletter_text != blank -%}<p class="nybe-footer__news-text">{{ section.settings.newsletter_text | escape }}</p>{%- endif -%}
+          {%- form 'customer', id: 'NybeFooterNewsletter', class: 'nybe-footer__form' -%}
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <div class="nybe-footer__field">
+              {%- render 'bbb-icon', name: 'mail', size: 20, stroke: 1.75, class: 'nybe-footer__field-icon' -%}
+              <label class="bbb-sr-only" for="NybeFooterEmail">Email address</label>
+              <input id="NybeFooterEmail" type="email" name="contact[email]" value="{{ form.email }}" placeholder="Enter your email" autocomplete="email" autocapitalize="off" spellcheck="false" required
+                {% if form.errors %}aria-invalid="true" aria-describedby="NybeFooterNewsMsg"{% endif %}>
+              <button type="submit" class="nybe-footer__submit">{{ section.settings.newsletter_button | default: 'Sign Up' | escape }}</button>
+            </div>
+            {%- if form.errors -%}
+              <p id="NybeFooterNewsMsg" class="nybe-footer__news-msg nybe-footer__news-msg--error" role="alert">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+            {%- elsif form.posted_successfully? -%}
+              <p class="nybe-footer__news-msg" role="status">Thanks for subscribing! Watch your inbox for bagel deals.</p>
+            {%- endif -%}
+          {%- endform -%}
+        </div>
+      {%- endif -%}
+
+      {%- liquid
+        assign has_social = false
+        if settings.social_instagram_link != blank or settings.social_facebook_link != blank or settings.social_tiktok_link != blank or settings.social_youtube_link != blank or settings.social_twitter_link != blank or settings.social_pinterest_link != blank
+          assign has_social = true
+        endif
+      -%}
+      {%- if has_social -%}
+        <ul class="nybe-footer__social" role="list">
+          {%- if settings.social_instagram_link != blank -%}<li><a href="{{ settings.social_instagram_link }}" target="_blank" rel="noopener" aria-label="Instagram">{{ 'icon-instagram.svg' | inline_asset_content }}</a></li>{%- endif -%}
+          {%- if settings.social_facebook_link != blank -%}<li><a href="{{ settings.social_facebook_link }}" target="_blank" rel="noopener" aria-label="Facebook">{{ 'icon-facebook.svg' | inline_asset_content }}</a></li>{%- endif -%}
+          {%- if settings.social_tiktok_link != blank -%}<li><a href="{{ settings.social_tiktok_link }}" target="_blank" rel="noopener" aria-label="TikTok">{{ 'icon-tiktok.svg' | inline_asset_content }}</a></li>{%- endif -%}
+          {%- if settings.social_youtube_link != blank -%}<li><a href="{{ settings.social_youtube_link }}" target="_blank" rel="noopener" aria-label="YouTube">{{ 'icon-youtube.svg' | inline_asset_content }}</a></li>{%- endif -%}
+          {%- if settings.social_twitter_link != blank -%}<li><a href="{{ settings.social_twitter_link }}" target="_blank" rel="noopener" aria-label="X">{{ 'icon-twitter.svg' | inline_asset_content }}</a></li>{%- endif -%}
+          {%- if settings.social_pinterest_link != blank -%}<li><a href="{{ settings.social_pinterest_link }}" target="_blank" rel="noopener" aria-label="Pinterest">{{ 'icon-pinterest.svg' | inline_asset_content }}</a></li>{%- endif -%}
+        </ul>
+      {%- elsif request.design_mode -%}
+        <p class="bbb-editor-note">Add your social links in Theme settings &gt; Social media to show icons here.</p>
+      {%- endif -%}
+    </div>
   </div>
 
-  <div class="page-width bbb-footer__bottom">
-    <p class="bbb-footer__copy">&copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }}</p>
-    {%- if shop.policies.size > 0 -%}
-      <ul class="bbb-footer__policies" role="list">
-        {%- for policy in shop.policies -%}
-          {%- if policy != blank -%}<li><a href="{{ policy.url }}" class="bbb-footer__link">{{ policy.title | escape }}</a></li>{%- endif -%}
-        {%- endfor -%}
+  <div class="page-width nybe-footer__bottom">
+    <p class="nybe-footer__copy">&copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }}.{% if section.settings.copyright_suffix != blank %} {{ section.settings.copyright_suffix | escape }}{% endif %}</p>
+    {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+      <ul class="nybe-footer__pay" role="list" aria-label="Payment methods">
+        {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>{%- endfor -%}
       </ul>
     {%- endif -%}
-    {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
-      <ul class="bbb-footer__pay" role="list" aria-label="Payment methods">
-        {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>{%- endfor -%}
+    {%- if shop.policies.size > 0 -%}
+      <ul class="nybe-footer__policies" role="list">
+        {%- for policy in shop.policies -%}
+          {%- if policy != blank -%}<li><a href="{{ policy.url }}">{{ policy.title | escape }}</a></li>{%- endif -%}
+        {%- endfor -%}
       </ul>
     {%- endif -%}
   </div>
 </footer>
+
+<script>
+  (function () {
+    var cols = document.querySelectorAll('[data-nybe-footer-cols] details');
+    if (!cols.length || !window.matchMedia) return;
+    var mq = window.matchMedia('(min-width: 990px)');
+    function sync() { cols.forEach(function (d) { d.open = mq.matches; }); }
+    sync();
+    if (mq.addEventListener) mq.addEventListener('change', sync); else if (mq.addListener) mq.addListener(sync);
+    cols.forEach(function (d) {
+      d.querySelector('summary').addEventListener('click', function (e) { if (mq.matches) e.preventDefault(); });
+    });
+  })();
+</script>
 
 {% schema %}
 {
   "name": "NYBE Footer",
   "tag": "div",
   "class": "section",
-  "max_blocks": 30,
+  "max_blocks": 40,
   "settings": [
-    { "type": "checkbox", "id": "show_skyline", "label": "Show NYC skyline art", "default": true },
-    { "type": "text", "id": "tagline", "label": "Tagline", "default": "New York bagels, shipped." },
-    { "type": "text", "id": "cta_label", "label": "Button label", "default": "Build your box" },
-    { "type": "url", "id": "cta_link", "label": "Button link" },
-    { "type": "checkbox", "id": "show_contact", "label": "Show contact column", "default": true },
+    { "type": "checkbox", "id": "show_skyline", "label": "Show NYC skyline background", "default": true },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "New York bagels, delivered fresh to your door." },
+    { "type": "header", "content": "Newsletter" },
+    { "type": "checkbox", "id": "show_newsletter", "label": "Show newsletter signup", "default": true },
+    { "type": "text", "id": "newsletter_heading", "label": "Heading", "default": "Get Bagel Deals & Updates" },
+    { "type": "text", "id": "newsletter_text", "label": "Text", "default": "Be the first to know about new flavors, promotions, and exclusive offers." },
+    { "type": "text", "id": "newsletter_button", "label": "Button label", "default": "Sign Up" },
+    { "type": "header", "content": "Contact column" },
+    { "type": "checkbox", "id": "show_contact", "label": "Show contact column", "default": false },
     { "type": "text", "id": "email", "label": "Email", "default": "help@nybagelexpress.com" },
     { "type": "textarea", "id": "address", "label": "Address", "default": "111 Broadway\nAmityville, NY 11701" },
+    { "type": "header", "content": "Bottom bar" },
+    { "type": "text", "id": "copyright_suffix", "label": "Text after copyright", "default": "All rights reserved." },
     { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-5" }
   ],
   "blocks": [
     {
+      "type": "benefit",
+      "name": "Benefit",
+      "limit": 4,
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "truck", "options": [
+          { "value": "truck", "label": "Truck" }, { "value": "award", "label": "Award" }, { "value": "leaf", "label": "Leaf" },
+          { "value": "bagel", "label": "Bagel" }, { "value": "heart", "label": "Heart" }, { "value": "star", "label": "Star" },
+          { "value": "shield", "label": "Shield" }, { "value": "clock", "label": "Clock" }, { "value": "map-pin", "label": "Map pin" }
+        ] },
+        { "type": "textarea", "id": "text", "label": "Text", "default": "Fast\nDelivery", "info": "Use a line break to split it over two lines." }
+      ]
+    },
+    {
       "type": "column",
       "name": "Column heading",
-      "settings": [ { "type": "text", "id": "title", "label": "Heading", "default": "Shop" } ]
+      "settings": [
+        { "type": "text", "id": "title", "label": "Heading", "default": "Shop" },
+        { "type": "select", "id": "icon", "label": "Icon (phones)", "default": "none", "options": [
+          { "value": "none", "label": "None" }, { "value": "shopping-bag", "label": "Shopping bag" }, { "value": "book-open", "label": "Book" },
+          { "value": "circle-help", "label": "Help" }, { "value": "mail", "label": "Mail" }, { "value": "bagel", "label": "Bagel" }
+        ] }
+      ]
     },
     {
       "type": "link",
@@ -106,7 +220,8 @@
       "settings": [
         { "type": "text", "id": "label", "label": "Label", "default": "Link" },
         { "type": "url", "id": "url", "label": "Link (picker)" },
-        { "type": "text", "id": "path", "label": "Or path", "info": "Use /#faq, /#about, /#process, /#reviews, /#how-it-works, /#why or /pages/contact. Ignored when a link is picked above." }
+        { "type": "text", "id": "path", "label": "Or path", "info": "Use /#faq, /#about, /#process, /#reviews, /#how-it-works, /#why or /pages/contact. Ignored when a link is picked above." },
+        { "type": "checkbox", "id": "highlight", "label": "Highlight with arrow", "default": false }
       ]
     }
   ],
