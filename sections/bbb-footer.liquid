@@ -8,6 +8,8 @@
   Policy links come from Settings > Policies automatically.
 {%- endcomment -%}
 <footer class="footer bbb-footer nybe-footer color-{{ section.settings.color_scheme | default: 'scheme-5' }}" aria-label="Footer">
+  {%- comment -%} The skyline lives inside .nybe-footer__top so it ends exactly where the bottom bar starts {%- endcomment -%}
+  <div class="nybe-footer__top">
   {%- if section.settings.show_skyline -%}
     <picture class="nybe-footer__bg" aria-hidden="true">
       <source media="(min-width: 990px)" type="image/webp"
@@ -133,6 +135,7 @@
         <p class="bbb-editor-note">Add your social links in Theme settings &gt; Social media to show icons here.</p>
       {%- endif -%}
     </div>
+  </div>
   </div>
 
   <div class="page-width nybe-footer__bottom">
