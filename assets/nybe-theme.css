@@ -243,12 +243,13 @@ body { color: var(--nybe-navy); }
 
 /* ---------- Trust row (value props, strip layout) ---------- */
 .nybe-strip .bbb-values__grid {
-  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.8rem 1.6rem; max-width: 120rem; margin-inline: auto;
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; max-width: 120rem; margin-inline: auto;
 }
 .nybe-strip .bbb-card {
-  border: 0; background: none; box-shadow: none; border-radius: 0; padding: 0;
-  display: flex; flex-direction: column; align-items: flex-start; gap: 1.4rem;
+  border: 0; background: none; box-shadow: none; border-radius: 0; padding: 2rem 0;
+  display: flex; flex-direction: row; align-items: center; gap: 1.6rem;
 }
+.nybe-strip .bbb-card + .bbb-card { border-top: 0.1rem solid rgba(244, 123, 32, 0.3); }
 .nybe-strip .nybe-card__icon {
   flex: none; display: grid; place-items: center; width: 5.6rem; height: 5.6rem; border-radius: 50%;
   color: var(--nybe-orange); background: rgba(244, 123, 32, 0.1);
@@ -260,7 +261,8 @@ body { color: var(--nybe-navy); }
 .nybe-strip .bbb-card .rte p { margin: 0; }
 @media screen and (min-width: 990px) {
   .nybe-strip .bbb-values__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; }
-  .nybe-strip .bbb-card { flex-direction: row; gap: 1.6rem; padding: 0.8rem 2.8rem; }
+  .nybe-strip .bbb-card { align-items: flex-start; padding: 0.8rem 2.8rem; }
+  .nybe-strip .bbb-card + .bbb-card { border-top: 0; }
   .nybe-strip .bbb-card:first-child { padding-left: 0; }
   .nybe-strip .bbb-card:last-child { padding-right: 0; }
   .nybe-strip .bbb-card + .bbb-card { border-left: 0.1rem solid rgba(244, 123, 32, 0.3); }
