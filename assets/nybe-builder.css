@@ -203,5 +203,6 @@
   .bbb-addon__check { position: absolute; top: 0.6rem; right: 0.6rem; width: 2.2rem; height: 2.2rem; }
   .bbb-addon__name { font-size: 1.45rem; padding-right: 2rem; line-height: 1.2; }
   .bbb-addon__price { font-size: 1.4rem; }
-  .bbb-addon__every, .nybe-addon__desc { display: none; }
+  .nybe-addon__desc { display: none; }
+  .bbb-addon__every { display: block; font-size: 1.2rem; }
 }
