@@ -435,8 +435,12 @@ body.bbb-has-sticky-cta { padding-bottom: 9.6rem; }
   font: inherit; font-size: 1.6rem; color: var(--nybe-navy); -webkit-appearance: none; appearance: none;
 }
 .nybe-footer__field input::placeholder { color: #6b7789; opacity: 1; }
-.nybe-footer__field input:focus { outline: none; }
-.nybe-footer__field:focus-within { box-shadow: 0 0 0 0.3rem rgba(244, 123, 32, 0.55), 0 0.6rem 2rem rgba(0, 0, 0, 0.18); }
+/* Focus: one clean ring around the whole pill; no theme-default ring on the input or button */
+.nybe-footer__field input:focus, .nybe-footer__field input:focus-visible { outline: none; box-shadow: none; background: none; }
+.nybe-footer__field input:-webkit-autofill { -webkit-text-fill-color: var(--nybe-navy); transition: background-color 600000s 0s, color 600000s 0s; }
+.nybe-footer__field:focus-within { outline: 0.2rem solid #fff; outline-offset: 0.3rem; }
+.nybe-footer__field .nybe-footer__submit:focus, .nybe-footer__field .nybe-footer__submit:focus-visible { outline: none; box-shadow: none; }
+.nybe-footer__field .nybe-footer__submit:focus-visible { border-radius: 99rem; box-shadow: inset 0 0 0 0.2rem #fff; filter: brightness(1.06); }
 .nybe-footer__submit {
   flex: none; border: 0; border-radius: 99rem; padding: 0 2.8rem; cursor: pointer; font: inherit; font-size: 1.7rem; font-weight: 800; color: #fff;
   background: linear-gradient(180deg, #f8862a, #ea6a12); transition: filter 0.2s ease;
