@@ -267,7 +267,16 @@ body { color: var(--nybe-navy); }
   .nybe-strip .nybe-card__body { padding-top: 0.4rem; }
 }
 .bbb-values:not(.nybe-strip) .bbb-card { border: 0; box-shadow: var(--nybe-shadow); background: #fff; }
-.bbb-values:not(.nybe-strip) .nybe-card__icon { color: var(--nybe-orange); display: block; margin-bottom: 0.8rem; }
+/* Card layout (Why us, Wholesale): icon in a tinted circle, then title and text with fixed gaps */
+.bbb-values:not(.nybe-strip) .bbb-card { display: flex; flex-direction: column; align-items: flex-start; gap: 2rem; padding: 3.2rem; }
+.bbb-values:not(.nybe-strip) .nybe-card__icon {
+  display: grid; place-items: center; flex: none; width: 5.6rem; height: 5.6rem; border-radius: 50%;
+  background: #f47b201a; color: var(--nybe-orange); margin: 0;
+}
+.bbb-values:not(.nybe-strip) .nybe-card__icon .bbb-icon { display: block; width: 2.8rem; height: 2.8rem; overflow: visible; }
+.bbb-values:not(.nybe-strip) .nybe-card__body { display: flex; flex-direction: column; gap: 0.8rem; }
+.bbb-values:not(.nybe-strip) .bbb-card__title { margin: 0; font-size: 2rem; line-height: 1.25; letter-spacing: 0; }
+.bbb-values:not(.nybe-strip) .bbb-card .rte { font-size: 1.6rem; line-height: 1.55; letter-spacing: 0; color: var(--nybe-muted); }
 
 /* ---------- About ---------- */
 .bbb-about__img { border: 0; box-shadow: none; border-radius: 2.4rem; }

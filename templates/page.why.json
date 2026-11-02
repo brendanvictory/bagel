@@ -36,6 +36,7 @@
           "type": "value",
           "settings": {
             "title": "Real New York bagel people",
+            "icon": "store",
             "text": "<p>30+ years in the business and 28 retail locations. This isn't our first dozen.</p>"
           }
         },
@@ -43,6 +44,7 @@
           "type": "value",
           "settings": {
             "title": "Baked and shipped the same day",
+            "icon": "timer",
             "text": "<p>Your bagels leave our Long Island commissary the day they're baked.</p>"
           }
         },
@@ -50,6 +52,7 @@
           "type": "value",
           "settings": {
             "title": "No preservatives",
+            "icon": "leaf",
             "text": "<p>Just bagels. Enjoy them within 24 hours, freeze the rest.</p>"
           }
         },
@@ -57,6 +60,7 @@
           "type": "value",
           "settings": {
             "title": "Kosher facility, peanut-free process",
+            "icon": "shield",
             "text": "<p>Baked in our kosher commissary with a peanut-free process.</p>"
           }
         },
@@ -64,6 +68,7 @@
           "type": "value",
           "settings": {
             "title": "Your dozen, your way",
+            "icon": "layers",
             "text": "<p>Three sleeves of four. Mix up to three flavors or go all-in on one.</p>"
           }
         },
@@ -71,6 +76,7 @@
           "type": "value",
           "settings": {
             "title": "Free shipping, every box",
+            "icon": "truck",
             "text": "<p>Shipping is included in the price — no surprise fees at checkout.</p>"
           }
         }
