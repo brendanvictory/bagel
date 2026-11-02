@@ -356,7 +356,13 @@ body { color: var(--nybe-navy); }
 .bbb-cta-band--photo .button--primary { background-image: linear-gradient(180deg, var(--nybe-cta-1), var(--nybe-cta-2)); color: #fff; }
 .bbb-plan--featured { background: var(--nybe-cream); color: var(--nybe-navy); border-color: var(--nybe-orange); }
 .bbb-plan__badge { background: var(--nybe-cta-2); }
-.bbb-sticky-cta { border-top: 0; box-shadow: 0 -0.6rem 1.6rem rgba(8, 45, 92, 0.12); background: #fff; }
+.bbb-sticky-cta {
+  border-top: 0; background: #fff; border-radius: 2rem 2rem 0 0; box-shadow: 0 -0.6rem 2.4rem rgba(8, 45, 92, 0.14);
+  padding: 1.6rem 2rem calc(1.6rem + env(safe-area-inset-bottom));
+}
+.bbb-sticky-cta .button { min-height: 5.8rem; font-size: 1.7rem; letter-spacing: 0.06em; display: flex; align-items: center; justify-content: center; }
+body.bbb-has-sticky-cta { padding-bottom: 9.6rem; }
+@media screen and (min-width: 750px) { body.bbb-has-sticky-cta { padding-bottom: 0; } }
 
 /* ---------- Footer ---------- */
 .bbb-footer { position: relative; overflow: hidden; padding-top: 5.6rem; }
