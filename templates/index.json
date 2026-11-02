@@ -13,30 +13,58 @@
       "type": "bbb-hero",
       "settings": {
         "layout": "background",
-        "text_align": "center",
-        "eyebrow": "New York bagels, delivered.",
+        "text_align": "left",
+        "eyebrow": "Authentic New York Bagels",
         "heading": "Fresh New York Bagels,",
         "heading_accent": "Delivered.",
         "heading_tag": "h1",
-        "subheading": "<h2>Pick 3 sleeves. 4 bagels each. Your flavors, your rules.</h2><p>Always Free Shipping.&nbsp;</p>",
+        "subheading": "<p>Build your perfect dozen. Hand-rolled, kettle-boiled, and baked fresh, then shipped to your door.</p>",
         "price_product": "build-your-box",
         "show_price": false,
         "cta_label": "Build your box",
         "cta_link": "shopify://products/build-your-box",
-        "cta2_label": "How it works",
-        "cta2_link": "",
-        "image": "shopify://shop_images/Colorful_bagels_on_pure_white.png",
+        "cta2_label": "See our flavors",
+        "cta2_link": "/#flavors",
+        "image": "",
         "use_bundled_photo": true,
-        "overlay_opacity": 30,
+        "overlay_opacity": 0,
         "height": "medium",
         "show_logo_art": true,
         "color_scheme": "scheme-5",
-        "spray": true,
+        "spray": false,
         "padding_top": 40,
         "padding_bottom": 56,
         "sticky_cta": true,
         "sticky_color_scheme": "scheme-3"
-      }
+      },
+      "blocks": {
+        "b1": {
+          "type": "chip",
+          "settings": {
+            "text": "Freshly Baked in New York",
+            "icon": "leaf"
+          }
+        },
+        "b2": {
+          "type": "chip",
+          "settings": {
+            "text": "Shipped Nationwide",
+            "icon": "truck"
+          }
+        },
+        "b3": {
+          "type": "chip",
+          "settings": {
+            "text": "Build Your Own Dozen",
+            "icon": "package"
+          }
+        }
+      },
+      "block_order": [
+        "b1",
+        "b2",
+        "b3"
+      ]
     },
     "how": {
       "type": "bbb-how-it-works",
@@ -44,22 +72,25 @@
         "s1": {
           "type": "step",
           "settings": {
-            "title": "Pick your bagels",
-            "text": "<p>Every dozen is 3 sleeves of 4. Choose up to 3 flavors — or go all-in on one.</p>"
+            "title": "Pick Your Bagels",
+            "text": "<p>Choose up to 3 flavors (4 bagels per flavor).</p>",
+            "icon": "bagel"
           }
         },
         "s2": {
           "type": "step",
           "settings": {
-            "title": "We bake & ship",
-            "text": "<p>We bake and ship the same day, so your bagels are always fresh.</p>"
+            "title": "We Bake & Pack",
+            "text": "<p>Fresh, to order, in New York.</p>",
+            "icon": "package"
           }
         },
         "s3": {
           "type": "step",
           "settings": {
-            "title": "Delivered to your door",
-            "text": "<p>Enjoy now or freeze for later.</p>"
+            "title": "Delivered to Your Door",
+            "text": "<p>Fast, fresh, and ready to enjoy.</p>",
+            "icon": "truck"
           }
         }
       },
@@ -70,10 +101,10 @@
       ],
       "settings": {
         "eyebrow": "How it works",
-        "heading": "You Pick. We Bake. Enjoy.",
+        "heading": "Build your box in 3 easy steps",
         "text": "",
         "anchor": "how-it-works",
-        "cta_label": "Build your box",
+        "cta_label": "",
         "cta_link": "shopify://products/build-your-box",
         "color_scheme": "scheme-2",
         "padding_top": 48,
@@ -84,18 +115,20 @@
       "type": "bbb-flavor-gallery",
       "settings": {
         "product": "build-your-box",
-        "eyebrow": "The lineup",
-        "heading": "Pick your",
-        "heading_accent": "flavors.",
-        "text": "<p>Hand-rolled, baked and shipped the same day. Tap a flavor to start your box.</p>",
-        "card_cta": "Start a box",
-        "cta_label": "Build your box",
-        "show_addons": true,
+        "eyebrow": "Our bagels",
+        "heading": "Pick your flavors.",
+        "heading_accent": "",
+        "text": "<p>Hand-rolled, kettle-boiled, and baked the New York way.</p>",
+        "card_cta": "",
+        "cta_label": "",
+        "show_addons": false,
         "hide_unavailable": true,
         "anchor": "flavors",
-        "color_scheme": "",
-        "padding_top": 56,
-        "padding_bottom": 56
+        "color_scheme": "scheme-1",
+        "padding_top": 48,
+        "padding_bottom": 24,
+        "promo_heading": "Build Your Dozen Today!",
+        "promo_cta": "Build your box"
       }
     },
     "values": {
@@ -104,29 +137,33 @@
         "v1": {
           "type": "value",
           "settings": {
-            "title": "Easy ordering",
-            "text": "<p>Build your box in a minute. Subscribe and it shows up every 4 weeks.</p>"
+            "title": "Easy Ordering",
+            "text": "<p>Build your box in minutes.</p>",
+            "icon": "star"
           }
         },
         "v2": {
           "type": "value",
           "settings": {
-            "title": "Fresh delivery",
-            "text": "<p>Baked and shipped the same day from our Long Island commissary.</p>"
+            "title": "Always Fresh",
+            "text": "<p>Baked to order, never frozen.</p>",
+            "icon": "package"
           }
         },
         "v3": {
           "type": "value",
           "settings": {
-            "title": "NY-based customer service",
-            "text": "<p>Questions? Our New York team has you covered.</p>"
+            "title": "NY-Based Service",
+            "text": "<p>A real New York bagel company.</p>",
+            "icon": "map-pin"
           }
         },
         "v4": {
           "type": "value",
           "settings": {
-            "title": "Enjoy now or save for later",
-            "text": "<p>Eat fresh, freeze the rest, and toast one whenever the craving hits.</p>"
+            "title": "Love It or Your Money Back",
+            "text": "<p>100% satisfaction guarantee.</p>",
+            "icon": "heart"
           }
         }
       },
@@ -137,14 +174,15 @@
         "v4"
       ],
       "settings": {
-        "eyebrow": "Why Bad Boy Bagel Co.",
-        "heading": "We know",
-        "heading_accent": "bagels.",
-        "text": "<p>We have 28 retail locations and have been in the bagel business in New York for over 30 years.</p>",
+        "eyebrow": "",
+        "heading": "",
+        "heading_accent": "",
+        "text": "",
         "anchor": "why",
         "color_scheme": "scheme-1",
-        "padding_top": 48,
-        "padding_bottom": 48
+        "padding_top": 8,
+        "padding_bottom": 40,
+        "layout": "strip"
       }
     },
     "about": {
@@ -154,14 +192,14 @@
           "type": "stat",
           "settings": {
             "value": "30+",
-            "label": "Years in the NY bagel business"
+            "label": "Years in the Bagel Business"
           }
         },
         "a2": {
           "type": "stat",
           "settings": {
             "value": "28",
-            "label": "Retail locations"
+            "label": "Retail Locations"
           }
         }
       },
@@ -173,10 +211,10 @@
         "eyebrow": "About us",
         "heading": "New York bagel people.",
         "heading_accent": "",
-        "text": "<p>We've been in the bagel business in New York for over 30 years and run 28 retail locations. Now we ship straight from our Long Island commissary to your door.</p>",
+        "text": "<p>We've been in the bagel business in New York for over 30 years and have 28 retail locations. Now we bring our authentic New York bagels straight from our ovens to your door.</p>",
         "use_bundled_photo": true,
-        "bundled_photo": "scatter",
-        "image_alt": "An assortment of bagels on a white background",
+        "bundled_photo": "nyc",
+        "image_alt": "Fresh bagels in front of the New York City skyline",
         "cta_label": "",
         "cta_link": "",
         "anchor": "about",
@@ -191,33 +229,37 @@
         "p1": {
           "type": "stage",
           "settings": {
-            "kicker": "Step 1",
-            "title": "Baked on Long Island",
-            "text": "<p>Your bagels are baked at our commissary on Long Island, NY.</p>"
+            "kicker": "",
+            "title": "Baked in New York",
+            "text": "<p>Crafted the authentic way.</p>",
+            "icon": "flame"
           }
         },
         "p2": {
           "type": "stage",
           "settings": {
-            "kicker": "Step 2",
-            "title": "Packed in sleeves of 4",
-            "text": "<p>Each flavor goes in its own sleeve the same day it's baked.</p>"
+            "kicker": "",
+            "title": "Packed Fresh",
+            "text": "<p>In sleeves of 4 bagels.</p>",
+            "icon": "package"
           }
         },
         "p3": {
           "type": "stage",
           "settings": {
-            "kicker": "Step 3",
-            "title": "Shipped Monday–Wednesday",
-            "text": "<p>We only ship early in the week so your box arrives fresh.&nbsp;</p>"
+            "kicker": "",
+            "title": "Shipped Fast",
+            "text": "<p>Nationwide, with care.</p>",
+            "icon": "truck"
           }
         },
         "p4": {
           "type": "stage",
           "settings": {
-            "kicker": "Step 4",
-            "title": "Eat or freeze",
-            "text": "<p>No preservatives. Eat within 24 hours, freeze the rest, then microwave 30 seconds and toast.</p>"
+            "kicker": "",
+            "title": "Enjoy!",
+            "text": "<p>A true New York bagel experience.</p>",
+            "icon": "smile"
           }
         }
       },
@@ -232,10 +274,10 @@
         "heading": "From our oven to your door.",
         "text": "",
         "anchor": "process",
-        "spray": true,
-        "color_scheme": "scheme-5",
-        "padding_top": 56,
-        "padding_bottom": 56
+        "spray": false,
+        "color_scheme": "scheme-4",
+        "padding_top": 48,
+        "padding_bottom": 48
       }
     },
     "subsave": {
@@ -243,19 +285,20 @@
       "settings": {
         "product": "build-your-box",
         "eyebrow": "Subscribe & save",
-        "heading": "Never run out",
-        "text": "",
+        "heading": "Never run out.",
+        "text": "<p>Get fresh bagels delivered every 4 weeks and save [save] on every box.</p>",
         "badge": "Best value",
         "sub_label": "Subscribe & save",
         "sub_points": "<ul><li>Delivered every 4 weeks</li><li>Change your flavors anytime</li><li>Skip, pause or cancel from your account</li></ul>",
         "once_label": "One-time box",
         "once_points": "<ul><li>Same build-your-own dozen</li><li>No commitment</li></ul>",
-        "cta_label": "Build your box",
+        "cta_label": "Subscribe now",
         "cta_link": "shopify://products/build-your-box",
         "disclosure": "<p>Subscriptions renew automatically every 4 weeks at the price shown until you cancel. Cancel anytime in your account before your next renewal. <a href=\"/policies/terms-of-service\">Subscription terms</a>.</p>",
         "color_scheme": "scheme-1",
-        "padding_top": 48,
-        "padding_bottom": 48
+        "padding_top": 24,
+        "padding_bottom": 48,
+        "layout": "banner"
       }
     },
     "quotes": {
@@ -317,11 +360,13 @@
         "q5"
       ],
       "settings": {
-        "heading": "Questions?",
+        "heading": "Good to know",
         "schema": true,
         "color_scheme": "scheme-2",
         "padding_top": 48,
-        "padding_bottom": 48
+        "padding_bottom": 48,
+        "layout": "strip",
+        "show_bridge": true
       }
     },
     "news": {
@@ -370,7 +415,8 @@
         "color_scheme": "scheme-3",
         "padding_top": 56,
         "padding_bottom": 56
-      }
+      },
+      "disabled": true
     }
   },
   "order": [

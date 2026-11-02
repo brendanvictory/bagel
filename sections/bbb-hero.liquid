@@ -1,5 +1,5 @@
 {%- comment -%}
-  Bad Boy Bagel Co. — Hero
+  New York Bagel Express — Hero
   Layouts:
     background — full-bleed photo (e.g., bagel assortment) behind the copy,
                  with an adjustable dark overlay for legibility. Optional
@@ -32,7 +32,7 @@
 -%}
 <section
   id="bbb-hero-{{ section.id }}"
-  class="bbb-hero bbb-hero--{{ layout }} bbb-hero--align-{{ section.settings.text_align }} bbb-hero--h-{{ section.settings.height }} color-{{ section.settings.color_scheme | default: 'scheme-5' }} gradient{% if section.settings.spray and has_bg == false %} bbb-spray{% endif %}{% if has_bg %} bbb-hero--has-bg{% endif %}"
+  class="bbb-hero nybe-hero bbb-hero--{{ layout }} bbb-hero--align-{{ section.settings.text_align }} bbb-hero--h-{{ section.settings.height }} color-{{ section.settings.color_scheme | default: 'scheme-5' }} gradient{% if section.settings.spray and has_bg == false %} bbb-spray{% endif %}{% if has_bg %} bbb-hero--has-bg{% endif %}"
   style="--bbb-pad-top: {{ section.settings.padding_top }}px; --bbb-pad-bottom: {{ section.settings.padding_bottom }}px; --bbb-overlay: {{ overlay }};"
   aria-labelledby="bbb-hero-heading-{{ section.id }}"
 >
@@ -40,22 +40,19 @@
     {%- comment -%} One <picture>: phones download only the mobile crop (if set), desktops only the wide image. {%- endcomment -%}
     <div class="bbb-hero__bg" aria-hidden="true">
       {%- if use_bundled -%}
-        {%- comment -%} Owner-supplied bagel photo shipped with the theme (assets/bbb-hero-bagels-*). {%- endcomment -%}
+        {%- comment -%} Bundled New York Bagel Express hero photo (assets/nybe-hero-*): WebP with JPG fallback. {%- endcomment -%}
         <picture>
           <source
-            media="(max-width: 749px)"
-            srcset="{{ 'bbb-hero-bagels-mobile-480.webp' | asset_url }} 480w, {{ 'bbb-hero-bagels-mobile-614.webp' | asset_url }} 614w"
+            type="image/webp"
+            srcset="{{ 'nybe-hero-800.webp' | asset_url }} 800w, {{ 'nybe-hero-1200.webp' | asset_url }} 1200w, {{ 'nybe-hero-1600.webp' | asset_url }} 1600w, {{ 'nybe-hero-1942.webp' | asset_url }} 1942w"
             sizes="100vw"
           >
           <img
-            src="{{ 'bbb-hero-bagels-1024.webp' | asset_url }}"
-            srcset="{{ 'bbb-hero-bagels-768.webp' | asset_url }} 768w, {{ 'bbb-hero-bagels-1024.webp' | asset_url }} 1024w"
-            sizes="100vw"
-            width="1024"
-            height="768"
+            src="{{ 'nybe-hero-1600.jpg' | asset_url }}"
+            width="1942"
+            height="809"
             alt=""
-            class="bbb-hero__bg-img"
-            style="object-position: 55% 55%;"
+            class="bbb-hero__bg-img nybe-hero__img"
             fetchpriority="high"
             loading="eager"
           >
@@ -134,7 +131,7 @@
       <div class="bbb-cta-row">
         {%- if section.settings.cta_label != blank -%}
           <a href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}" class="button button--primary" id="bbb-hero-cta-{{ section.id }}">
-            {{- section.settings.cta_label | escape -}}
+            <span>{{- section.settings.cta_label | escape -}}</span>{% render 'bbb-icon', name: 'arrow-right', size: 18, class: 'nybe-btn-arrow' %}
           </a>
         {%- endif -%}
         {%- if section.settings.cta2_label != blank -%}
@@ -145,9 +142,12 @@
       </div>
 
       {%- if section.blocks.size > 0 -%}
-        <ul class="bbb-hero__chips" role="list">
+        <ul class="bbb-hero__chips nybe-benefits" role="list">
           {%- for block in section.blocks -%}
-            <li class="bbb-chip" {{ block.shopify_attributes }}>{{ block.settings.text | escape }}</li>
+            <li class="bbb-chip nybe-benefit" {{ block.shopify_attributes }}>
+              {%- if block.settings.icon != blank and block.settings.icon != 'none' -%}{%- render 'bbb-icon', name: block.settings.icon, size: 30, stroke: 1.75, class: 'nybe-benefit__icon' -%}{%- endif -%}
+              <span>{{ block.settings.text | escape }}</span>
+            </li>
           {%- endfor -%}
         </ul>
       {%- endif -%}
@@ -170,10 +170,10 @@
       {%- elsif section.settings.show_logo_art -%}
         <div class="bbb-hero__media bbb-hero__media--logo" aria-hidden="true">
           <img
-            src="{{ 'bbb-logo-1200.webp' | asset_url }}"
-            srcset="{{ 'bbb-logo-600.webp' | asset_url }} 600w, {{ 'bbb-logo-1200.webp' | asset_url }} 1200w"
+            src="{{ 'nybe-logo-776.webp' | asset_url }}"
+            srcset="{{ 'nybe-logo-400.webp' | asset_url }} 400w, {{ 'nybe-logo-776.webp' | asset_url }} 776w"
             sizes="(min-width: 990px) 45vw, 90vw"
-            width="1200" height="863" alt="" fetchpriority="high"
+            width="776" height="328" alt="" fetchpriority="high"
           >
         </div>
       {%- endif -%}
@@ -214,7 +214,7 @@
     },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "New York bagels, shipped." },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Build your" },
-    { "type": "text", "id": "heading_accent", "label": "Heading accent (Carolina blue)", "default": "bad boy box" },
+    { "type": "text", "id": "heading_accent", "label": "Heading accent (orange)", "default": "Delivered." },
     {
       "type": "select", "id": "heading_tag", "label": "Heading level", "default": "h1",
       "info": "Use H1 for the first hero on the homepage only.",
@@ -237,7 +237,7 @@
       "info": "Photo background: an assortment of your bagels, at least 2400px wide. Set the focal point in Content > Files so the crop keeps the bagels in view."
     },
     {
-      "type": "checkbox", "id": "use_bundled_photo", "label": "Use the bundled bagel assortment photo when no image is chosen", "default": true
+      "type": "checkbox", "id": "use_bundled_photo", "label": "Use the bundled New York bagels photo when no image is chosen", "default": true
     },
     {
       "type": "image_picker", "id": "image_mobile", "label": "Mobile background image (optional)",
@@ -268,9 +268,16 @@
   "blocks": [
     {
       "type": "chip",
-      "name": "Trust chip",
+      "name": "Benefit",
       "settings": [
-        { "type": "text", "id": "text", "label": "Text", "default": "Sleeves of 4", "info": "Only claims you can back up (no unverified shipping speeds, awards or guarantees)." }
+        { "type": "text", "id": "text", "label": "Text", "default": "Sleeves of 4", "info": "Only claims you can back up (no unverified shipping speeds, awards or guarantees)." },
+        {
+          "type": "select", "id": "icon", "label": "Icon", "default": "none",
+          "options": [
+            { "value": "none", "label": "None" }, { "value": "leaf", "label": "Leaf" }, { "value": "truck", "label": "Truck" }, { "value": "package", "label": "Package" },
+            { "value": "box", "label": "Box" }, { "value": "star", "label": "Star" }, { "value": "flame", "label": "Flame" }, { "value": "heart", "label": "Heart" }, { "value": "map-pin", "label": "Map pin" }
+          ]
+        }
       ]
     }
   ],

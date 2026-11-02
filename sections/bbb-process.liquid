@@ -1,4 +1,4 @@
-{%- comment -%} Bad Boy Bagel Co. — Our process: horizontal timeline (vertical on mobile) {%- endcomment -%}
+{%- comment -%} New York Bagel Express — Our process: horizontal timeline (vertical on mobile) {%- endcomment -%}
 <section
   id="{{ section.settings.anchor | default: 'process' | handleize }}"
   class="bbb-process color-{{ section.settings.color_scheme | default: 'scheme-5' }} gradient{% if section.settings.spray %} bbb-spray{% endif %}"
@@ -14,7 +14,9 @@
     <ol class="bbb-process__list" role="list">
       {%- for block in section.blocks -%}
         <li class="bbb-process__item" {{ block.shopify_attributes }}>
-          <span class="bbb-process__dot" aria-hidden="true"></span>
+          <span class="bbb-process__dot{% if block.settings.icon != blank and block.settings.icon != 'none' %} nybe-process__icon{% endif %}" aria-hidden="true">
+            {%- if block.settings.icon != blank and block.settings.icon != 'none' -%}{%- render 'bbb-icon', name: block.settings.icon, size: 26, stroke: 1.75 -%}{%- endif -%}
+          </span>
           {%- if block.settings.kicker != blank -%}<p class="bbb-process__kicker">{{ block.settings.kicker | escape }}</p>{%- endif -%}
           <h3 class="bbb-process__title">{{ block.settings.title | escape }}</h3>
           {%- if block.settings.text != blank -%}<div class="rte">{{ block.settings.text }}</div>{%- endif -%}
@@ -26,7 +28,7 @@
 
 {% schema %}
 {
-  "name": "BBB Our process",
+  "name": "NYBE Our process",
   "tag": "div",
   "class": "section",
   "max_blocks": 6,
@@ -47,10 +49,16 @@
       "settings": [
         { "type": "text", "id": "kicker", "label": "Kicker (e.g., Day 1)" },
         { "type": "text", "id": "title", "label": "Title", "default": "Stage" },
-        { "type": "richtext", "id": "text", "label": "Text" }
+        { "type": "richtext", "id": "text", "label": "Text" },
+        { "type": "select", "id": "icon", "label": "Icon", "default": "none", "options": [
+            { "value": "none", "label": "None" }, { "value": "bagel", "label": "Bagel" }, { "value": "package", "label": "Box" }, { "value": "truck", "label": "Truck" },
+            { "value": "chef-hat", "label": "Chef hat" }, { "value": "flame", "label": "Oven / flame" }, { "value": "smile", "label": "Smile" }, { "value": "star", "label": "Star" },
+            { "value": "leaf", "label": "Leaf" }, { "value": "map-pin", "label": "Map pin" }, { "value": "heart", "label": "Heart" }, { "value": "calendar", "label": "Calendar" },
+            { "value": "clock", "label": "Clock" }, { "value": "check-circle", "label": "Check" }, { "value": "shield", "label": "Shield" }
+          ] }
       ]
     }
   ],
-  "presets": [ { "name": "BBB Our process" } ]
+  "presets": [ { "name": "NYBE Our process" } ]
 }
 {% endschema %}

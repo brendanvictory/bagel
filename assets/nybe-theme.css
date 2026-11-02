@@ -1,0 +1,313 @@
+/* =========================================================================
+   New York Bagel Express — visual layer (loaded after base.css + bbb-*.css)
+   Presentation only: colors, type, spacing, layout. No behavior lives here.
+   Palette: navy #082D5C · warm cream #FFF4E2 · orange #F47B20.
+   Orange shades used as TEXT or under white text are deepened for WCAG AA:
+     --nybe-orange-text  #B9520A  small orange text on white/cream (4.5:1)
+     --nybe-orange-big   #D9650F  large orange display text on white/cream (3.3:1)
+     --nybe-cta-1/2      #E8501A → #C9420C  white button text
+   Pure #F47B20 is used on navy (5:1) and for icons, rules and decoration.
+   ========================================================================= */
+:root {
+  --nybe-navy: #082d5c;
+  --nybe-navy-2: #0d3d78;
+  --nybe-cream: #fff4e2;
+  --nybe-cream-2: #fff9f0;
+  --nybe-card: #fff6e8;
+  --nybe-orange: #f47b20;
+  --nybe-orange-text: #b9520a;
+  --nybe-orange-big: #d9650f;
+  --nybe-cta-1: #e8501a;
+  --nybe-cta-2: #c9420c;
+  --nybe-red: #e3261b;
+  --nybe-green: #1e7b34;
+  --nybe-muted: #4a5a70;
+  --nybe-line: rgba(8, 45, 92, 0.12);
+  --nybe-shadow: 0 0.2rem 0.6rem rgba(120, 70, 20, 0.05), 0 1rem 3rem rgba(120, 70, 20, 0.08);
+  --nybe-radius: 1.8rem;
+
+  /* re-point the original brand tokens */
+  --bbb-blue: var(--nybe-orange);
+  --bbb-black: var(--nybe-navy);
+  --bbb-paper: var(--nybe-cream);
+  --bbb-border: 0.1rem solid var(--nybe-line);
+  --bbb-sticker-shadow: var(--nybe-shadow);
+  --bbb-focus: 0.3rem solid var(--nybe-navy);
+  --bbb-display-xl: clamp(4rem, 6.4vw, 7rem);
+  --bbb-display-l: clamp(2.9rem, 4.4vw, 4.6rem);
+}
+.color-scheme-4, .color-scheme-5 { --bbb-focus: 0.3rem solid var(--nybe-orange); }
+
+body { color: var(--nybe-navy); }
+
+/* ---------- Type ---------- */
+.bbb-display { font-weight: 900; letter-spacing: -0.015em; line-height: 0.96; color: rgb(var(--color-foreground)); }
+.bbb-accent,
+.color-scheme-1 .bbb-accent,
+.color-scheme-2 .bbb-accent { color: var(--nybe-orange-big); -webkit-text-stroke: 0; text-shadow: none; }
+.color-scheme-4 .bbb-accent, .color-scheme-5 .bbb-accent { color: var(--nybe-orange); }
+.color-scheme-3 .bbb-accent { color: var(--nybe-navy); text-shadow: none; }
+
+.bbb-eyebrow { font-size: 1.4rem; font-weight: 800; letter-spacing: 0.16em; color: var(--nybe-orange-text); }
+.color-scheme-4 .bbb-eyebrow, .color-scheme-5 .bbb-eyebrow { color: var(--nybe-orange); }
+/* centered section eyebrows get orange rules on both sides */
+.bbb-section__header .bbb-eyebrow, .nybe-rule { display: inline-flex; align-items: center; gap: 1.2rem; }
+.bbb-section__header .bbb-eyebrow::before, .bbb-section__header .bbb-eyebrow::after,
+.nybe-rule::before, .nybe-rule::after { content: ''; width: 3.6rem; height: 0.2rem; background: var(--nybe-orange); border-radius: 1rem; }
+.bbb-section__header p, .bbb-section__header .rte { color: var(--nybe-muted); }
+.color-scheme-4 .bbb-section__header p, .color-scheme-5 .bbb-section__header p { color: rgba(255, 255, 255, 0.85); }
+
+.bbb-section :focus-visible, .bbb-faq summary:focus-visible { box-shadow: 0 0 0 0.6rem rgba(244, 123, 32, 0.35); }
+
+/* ---------- Buttons ---------- */
+.button { font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; }
+.button--primary {
+  background-image: linear-gradient(180deg, var(--nybe-cta-1), var(--nybe-cta-2));
+  color: #fff; box-shadow: 0 0.6rem 1.6rem rgba(201, 66, 12, 0.28);
+}
+.button--primary:hover { background-image: linear-gradient(180deg, #d94512, #b53a09); }
+.button:after, .button:before { box-shadow: none !important; }
+.color-scheme-4 .button--secondary, .color-scheme-5 .button--secondary { color: #fff; --border-opacity: 1; }
+.button .nybe-btn-arrow { margin-left: 0.8rem; flex: none; }
+.bbb-cta-row .button { min-width: 0; padding-inline: 3rem; display: inline-flex; align-items: center; }
+
+/* ---------- Trust bar ---------- */
+.nybe-trust { background: var(--nybe-navy); color: #fff; }
+.nybe-trust__list { list-style: none; margin: 0 auto; padding-block: 0.8rem; display: flex; justify-content: center; align-items: center; gap: 0; }
+.nybe-trust__item { display: inline-flex; align-items: center; gap: 0.8rem; padding: 0 2.4rem; font-size: 1.3rem; font-weight: 600; letter-spacing: 0.01em; }
+.nybe-trust__item + .nybe-trust__item { border-left: 0.1rem solid rgba(255, 255, 255, 0.35); }
+.nybe-trust__item a { color: inherit; text-decoration: none; }
+.nybe-trust__item a:hover { text-decoration: underline; text-underline-offset: 0.3rem; }
+.nybe-trust__icon { color: var(--nybe-orange); flex: none; }
+@media screen and (max-width: 749px) { .section-nybe-trust { display: none; } }
+
+/* ---------- Header ---------- */
+.section-header .header-wrapper { background: #fff; box-shadow: 0 0.2rem 1.2rem rgba(8, 45, 92, 0.06); }
+.header__icon, .header__icon .icon { color: var(--nybe-navy); }
+.header__icon .icon { width: 2.4rem; height: 2.4rem; }
+.header__icon--cart .icon { width: 2.6rem; height: 2.6rem; }
+.cart-count-bubble { background-color: var(--nybe-red); color: #fff; font-weight: 800; }
+@media screen and (min-width: 990px) {
+  .header__inline-menu .header__menu-item { color: var(--nybe-navy); font-weight: 800; font-size: 1.5rem; letter-spacing: 0.04em; }
+  .header__inline-menu .header__active-menu-item,
+  .header__inline-menu .header__menu-item:hover span { text-decoration-color: var(--nybe-orange); }
+}
+/* Mobile: logo left; account, cart, menu on the right; no search */
+@media screen and (max-width: 989px) {
+  .header { grid-template-areas: 'heading icons left-icons'; grid-template-columns: minmax(0, 1fr) auto auto; column-gap: 0.4rem; }
+  .header__heading, .header__heading-link { justify-self: start; text-align: left; margin-left: 0; }
+  .header > .header__search, .header__icons .header__search, details-modal.header__search { display: none; }
+  .header .header__icon--account { display: flex; }
+  .header__heading-logo { max-width: 13.4rem; height: auto; }
+}
+
+/* ---------- Hero ---------- */
+.nybe-hero.bbb-hero--has-bg { background: var(--nybe-navy); }
+.nybe-hero .nybe-hero__img { object-position: 78% 50%; }
+.nybe-hero .bbb-hero__bg::after {
+  background: linear-gradient(180deg, rgba(8, 45, 92, 0.94) 0%, rgba(8, 45, 92, 0.82) 48%, rgba(8, 45, 92, 0.25) 80%, rgba(8, 45, 92, 0.15) 100%);
+}
+@media screen and (min-width: 750px) {
+  .nybe-hero .bbb-hero__bg::after {
+    background: linear-gradient(90deg, #082d5c 0%, rgba(8, 45, 92, 0.94) 28%, rgba(8, 45, 92, 0.55) 48%, rgba(8, 45, 92, 0) 68%);
+  }
+  .nybe-hero .nybe-hero__img { object-position: 100% 50%; }
+}
+.nybe-hero.bbb-hero--h-medium.bbb-hero--has-bg { min-height: 0; }
+@media screen and (min-width: 990px) { .nybe-hero.bbb-hero--h-medium.bbb-hero--has-bg { min-height: 56rem; } }
+.nybe-hero .bbb-hero__copy { text-shadow: none; gap: 1.8rem; max-width: 60rem; }
+.nybe-hero .bbb-eyebrow { color: var(--nybe-orange); font-size: 1.5rem; margin: 0; }
+.nybe-hero .bbb-display--xl { font-size: clamp(4rem, 6vw, 6.8rem); }
+.nybe-hero .bbb-accent { display: block; font-style: italic; position: relative; width: fit-content; padding-right: 0.1em; color: var(--nybe-orange); }
+.nybe-hero .bbb-accent::after {
+  content: ''; position: absolute; left: 0.05em; right: -0.1em; bottom: -0.16em; height: 0.12em;
+  background: var(--nybe-orange); border-radius: 50%; transform: rotate(-1.5deg); opacity: 0.95;
+}
+.nybe-hero .bbb-hero__sub { font-size: 1.8rem; line-height: 1.5; max-width: 46rem; color: rgba(255, 255, 255, 0.92); }
+.nybe-hero .bbb-cta-row { max-width: none; width: auto; gap: 1.4rem; }
+.nybe-hero .bbb-cta-row .button { flex: 0 0 auto; min-height: 5.4rem; font-size: 1.6rem; }
+.nybe-hero .bbb-cta-row .button--secondary { font-size: 1.4rem; }
+@media screen and (max-width: 749px) {
+  .nybe-hero .bbb-cta-row { flex-direction: column; align-items: stretch; max-width: 32rem; }
+  .nybe-hero .bbb-cta-row .button { width: 100%; justify-content: center; }
+}
+/* Benefit row inside the hero (navy band on phones) */
+.nybe-benefits.bbb-hero__chips { gap: 0; margin-top: 1rem; flex-wrap: nowrap; }
+.nybe-benefit.bbb-chip {
+  background: none !important; border: 0; border-radius: 0; padding: 0 1.8rem; display: flex; align-items: center; gap: 1rem;
+  font-size: 1.4rem; font-weight: 700; line-height: 1.25; color: #fff; max-width: 16rem;
+}
+.nybe-benefit:first-child { padding-left: 0; }
+.nybe-benefit + .nybe-benefit { border-left: 0.1rem solid rgba(255, 255, 255, 0.3); }
+.nybe-benefit__icon { color: var(--nybe-orange); flex: none; }
+@media screen and (max-width: 749px) {
+  .nybe-benefits.bbb-hero__chips {
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 2.4rem -1.5rem 0; padding: 2rem 0.8rem;
+    background: var(--nybe-navy); border-top: 0.1rem solid rgba(255, 255, 255, 0.12);
+  }
+  .nybe-benefit.bbb-chip { flex-direction: column; text-align: center; padding: 0 0.6rem; max-width: none; font-size: 1.3rem; }
+  .nybe-benefit:first-child { padding-left: 0.6rem; }
+}
+
+/* ---------- How it works: one white card, 3 steps ---------- */
+.bbb-steps .bbb-steps__list {
+  background: #fff; border-radius: 2.4rem; box-shadow: var(--nybe-shadow); padding: 2rem 1.2rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-bottom: 0; max-width: 112rem; margin-inline: auto;
+}
+.bbb-steps .bbb-steps__item {
+  border: 0; box-shadow: none; background: none; border-radius: 0; padding: 0 0.6rem; position: relative;
+  display: grid; justify-items: center; text-align: center; gap: 0.6rem; align-content: start;
+}
+.bbb-steps .nybe-steps__art { color: var(--nybe-orange); display: grid; place-items: center; order: -1; }
+.bbb-steps .bbb-steps__num {
+  position: static; width: 2.8rem; height: 2.8rem; font-size: 1.5rem; border: 0; color: #fff; background: var(--nybe-cta-2);
+}
+.bbb-steps .bbb-steps__title { font-size: 1.5rem; font-weight: 800; margin: 0; line-height: 1.2; }
+.bbb-steps .bbb-steps__item .rte { display: none; font-size: 1.4rem; color: var(--nybe-muted); }
+.nybe-steps__chev { position: absolute; right: -1.1rem; top: 3.2rem; color: var(--nybe-orange); }
+@media screen and (min-width: 750px) {
+  .bbb-steps .bbb-steps__list { padding: 2.8rem 3.2rem; }
+  .bbb-steps .bbb-steps__item { grid-template-columns: auto auto minmax(0, 1fr); justify-items: start; text-align: left; align-items: center; gap: 1.4rem; padding: 0 2.4rem; }
+  .bbb-steps .bbb-steps__num { align-self: start; }
+  .bbb-steps .nybe-steps__art { order: 0; }
+  .bbb-steps .bbb-steps__title { font-size: 1.8rem; margin-bottom: 0.4rem; }
+  .bbb-steps .bbb-steps__item .rte { display: block; }
+  .nybe-steps__chev { top: 50%; transform: translateY(-50%); right: -1.2rem; }
+}
+.bbb-steps .bbb-cta-row { margin-top: var(--bbb-space-4); }
+
+/* ---------- Flavor grid ---------- */
+.bbb-gallery__grid { gap: 1.2rem; }
+@media screen and (min-width: 1100px) { .bbb-gallery__grid { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+.bbb-gallery__card { background: var(--nybe-card); box-shadow: 0 0.2rem 0.6rem rgba(120, 70, 20, 0.06); border: 0.2rem solid transparent; padding-bottom: 1.6rem; justify-items: center; text-align: center; }
+.bbb-gallery__card:hover { border-color: var(--nybe-orange); }
+.bbb-gallery__media { background: transparent; margin-bottom: 0.4rem; width: 100%; }
+.bbb-gallery__name { color: var(--nybe-navy); font-size: 1.7rem; }
+.bbb-gallery__cta { color: var(--nybe-muted); }
+.nybe-promo-tile { grid-column: span 2; }
+.nybe-promo-tile__card {
+  height: 100%; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr); align-items: center; gap: 1.2rem;
+  padding: 1.6rem; border-radius: 1.6rem; background: linear-gradient(135deg, #fff6e8, #ffe7c7); text-decoration: none; color: inherit;
+  box-shadow: 0 0.2rem 0.6rem rgba(120, 70, 20, 0.06);
+}
+.nybe-promo-tile__media img { width: 100%; height: auto; display: block; mix-blend-mode: multiply; }
+.nybe-promo-tile__copy { display: grid; gap: 1.2rem; justify-items: start; }
+.nybe-promo-tile__title { font-weight: 900; font-style: italic; font-size: clamp(2.2rem, 2.2vw, 2.8rem); line-height: 1.05; color: var(--nybe-orange-big); }
+.nybe-promo-tile__btn { min-height: 4.2rem; padding: 0 1.8rem; font-size: 1.3rem; display: inline-flex; align-items: center; }
+.nybe-promo-tile__card:focus-visible { outline: var(--bbb-focus); outline-offset: 0.3rem; }
+
+/* ---------- Trust row (value props, strip layout) ---------- */
+.nybe-strip .bbb-values__grid {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2rem 1.2rem; max-width: 120rem; margin-inline: auto;
+}
+.nybe-strip .bbb-card {
+  border: 0; background: none; padding: 0 1.2rem; display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: 1.2rem; align-items: center;
+}
+.nybe-strip .nybe-card__icon { grid-row: span 2; color: var(--nybe-orange); display: grid; }
+.nybe-strip .bbb-card__title { font-size: 1.6rem; font-weight: 800; margin: 0; line-height: 1.2; }
+.nybe-strip .bbb-card .rte { font-size: 1.3rem; color: var(--nybe-muted); }
+@media screen and (min-width: 990px) {
+  .nybe-strip .bbb-values__grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; }
+  .nybe-strip .bbb-card + .bbb-card { border-left: 0.1rem solid rgba(244, 123, 32, 0.45); }
+  .nybe-strip .bbb-card { padding: 0.4rem 2.4rem; }
+}
+.bbb-values:not(.nybe-strip) .bbb-card { border: 0; box-shadow: var(--nybe-shadow); background: #fff; }
+.bbb-values:not(.nybe-strip) .nybe-card__icon { color: var(--nybe-orange); display: block; margin-bottom: 0.8rem; }
+
+/* ---------- About ---------- */
+.bbb-about__img { border: 0; box-shadow: none; border-radius: 2.4rem; }
+.nybe-about__img { border-radius: 2.4rem; -webkit-mask-image: radial-gradient(130% 110% at 50% 50%, #000 62%, transparent 72%); mask-image: radial-gradient(130% 110% at 50% 50%, #000 62%, transparent 72%); }
+.bbb-about__text { color: var(--nybe-navy); font-size: 1.7rem; line-height: 1.55; }
+.bbb-stats { grid-template-columns: repeat(2, minmax(0, max-content)); gap: 0; margin-top: 0.8rem; }
+.bbb-stat { border-top: 0; padding: 0 3.2rem 0 0; }
+.bbb-stat + .bbb-stat { border-left: 0.1rem solid var(--nybe-line); padding-left: 3.2rem; }
+.bbb-stat__value { color: var(--nybe-orange-big); font-size: clamp(3.6rem, 4vw, 4.6rem); }
+.bbb-stat__label { color: var(--nybe-navy); font-size: 1.5rem; font-weight: 600; }
+@media screen and (min-width: 990px) { .bbb-about__grid { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: 5.6rem; } }
+
+/* ---------- Process band (navy) ---------- */
+.bbb-process .bbb-section__header { margin-bottom: 3.2rem; }
+.bbb-process__list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 2.8rem 1.6rem; }
+.bbb-process__item { padding: 0; text-align: center; display: grid; justify-items: center; gap: 0.4rem; align-content: start; }
+.bbb-process__item::before { display: none; }
+.bbb-process__dot.nybe-process__icon {
+  position: relative; left: auto; top: auto; width: 5.6rem; height: 5.6rem; display: grid; place-items: center;
+  background: var(--nybe-cream); color: var(--nybe-orange-big); border: 0.3rem solid var(--nybe-orange); box-shadow: none; margin-bottom: 0.8rem; z-index: 1;
+}
+.bbb-process__title { font-size: 1.7rem; font-weight: 800; margin: 0; color: #fff; }
+.bbb-process__item .rte { font-size: 1.4rem; color: rgba(255, 255, 255, 0.82); }
+@media screen and (min-width: 990px) {
+  .bbb-process__list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2.4rem; }
+  .bbb-process__item { padding-top: 0; }
+  .bbb-process__item::before {
+    display: block; content: ''; position: absolute; top: 2.8rem; left: 50%; right: calc(-50% - 2.4rem); bottom: auto; width: auto; height: 0.2rem;
+    background: var(--nybe-orange); opacity: 0.7;
+  }
+  .bbb-process__item:last-child::before { display: none; }
+}
+
+/* ---------- Subscribe banner ---------- */
+.nybe-subbanner__card {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; align-items: center; max-width: 112rem; margin-inline: auto;
+  padding: 2.4rem; border-radius: 2.8rem; background: linear-gradient(120deg, #fff4e2 0%, #ffe8c8 100%); box-shadow: var(--nybe-shadow);
+}
+.nybe-subbanner__media img { width: 100%; max-width: 32rem; height: auto; display: block; margin-inline: auto; border-radius: 1.6rem; mix-blend-mode: multiply; }
+.nybe-subbanner__copy { display: grid; gap: 1.2rem; justify-items: start; }
+.nybe-subbanner__copy .bbb-eyebrow { margin: 0; display: inline-flex; align-items: center; gap: 1.2rem; }
+.nybe-subbanner__copy .bbb-eyebrow::after { content: ''; width: 3.6rem; height: 0.2rem; background: var(--nybe-orange); }
+.nybe-subbanner__copy .rte { font-size: 1.7rem; color: var(--nybe-navy); }
+.nybe-subbanner__copy .rte p { margin: 0; }
+.nybe-subbanner .bbb-subsave__disclosure { text-align: left; margin: 0; font-size: 1.25rem; color: var(--nybe-muted); }
+@media screen and (min-width: 750px) {
+  .nybe-subbanner__card { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr); padding: 2.4rem 4.8rem 2.4rem 2.4rem; gap: 3.2rem; }
+}
+
+/* ---------- FAQ (default list) ---------- */
+.bbb-faq__item { border: 0.15rem solid var(--nybe-line); border-radius: 1.2rem; background: #fff; }
+.bbb-faq__q { font-size: 1.6rem; color: var(--nybe-navy); }
+.bbb-faq__icon::before, .bbb-faq__icon::after { background: var(--nybe-navy); }
+
+/* ---------- Good to Know strip ---------- */
+.nybe-gtk__card {
+  display: grid; grid-template-columns: minmax(0, 1fr); gap: 2rem; align-items: center; max-width: 120rem; margin-inline: auto;
+  padding: 2.8rem 2rem; border-radius: 2.4rem; background: linear-gradient(120deg, #fff6e8, #fff1dc); box-shadow: var(--nybe-shadow);
+}
+.nybe-gtk__title { font-size: clamp(3.2rem, 3.6vw, 4.2rem); line-height: 0.95; position: relative; padding-bottom: 1.6rem; margin: 0; }
+.nybe-gtk__title::after { content: ''; position: absolute; left: 0; bottom: 0; width: 9rem; height: 0.5rem; border-radius: 50%; background: var(--nybe-orange); transform: rotate(-2deg); }
+.nybe-gtk__list { gap: 1rem; }
+.nybe-gtk .bbb-faq__item { border: 0.15rem solid rgba(8, 45, 92, 0.35); border-radius: 1rem; }
+.nybe-gtk .bbb-faq__q { min-height: 4.4rem; padding: 0.8rem 1.6rem; font-size: 1.5rem; }
+.nybe-gtk__art img { width: 100%; height: auto; display: block; }
+@media screen and (max-width: 749px) { .nybe-gtk__art { max-width: 34rem; } }
+@media screen and (min-width: 990px) {
+  .nybe-gtk__card { grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.6fr) minmax(0, 1.1fr); padding: 3.2rem 4rem; gap: 4rem; }
+  .nybe-gtk__title { border-right: 0.1rem solid var(--nybe-line); padding-right: 2.4rem; }
+}
+
+/* ---------- Cards / page sections (inner pages) ---------- */
+.bbb-card { border: 0; background: #fff; box-shadow: var(--nybe-shadow); border-radius: var(--nybe-radius); }
+.bbb-checklist__icon { background: var(--nybe-orange); }
+.bbb-checklist__icon::after { border-color: #fff; }
+.bbb-form__input { border-color: rgba(8, 45, 92, 0.35); border-radius: 1rem; }
+.bbb-form__success { background: var(--nybe-cream); color: var(--nybe-navy); border-left: 0.4rem solid var(--nybe-green); }
+.bbb-ph { border-radius: 2rem; }
+.bbb-cta-band--photo .bbb-cta-band__bg::after { background: linear-gradient(90deg, rgba(8, 45, 92, 0.92), rgba(8, 45, 92, 0.55)); }
+.bbb-cta-band--photo .button--primary { background-image: linear-gradient(180deg, var(--nybe-cta-1), var(--nybe-cta-2)); color: #fff; }
+.bbb-plan--featured { background: var(--nybe-cream); color: var(--nybe-navy); border-color: var(--nybe-orange); }
+.bbb-plan__badge { background: var(--nybe-cta-2); }
+.bbb-sticky-cta { border-top: 0; box-shadow: 0 -0.6rem 1.6rem rgba(8, 45, 92, 0.12); background: #fff; }
+
+/* ---------- Footer ---------- */
+.bbb-footer { position: relative; overflow: hidden; padding-top: 5.6rem; }
+.bbb-footer__logo img { width: 20rem; height: auto; }
+.bbb-footer__tagline { font-weight: 500; font-size: 1.6rem; color: rgba(255, 255, 255, 0.88); max-width: 24rem; }
+.bbb-footer__heading { color: #fff; font-size: 1.4rem; letter-spacing: 0.16em; }
+.bbb-footer__link { color: rgba(255, 255, 255, 0.85); }
+.bbb-footer__link:hover { color: #fff; }
+.nybe-footer__skyline { display: none; }
+.nybe-footer__skyline img { width: 100%; height: auto; display: block; }
+@media screen and (min-width: 1200px) {
+  .bbb-footer__inner { grid-template-columns: minmax(0, 0.9fr) minmax(0, 2fr) minmax(0, 1.1fr); gap: 4.8rem; align-items: end; }
+  .nybe-footer__skyline { display: block; align-self: end; margin-bottom: -1.2rem; opacity: 0.9; }
+}
+.bbb-footer__bottom { border-top-color: rgba(255, 255, 255, 0.18); color: rgba(255, 255, 255, 0.75); }

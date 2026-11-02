@@ -39,7 +39,7 @@
       "settings": {
         "layout": "background",
         "text_align": "center",
-        "eyebrow": "The Bad Boy dozen deal",
+        "eyebrow": "The New York dozen deal",
         "heading": "Buy a dozen.",
         "heading_accent": "Get 6 minis free.",
         "heading_tag": "h1",
@@ -121,7 +121,48 @@
         "default_option": "none",
         "after_add": "checkout",
         "color_scheme": "scheme-2"
-      }
+      },
+      "blocks": {
+        "copy": {
+          "type": "copy",
+          "settings": {
+            "page2_text": "Customize your order with tasty add-ons and choose how often you'd like fresh bagels delivered.",
+            "yourbox_sub": "[sleeves] sleeves × [per_sleeve] bagels ([total] total)",
+            "addons_tag": "Add to every box",
+            "once_note": "A single box, no subscription."
+          }
+        },
+        "b_ship": {
+          "type": "p2_benefit",
+          "settings": {
+            "icon": "truck",
+            "title": "Free Shipping",
+            "text": "On every box, always."
+          }
+        },
+        "b_flex": {
+          "type": "p2_benefit",
+          "settings": {
+            "icon": "calendar",
+            "title": "Flexible Subscription",
+            "text": "Change, pause or cancel anytime."
+          }
+        },
+        "b_sat": {
+          "type": "p2_benefit",
+          "settings": {
+            "icon": "heart",
+            "title": "100% Satisfaction",
+            "text": "Love it or your money back."
+          }
+        }
+      },
+      "block_order": [
+        "copy",
+        "b_ship",
+        "b_flex",
+        "b_sat"
+      ]
     },
     "about": {
       "type": "bbb-about",

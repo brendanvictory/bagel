@@ -12,8 +12,104 @@
     "builder": {
       "type": "bbb-box-builder",
       "settings": {
-        "lead_enabled": false
-      }
+        "lead_enabled": false,
+        "eyebrow": "Build your box",
+        "heading": "Pick your [sleeves] sleeves",
+        "subheading": "Each sleeve holds [per_sleeve] bagels of one flavor. Choose up to [sleeves] flavors ([total] bagels total).",
+        "nav2": "Add-ons & Plan",
+        "nav1": "Pick Flavors",
+        "page2_heading": "Add-ons & Plan",
+        "yourbox_title": "Your dozen",
+        "step2_title": "Add-ons",
+        "step2_hint": "Make your box even better with these fan favorites.",
+        "step3_title": "Delivery plan",
+        "back_label": "Edit flavors",
+        "next_label": "Next: Add-ons & Pricing",
+        "add_label": "Checkout",
+        "tray_hint": "Each sleeve holds [per_sleeve] bagels of one flavor. Choose up to [sleeves] flavors for your box ([total] bagels total)."
+      },
+      "blocks": {
+        "banner": {
+          "type": "banner",
+          "settings": {}
+        },
+        "copy": {
+          "type": "copy",
+          "settings": {
+            "page2_text": "Customize your order with tasty add-ons and choose how often you'd like fresh bagels delivered.",
+            "yourbox_sub": "[sleeves] sleeves × [per_sleeve] bagels ([total] total)",
+            "addons_tag": "Add to every box",
+            "once_note": "A single box, no subscription."
+          }
+        },
+        "fhead": {
+          "type": "flavors_head",
+          "settings": {
+            "eyebrow": "Our bagels",
+            "heading": "Choose your flavors",
+            "text": "Hand-rolled, kettle-boiled, and baked the New York way."
+          }
+        },
+        "b_auth": {
+          "type": "p1_benefit",
+          "settings": {
+            "icon": "star",
+            "title": "Authentic NY Bagels",
+            "text": "Baked the traditional way."
+          }
+        },
+        "b_fresh": {
+          "type": "p1_benefit",
+          "settings": {
+            "icon": "package",
+            "title": "Always Fresh",
+            "text": "Baked to order, never frozen."
+          }
+        },
+        "b_fast": {
+          "type": "p1_benefit",
+          "settings": {
+            "icon": "truck",
+            "title": "Fast Nationwide Shipping",
+            "text": "Get fresh bagels at your door."
+          }
+        },
+        "b_ship": {
+          "type": "p2_benefit",
+          "settings": {
+            "icon": "truck",
+            "title": "Free Shipping",
+            "text": "On every box, always."
+          }
+        },
+        "b_flex": {
+          "type": "p2_benefit",
+          "settings": {
+            "icon": "calendar",
+            "title": "Flexible Subscription",
+            "text": "Change, pause or cancel anytime."
+          }
+        },
+        "b_sat": {
+          "type": "p2_benefit",
+          "settings": {
+            "icon": "heart",
+            "title": "100% Satisfaction",
+            "text": "Love it or your money back."
+          }
+        }
+      },
+      "block_order": [
+        "banner",
+        "copy",
+        "fhead",
+        "b_auth",
+        "b_fresh",
+        "b_fast",
+        "b_ship",
+        "b_flex",
+        "b_sat"
+      ]
     },
     "faq": {
       "type": "bbb-faq",
@@ -47,7 +143,10 @@
       ],
       "settings": {
         "heading": "Good to know",
-        "schema": false
+        "schema": false,
+        "layout": "strip",
+        "show_bridge": true,
+        "color_scheme": "scheme-2"
       }
     }
   },

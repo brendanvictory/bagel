@@ -50,8 +50,8 @@
         "l_why": {
           "type": "link",
           "settings": {
-            "label": "Why Bad Boy",
-            "path": "/pages/why-bad-boy-bagels"
+            "label": "Why us",
+            "path": "/pages/why-us"
           }
         },
         "l_proc": {
@@ -127,7 +127,11 @@
         "l_wholesale"
       ],
       "settings": {
-        "cta_link": "shopify://products/build-your-box"
+        "cta_link": "shopify://products/build-your-box",
+        "tagline": "New York bagels, delivered fresh to your door.",
+        "cta_label": "",
+        "email": "help@nybagelexpress.com",
+        "show_skyline": true
       }
     }
   },

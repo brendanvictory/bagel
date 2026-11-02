@@ -1,4 +1,4 @@
-{%- comment -%} Bad Boy Bagel Co. — About us: image + story + optional stats {%- endcomment -%}
+{%- comment -%} New York Bagel Express — About us: image + story + optional stats {%- endcomment -%}
 <section
   id="{{ section.settings.anchor | default: 'about' | handleize }}"
   class="bbb-about color-{{ section.settings.color_scheme | default: 'scheme-2' }} gradient"
@@ -12,7 +12,12 @@
       </div>
     {%- elsif section.settings.use_bundled_photo -%}
       <div class="bbb-about__media">
-        {%- if section.settings.bundled_photo == 'scatter' -%}
+        {%- if section.settings.bundled_photo == 'nyc' -%}
+          <picture>
+            <source type="image/webp" srcset="{{ 'nybe-about-700.webp' | asset_url }} 700w, {{ 'nybe-about-1100.webp' | asset_url }} 1100w, {{ 'nybe-about-1536.webp' | asset_url }} 1536w" sizes="(min-width: 990px) 48vw, 100vw">
+            <img src="{{ 'nybe-about-1100.jpg' | asset_url }}" width="1536" height="1024" loading="lazy" alt="{{ section.settings.image_alt | escape }}" class="bbb-about__img nybe-about__img">
+          </picture>
+        {%- elsif section.settings.bundled_photo == 'scatter' -%}
           <img
             src="{{ 'bbb-bagels-scatter-700.webp' | asset_url }}"
             srcset="{{ 'bbb-bagels-scatter-700.webp' | asset_url }} 700w, {{ 'bbb-bagels-scatter-1254.webp' | asset_url }} 1254w"
@@ -81,7 +86,7 @@
     { "type": "checkbox", "id": "use_bundled_photo", "label": "Use the bundled bagel photo when no image is chosen", "default": true },
     {
       "type": "select", "id": "bundled_photo", "label": "Bundled photo", "default": "scatter",
-      "options": [ { "value": "scatter", "label": "Bagels on white" }, { "value": "racks", "label": "Bagel racks" } ]
+      "options": [ { "value": "nyc", "label": "Bagels with NYC skyline" }, { "value": "scatter", "label": "Bagels on white" }, { "value": "racks", "label": "Bagel racks" } ]
     },
     { "type": "text", "id": "image_alt", "label": "Bundled photo alt text", "default": "An assortment of bagels on a white background" },
     { "type": "text", "id": "cta_label", "label": "Button label" },

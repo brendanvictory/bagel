@@ -1,5 +1,5 @@
 {%- comment -%}
-  Bad Boy Bagel Co. — Flavor gallery (homepage)
+  New York Bagel Express — Flavor gallery (homepage)
   Shows every flavor on the chosen box product (photo + name) and, optionally, add-on products
   that have a photo. Each flavor links to the builder with that flavor already in Sleeve 1.
   Data comes from product.metafields.custom.flavors / addons — nothing hardcoded.
@@ -42,11 +42,27 @@
                 {%- endif -%}
               </span>
               <span class="bbb-gallery__name">{{ f.name.value | escape }}</span>
-              <span class="bbb-gallery__cta" aria-hidden="true">{{ section.settings.card_cta | escape }} →</span>
-              <span class="bbb-sr-only">: {{ section.settings.card_cta | escape }}</span>
+              {%- if section.settings.card_cta != blank -%}
+                <span class="bbb-gallery__cta" aria-hidden="true">{{ section.settings.card_cta | escape }} →</span>
+                <span class="bbb-sr-only">: {{ section.settings.card_cta | escape }}</span>
+              {%- endif -%}
             </a>
           </li>
         {%- endfor -%}
+        {%- if section.settings.promo_heading != blank -%}
+          {%- assign promo_img = section.settings.promo_image | default: addons.first.featured_image -%}
+          <li class="bbb-gallery__item nybe-promo-tile">
+            <a class="nybe-promo-tile__card" href="{{ section.settings.promo_link | default: box.url }}">
+              {%- if promo_img != blank -%}
+                <span class="nybe-promo-tile__media" aria-hidden="true">{{ promo_img | image_url: width: 300 | image_tag: loading: 'lazy', widths: '150, 300', sizes: '140px', alt: '' }}</span>
+              {%- endif -%}
+              <span class="nybe-promo-tile__copy">
+                <span class="nybe-promo-tile__title">{{ section.settings.promo_heading | escape }}</span>
+                <span class="button button--primary nybe-promo-tile__btn">{{ section.settings.promo_cta | escape }}{% render 'bbb-icon', name: 'arrow-right', size: 16, class: 'nybe-btn-arrow' %}</span>
+              </span>
+            </a>
+          </li>
+        {%- endif -%}
         {%- if section.settings.show_addons -%}
           {%- for a in addons -%}
             {%- if a.featured_image != blank -%}
@@ -74,7 +90,7 @@
 
 {% schema %}
 {
-  "name": "BBB Flavor gallery",
+  "name": "NYBE Flavor grid",
   "tag": "div",
   "class": "section",
   "settings": [
@@ -86,6 +102,11 @@
     { "type": "text", "id": "card_cta", "label": "Card link text", "default": "Start a box" },
     { "type": "text", "id": "cta_label", "label": "Button label", "default": "Build your box" },
     { "type": "checkbox", "id": "show_addons", "label": "Also show add-ons that have a photo", "default": true },
+    { "type": "header", "content": "Promo tile (end of grid)" },
+    { "type": "text", "id": "promo_heading", "label": "Promo heading", "default": "Build Your Dozen Today!", "info": "Clear to hide the tile." },
+    { "type": "text", "id": "promo_cta", "label": "Promo button", "default": "Build your box" },
+    { "type": "url", "id": "promo_link", "label": "Promo link", "info": "Defaults to the box product." },
+    { "type": "image_picker", "id": "promo_image", "label": "Promo image", "info": "Defaults to the first add-on's photo." },
     { "type": "checkbox", "id": "hide_unavailable", "label": "Hide unavailable flavors", "default": true },
     { "type": "text", "id": "anchor", "label": "Anchor for links", "default": "flavors" },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },

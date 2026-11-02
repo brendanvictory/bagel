@@ -1,4 +1,4 @@
-{%- comment -%} Bad Boy Bagel Co. — How it works (numbered steps) {%- endcomment -%}
+{%- comment -%} New York Bagel Express — How it works (numbered steps) {%- endcomment -%}
 <section
   id="{{ section.settings.anchor | default: 'how-it-works' | handleize }}"
   class="bbb-steps color-{{ section.settings.color_scheme | default: 'scheme-2' }} gradient"
@@ -16,8 +16,14 @@
       {%- for block in section.blocks -%}
         <li class="bbb-steps__item" {{ block.shopify_attributes }}>
           <span class="bbb-steps__num bbb-display" aria-hidden="true">{{ forloop.index }}</span>
-          <h3 class="bbb-steps__title">{{ block.settings.title | escape }}</h3>
-          <div class="rte">{{ block.settings.text }}</div>
+          {%- if block.settings.icon != blank and block.settings.icon != 'none' -%}
+            <span class="nybe-steps__art" aria-hidden="true">{%- render 'bbb-icon', name: block.settings.icon, size: 56, stroke: 1.5 -%}</span>
+          {%- endif -%}
+          <div class="nybe-steps__copy">
+            <h3 class="bbb-steps__title">{{ block.settings.title | escape }}</h3>
+            <div class="rte">{{ block.settings.text }}</div>
+          </div>
+          {%- unless forloop.last -%}<span class="nybe-steps__chev" aria-hidden="true">{%- render 'bbb-icon', name: 'chevron-right', size: 22 -%}</span>{%- endunless -%}
         </li>
       {%- endfor -%}
     </ol>
@@ -53,7 +59,13 @@
       "name": "Step",
       "settings": [
         { "type": "text", "id": "title", "label": "Title", "default": "Step" },
-        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Describe this step.</p>" }
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Describe this step.</p>" },
+        { "type": "select", "id": "icon", "label": "Icon", "default": "none", "options": [
+            { "value": "none", "label": "None" }, { "value": "bagel", "label": "Bagel" }, { "value": "package", "label": "Box" }, { "value": "truck", "label": "Truck" },
+            { "value": "chef-hat", "label": "Chef hat" }, { "value": "flame", "label": "Oven / flame" }, { "value": "smile", "label": "Smile" }, { "value": "star", "label": "Star" },
+            { "value": "leaf", "label": "Leaf" }, { "value": "map-pin", "label": "Map pin" }, { "value": "heart", "label": "Heart" }, { "value": "calendar", "label": "Calendar" },
+            { "value": "clock", "label": "Clock" }, { "value": "check-circle", "label": "Check" }, { "value": "shield", "label": "Shield" }
+          ] }
       ]
     }
   ],

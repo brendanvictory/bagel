@@ -1,4 +1,4 @@
-/* Bad Boy Bagel Co. — testimonial marquee pause/play (WCAG 2.2.2) */
+/* New York Bagel Express — testimonial marquee pause/play (WCAG 2.2.2) */
 (() => {
   document.querySelectorAll('[data-bbb-marquee-toggle]').forEach((btn) => {
     const section = btn.closest('section');

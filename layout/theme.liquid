@@ -284,8 +284,9 @@
     {{ 'base.css' | asset_url | stylesheet_tag }}
     {{ 'bbb-tokens.css' | asset_url | stylesheet_tag }}
     {{ 'bbb-sections.css' | asset_url | stylesheet_tag }}
+    {{ 'nybe-theme.css' | asset_url | stylesheet_tag }}
     {{ 'bbb-outfit-var.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
-    <meta name="theme-color" content="#101010">
+    <meta name="theme-color" content="#082D5C">
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
     {%- if settings.cart_type == 'drawer' -%}

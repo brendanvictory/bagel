@@ -2,62 +2,62 @@
   "current": "Bad Boy Bagel Co.",
   "presets": {
     "Bad Boy Bagel Co.": {
-      "logo_width": 150,
+      "logo_width": 170,
       "customer_account_menu": "customer-account-main-menu",
       "color_schemes": {
         "scheme-1": {
           "settings": {
             "background": "#FFFFFF",
             "background_gradient": "",
-            "text": "#101010",
-            "button": "#101010",
+            "text": "#082D5C",
+            "button": "#C9420C",
             "button_label": "#FFFFFF",
-            "secondary_button_label": "#101010",
-            "shadow": "#7BAFD4"
+            "secondary_button_label": "#082D5C",
+            "shadow": "#082D5C"
           }
         },
         "scheme-2": {
           "settings": {
-            "background": "#F7F5F0",
+            "background": "#FFF4E2",
             "background_gradient": "",
-            "text": "#101010",
-            "button": "#101010",
+            "text": "#082D5C",
+            "button": "#C9420C",
             "button_label": "#FFFFFF",
-            "secondary_button_label": "#101010",
-            "shadow": "#7BAFD4"
+            "secondary_button_label": "#082D5C",
+            "shadow": "#082D5C"
           }
         },
         "scheme-3": {
           "settings": {
-            "background": "#7BAFD4",
+            "background": "#F47B20",
             "background_gradient": "",
-            "text": "#101010",
-            "button": "#101010",
+            "text": "#082D5C",
+            "button": "#082D5C",
             "button_label": "#FFFFFF",
-            "secondary_button_label": "#101010",
-            "shadow": "#101010"
+            "secondary_button_label": "#082D5C",
+            "shadow": "#082D5C"
           }
         },
         "scheme-4": {
           "settings": {
-            "background": "#101010",
+            "background": "#082D5C",
             "background_gradient": "",
             "text": "#FFFFFF",
-            "button": "#7BAFD4",
-            "button_label": "#101010",
+            "button": "#C9420C",
+            "button_label": "#FFFFFF",
             "secondary_button_label": "#FFFFFF",
-            "shadow": "#FFFFFF"
+            "shadow": "#000000"
           }
         },
         "scheme-5": {
           "settings": {
-            "background": "#101010",
+            "background": "#082D5C",
             "background_gradient": "",
             "text": "#FFFFFF",
-            "button": "#FFFFFF",
-            "button_label": "#101010",
+            "button": "#C9420C",
+            "button_label": "#FFFFFF",
             "secondary_button_label": "#FFFFFF",
-            "shadow": "#7BAFD4"
+            "shadow": "#000000"
           }
         }
       },
@@ -73,7 +73,7 @@
       "animations_hover_elements": "none",
       "buttons_border_thickness": 2,
       "buttons_border_opacity": 100,
-      "buttons_radius": 6,
+      "buttons_radius": 40,
       "buttons_shadow_opacity": 100,
       "buttons_shadow_horizontal_offset": 4,
       "buttons_shadow_vertical_offset": 4,
@@ -98,7 +98,7 @@
       "card_color_scheme": "scheme-2",
       "card_border_thickness": 0,
       "card_border_opacity": 10,
-      "card_corner_radius": 10,
+      "card_corner_radius": 16,
       "card_shadow_opacity": 0,
       "card_shadow_horizontal_offset": 0,
       "card_shadow_vertical_offset": 4,

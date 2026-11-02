@@ -1,4 +1,4 @@
-/* Bad Boy Bagel Co. — mobile sticky CTA
+/* New York Bagel Express — mobile sticky CTA
    Shows the bar only after the hero's primary button scrolls out of view,
    and hides it again near the footer so it never covers footer links, and while a box builder
    is on screen (the builder has its own bottom bar). */

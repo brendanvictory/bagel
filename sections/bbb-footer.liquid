@@ -1,5 +1,5 @@
 {%- comment -%}
-  Bad Boy Bagel Co. — Footer
+  New York Bagel Express — Footer (navy, reversed logo, NYC skyline art)
   Link columns are blocks edited in the Theme Editor (no store menu needed).
   Each link uses either a picked URL or a path such as /#faq or /pages/contact.
   Policy links come from Settings > Policies automatically.
@@ -8,7 +8,7 @@
   <div class="page-width bbb-footer__inner">
     <div class="bbb-footer__brand">
       <a href="{{ routes.root_url }}" class="bbb-footer__logo">
-        <img src="{{ 'bbb-logo-600.webp' | asset_url }}" width="180" height="129" alt="{{ shop.name | escape }} home" loading="lazy">
+        <picture><source srcset="{{ 'nybe-logo-reverse-400.webp' | asset_url }}" type="image/webp"><img src="{{ 'nybe-logo-reverse.png' | asset_url }}" width="200" height="85" alt="{{ shop.name | escape }} home" loading="lazy"></picture>
       </a>
       {%- if section.settings.tagline != blank -%}<p class="bbb-footer__tagline">{{ section.settings.tagline | escape }}</p>{%- endif -%}
       {%- if section.settings.cta_label != blank -%}
@@ -52,6 +52,12 @@
         </div>
       {%- endif -%}
     </div>
+
+    {%- if section.settings.show_skyline -%}
+      <div class="nybe-footer__skyline" aria-hidden="true">
+        <picture><source srcset="{{ 'nybe-skyline.webp' | asset_url }}" type="image/webp"><img src="{{ 'nybe-skyline.png' | asset_url }}" width="944" height="237" alt="" loading="lazy"></picture>
+      </div>
+    {%- endif -%}
   </div>
 
   <div class="page-width bbb-footer__bottom">
@@ -73,16 +79,17 @@
 
 {% schema %}
 {
-  "name": "BBB Footer",
+  "name": "NYBE Footer",
   "tag": "div",
   "class": "section",
   "max_blocks": 30,
   "settings": [
+    { "type": "checkbox", "id": "show_skyline", "label": "Show NYC skyline art", "default": true },
     { "type": "text", "id": "tagline", "label": "Tagline", "default": "New York bagels, shipped." },
     { "type": "text", "id": "cta_label", "label": "Button label", "default": "Build your box" },
     { "type": "url", "id": "cta_link", "label": "Button link" },
     { "type": "checkbox", "id": "show_contact", "label": "Show contact column", "default": true },
-    { "type": "text", "id": "email", "label": "Email", "default": "help@badboybagelco.com" },
+    { "type": "text", "id": "email", "label": "Email", "default": "help@nybagelexpress.com" },
     { "type": "textarea", "id": "address", "label": "Address", "default": "111 Broadway\nAmityville, NY 11701" },
     { "type": "checkbox", "id": "show_payment_icons", "label": "Show payment icons", "default": true },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-5" }
@@ -103,6 +110,6 @@
       ]
     }
   ],
-  "presets": [ { "name": "BBB Footer" } ]
+  "presets": [ { "name": "NYBE Footer" } ]
 }
 {% endschema %}

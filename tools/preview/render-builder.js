@@ -2,7 +2,7 @@
 const fs = require('fs'), path = require('path');
 const { Liquid, Tag } = require('liquidjs');
 const THEME = process.argv[2], OUT = process.argv[3], WITH_PLAN = process.argv[4] !== 'noplan';
-const engine = new Liquid({ jsTruthy: false });
+const engine = new Liquid({ jsTruthy: false, root: [path.join(THEME, 'snippets')], extname: '.liquid' });
 class Skip extends Tag { constructor(t, r, l) { super(t, r, l); while (r.length) { const x = r.shift(); if (x.name === 'end' + t.name) return; } } *render() { return ''; } }
 engine.registerTag('schema', Skip);
 // {% form 'customer', id: 'X', class: 'y' %}…{% endform %} → <form action="/contact#X"> with Shopify's hidden inputs
@@ -40,12 +40,21 @@ const product = { id: 1, url: '/products/build-your-box', title: 'Build Your Doz
   const schema = JSON.parse(src.match(/{% schema %}([\s\S]*?){% endschema %}/)[1]);
   const settings = {}; for (const s of schema.settings) if ('default' in s) settings[s.id] = s.default;
   settings.lead_enabled = process.env.NOLEAD !== '1'; // step is off in the live templates; keep it under test
+  // Mirror templates/product.build-your-box.json blocks (banner design) unless rendering the landing page
+  const blk = (type, settings) => ({ type, settings, shopify_attributes: '' });
+  const blocks = process.env.PROMO === '1' ? [] : [
+    blk('banner', {}),
+    blk('copy', { page2_text: 'Customize your order.', yourbox_sub: '[sleeves] sleeves × [per_sleeve] bagels ([total] total)', addons_tag: 'Add to every box', once_note: 'A single box, no subscription.' }),
+    blk('flavors_head', { eyebrow: 'Our bagels', heading: 'Choose your flavors', text: 'Hand-rolled.' }),
+    blk('p1_benefit', { icon: 'star', title: 'Authentic NY Bagels', text: 'Baked the traditional way.' }),
+    blk('p2_benefit', { icon: 'truck', title: 'Free Shipping', text: 'On every box, always.' }),
+  ];
   if (process.env.PROMO === '1') {
     Object.assign(settings, { product, heading_tag: 'h2', lead_source: 'free-minis', promo_product: product.metafields.custom.addons.value[0], promo_code: 'FREEMINIS' });
     product.metafields.custom.addons.value[0].id = 501; product.metafields.custom.addons.value[1].id = 502;
     product.metafields.custom.addons.value[0].featured_image = { src: '/img/minis.png' };
   }
-  const html = await engine.parseAndRender(src, { section: { id: 'b1', settings }, product, shop: { money_format: '${{amount}}' }, request: { design_mode: false }, template: { name: process.env.PROMO === '1' ? 'page' : 'product' },
+  const html = await engine.parseAndRender(src, { section: { id: 'b1', settings, blocks }, product, shop: { money_format: '${{amount}}' }, request: { design_mode: false }, template: { name: process.env.PROMO === '1' ? 'page' : 'product' },
     routes: { cart_add_url: '/cart/add', cart_url: '/cart', cart_update_url: '/cart/update' }, product_title: 'x' });
   const sd = JSON.parse(fs.readFileSync(path.join(THEME, 'config', 'settings_data.json'), 'utf8').replace(/^\s*\/\*[\s\S]*?\*\//, ''));
   const preset = sd.presets[sd.current] || Object.values(sd.presets)[0];

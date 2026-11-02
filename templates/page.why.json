@@ -12,7 +12,7 @@
     "hero": {
       "type": "bbb-page-hero",
       "settings": {
-        "eyebrow": "Why Bad Boy Bagels",
+        "eyebrow": "Why New York Bagel Express",
         "heading": "We know",
         "heading_accent": "bagels.",
         "text": "<p>Anyone can put a bagel in a box. We've spent over 30 years making them for New Yorkers across 28 retail locations — here's what that means for the dozen on your doorstep.</p>",
@@ -22,7 +22,7 @@
         "cta2_link": "",
         "show_image": true,
         "image": "shopify://shop_images/Warm_Morning_at_the_Neighborhood_Bagel_Shop.png",
-        "image_alt": "A dozen fresh Bad Boy bagels",
+        "image_alt": "A dozen fresh New York bagels",
         "spray": true,
         "color_scheme": "scheme-5",
         "padding_top": 48,
@@ -86,7 +86,7 @@
       "settings": {
         "eyebrow": "The short version",
         "heading": "Six reasons to go",
-        "heading_accent": "bad boy.",
+        "heading_accent": "Express.",
         "text": "<p>Here's what goes into every box.</p>",
         "anchor": "reasons",
         "color_scheme": "scheme-1",
@@ -173,7 +173,7 @@
       ],
       "settings": {
         "image": "shopify://shop_images/Colorful_bagels_on_pure_white.png",
-        "image_alt": "A Bad Boy Bagel Co. box on a doorstep",
+        "image_alt": "A New York Bagel Express box on a doorstep",
         "image_position": "left",
         "ratio": "4 / 3",
         "eyebrow": "Subscribe and save",

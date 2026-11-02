@@ -1,5 +1,5 @@
 {%- comment -%}
-  Bad Boy Bagel Co. — Build Your Box (ADR-002 Option C), two pages:
+  New York Bagel Express — Build Your Box (ADR-002 Option C), two pages:
     Page 1  Pick your sleeves (flavor photo grid, no pricing)
     Page 2  Add-ons + order options + pricing → checkout
   Both pages live at the product URL; page 2 is ?step=2 (browser Back returns to page 1).
@@ -35,6 +35,21 @@
     assign lead_on = false
   endif
 
+  # Presentation blocks (New York Bagel Express design)
+  assign b_banner = nil
+  assign b_fhead = nil
+  assign b_copy = nil
+  for blk in section.blocks
+    case blk.type
+      when 'banner'
+        assign b_banner = blk
+      when 'flavors_head'
+        assign b_fhead = blk
+      when 'copy'
+        assign b_copy = blk
+    endcase
+  endfor
+
   assign variant = bp.selected_or_first_available_variant
   assign sleeves = bp.metafields.custom.sleeves_per_box.value | default: 3
   assign per_sleeve = bp.metafields.custom.bagels_per_sleeve.value | default: 4
@@ -69,10 +84,38 @@
   data-step="1"
   aria-labelledby="bbb-builder-title-{{ section.id }}"
 >
+  {%- if b_banner -%}
+    {%- comment -%} Photo banner; its copy follows the current step via [data-step] (CSS only) {%- endcomment -%}
+    <div class="nybe-banner color-scheme-5" {{ b_banner.shopify_attributes }}>
+      <div class="nybe-banner__bg" aria-hidden="true">
+        {%- if b_banner.settings.image != blank -%}
+          {{ b_banner.settings.image | image_url: width: 2000 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '900, 1400, 2000', sizes: '100vw', alt: '', class: 'nybe-banner__img' }}
+        {%- else -%}
+          <picture>
+            <source type="image/webp" srcset="{{ 'nybe-banner-900.webp' | asset_url }} 900w, {{ 'nybe-banner-1400.webp' | asset_url }} 1400w, {{ 'nybe-banner-2083.webp' | asset_url }} 2083w" sizes="100vw">
+            <img src="{{ 'nybe-banner-1400.jpg' | asset_url }}" width="2083" height="423" alt="" class="nybe-banner__img" loading="eager" fetchpriority="high">
+          </picture>
+        {%- endif -%}
+      </div>
+      <div class="page-width nybe-banner__inner">
+        <div class="nybe-banner__copy nybe-banner__copy--p1">
+          {%- if section.settings.eyebrow != blank -%}<p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+          <{{ heading_tag }} id="bbb-builder-title-{{ section.id }}" class="bbb-display nybe-banner__title" tabindex="-1" data-bbb-focus="1">{{ section.settings.heading | default: bp.title | replace: '[sleeves]', sleeves | escape }}</{{ heading_tag }}>
+          <p class="nybe-banner__sub">{{- section.settings.subheading | replace: '[sleeves]', sleeves | replace: '[per_sleeve]', per_sleeve | replace: '[total]', total_bagels | escape -}}</p>
+        </div>
+        <div class="nybe-banner__copy nybe-banner__copy--p2">
+          {%- if section.settings.eyebrow != blank -%}<p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+          <h2 class="bbb-display nybe-banner__title" tabindex="-1" data-bbb-focus="2">{{ section.settings.page2_heading | escape }}</h2>
+          {%- if b_copy and b_copy.settings.page2_text != blank -%}<p class="nybe-banner__sub">{{ b_copy.settings.page2_text | escape }}</p>{%- endif -%}
+        </div>
+      </div>
+    </div>
+  {%- endif -%}
+
   <div class="page-width bbb-builder__wrap">
     <nav class="bbb-stepnav" aria-label="Order steps">
       <ol class="bbb-stepnav__list" role="list">
-        <li class="bbb-stepnav__item" data-bbb-stepnav="1" aria-current="step"><span class="bbb-stepnav__dot" aria-hidden="true">1</span> <span class="bbb-stepnav__label">{{ section.settings.nav1 | escape }}</span></li>
+        <li class="bbb-stepnav__item" data-bbb-stepnav="1" aria-current="step"><span class="bbb-stepnav__dot" aria-hidden="true"><span class="nybe-stepnav__n">1</span>{% render 'bbb-icon', name: 'check', size: 14, stroke: 3, class: 'nybe-stepnav__check' %}</span> <span class="bbb-stepnav__label">{{ section.settings.nav1 | escape }}</span></li>
         {%- assign nav_n = 2 -%}
         {%- if lead_on -%}
           <li class="bbb-stepnav__item" data-bbb-stepnav="lead" data-bbb-nav-lead><span class="bbb-stepnav__dot" aria-hidden="true">2</span> <span class="bbb-stepnav__label">Delivery check</span></li>
@@ -90,6 +133,7 @@
 
     {%- comment -%} ================= PAGE 1 — PICK SLEEVES (no pricing) ================= {%- endcomment -%}
     <div class="bbb-view" data-bbb-view="1">
+      {%- unless b_banner -%}
       <header class="bbb-builder__head">
         {%- if section.settings.eyebrow != blank -%}<p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
         <{{ heading_tag }} id="bbb-builder-title-{{ section.id }}" class="bbb-display bbb-display--l" tabindex="-1" data-bbb-focus="1">{{ section.settings.heading | default: bp.title | replace: '[sleeves]', sleeves | escape }}</{{ heading_tag }}>
@@ -97,6 +141,7 @@
           {{- section.settings.subheading | replace: '[sleeves]', sleeves | replace: '[per_sleeve]', per_sleeve | replace: '[total]', total_bagels | escape -}}
         </p>
       </header>
+      {%- endunless -%}
       {%- if promo_on -%}
         <div class="bbb-promo bbb-promo--banner">
           <span class="bbb-promo__media" aria-hidden="true">
@@ -112,16 +157,29 @@
             <li>
               <button type="button" class="bbb-slot" data-bbb-slot="{{ forloop.index0 }}" disabled>
                 <span class="bbb-slot__img" aria-hidden="true"></span>
-                <span class="bbb-slot__label"><span class="bbb-slot__n">Sleeve {{ i }}</span> <span data-bbb-slot-label>Empty</span></span>
+                <span class="nybe-slot__plus" aria-hidden="true">{% render 'bbb-icon', name: 'plus', size: 26, stroke: 1.75 %}</span>
+                <span class="nybe-slot__x" aria-hidden="true">{% render 'bbb-icon', name: 'x', size: 14, stroke: 3 %}</span>
+                <span class="bbb-slot__label"><span class="bbb-slot__n">Sleeve {{ i }}</span> <span data-bbb-slot-label>Add flavor</span></span>
               </button>
             </li>
           {%- endfor -%}
         </ol>
         <div class="bbb-tray__status">
           <p class="bbb-progress" data-bbb-progress aria-live="polite">0 of {{ sleeves }} sleeves selected</p>
-          <p class="bbb-tray__hint">{{ section.settings.tray_hint | replace: '[per_sleeve]', per_sleeve | escape }}</p>
+          <p class="bbb-tray__hint">{{ section.settings.tray_hint | replace: '[per_sleeve]', per_sleeve | replace: '[sleeves]', sleeves | replace: '[total]', total_bagels | escape }}</p>
         </div>
+        {%- if b_banner and addons.first.featured_image != blank -%}
+          <span class="nybe-tray__art" aria-hidden="true">{{ addons.first.featured_image | image_url: width: 200 | image_tag: loading: 'lazy', alt: '' }}</span>
+        {%- endif -%}
       </div>
+
+      {%- if b_fhead -%}
+        <header class="bbb-section__header nybe-fhead" {{ b_fhead.shopify_attributes }}>
+          {%- if b_fhead.settings.eyebrow != blank -%}<p class="bbb-eyebrow nybe-rule">{{ b_fhead.settings.eyebrow | escape }}</p>{%- endif -%}
+          <h2 class="bbb-display bbb-display--l">{{ b_fhead.settings.heading | escape }}</h2>
+          {%- if b_fhead.settings.text != blank -%}<p>{{ b_fhead.settings.text | escape }}</p>{%- endif -%}
+        </header>
+      {%- endif -%}
 
       <ul class="bbb-fgrid" role="list">
         {%- for f in flavors -%}
@@ -146,6 +204,7 @@
                 <span class="bbb-fcard__noimg" aria-hidden="true"></span>
               {%- endif -%}
               <span class="bbb-fcard__badge" data-bbb-badge hidden></span>
+              <span class="nybe-fcard__check" aria-hidden="true">{% render 'bbb-icon', name: 'check', size: 16, stroke: 3 %}</span>
             </div>
             <div class="bbb-fcard__body">
               <h2 class="bbb-fcard__name" id="bbb-fl-{{ section.id }}-{{ f.system.handle }}">{{ f.name.value | escape }}</h2>
@@ -168,8 +227,19 @@
 
       <p class="bbb-builder__error" data-bbb-error="1" role="alert" hidden></p>
       <div class="bbb-view__actions">
-        <button type="button" class="button button--primary bbb-next" data-bbb-next>{{ section.settings.next_label | escape }}</button>
+        <button type="button" class="button button--primary bbb-next" data-bbb-next><span>{{ section.settings.next_label | escape }}</span>{% render 'bbb-icon', name: 'arrow-right', size: 20, class: 'nybe-btn-arrow' %}</button>
       </div>
+      {%- assign p1b = section.blocks | where: 'type', 'p1_benefit' -%}
+      {%- if p1b.size > 0 -%}
+        <ul class="nybe-benefit-row" role="list">
+          {%- for blk in p1b -%}
+            <li class="nybe-benefit-row__item" {{ blk.shopify_attributes }}>
+              {%- render 'bbb-icon', name: blk.settings.icon, size: 34, stroke: 1.6, class: 'nybe-benefit-row__icon' -%}
+              <span><strong>{{ blk.settings.title | escape }}</strong>{% if blk.settings.text != blank %}<span>{{ blk.settings.text | escape }}</span>{% endif %}</span>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
     </div>
 
     {%- comment -%}
@@ -238,20 +308,23 @@
 
     {%- comment -%} ================= PAGE 2 — ADD-ONS, OPTIONS, PRICING ================= {%- endcomment -%}
     <div class="bbb-view" data-bbb-view="2" hidden>
-      <header class="bbb-builder__head bbb-builder__head--left">
+      <header class="bbb-builder__head bbb-builder__head--left{% if b_banner %} nybe-p2head{% endif %}">
         <button type="button" class="bbb-back link" data-bbb-back>
           <svg aria-hidden="true" focusable="false" viewBox="0 0 16 16" width="14" height="14"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           {{ section.settings.back_label | escape }}
         </button>
-        <h2 class="bbb-display bbb-display--l" tabindex="-1" data-bbb-focus="2">{{ section.settings.page2_heading | escape }}</h2>
+        {%- unless b_banner -%}<h2 class="bbb-display bbb-display--l" tabindex="-1" data-bbb-focus="2">{{ section.settings.page2_heading | escape }}</h2>{%- endunless -%}
       </header>
 
       <div class="bbb-p2">
         <div class="bbb-p2__main">
           <section class="bbb-card2" aria-labelledby="bbb-yourbox-{{ section.id }}">
             <div class="bbb-card2__head">
-              <h3 class="bbb-card2__title" id="bbb-yourbox-{{ section.id }}">{{ section.settings.yourbox_title | escape }}</h3>
-              <button type="button" class="link bbb-card2__edit" data-bbb-back>Edit</button>
+              <div>
+                <h3 class="bbb-card2__title" id="bbb-yourbox-{{ section.id }}">{{ section.settings.yourbox_title | escape }}</h3>
+                {%- if b_copy and b_copy.settings.yourbox_sub != blank -%}<p class="nybe-card2__sub">{{ b_copy.settings.yourbox_sub | replace: '[sleeves]', sleeves | replace: '[per_sleeve]', per_sleeve | replace: '[total]', total_bagels | escape }}</p>{%- endif -%}
+              </div>
+              <button type="button" class="link bbb-card2__edit" data-bbb-back>{% render 'bbb-icon', name: 'pencil', size: 14 %}<span>{% if b_banner %}{{ section.settings.back_label | escape }}{% else %}Edit{% endif %}</span></button>
             </div>
             <ul class="bbb-boxsum" role="list" data-bbb-boxsum></ul>
           </section>
@@ -273,7 +346,7 @@
           {%- if addons != blank -%}
             <section class="bbb-card2" aria-labelledby="bbb-addons-{{ section.id }}">
               <div class="bbb-card2__head">
-                <h3 class="bbb-card2__title" id="bbb-addons-{{ section.id }}">{{ section.settings.step2_title | escape }}</h3>
+                <h3 class="bbb-card2__title" id="bbb-addons-{{ section.id }}">{{ section.settings.step2_title | escape }}{% if b_copy and b_copy.settings.addons_tag != blank %} <span class="nybe-tag">{{ b_copy.settings.addons_tag | escape }}</span>{% endif %}</h3>
                 {%- if section.settings.step2_hint != blank -%}<p class="bbb-card2__hint">{{ section.settings.step2_hint | escape }}</p>{%- endif -%}
               </div>
               <ul class="bbb-addons" role="list">
@@ -293,6 +366,8 @@
                         </span>
                         <span class="bbb-addon__text">
                           <span class="bbb-addon__name">{{ a.title | escape }}</span>
+                          {%- assign a_desc = a.description | strip_html | strip -%}
+                          {%- if a_desc != blank -%}<span class="nybe-addon__desc">{{ a_desc | truncatewords: 12 | escape }}</span>{%- endif -%}
                           <span class="bbb-addon__price">+{{ av.price | money }}<span class="bbb-addon__every" data-bbb-every hidden> every box</span></span>
                         </span>
                         <span class="bbb-addon__check" aria-hidden="true"></span>
@@ -343,7 +418,7 @@
               <label class="bbb-option">
                 <input type="radio" name="bbb-purchase-{{ section.id }}" value="once" data-bbb-option{% if default_option == 'once' %} checked{% endif %}>
                 <span class="bbb-option__radio" aria-hidden="true"></span>
-                <span class="bbb-option__name">{{ section.settings.once_label | escape }}</span>
+                <span class="bbb-option__name">{{ section.settings.once_label | escape }}{% if b_copy and b_copy.settings.once_note != blank %}<span class="nybe-option__note">{{ b_copy.settings.once_note | escape }}</span>{% endif %}</span>
                 <span class="bbb-option__price">{{ variant.price | money }}</span>
               </label>
             </fieldset>
@@ -354,16 +429,28 @@
           <div class="bbb-card2 bbb-card2--sticky">
             <h3 class="bbb-card2__title" id="bbb-summary-{{ section.id }}">Order summary</h3>
             <dl class="bbb-totals" data-bbb-totals></dl>
-            <p class="bbb-totals__total"><span>Total</span> <strong data-bbb-total>{{ variant.price | money }}</strong></p>
+            <p class="bbb-totals__total"><span>{% if b_banner %}Total today{% else %}Total{% endif %}</span> <strong data-bbb-total>{{ variant.price | money }}</strong></p>
+            <p class="nybe-saving" data-bbb-saving hidden>{% render 'bbb-icon', name: 'check-circle', size: 16, stroke: 2.5 %}<span data-bbb-saving-text></span></p>
             {%- if section.settings.shipping_note != blank -%}<p class="bbb-totals__ship">{{ section.settings.shipping_note | escape }}</p>{%- endif -%}
             <p class="bbb-builder__error" data-bbb-error="2" role="alert" hidden></p>
             <button type="button" class="button button--primary bbb-checkout" data-bbb-add aria-describedby="bbb-disclosure-{{ section.id }}">
-              <span data-bbb-add-label>{{ section.settings.add_label | escape }}</span>
+              <span data-bbb-add-label>{{ section.settings.add_label | escape }}</span>{% render 'bbb-icon', name: 'arrow-right', size: 20, class: 'nybe-btn-arrow' %}
             </button>
             <div class="bbb-totals__disclosure" id="bbb-disclosure-{{ section.id }}" data-bbb-disclosure hidden>
               {{ section.settings.disclosure | replace: '[price]', '<span data-bbb-disc-price></span>' | replace: '[frequency]', '<span data-bbb-disc-freq></span>' }}
             </div>
           </div>
+          {%- assign p2b = section.blocks | where: 'type', 'p2_benefit' -%}
+          {%- if p2b.size > 0 -%}
+            <ul class="bbb-card2 nybe-perks" role="list">
+              {%- for blk in p2b -%}
+                <li class="nybe-perks__item" {{ blk.shopify_attributes }}>
+                  {%- render 'bbb-icon', name: blk.settings.icon, size: 34, stroke: 1.6, class: 'nybe-perks__icon' -%}
+                  <span><strong>{{ blk.settings.title | escape }}</strong>{% if blk.settings.text != blank %}<span>{{ blk.settings.text | escape }}</span>{% endif %}</span>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
         </aside>
       </div>
     </div>
@@ -448,6 +535,8 @@
           "needMore": {{ section.settings.error_need_more | json }},
           "chooseOption": {{ section.settings.error_choose_option | json }},
           "adding": "Adding…",
+          "saving": "You're saving [amount] on this order!",
+          "emptySlot": "Add flavor",
           "failed": "Sorry, something went wrong adding your box. Please try again."
         }
       }
@@ -457,6 +546,7 @@
 </section>
 
 {{ 'bbb-box-builder.css' | asset_url | stylesheet_tag }}
+{{ 'nybe-builder.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'bbb-box-builder.js' | asset_url }}" defer="defer"></script>
 
 {%- if template.name == 'product' and section.settings.product == blank -%}
@@ -495,10 +585,10 @@
     { "type": "text", "id": "lead_heading", "label": "Heading", "default": "Do we deliver to you?" },
     { "type": "text", "id": "lead_text", "label": "Intro", "default": "Enter your ZIP to check delivery, and we'll save your box so you can pick up where you left off." },
     { "type": "text", "id": "lead_button", "label": "Button", "default": "Check delivery" },
-    { "type": "text", "id": "lead_sms_text", "label": "Text-message opt-in label", "default": "Text me offers and updates from Bad Boy Bagel Co. Msg & data rates may apply. Reply STOP to opt out. Not required to buy.", "info": "Leave the checkbox unticked by default (US texting law). Clear to hide." },
+    { "type": "text", "id": "lead_sms_text", "label": "Text-message opt-in label", "default": "Text me offers and updates from New York Bagel Express. Msg & data rates may apply. Reply STOP to opt out. Not required to buy.", "info": "Leave the checkbox unticked by default (US texting law). Clear to hide." },
     {
       "type": "richtext", "id": "lead_disclosure", "label": "Disclosure under the button",
-      "default": "<p>By continuing you agree to get emails from Bad Boy Bagel Co. about your box and offers. Unsubscribe anytime. <a href=\"/policies/privacy-policy\">Privacy policy</a>.</p>"
+      "default": "<p>By continuing you agree to get emails from New York Bagel Express about your box and offers. Unsubscribe anytime. <a href=\"/policies/privacy-policy\">Privacy policy</a>.</p>"
     },
     { "type": "header", "content": "Free item offer (landing pages)" },
     { "type": "product", "id": "promo_product", "label": "Free item", "info": "One unit is added free with the box as a one-time item. Only active when a discount code is set." },
@@ -537,6 +627,58 @@
       "info": "[price] and [frequency] are filled in live. Have counsel approve this text."
     },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2" }
+  ],
+  "blocks": [
+    {
+      "type": "banner", "name": "Photo banner", "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Shows the page 1 heading and subheading, then the page 2 heading, over a photo. Without this block the headings sit above the builder." },
+        { "type": "image_picker", "id": "image", "label": "Image", "info": "Defaults to the bundled bagels-and-skyline photo." }
+      ]
+    },
+    {
+      "type": "copy", "name": "Page 2 copy", "limit": 1,
+      "settings": [
+        { "type": "text", "id": "page2_text", "label": "Page 2 banner text", "default": "Customize your order with tasty add-ons and choose how often you'd like fresh bagels delivered." },
+        { "type": "text", "id": "yourbox_sub", "label": "Box summary subtitle", "default": "[sleeves] sleeves × [per_sleeve] bagels ([total] total)" },
+        { "type": "text", "id": "addons_tag", "label": "Add-ons tag", "default": "Add to every box", "info": "Avoid 'Popular' or 'Best seller' until sales data supports it." },
+        { "type": "text", "id": "once_note", "label": "One-time note", "default": "A single box, no subscription." }
+      ]
+    },
+    {
+      "type": "flavors_head", "name": "Flavors heading", "limit": 1,
+      "settings": [
+        { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our bagels" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Choose your flavors" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Hand-rolled, kettle-boiled, and baked the New York way." }
+      ]
+    },
+    {
+      "type": "p1_benefit", "name": "Page 1 benefit", "limit": 4,
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "star", "options": [
+            { "value": "none", "label": "None" }, { "value": "bagel", "label": "Bagel" }, { "value": "package", "label": "Box" }, { "value": "truck", "label": "Truck" },
+            { "value": "chef-hat", "label": "Chef hat" }, { "value": "flame", "label": "Oven / flame" }, { "value": "smile", "label": "Smile" }, { "value": "star", "label": "Star" },
+            { "value": "leaf", "label": "Leaf" }, { "value": "map-pin", "label": "Map pin" }, { "value": "heart", "label": "Heart" }, { "value": "calendar", "label": "Calendar" },
+            { "value": "clock", "label": "Clock" }, { "value": "check-circle", "label": "Check" }, { "value": "shield", "label": "Shield" }
+          ] },
+        { "type": "text", "id": "title", "label": "Title", "default": "Authentic NY Bagels" },
+        { "type": "text", "id": "text", "label": "Text" }
+      ]
+    },
+    {
+      "type": "p2_benefit", "name": "Page 2 benefit", "limit": 4,
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "truck", "options": [
+            { "value": "none", "label": "None" }, { "value": "bagel", "label": "Bagel" }, { "value": "package", "label": "Box" }, { "value": "truck", "label": "Truck" },
+            { "value": "chef-hat", "label": "Chef hat" }, { "value": "flame", "label": "Oven / flame" }, { "value": "smile", "label": "Smile" }, { "value": "star", "label": "Star" },
+            { "value": "leaf", "label": "Leaf" }, { "value": "map-pin", "label": "Map pin" }, { "value": "heart", "label": "Heart" }, { "value": "calendar", "label": "Calendar" },
+            { "value": "clock", "label": "Clock" }, { "value": "check-circle", "label": "Check" }, { "value": "shield", "label": "Shield" }
+          ] },
+        { "type": "text", "id": "title", "label": "Title", "default": "Free Shipping" },
+        { "type": "text", "id": "text", "label": "Text" }
+      ]
+    }
   ]
 }
 {% endschema %}

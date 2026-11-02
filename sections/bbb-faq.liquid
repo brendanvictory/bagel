@@ -1,7 +1,29 @@
 {%- comment -%}
-  Bad Boy Bagel Co. — FAQ accordion (native <details>, no JS)
+  New York Bagel Express — FAQ accordion (native <details>, no JS)
   Optional FAQPage structured data, built from the same on-page content.
 {%- endcomment -%}
+{%- if section.settings.layout == 'strip' -%}
+<section id="faq" class="bbb-faq nybe-gtk color-{{ section.settings.color_scheme | default: 'scheme-2' }} gradient" style="--bbb-pad-top: {{ section.settings.padding_top }}px; --bbb-pad-bottom: {{ section.settings.padding_bottom }}px;" aria-labelledby="bbb-faq-heading-{{ section.id }}">
+  <div class="page-width bbb-section">
+    <div class="nybe-gtk__card">
+      <h2 id="bbb-faq-heading-{{ section.id }}" class="bbb-display nybe-gtk__title">{{ section.settings.heading | escape }}</h2>
+      <div class="bbb-faq__list nybe-gtk__list">
+        {%- for block in section.blocks -%}
+          <details class="bbb-faq__item" {{ block.shopify_attributes }}>
+            <summary class="bbb-faq__q"><span>{{ block.settings.question | escape }}</span><span class="bbb-faq__icon" aria-hidden="true"></span></summary>
+            <div class="bbb-faq__a rte">{{ block.settings.answer }}</div>
+          </details>
+        {%- endfor -%}
+      </div>
+      {%- if section.settings.show_bridge -%}
+        <div class="nybe-gtk__art" aria-hidden="true">
+          <picture><source type="image/webp" srcset="{{ 'nybe-bridge.webp' | asset_url }}"><img src="{{ 'nybe-bridge.png' | asset_url }}" width="788" height="237" alt="" loading="lazy"></picture>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+{%- else -%}
 <section
   id="faq"
   class="bbb-faq color-{{ section.settings.color_scheme | default: 'scheme-2' }} gradient"
@@ -25,6 +47,7 @@
     </div>
   </div>
 </section>
+{%- endif -%}
 
 {%- if section.settings.schema and section.blocks.size > 0 -%}
   <script type="application/ld+json">
@@ -52,6 +75,11 @@
   "max_blocks": 16,
   "settings": [
     { "type": "text", "id": "heading", "label": "Heading", "default": "Questions?" },
+    {
+      "type": "select", "id": "layout", "label": "Layout", "default": "stack",
+      "options": [ { "value": "stack", "label": "Centered list" }, { "value": "strip", "label": "Good to Know strip" } ]
+    },
+    { "type": "checkbox", "id": "show_bridge", "label": "Strip: show Brooklyn Bridge art", "default": true },
     { "type": "checkbox", "id": "schema", "label": "Add FAQ structured data for search", "default": true },
     { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-2" },
     { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 120, "step": 4, "unit": "px", "default": 48 },

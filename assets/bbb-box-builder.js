@@ -1,4 +1,4 @@
-/* Bad Boy Bagel Co. — Build Your Box (ADR-002 Option C)
+/* New York Bagel Express — Build Your Box (ADR-002 Option C)
    Page 1: pick exactly N sleeves (3 of 4 bagels per the product settings), repeats allowed, no pricing shown.
    Lead step (optional): name, email, phone, ZIP → delivery check → Shopify customer tagged "lead".
    Page 2: add-ons, one-time vs subscription, pricing, checkout.
@@ -113,7 +113,7 @@
 
     $$('[data-bbb-slot]').forEach((slot, i) => {
       const f = byHandle[state.sleeves[i]];
-      $('[data-bbb-slot-label]', slot).textContent = f ? f.name : 'Empty';
+      $('[data-bbb-slot-label]', slot).textContent = f ? f.name : (cfg.labels.emptySlot || 'Add flavor');
       const img = $('.bbb-slot__img', slot);
       img.innerHTML = '';
       const t = thumb(f);
@@ -184,6 +184,14 @@
       row('Shipping', 'Free');
     }
     const t = state.option ? formatMoney(total()) : '—';
+    // Display only: how much the subscription saves versus buying the same items one-time.
+    const savingEl = $('[data-bbb-saving]');
+    if (savingEl) {
+      const listTotal = cfg.oncePrice + chosenAddons().reduce((sum, a) => sum + a.price, 0);
+      const saved = state.option === 'subscription' ? listTotal - total() : 0;
+      savingEl.hidden = !(saved > 0);
+      if (saved > 0) $('[data-bbb-saving-text]', savingEl).textContent = (cfg.labels.saving || '').replace('[amount]', formatMoney(saved));
+    }
     $('[data-bbb-total]').textContent = t;
     const bt = $('[data-bbb-bar-total]');
     if (bt) bt.textContent = state.option ? t : '';
