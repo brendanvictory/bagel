@@ -15,10 +15,13 @@
     <ol class="bbb-steps__list" role="list">
       {%- for block in section.blocks -%}
         <li class="bbb-steps__item" {{ block.shopify_attributes }}>
-          <span class="bbb-steps__num bbb-display" aria-hidden="true">{{ forloop.index }}</span>
-          {%- if block.settings.icon != blank and block.settings.icon != 'none' -%}
-            <span class="nybe-steps__art" aria-hidden="true">{%- render 'bbb-icon', name: block.settings.icon, size: 56, stroke: 1.5 -%}</span>
-          {%- endif -%}
+          {%- assign has_icon = false -%}
+          {%- if block.settings.icon != blank and block.settings.icon != 'none' -%}{%- assign has_icon = true -%}{%- endif -%}
+          <span class="nybe-steps__media{% unless has_icon %} nybe-steps__media--num{% endunless %}" aria-hidden="true">
+            {%- if has_icon -%}<span class="nybe-steps__art">{%- render 'bbb-icon', name: block.settings.icon, size: 40, stroke: 1.6 -%}</span>{%- endif -%}
+            <span class="bbb-steps__num">{{ forloop.index }}</span>
+          </span>
+          <span class="bbb-sr-only">Step {{ forloop.index }}:</span>
           <div class="nybe-steps__copy">
             <h3 class="bbb-steps__title">{{ block.settings.title | escape }}</h3>
             <div class="rte">{{ block.settings.text }}</div>

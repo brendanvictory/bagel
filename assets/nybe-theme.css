@@ -162,28 +162,57 @@ body { color: var(--nybe-navy); }
 
 /* ---------- How it works: one white card, 3 steps ---------- */
 .bbb-steps .bbb-steps__list {
-  background: #fff; border-radius: 2.4rem; box-shadow: var(--nybe-shadow); padding: 2rem 1.2rem;
-  grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-bottom: 0; max-width: 112rem; margin-inline: auto;
+  background: #fff; border-radius: 2.4rem; box-shadow: var(--nybe-shadow); padding: 0.8rem 2rem;
+  grid-template-columns: minmax(0, 1fr); gap: 0; margin-bottom: 0; max-width: 112rem; margin-inline: auto;
 }
 .bbb-steps .bbb-steps__item {
-  border: 0; box-shadow: none; background: none; border-radius: 0; padding: 0 0.6rem; position: relative;
-  display: grid; justify-items: center; text-align: center; gap: 0.6rem; align-content: start;
+  border: 0; box-shadow: none; background: none; border-radius: 0; padding: 2rem 0; position: relative;
+  display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; align-content: start; gap: 2rem; text-align: left;
 }
-.bbb-steps .nybe-steps__art { color: var(--nybe-orange); display: grid; place-items: center; order: -1; }
+.bbb-steps .bbb-steps__item + .bbb-steps__item { border-top: 0.1rem solid var(--nybe-line, #efe4d4); }
+/* Icon tile with the step number pinned to its corner */
+.bbb-steps .nybe-steps__media {
+  position: relative; display: grid; place-items: center; width: 7.2rem; height: 7.2rem; margin: 0.6rem 0 0 0.6rem;
+  border-radius: 2rem; background: #fdf0e6; color: var(--nybe-orange);
+}
+.bbb-steps .nybe-steps__art { display: grid; place-items: center; }
 .bbb-steps .bbb-steps__num {
-  position: static; width: 2.8rem; height: 2.8rem; font-size: 1.5rem; border: 0; color: #fff; background: var(--nybe-cta-2);
+  position: absolute; top: -0.9rem; left: -0.9rem; display: grid; place-items: center;
+  width: 3.2rem; height: 3.2rem; border-radius: 50%; border: 0.3rem solid #fff;
+  background: var(--nybe-cta-2); color: #fff; font-family: var(--font-heading-family); font-weight: 800; font-size: 1.5rem; line-height: 1;
+  box-shadow: 0 0.2rem 0.6rem rgba(201, 66, 12, 0.3);
 }
-.bbb-steps .bbb-steps__title { font-size: 1.5rem; font-weight: 800; margin: 0; line-height: 1.2; }
-.bbb-steps .bbb-steps__item .rte { display: none; font-size: 1.4rem; color: var(--nybe-muted); }
-.nybe-steps__chev { position: absolute; right: -1.1rem; top: 3.2rem; color: var(--nybe-orange); }
-@media screen and (min-width: 750px) {
-  .bbb-steps .bbb-steps__list { padding: 2.8rem 3.2rem; }
-  .bbb-steps .bbb-steps__item { grid-template-columns: auto auto minmax(0, 1fr); justify-items: start; text-align: left; align-items: center; gap: 1.4rem; padding: 0 2.4rem; }
-  .bbb-steps .bbb-steps__num { align-self: start; }
-  .bbb-steps .nybe-steps__art { order: 0; }
-  .bbb-steps .bbb-steps__title { font-size: 1.8rem; margin-bottom: 0.4rem; }
-  .bbb-steps .bbb-steps__item .rte { display: block; }
-  .nybe-steps__chev { top: 50%; transform: translateY(-50%); right: -1.2rem; }
+/* No icon chosen: the number itself fills the tile */
+.bbb-steps .nybe-steps__media--num .bbb-steps__num {
+  position: static; width: auto; height: auto; border: 0; box-shadow: none; background: none;
+  color: var(--nybe-cta-2); font-size: 3.2rem;
+}
+.bbb-steps .nybe-steps__copy { display: flex; flex-direction: column; gap: 0.6rem; min-width: 0; }
+.bbb-steps .bbb-steps__title { font-size: 1.8rem; font-weight: 800; margin: 0; line-height: 1.25; letter-spacing: 0; color: var(--nybe-navy); }
+.bbb-steps .bbb-steps__item .rte { font-size: 1.5rem; line-height: 1.5; letter-spacing: 0; color: var(--nybe-muted); }
+.bbb-steps .bbb-steps__item .rte p { margin: 0; }
+.nybe-steps__chev { display: none; }
+@media screen and (min-width: 990px) {
+  .bbb-steps .bbb-steps__list { grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 4rem 2rem; }
+  .bbb-steps .bbb-steps__item { padding: 0 3.2rem; gap: 2.4rem; align-items: start; }
+  .bbb-steps .bbb-steps__item + .bbb-steps__item { border-top: 0; }
+  .bbb-steps .nybe-steps__media { width: 8.8rem; height: 8.8rem; border-radius: 2.4rem; margin: 0.9rem 0 0 0.9rem; }
+  .bbb-steps .nybe-steps__art .bbb-icon { width: 4.4rem; height: 4.4rem; }
+  .bbb-steps .bbb-steps__num { width: 3.6rem; height: 3.6rem; font-size: 1.6rem; top: -1.1rem; left: -1.1rem; }
+  .bbb-steps .nybe-steps__media--num .bbb-steps__num { font-size: 3.8rem; }
+  .bbb-steps .nybe-steps__copy { padding-top: 1.4rem; }
+  .bbb-steps .bbb-steps__title { font-size: 1.9rem; }
+  .nybe-steps__chev {
+    display: grid; place-items: center; position: absolute; right: -1.6rem; top: 3.7rem; z-index: 1;
+    width: 3.2rem; height: 3.2rem; border-radius: 50%; background: #fff; color: var(--nybe-orange);
+    box-shadow: 0 0 0 0.1rem var(--nybe-line, #efe4d4);
+  }
+  .nybe-steps__chev .bbb-icon { width: 1.6rem; height: 1.6rem; }
+}
+/* Small desktops: tile above text so the copy keeps a readable width */
+@media screen and (min-width: 990px) and (max-width: 1199px) {
+  .bbb-steps .bbb-steps__item { grid-template-columns: minmax(0, 1fr); gap: 2rem; padding: 0 2.8rem; }
+  .bbb-steps .nybe-steps__copy { padding-top: 0; }
 }
 .bbb-steps .bbb-cta-row { margin-top: var(--bbb-space-4); }
 
