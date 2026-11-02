@@ -579,15 +579,12 @@ body.bbb-has-sticky-cta { padding-bottom: 9.6rem; }
   font-family: var(--font-heading-family); font-size: 2.6rem; font-weight: 900; font-style: italic; line-height: 1.03;
   text-transform: uppercase; letter-spacing: -0.01em; color: var(--nybe-navy); text-wrap: balance;
 }
-.nybe-menu-promo__btn {
-  display: inline-flex; align-items: center; gap: 0.6rem; margin-top: 0.6rem; min-height: 4.4rem; padding: 0 1.8rem 0 2rem; border-radius: 99rem;
-  font-size: 1.5rem; font-weight: 800; color: #fff; white-space: nowrap;
-  background: linear-gradient(180deg, #f8862a, #e8501a); box-shadow: 0 0.6rem 1.6rem rgba(232, 80, 26, 0.3);
-}
+/* Same button as the hero CTA (theme .button--primary), sized like the hero */
+.nybe-menu-promo__btn { display: inline-flex; align-items: center; margin-top: 0.6rem; min-width: 0; min-height: 5.4rem; padding-inline: 2.6rem; font-size: 1.6rem; white-space: nowrap; pointer-events: none; }
 .nybe-menu-promo__media { align-self: stretch; position: relative; margin-left: -2.4rem; }
 .nybe-menu-promo__media img {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 30% 60%;
   -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 28%); mask-image: linear-gradient(90deg, transparent 0%, #000 28%);
 }
-.nybe-menu-promo:hover .nybe-menu-promo__btn { filter: brightness(1.06); }
+.nybe-menu-promo:hover .nybe-menu-promo__btn { background-image: linear-gradient(180deg, #d94512, #b53a09); }
 .nybe-menu-promo:focus-visible { outline: 0.2rem solid var(--nybe-orange); outline-offset: 0.3rem; }

@@ -165,13 +165,13 @@
             </ul>
             {%- if section.settings.menu_promo_show -%}
               {%- liquid
-                assign mp_link = section.settings.menu_promo_link | default: routes.all_products_collection_url
+                assign mp_link = section.settings.menu_promo_link | default: '/products/build-your-box'
               -%}
               <a href="{{ mp_link }}" class="nybe-menu-promo">
                 <span class="nybe-menu-promo__copy">
                   {%- if section.settings.menu_promo_eyebrow != blank -%}<span class="nybe-menu-promo__eyebrow">{{ section.settings.menu_promo_eyebrow | escape }}</span>{%- endif -%}
                   <span class="nybe-menu-promo__title">{{ section.settings.menu_promo_heading | escape }}</span>
-                  <span class="nybe-menu-promo__btn">{{ section.settings.menu_promo_button | escape }}{%- render 'bbb-icon', name: 'chevron-right', size: 18, stroke: 2.5 -%}</span>
+                  <span class="button button--primary nybe-menu-promo__btn"><span>{{ section.settings.menu_promo_button | escape }}</span>{% render 'bbb-icon', name: 'arrow-right', size: 18, class: 'nybe-btn-arrow' %}</span>
                 </span>
                 <span class="nybe-menu-promo__media" aria-hidden="true">
                   {%- if section.settings.menu_promo_image != blank -%}
