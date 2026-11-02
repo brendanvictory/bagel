@@ -191,6 +191,13 @@
       savingEl.hidden = !(saved > 0);
       if (saved > 0) $('[data-bbb-saving-text]', savingEl).textContent = (cfg.labels.saving || '').replace('[amount]', formatMoney(saved));
     }
+    const barSave = $('[data-bbb-bar-saving]');
+    if (barSave) {
+      const listTotal = cfg.oncePrice + chosenAddons().reduce((sum, a) => sum + a.price, 0);
+      const saved = state.option === 'subscription' ? listTotal - total() : 0;
+      barSave.hidden = !(saved > 0);
+      if (saved > 0) $('[data-bbb-bar-saving-amt]', barSave).textContent = formatMoney(saved);
+    }
     $('[data-bbb-total]').textContent = t;
     const bt = $('[data-bbb-bar-total]');
     if (bt) bt.textContent = state.option ? t : '';

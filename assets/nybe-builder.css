@@ -195,17 +195,6 @@
 /* compact flavor cards (mockup proportions) */
 .bbb-fcard__media { aspect-ratio: 5 / 4; }
 .bbb-fcard__img { width: 78%; height: 92%; }
-/* phones: add-ons side by side, compact (mockup) */
-@media screen and (max-width: 749px) {
-  .bbb-addons { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; }
-  .bbb-addon { grid-template-columns: 5.2rem minmax(0, 1fr); gap: 0.8rem; padding: 1rem 0.8rem; }
-  .bbb-addon__media { width: 5.2rem; height: 5.2rem; }
-  .bbb-addon__check { position: absolute; top: 0.6rem; right: 0.6rem; width: 2.2rem; height: 2.2rem; }
-  .bbb-addon__name { font-size: 1.45rem; padding-right: 2rem; line-height: 1.2; }
-  .bbb-addon__price { font-size: 1.4rem; }
-  .nybe-addon__desc { display: none; }
-  .bbb-addon__every:not([hidden]) { display: block; font-size: 1.2rem; }
-}
 
 /* ---------- Mobile bottom bar: taller, bigger thumbnails and button ---------- */
 @media screen and (max-width: 989px) {
@@ -224,3 +213,46 @@
   .bbb-bar .button { padding-inline: 2.2rem; font-size: 1.6rem; }
 }
 .bbb-slot { cursor: pointer; }
+
+/* ---------- Add-ons: equal heights (desktop), one per row on phones ---------- */
+.bbb-addons > li { display: flex; }
+.bbb-addons .bbb-addon { width: 100%; height: 100%; }
+@media screen and (max-width: 749px) {
+  .bbb-addons { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+  .bbb-addons .bbb-addon {
+    grid-template-columns: 6.4rem minmax(0, 1fr) auto;
+    grid-template-areas: 'media name price' 'media note price';
+    column-gap: 1.4rem; row-gap: 0.2rem; align-items: center; padding: 1.2rem 1.6rem 1.2rem 1.2rem;
+  }
+  .bbb-addon__media { grid-area: media; width: 6.4rem; height: 6.4rem; }
+  .bbb-addon__text { display: contents; }
+  .bbb-addon__name { grid-area: name; align-self: end; font-size: 1.6rem; line-height: 1.2; }
+  .nybe-addon__desc { grid-area: note; align-self: start; font-size: 1.3rem; }
+  .bbb-addon__price { grid-area: price; display: grid; justify-items: end; text-align: right; font-size: 1.7rem; white-space: nowrap; }
+  .bbb-addon__every:not([hidden]) { display: block; font-size: 1.2rem; font-weight: 600; color: var(--bbb-muted); }
+  .bbb-addon__check { position: absolute; top: -0.9rem; right: -0.9rem; width: 2.4rem; height: 2.4rem; box-shadow: 0 0 0 0.25rem #fff; }
+  .bbb-addon { position: relative; }
+}
+
+/* ---------- Bottom bar, page 2: info row + total + checkout ---------- */
+.nybe-bar__info, .nybe-bar__sum { display: none; }
+@media screen and (max-width: 989px) {
+  .bbb-builder[data-step='2'] { padding-bottom: 20rem; }
+  .bbb-builder[data-step='2'] .bbb-bar__p2 {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'info info' 'sum btn';
+    align-items: center; row-gap: 1.4rem; column-gap: 1.6rem;
+  }
+  .nybe-bar__info {
+    grid-area: info; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.6rem 1.6rem;
+    padding-bottom: 1.2rem; border-bottom: 0.1rem solid var(--bbb-line); font-size: 1.45rem; font-weight: 700;
+  }
+  .nybe-bar__ship, .nybe-bar__save { display: inline-flex; align-items: center; gap: 0.6rem; }
+  .nybe-bar__ship { color: var(--bbb-ink); }
+  .nybe-bar__ship .bbb-icon { color: #f47b20; }
+  .nybe-bar__save { color: #1e7b34; }
+  .nybe-bar__save[hidden] { display: none; }
+  .nybe-bar__sum { grid-area: sum; display: grid; gap: 0.2rem; line-height: 1.1; }
+  .nybe-bar__label { font-size: 1.2rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--bbb-muted); }
+  .bbb-builder[data-step='2'] .bbb-bar__total { font-size: 2.6rem; }
+  .bbb-builder[data-step='2'] .bbb-bar__p2 .button { grid-area: btn; margin-left: 0; }
+}

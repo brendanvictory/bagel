@@ -465,8 +465,15 @@
         <button type="button" class="button button--primary" data-bbb-next>{{ section.settings.bar_next_label | escape }}</button>
       </div>
       <div class="bbb-bar__p2">
-        <span class="bbb-bar__total" data-bbb-bar-total>{{ variant.price | money }}</span>
-        <button type="button" class="button button--primary" data-bbb-add>{{ section.settings.bar_label | escape }}</button>
+        <div class="nybe-bar__info">
+          <span class="nybe-bar__ship">{% render 'bbb-icon', name: 'truck', size: 18 %}<span>Free shipping</span></span>
+          <span class="nybe-bar__save" data-bbb-bar-saving hidden>{% render 'bbb-icon', name: 'check-circle', size: 18 %}<span>You save <strong data-bbb-bar-saving-amt></strong></span></span>
+        </div>
+        <div class="nybe-bar__sum">
+          <span class="nybe-bar__label">Total today</span>
+          <span class="bbb-bar__total" data-bbb-bar-total>{{ variant.price | money }}</span>
+        </div>
+        <button type="button" class="button button--primary" data-bbb-add><span>{{ section.settings.bar_label | escape }}</span>{% render 'bbb-icon', name: 'arrow-right', size: 18, class: 'nybe-btn-arrow' %}</button>
       </div>
     </div>
 
