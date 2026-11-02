@@ -139,19 +139,24 @@
   </div>
 
   <div class="page-width nybe-footer__bottom">
-    <p class="nybe-footer__copy">&copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }}.{% if section.settings.copyright_suffix != blank %} {{ section.settings.copyright_suffix | escape }}{% endif %}</p>
     {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
-      <ul class="nybe-footer__pay" role="list" aria-label="Payment methods">
-        {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>{%- endfor -%}
-      </ul>
+      <div class="nybe-footer__payrow">
+        <p class="nybe-footer__pay-label">{%- render 'bbb-icon', name: 'shield', size: 18, stroke: 2 -%}<span>Secure checkout</span></p>
+        <ul class="nybe-footer__pay" role="list" aria-label="Payment methods">
+          {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}</li>{%- endfor -%}
+        </ul>
+      </div>
     {%- endif -%}
-    {%- if shop.policies.size > 0 -%}
-      <ul class="nybe-footer__policies" role="list">
-        {%- for policy in shop.policies -%}
-          {%- if policy != blank -%}<li><a href="{{ policy.url }}">{{ policy.title | escape }}</a></li>{%- endif -%}
-        {%- endfor -%}
-      </ul>
-    {%- endif -%}
+    <div class="nybe-footer__legal">
+      <p class="nybe-footer__copy">&copy; {{ 'now' | date: '%Y' }} {{ shop.name | escape }}.{% if section.settings.copyright_suffix != blank %} {{ section.settings.copyright_suffix | escape }}{% endif %}</p>
+      {%- if shop.policies.size > 0 -%}
+        <ul class="nybe-footer__policies" role="list">
+          {%- for policy in shop.policies -%}
+            {%- if policy != blank -%}<li><a href="{{ policy.url }}">{{ policy.title | escape }}</a></li>{%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
   </div>
 </footer>
 
