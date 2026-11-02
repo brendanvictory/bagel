@@ -188,7 +188,7 @@
 {%- if section.settings.sticky_cta and section.settings.cta_label != blank -%}
   <div class="bbb-sticky-cta color-{{ section.settings.sticky_color_scheme | default: 'scheme-3' }}" data-bbb-sticky="{{ section.id }}" hidden>
     <a href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}" class="button button--primary">
-      {{- section.settings.cta_label | escape -}}
+      <span>{{- section.settings.cta_label | escape -}}</span>{% render 'bbb-icon', name: 'arrow-right', size: 20, class: 'nybe-btn-arrow' %}
     </a>
   </div>
   <script src="{{ 'bbb-sticky-cta.js' | asset_url }}" defer="defer"></script>
