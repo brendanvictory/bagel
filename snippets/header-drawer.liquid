@@ -26,14 +26,37 @@
           <nav class="menu-drawer__navigation">
             <ul class="menu-drawer__menu has-submenu list-menu" role="list">
               {%- for link in section.settings.menu.links -%}
+                {%- liquid
+                  assign mh = link.handle | downcase
+                  assign mu = link.url | downcase
+                  assign micon = 'bagel'
+                  if mh == 'home' or mu == '/' or mu == routes.root_url
+                    assign micon = 'house'
+                  elsif mh contains 'about'
+                    assign micon = 'users'
+                  elsif mh contains 'why'
+                    assign micon = 'award'
+                  elsif mh contains 'wholesale'
+                    assign micon = 'package'
+                  elsif mh contains 'contact'
+                    assign micon = 'mail'
+                  elsif mh contains 'faq' or mh contains 'help'
+                    assign micon = 'circle-help'
+                  elsif mh contains 'shop' or mh contains 'box' or mu contains '/products' or mu contains '/collections'
+                    assign micon = 'shopping-bag'
+                  elsif mh contains 'flavor'
+                    assign micon = 'bagel'
+                  endif
+                -%}
                 <li>
                   {%- if link.links != blank -%}
                     <details id="Details-menu-drawer-menu-item-{{ forloop.index }}">
                       <summary
                         id="HeaderDrawer-{{ link.handle }}"
-                        class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.child_active %} menu-drawer__menu-item--active{% endif %}"
+                        class="menu-drawer__menu-item list-menu__item link link--text focus-inset nybe-menu__item{% if link.child_active %} menu-drawer__menu-item--active{% endif %}"
                       >
-                        {{ link.title | escape }}
+                        <span class="nybe-menu__icon" aria-hidden="true">{%- render 'bbb-icon', name: micon, size: 26, stroke: 1.75 -%}</span>
+                        <span class="nybe-menu__label">{{ link.title | escape }}</span>
                         <span class="svg-wrapper">
                           {{- 'icon-arrow.svg' | inline_asset_content -}}
                         </span>
@@ -127,17 +150,38 @@
                     <a
                       id="HeaderDrawer-{{ link.handle }}"
                       href="{{ link.url }}"
-                      class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.current %} menu-drawer__menu-item--active{% endif %}"
+                      class="menu-drawer__menu-item list-menu__item link link--text focus-inset nybe-menu__item{% if link.current %} menu-drawer__menu-item--active{% endif %}"
                       {% if link.current %}
                         aria-current="page"
                       {% endif %}
                     >
-                      {{ link.title | escape }}
+                      <span class="nybe-menu__icon" aria-hidden="true">{%- render 'bbb-icon', name: micon, size: 26, stroke: 1.75 -%}</span>
+                      <span class="nybe-menu__label">{{ link.title | escape }}</span>
+                      <span class="nybe-menu__chev" aria-hidden="true">{%- render 'bbb-icon', name: 'chevron-right', size: 22, stroke: 2.25 -%}</span>
                     </a>
                   {%- endif -%}
                 </li>
               {%- endfor -%}
             </ul>
+            {%- if section.settings.menu_promo_show -%}
+              {%- liquid
+                assign mp_link = section.settings.menu_promo_link | default: routes.all_products_collection_url
+              -%}
+              <a href="{{ mp_link }}" class="nybe-menu-promo">
+                <span class="nybe-menu-promo__copy">
+                  {%- if section.settings.menu_promo_eyebrow != blank -%}<span class="nybe-menu-promo__eyebrow">{{ section.settings.menu_promo_eyebrow | escape }}</span>{%- endif -%}
+                  <span class="nybe-menu-promo__title">{{ section.settings.menu_promo_heading | escape }}</span>
+                  <span class="nybe-menu-promo__btn">{{ section.settings.menu_promo_button | escape }}{%- render 'bbb-icon', name: 'chevron-right', size: 18, stroke: 2.5 -%}</span>
+                </span>
+                <span class="nybe-menu-promo__media" aria-hidden="true">
+                  {%- if section.settings.menu_promo_image != blank -%}
+                    {{ section.settings.menu_promo_image | image_url: width: 600 | image_tag: widths: '300, 450, 600', sizes: '50vw', loading: 'lazy', alt: '' }}
+                  {%- else -%}
+                    <img src="{{ 'nybe-menu-bagel-490.webp' | asset_url }}" srcset="{{ 'nybe-menu-bagel-300.webp' | asset_url }} 300w, {{ 'nybe-menu-bagel-490.webp' | asset_url }} 490w" sizes="50vw" width="490" height="440" alt="" loading="lazy" decoding="async">
+                  {%- endif -%}
+                </span>
+              </a>
+            {%- endif -%}
           </nav>
           <div class="menu-drawer__utility-links">
             {%- if show_country_selector or show_language_selector -%}
