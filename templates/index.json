@@ -107,8 +107,8 @@
         "cta_label": "",
         "cta_link": "shopify://products/build-your-box",
         "color_scheme": "scheme-2",
-        "padding_top": 48,
-        "padding_bottom": 48
+        "padding_top": 72,
+        "padding_bottom": 72
       }
     },
     "gallery": {
@@ -125,8 +125,8 @@
         "hide_unavailable": true,
         "anchor": "flavors",
         "color_scheme": "scheme-1",
-        "padding_top": 48,
-        "padding_bottom": 24,
+        "padding_top": 72,
+        "padding_bottom": 40,
         "promo_heading": "Build Your Dozen Today!",
         "promo_cta": "Build your box"
       }
@@ -180,8 +180,8 @@
         "text": "",
         "anchor": "why",
         "color_scheme": "scheme-1",
-        "padding_top": 8,
-        "padding_bottom": 40,
+        "padding_top": 40,
+        "padding_bottom": 72,
         "layout": "strip"
       }
     },
@@ -219,8 +219,8 @@
         "cta_link": "",
         "anchor": "about",
         "color_scheme": "scheme-2",
-        "padding_top": 48,
-        "padding_bottom": 48
+        "padding_top": 72,
+        "padding_bottom": 72
       }
     },
     "process": {
@@ -276,8 +276,8 @@
         "anchor": "process",
         "spray": false,
         "color_scheme": "scheme-4",
-        "padding_top": 48,
-        "padding_bottom": 48
+        "padding_top": 72,
+        "padding_bottom": 72
       }
     },
     "subsave": {
@@ -296,8 +296,8 @@
         "cta_link": "shopify://products/build-your-box",
         "disclosure": "<p>Subscriptions renew automatically every 4 weeks at the price shown until you cancel. Cancel anytime in your account before your next renewal. <a href=\"/policies/terms-of-service\">Subscription terms</a>.</p>",
         "color_scheme": "scheme-1",
-        "padding_top": 24,
-        "padding_bottom": 48,
+        "padding_top": 72,
+        "padding_bottom": 72,
         "layout": "banner"
       }
     },
@@ -309,8 +309,8 @@
         "speed": 50,
         "anchor": "reviews",
         "color_scheme": "scheme-5",
-        "padding_top": 48,
-        "padding_bottom": 56
+        "padding_top": 72,
+        "padding_bottom": 72
       }
     },
     "faq": {
@@ -363,7 +363,7 @@
         "heading": "Good to know",
         "schema": true,
         "color_scheme": "scheme-2",
-        "padding_top": 48,
+        "padding_top": 72,
         "padding_bottom": 48,
         "layout": "strip",
         "show_bridge": true
@@ -398,8 +398,8 @@
       "settings": {
         "color_scheme": "scheme-2",
         "full_width": true,
-        "padding_top": 40,
-        "padding_bottom": 52
+        "padding_top": 48,
+        "padding_bottom": 72
       }
     },
     "cta": {
@@ -413,8 +413,8 @@
         "overlay_opacity": 55,
         "spray": true,
         "color_scheme": "scheme-3",
-        "padding_top": 56,
-        "padding_bottom": 56
+        "padding_top": 80,
+        "padding_bottom": 80
       },
       "disabled": true
     }
