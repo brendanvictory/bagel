@@ -119,8 +119,10 @@ body { color: var(--nybe-navy); }
   .nybe-hero .nybe-hero__img { object-position: 100% 50%; }
 }
 .nybe-hero.bbb-hero--h-medium.bbb-hero--has-bg { min-height: 0; }
-@media screen and (min-width: 990px) { .nybe-hero.bbb-hero--h-medium.bbb-hero--has-bg { min-height: 56rem; } }
-.nybe-hero .bbb-hero__copy { text-shadow: none; gap: 1.8rem; max-width: 60rem; }
+@media screen and (min-width: 990px) { .nybe-hero.bbb-hero--h-medium.bbb-hero--has-bg { min-height: 64rem; } }
+.nybe-hero .bbb-hero__copy { text-shadow: none; gap: 2.4rem; max-width: 60rem; }
+.nybe-hero .bbb-hero__sub { margin-top: 0.8rem; }
+.nybe-hero .bbb-cta-row { margin-top: 1.2rem; }
 .nybe-hero .bbb-eyebrow { color: var(--nybe-orange); font-size: 1.5rem; margin: 0; }
 .nybe-hero .bbb-display--xl { font-size: clamp(4rem, 6vw, 6.8rem); }
 .nybe-hero .bbb-accent { display: block; font-style: italic; position: relative; width: fit-content; padding-right: 0.1em; color: var(--nybe-orange); }
@@ -138,7 +140,7 @@ body { color: var(--nybe-navy); }
   .nybe-hero .bbb-cta-row .button { width: 100%; justify-content: center; }
 }
 /* Benefit row inside the hero (navy band on phones) */
-.nybe-benefits.bbb-hero__chips { gap: 0; margin-top: 1rem; flex-wrap: nowrap; }
+.nybe-benefits.bbb-hero__chips { gap: 0; margin-top: 1.6rem; flex-wrap: nowrap; }
 .nybe-benefit.bbb-chip {
   background: none !important; border: 0; border-radius: 0; padding: 0 1.8rem; display: flex; align-items: center; gap: 1rem;
   font-size: 1.4rem; font-weight: 700; line-height: 1.25; color: #fff; max-width: 16rem;

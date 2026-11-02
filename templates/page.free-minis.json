@@ -59,8 +59,8 @@
         "show_logo_art": true,
         "color_scheme": "scheme-5",
         "spray": true,
-        "padding_top": 40,
-        "padding_bottom": 56,
+        "padding_top": 80,
+        "padding_bottom": 80,
         "sticky_cta": true,
         "sticky_color_scheme": "scheme-3"
       }
