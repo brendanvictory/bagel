@@ -63,7 +63,7 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   await inc('everything'); await inc('everything'); await inc('plain');
   ok((await progress()) === '3 of 3 sleeves selected', 'progress 3 of 3');
   ok((await count('everything')) === '2', 'Everything ×2');
-  ok((await p.textContent('[data-bbb-flavor="everything"] [data-bbb-badge]')).trim() === '×2' && await p.isVisible('[data-bbb-flavor="everything"] [data-bbb-badge]'), 'photo badge shows ×2');
+  ok((await p.textContent('[data-bbb-flavor="everything"] [data-bbb-badge]')).trim() === '×2' && await p.isVisible('[data-bbb-flavor="everything"] .nybe-fcard__check') && !(await p.isVisible('[data-bbb-flavor="plain"] .nybe-fcard__check')) === false, 'picked flavors show the orange check (count kept in badge data + stepper)');
   ok(await p.isDisabled('[data-bbb-flavor="poppy"] [data-bbb-inc]'), 'all + disabled when full');
   ok((await p.$$('.bbb-slot.is-filled .bbb-slot__img img')).length === 3, 'all 3 sleeve slots show the flavor photo');
   ok((await p.$$('.bbb-bar__dot.is-filled img')).length === 3, 'mobile bar shows 3 filled photo dots');
@@ -101,7 +101,7 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   ok((await step()) === '1' && (await progress()) === '3 of 3 sleeves selected', 'browser Back → page 1 with box intact');
   await p.goForward(); await p.waitForTimeout(200);
   ok((await step()) === '2' && await p.isChecked('[data-bbb-addon="1001"]'), 'browser Forward → page 2 with add-on intact');
-  await p.click('[data-bbb-view="2"] .bbb-back');
+  await p.click('[data-bbb-view="2"] .bbb-card2__edit');
   await p.waitForTimeout(200);
   ok((await step()) === '1', '"Edit flavors" returns to page 1');
   await p.click(barNext);

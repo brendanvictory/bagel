@@ -192,3 +192,16 @@
 .bbb-bar__dot { border-color: #cbbfae; background: #fbf8f3; }
 .bbb-bar__dot.is-filled { border-color: #f47b20; }
 .bbb-bar__total { color: var(--bbb-ink); }
+/* compact flavor cards (mockup proportions) */
+.bbb-fcard__media { aspect-ratio: 5 / 4; }
+.bbb-fcard__img { width: 78%; height: 92%; }
+/* phones: add-ons side by side, compact (mockup) */
+@media screen and (max-width: 749px) {
+  .bbb-addons { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; }
+  .bbb-addon { grid-template-columns: 5.2rem minmax(0, 1fr); gap: 0.8rem; padding: 1rem 0.8rem; }
+  .bbb-addon__media { width: 5.2rem; height: 5.2rem; }
+  .bbb-addon__check { position: absolute; top: 0.6rem; right: 0.6rem; width: 2.2rem; height: 2.2rem; }
+  .bbb-addon__name { font-size: 1.45rem; padding-right: 2rem; line-height: 1.2; }
+  .bbb-addon__price { font-size: 1.4rem; }
+  .bbb-addon__every, .nybe-addon__desc { display: none; }
+}

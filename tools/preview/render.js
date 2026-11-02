@@ -18,6 +18,8 @@ engine.registerFilter('default_errors', () => '');
 engine.registerFilter('placeholder_svg_tag', (n, cls) => `<svg class="${cls}" viewBox="0 0 100 75"><rect x="20" y="15" width="60" height="45" rx="4"/></svg>`);
 engine.registerFilter('url_encode', (x) => encodeURIComponent(x));
 engine.registerFilter('payment_type_svg_tag', () => '');
+engine.registerFilter('money_without_trailing_zeros', (c) => '$' + (Number(c) / 100).toFixed(2).replace(/\.00$/, ''));
+engine.registerFilter('truncatewords', (x) => x);
 const renderSection = async (type, ctx) => {
   let src = fs.readFileSync(path.join(THEME, 'sections', type + '.liquid'), 'utf8');
   src = src.replace(/{% schema %}[\s\S]*?{% endschema %}/, '')
@@ -31,10 +33,10 @@ const standin = { toString(){return 'file://'+__dirname+'/standin.jpg'}, width: 
 // GALLERY_MOCK
 const fnames = ['Plain','Everything','Sesame','Poppy','Onion','Garlic','Cinnamon Raisin','Egg','Whole Wheat','Pumpernickel'];
 const mockFlavors = fnames.map((n) => { const h = n.toLowerCase().replace(/ /g, '-'); return { system: { handle: h }, name: { value: n }, available: { value: true }, image: { value: { src: 'file://' + __dirname + '/builder/img/' + h + '.png' } } }; });
-const product = { title: 'The Dozen', url: '/products/build-your-box', metafields: { custom: { flavors: { value: mockFlavors }, addons: { value: [] } } }, selected_or_first_available_variant: { price: 4495, selling_plan_allocations: [{ price: 3995, selling_plan: { name: 'Delivered every 4 weeks' } }] } };
+const product = { title: 'The Dozen', url: '/products/build-your-box', featured_image: { src: 'file://' + __dirname + '/builder/img/minis.png' }, metafields: { custom: { flavors: { value: mockFlavors }, addons: { value: [{ title: 'Mini Bagels (6)', featured_image: { src: 'file://' + __dirname + '/builder/img/minis.png' } }] } } }, selected_or_first_available_variant: { price: 4595, selling_plan_allocations: [{ price: 3995, selling_plan: { name: 'Delivered every 4 weeks' } }] } };
 (async () => {
   let html = '';
-  const ctxFor = (id, settings, blocks) => ({ page: { title: 'Page' }, section: { id, settings, blocks }, request: { page_type: TEMPLATE === 'index' ? 'index' : 'page', design_mode: !!process.env.DESIGN }, routes: { all_products_collection_url: '/collections/all', root_url: '/' }, shop: { name: 'Bad Boy Bagel Co.', policies: [], enabled_payment_types: [] }, settings: { logo_width: 150 }, form: {} });
+  const ctxFor = (id, settings, blocks) => ({ page: { title: 'Page' }, section: { id, settings, blocks }, request: { page_type: TEMPLATE === 'index' ? 'index' : 'page', design_mode: !!process.env.DESIGN }, routes: { all_products_collection_url: '/collections/all', root_url: '/' }, shop: { name: 'New York Bagel Express', policies: [], enabled_payment_types: [] }, settings: { logo_width: 150 }, form: {} });
   const build = (sec) => {
     const schema = readSchema(sec.type); const settings = {};
     for (const s of schema.settings || []) if ('default' in s) settings[s.id] = s.default;
@@ -47,14 +49,13 @@ const product = { title: 'The Dozen', url: '/products/build-your-box', metafield
     blocks.size = blocks.length; return { settings, blocks, schema };
   };
   for (const id of index.order) {
-    const sec = index.sections[id]; if (!sec.type.startsWith('bbb-')) continue;
+    const sec = index.sections[id]; if (!sec.type.startsWith('bbb-') || sec.disabled) continue;
     const schema = readSchema(sec.type); const settings = {};
     for (const s of schema.settings || []) if ('default' in s) settings[s.id] = s.default;
     Object.assign(settings, sec.settings || {});
     if (sec.type === 'bbb-hero' && process.env.STANDIN) settings.image = standin;
     if (schema.settings.some((s) => s.type === 'product')) { settings.price_product = product; settings.product = product; }
-    const blocks = (sec.block_order || []).map((b) => ({ ...sec.blocks[b], shopify_attributes: '' }));
-    blocks.size = blocks.length;
+    const blocks = build(sec).blocks;
     html += await renderSection(sec.type, ctxFor(id, settings, blocks));
   }
   let footerHtml = '';
@@ -68,11 +69,19 @@ const product = { title: 'The Dozen', url: '/products/build-your-box', metafield
     const s = v.settings;
     css += `.color-${k}{--color-background:${rgb(s.background)};--gradient-background:${s.background};--color-foreground:${rgb(s.text)};--color-button:${rgb(s.button)};--color-button-text:${rgb(s.button_label)};--color-secondary-button:${rgb(s.background)};--color-secondary-button-text:${rgb(s.secondary_button_label)};--color-shadow:${rgb(s.shadow)};--color-link:${rgb(s.text)};}\n`;
   }
-  const root = `:root{--font-body-family:Assistant,system-ui,sans-serif;--font-heading-family:Assistant,system-ui,sans-serif;--font-body-weight:400;--font-heading-weight:700;--font-body-scale:1;--font-heading-scale:1.1;--page-width:120rem;--buttons-radius:6px;--buttons-radius-outset:8px;--buttons-border-width:2px;--buttons-border-opacity:1;--buttons-shadow-opacity:1;--buttons-shadow-horizontal-offset:4px;--buttons-shadow-vertical-offset:4px;--buttons-shadow-blur-radius:0px;--buttons-border-offset:0.3px;--inputs-radius:6px;--spacing-sections-desktop:0px;--spacing-sections-mobile:0px;} html{box-sizing:border-box;font-size:62.5%;height:100%} *,*::before,*::after{box-sizing:inherit} body{display:flex;flex-direction:column;min-height:100%;margin:0;font-size:1.5rem;letter-spacing:.06rem;line-height:1.8;font-family:var(--font-body-family)} @media(min-width:750px){body{font-size:1.6rem}} body,[class*=color-scheme]{color:rgba(var(--color-foreground),.75);background-color:rgb(var(--color-background))}`;
-  const header = `<div class="color-scheme-4" style="background:#101010;color:#fff;text-align:center;padding:10px;font-size:13px">Build your dozen: 4 sleeves, up to 4 flavors</div>
-  <header class="color-scheme-1 gradient" style="display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #ddd"><span>☰</span><img src="${asset('bbb-logo-600.webp')}" width="150" height="108" alt="Bad Boy Bagel Co."><span>🛒</span></header>`;
+  const root = `:root{--font-body-family:Assistant,system-ui,sans-serif;--font-heading-family:Assistant,system-ui,sans-serif;--buttons-radius:40px;--font-body-weight:400;--font-heading-weight:700;--font-body-scale:1;--font-heading-scale:1.1;--page-width:120rem;--buttons-radius:6px;--buttons-radius-outset:8px;--buttons-border-width:2px;--buttons-border-opacity:1;--buttons-shadow-opacity:1;--buttons-shadow-horizontal-offset:4px;--buttons-shadow-vertical-offset:4px;--buttons-shadow-blur-radius:0px;--buttons-border-offset:0.3px;--inputs-radius:6px;--spacing-sections-desktop:0px;--spacing-sections-mobile:0px;} html{box-sizing:border-box;font-size:62.5%;height:100%} *,*::before,*::after{box-sizing:inherit} body{display:flex;flex-direction:column;min-height:100%;margin:0;font-size:1.5rem;letter-spacing:.06rem;line-height:1.8;font-family:var(--font-body-family)} @media(min-width:750px){body{font-size:1.6rem}} body,[class*=color-scheme]{color:rgba(var(--color-foreground),.75);background-color:rgb(var(--color-background))}`;
+  const headerGroup = readJson(path.join(THEME, 'sections', 'header-group.json'));
+  let trust = '';
+  if (headerGroup.sections.trust) { const b = build(headerGroup.sections.trust); trust = await renderSection('bbb-trust-bar', ctxFor('trust', b.settings, b.blocks)); }
+  const icon = async (n) => engine.parseAndRender(`{% render 'bbb-icon', name: '${n}', size: 24 %}`, {});
+  const header = `<div class="section-nybe-trust">${trust}</div>
+  <div class="section-header"><div class="header-wrapper"><header class="page-width" style="display:flex;align-items:center;justify-content:space-between;gap:24px;padding:10px 1.5rem;color:#082d5c">
+    <img src="${asset('nybe-logo-400.webp')}" width="170" height="72" alt="New York Bagel Express">
+    <nav class="mock-nav" style="display:flex;gap:4rem;font-weight:800;font-size:14px;letter-spacing:.04em">${['HOME','ABOUT US','WHY US','WHOLESALE','CONTACT'].map((x,i)=>`<span style="${i?'':'border-bottom:3px solid #f47b20;padding-bottom:4px'}">${x}</span>`).join('')}</nav>
+    <span style="display:flex;gap:18px">${await icon('search')}${await icon('user')}${await icon('cart')}</span></header></div></div>
+  <style>@media(max-width:989px){.mock-nav{display:none!important}}</style>`;
   const page = `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>${root}\n${css}</style>
-  <link rel="stylesheet" href="${asset('base.css')}"><link rel="stylesheet" href="${asset('bbb-tokens.css')}"><link rel="stylesheet" href="${asset('bbb-sections.css')}"></head>
+  <link rel="stylesheet" href="${asset('base.css')}"><link rel="stylesheet" href="${asset('bbb-tokens.css')}"><link rel="stylesheet" href="${asset('bbb-sections.css')}"><link rel="stylesheet" href="${asset('nybe-theme.css')}"></head>
   <body class="gradient">${header}<main>${html}</main>${footerHtml}</body></html>`;
   fs.writeFileSync(OUT, page);
   console.log('rendered', OUT);
