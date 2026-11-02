@@ -529,3 +529,61 @@ body.bbb-has-sticky-cta { padding-bottom: 9.6rem; }
   .nybe-footer__top { padding-bottom: 22rem; }
   .nybe-footer__aside { grid-column: 1 / -1; padding-left: 0; border-left: 0; padding-top: 3.2rem; border-top: 0.1rem solid var(--nf-line); grid-template-columns: minmax(0, 1.4fr) auto; align-items: end; }
 }
+
+/* ---------- Mobile menu drawer ---------- */
+#menu-drawer { background: #fff7ec; }
+#menu-drawer .menu-drawer__navigation { padding: 2rem 2rem 3.2rem; }
+#menu-drawer .menu-drawer__menu { list-style: none; margin: 0; padding: 0; }
+#menu-drawer .menu-drawer__navigation > .menu-drawer__menu > li { margin: 0; }
+#menu-drawer .nybe-menu__item {
+  position: relative; display: flex; align-items: center; gap: 1.8rem; min-height: 6.4rem; padding: 0 1.6rem 0 2rem;
+  font-family: var(--font-heading-family); font-size: 1.9rem; font-weight: 700; letter-spacing: 0; color: var(--nybe-navy);
+  background: none; border-radius: 1.6rem; transition: background 0.2s ease;
+}
+/* Hairline dividers between rows, inset to the content */
+#menu-drawer .menu-drawer__navigation > .menu-drawer__menu > li + li .nybe-menu__item::before {
+  content: ''; position: absolute; left: 2rem; right: 2rem; top: 0; height: 0.1rem; background: rgba(8, 45, 92, 0.1);
+}
+#menu-drawer .nybe-menu__icon { flex: none; display: grid; place-items: center; width: 2.8rem; color: var(--nybe-navy); }
+#menu-drawer .nybe-menu__label { flex: 1; min-width: 0; }
+#menu-drawer .nybe-menu__chev { flex: none; display: grid; place-items: center; color: var(--nybe-navy); transition: transform 0.2s ease; }
+#menu-drawer summary.nybe-menu__item { padding-right: 5.2rem; }
+#menu-drawer summary.nybe-menu__item > .svg-wrapper { right: 2rem; color: var(--nybe-navy); }
+#menu-drawer .nybe-menu__item:hover { background: rgba(255, 255, 255, 0.7); }
+#menu-drawer .nybe-menu__item:hover .nybe-menu__chev { transform: translateX(0.3rem); }
+/* Current page: raised white card, orange icon + chevron */
+#menu-drawer .nybe-menu__item.menu-drawer__menu-item--active {
+  background: #fff; box-shadow: 0 0.2rem 0.6rem rgba(120, 70, 20, 0.05), 0 0.8rem 2.4rem rgba(120, 70, 20, 0.08);
+}
+#menu-drawer .menu-drawer__menu-item--active .nybe-menu__icon,
+#menu-drawer .menu-drawer__menu-item--active .nybe-menu__chev,
+#menu-drawer summary.menu-drawer__menu-item--active > .svg-wrapper { color: var(--nybe-orange); }
+#menu-drawer li:has(.menu-drawer__menu-item--active) + li .nybe-menu__item::before,
+#menu-drawer .menu-drawer__menu-item--active::before { display: none; }
+#menu-drawer .nybe-menu__item:focus-visible { outline: 0.2rem solid var(--nybe-orange); outline-offset: -0.2rem; box-shadow: none; }
+
+/* Promo card */
+.nybe-menu-promo {
+  position: relative; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); align-items: center; overflow: hidden;
+  margin-top: 2.8rem; min-height: 20rem; border-radius: 2rem; text-decoration: none; color: var(--nybe-navy);
+  background: linear-gradient(135deg, #fffaf2 0%, #fff0dc 100%); border: 0.1rem solid rgba(244, 123, 32, 0.14);
+  box-shadow: 0 0.2rem 0.6rem rgba(120, 70, 20, 0.05), 0 1.2rem 3.2rem rgba(120, 70, 20, 0.1);
+}
+.nybe-menu-promo__copy { position: relative; z-index: 1; display: grid; gap: 1rem; justify-items: start; padding: 2.4rem 0 2.4rem 2.4rem; }
+.nybe-menu-promo__eyebrow { line-height: 1.35; font-size: 1.15rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--nybe-orange-text); }
+.nybe-menu-promo__title {
+  font-family: var(--font-heading-family); font-size: 2.6rem; font-weight: 900; font-style: italic; line-height: 1.03;
+  text-transform: uppercase; letter-spacing: -0.01em; color: var(--nybe-navy); text-wrap: balance;
+}
+.nybe-menu-promo__btn {
+  display: inline-flex; align-items: center; gap: 0.6rem; margin-top: 0.6rem; min-height: 4.4rem; padding: 0 1.8rem 0 2rem; border-radius: 99rem;
+  font-size: 1.5rem; font-weight: 800; color: #fff; white-space: nowrap;
+  background: linear-gradient(180deg, #f8862a, #e8501a); box-shadow: 0 0.6rem 1.6rem rgba(232, 80, 26, 0.3);
+}
+.nybe-menu-promo__media { align-self: stretch; position: relative; margin-left: -2.4rem; }
+.nybe-menu-promo__media img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 30% 60%;
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 28%); mask-image: linear-gradient(90deg, transparent 0%, #000 28%);
+}
+.nybe-menu-promo:hover .nybe-menu-promo__btn { filter: brightness(1.06); }
+.nybe-menu-promo:focus-visible { outline: 0.2rem solid var(--nybe-orange); outline-offset: 0.3rem; }
