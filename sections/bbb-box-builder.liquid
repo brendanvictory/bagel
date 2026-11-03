@@ -171,9 +171,8 @@
           <p class="bbb-progress" data-bbb-progress aria-live="polite">0 of {{ sleeves }} sleeves selected</p>
           <p class="bbb-tray__hint">{{ section.settings.tray_hint | replace: '[per_sleeve]', per_sleeve | replace: '[sleeves]', sleeves | replace: '[total]', total_bagels | escape }}</p>
         </div>
-        {%- if addons.first.featured_image != blank -%}
-          {%- comment -%} Same bagel stack + accent lines as the "Build Your Dozen" tile, mirrored (lines top-right) {%- endcomment -%}
-          <span class="nybe-tray__art" aria-hidden="true">{{ addons.first.featured_image | image_url: width: 300 | image_tag: loading: 'lazy', widths: '150, 300', sizes: '120px', alt: '' }}<svg class="nybe-promo-tile__spark nybe-tray__spark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" focusable="false"><g class="nybe-promo-tile__spark-g"><path d="M29 25 27.5 8"/><path d="M23.5 29.5 11 17"/><path d="M21 35.5 5 34"/></g></svg></span>
+        {%- if b_banner and addons.first.featured_image != blank -%}
+          <span class="nybe-tray__art" aria-hidden="true">{{ addons.first.featured_image | image_url: width: 200 | image_tag: loading: 'lazy', alt: '' }}</span>
         {%- endif -%}
       </div>
 

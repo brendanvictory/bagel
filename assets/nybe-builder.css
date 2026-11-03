@@ -81,11 +81,8 @@
   .bbb-tray__slots { width: calc(var(--bbb-sleeves, 3) * 12rem); max-width: none; gap: 2rem; }
   .bbb-tray__status { border-left: 0.1rem solid var(--bbb-line); padding-left: 4rem; }
   .bbb-progress { font-size: 2.4rem; }
-  .nybe-tray__art { display: block; position: relative; width: 12rem; }
+  .nybe-tray__art { display: block; width: 9.6rem; }
   .nybe-tray__art img { width: 100%; height: auto; display: block; mix-blend-mode: multiply; }
-  /* Accent lines mirrored to the top-right of the bagel stack (shape, colour and pop-in shared with the promo tile) */
-  .nybe-tray__spark { left: auto; right: 8%; top: -10%; scale: -1 1; }
-  .bbb-tray:hover .nybe-tray__spark .nybe-promo-tile__spark-g { animation: nybeSparkWiggle 0.5s ease; }
 }
 
 /* ---------- Flavors heading + cards ---------- */
