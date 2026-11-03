@@ -95,7 +95,7 @@
         "heading_accent": "Express.",
         "text": "<p>Here's what goes into every box.</p>",
         "anchor": "reasons",
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-2",
         "padding_top": 72,
         "padding_bottom": 72
       }
@@ -142,7 +142,7 @@
         "cta_label": "",
         "cta_link": "",
         "anchor": "",
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-1",
         "padding_top": 72,
         "padding_bottom": 72
       }
@@ -189,7 +189,7 @@
         "cta_label": "Build your box",
         "cta_link": "shopify://products/build-your-box",
         "anchor": "",
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-2",
         "padding_top": 72,
         "padding_bottom": 72
       }
@@ -207,7 +207,7 @@
         "show_addons": true,
         "hide_unavailable": true,
         "anchor": "flavors",
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-1",
         "padding_top": 72,
         "padding_bottom": 72
       }
