@@ -24,6 +24,7 @@
       {%- form 'contact', id: 'BbbWholesaleForm', class: 'bbb-form' -%}
         {%- if form.posted_successfully? -%}
           <p class="bbb-form__success" role="status" tabindex="-1" autofocus>{{ section.settings.success | escape }}</p>
+          {%- render 'nybe-tracking', event: 'nybe_lead', source: 'wholesale' -%}
         {%- elsif form.errors -%}
           <div class="bbb-form__errors" role="alert" tabindex="-1" autofocus>
             <p><strong>Please fix the following:</strong></p>

@@ -1,0 +1,51 @@
+{%- comment -%}
+  New York Bagel Express — analytics bridge (no ad pixel code lives in the theme).
+  Standard e-commerce events (PageView, ViewContent, AddToCart, InitiateCheckout, AddPaymentInfo,
+  Purchase) are sent by Shopify's Facebook & Instagram app from Shopify's own events.
+  This bridge only publishes the extra actions Shopify doesn't track, as Shopify custom events
+  (Shopify.analytics.publish). A custom pixel in Settings > Customer events maps them to Meta
+  (see docs/ops/meta-custom-pixel.md):
+    nybe_customize_product  box builder finished (all sleeves picked)  -> CustomizeProduct
+    nybe_lead               newsletter / wholesale inquiry / builder ZIP lead -> Lead
+    nybe_contact            contact form sent                          -> Contact
+  Usage from Liquid: {% render 'nybe-tracking', event: 'nybe_lead', source: 'newsletter' %}
+  Without params it renders the shared bridge (once, in layout/theme.liquid).
+{%- endcomment -%}
+{%- if event -%}
+  <script>window.nybeTrack && window.nybeTrack({{ event | json }}, { source: {{ source | default: '' | json }} }, {{ event | append: ':' | append: source | json }});</script>
+{%- else -%}
+<script>
+  (function () {
+    var queue = [];
+    function flush() {
+      var a = window.Shopify && window.Shopify.analytics;
+      if (!a || typeof a.publish !== 'function') return false;
+      while (queue.length) { var q = queue.shift(); try { a.publish(q[0], q[1]); } catch (e) { /* ignore */ } }
+      return true;
+    }
+    /* once: optional key so a refresh of a "thank you" state doesn't count twice in this tab */
+    window.nybeTrack = function (name, data, once) {
+      if (once) {
+        try { var k = 'nybe:t:' + once; if (sessionStorage.getItem(k)) return; sessionStorage.setItem(k, '1'); } catch (e) { /* private mode */ }
+      }
+      queue.push([name, data || {}]);
+      if (!flush()) {
+        var tries = 0, t = setInterval(function () { if (flush() || ++tries > 40) clearInterval(t); }, 250);
+      }
+    };
+    /* Box builder: finished picking flavors (fires once per page view) */
+    var customized = false;
+    function onCustomized(e) {
+      if (customized) return; customized = true;
+      window.nybeTrack('nybe_customize_product', { content_name: 'Build Your Box', sleeves: (e.detail && e.detail.sleeves) || [] });
+    }
+    /* step 2 (add-ons & plan) or the ZIP/email step — both mean all sleeves are picked */
+    document.addEventListener('bbb:builder-complete', onCustomized);
+    document.addEventListener('bbb:builder-lead', onCustomized);
+    /* Box builder ZIP / email step saved a lead */
+    document.addEventListener('bbb:lead', function (e) {
+      if (e.detail && e.detail.saved) window.nybeTrack('nybe_lead', { source: 'builder-' + (e.detail.source || 'zip') });
+    });
+  })();
+</script>
+{%- endif -%}

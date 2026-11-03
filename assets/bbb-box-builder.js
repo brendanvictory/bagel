@@ -217,7 +217,26 @@
     $$('[data-bbb-add]').forEach((b) => b.setAttribute('aria-disabled', String(!(isFull() && state.option))));
   };
 
-  const render = () => { renderPage1(); renderPage2(); syncUrl(); };
+  // Picks are remembered per tab (sessionStorage), not in the URL: rewriting the URL on every
+  // tap makes ad/analytics pixels log a new PageView each time. The URL only changes on step changes.
+  const SESSION_KEY = `bbb:box:${cfg.variantId}`;
+  const saveSession = () => {
+    try {
+      window.sessionStorage.setItem(SESSION_KEY, JSON.stringify({
+        s: state.sleeves, o: state.option, p: state.planId, a: Array.from(state.addons),
+      }));
+    } catch (err) { /* private mode */ }
+  };
+  const restoreSession = () => {
+    let d = null;
+    try { d = JSON.parse(window.sessionStorage.getItem(SESSION_KEY) || 'null'); } catch (err) { d = null; }
+    if (!d) return;
+    (d.s || []).forEach((h) => { if (byHandle[h] && byHandle[h].available && state.sleeves.length < cfg.sleeves) state.sleeves.push(h); });
+    if (d.o === 'once') state.option = 'once';
+    else if (d.o === 'subscription' && cfg.plans.some((pl) => String(pl.id) === String(d.p))) { state.option = 'subscription'; state.planId = String(d.p); }
+    (d.a || []).forEach((id) => { if (cfg.addons.some((x) => String(x.variantId) === String(id))) state.addons.add(String(id)); });
+  };
+  const render = () => { renderPage1(); renderPage2(); saveSession(); };
 
   // ---------- pages ----------
   const ORDER = ['1', 'lead', '2'];
@@ -285,7 +304,9 @@
   };
 
   window.addEventListener('popstate', () => {
-    const step = readUrl();
+    let step = readUrl();
+    // Back to the step-1 URL (it carries no box): keep the picks saved for this tab
+    if (!new URL(window.location.href).searchParams.has('s')) { restoreSession(); step = 1; }
     $$('[data-bbb-addon]').forEach((cb) => (cb.checked = state.addons.has(cb.value)));
     renderPage1(); renderPage2();
     showStep(step, { push: false });
@@ -543,7 +564,20 @@
   // ---------- init ----------
   const checked = $('[data-bbb-option]:checked');
   if (checked) state.option = checked.value;
-  const startStep = readUrl();
+  let startStep = readUrl();
+  // No box in the URL (e.g. a refresh on step 1): pick up this tab's saved picks instead
+  if (!new URL(window.location.href).searchParams.has('s')) { restoreSession(); startStep = 1; }
+  else {
+    // Same box as this tab's saved one: also restore plan/add-on choices made after the last step change
+    try {
+      const d = JSON.parse(window.sessionStorage.getItem(SESSION_KEY) || 'null');
+      if (d && (d.s || []).join(',') === state.sleeves.join(',')) {
+        if (d.o === 'once') { state.option = 'once'; state.planId = null; }
+        else if (d.o === 'subscription' && cfg.plans.some((pl) => String(pl.id) === String(d.p))) { state.option = 'subscription'; state.planId = String(d.p); }
+        state.addons = new Set((d.a || []).map(String).filter((id) => cfg.addons.some((x) => String(x.variantId) === id)));
+      }
+    } catch (err) { /* ignore */ }
+  }
   if (!state.option && checked) state.option = checked.value;
   if (state.option === 'subscription' && !state.planId) { const sel = $('[data-bbb-plan]'); state.planId = sel ? sel.value : null; }
   $$('[data-bbb-addon]').forEach((cb) => (cb.checked = state.addons.has(cb.value)));
