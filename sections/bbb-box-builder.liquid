@@ -455,6 +455,17 @@
           </div>
         </aside>
         <script>
+          /* Phones: expose the fixed bottom bar's height (0 when hidden) so the footer can reserve room for it */
+          document.addEventListener('DOMContentLoaded', function () {
+            var bar = document.querySelector('[data-bbb-bar]');
+            if (!bar) return;
+            function setH() { document.documentElement.style.setProperty('--bbb-bar-h', bar.offsetHeight + 'px'); }
+            setH();
+            window.addEventListener('resize', setH, { passive: true });
+            if (window.ResizeObserver) new ResizeObserver(setH).observe(bar);
+          });
+        </script>
+        <script>
           /* Sticky order summary: if the sidebar is taller than the screen, pin it by its bottom edge
              so every part stays reachable; it stops at the end of the left column. */
           (function () {

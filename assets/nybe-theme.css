@@ -383,7 +383,7 @@ body.bbb-has-sticky-cta { padding-bottom: 9.6rem; }
 .nybe-footer {
   --nf-bg: #012158; --nf-line: rgba(255, 255, 255, 0.16); --nf-muted: rgba(255, 255, 255, 0.78);
   position: relative; overflow: hidden; isolation: isolate; color: #fff; background: var(--nf-bg);
-  padding: 0 0 4rem;
+  padding: 0 0 calc(4rem + var(--bbb-bar-h, 0px));
 }
 .nybe-footer__top { position: relative; isolation: isolate; padding: 6.4rem 0 4.8rem; }
 .nybe-footer a { color: inherit; text-decoration: none; }
@@ -500,7 +500,7 @@ body.bbb-has-sticky-cta { padding-bottom: 9.6rem; }
 
 /* Desktop: brand | three link columns | divider | newsletter */
 @media screen and (min-width: 990px) {
-  .nybe-footer { padding: 0 0 4.8rem; }
+  .nybe-footer { padding: 0 0 4.8rem; } /* the builder bar is hidden on desktop */
   .nybe-footer__top { padding: 9.6rem 0 14rem; }
   .nybe-footer__main { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.55fr) minmax(0, 1.5fr); gap: 5.6rem; align-items: start; }
   .nybe-footer__logo img { width: 24rem; }
