@@ -236,6 +236,15 @@
     else if (d.o === 'subscription' && cfg.plans.some((pl) => String(pl.id) === String(d.p))) { state.option = 'subscription'; state.planId = String(d.p); }
     (d.a || []).forEach((id) => { if (cfg.addons.some((x) => String(x.variantId) === String(id))) state.addons.add(String(id)); });
   };
+  const hasSession = () => {
+    try { const d = JSON.parse(window.sessionStorage.getItem(SESSION_KEY) || 'null'); return !!(d && d.s && d.s.length); } catch (err) { return false; }
+  };
+  // Step-1 URLs (no ?step=) defer to this tab's saved picks; a ?s= link only seeds a fresh tab.
+  // Old history entries (e.g. ?s=pumpernickel from earlier visits) can't overwrite the current box.
+  const preferSession = () => {
+    const p = new URL(window.location.href).searchParams;
+    return !p.get('step') && hasSession();
+  };
   const render = () => { renderPage1(); renderPage2(); saveSession(); };
 
   // ---------- pages ----------
@@ -305,8 +314,8 @@
 
   window.addEventListener('popstate', () => {
     let step = readUrl();
-    // Back to the step-1 URL (it carries no box): keep the picks saved for this tab
-    if (!new URL(window.location.href).searchParams.has('s')) { restoreSession(); step = 1; }
+    // Back to a step-1 URL: keep the picks saved for this tab
+    if (!new URL(window.location.href).searchParams.has('s') || preferSession()) { state.sleeves = []; state.addons = new Set(); restoreSession(); step = 1; }
     $$('[data-bbb-addon]').forEach((cb) => (cb.checked = state.addons.has(cb.value)));
     renderPage1(); renderPage2();
     showStep(step, { push: false });
@@ -566,7 +575,7 @@
   if (checked) state.option = checked.value;
   let startStep = readUrl();
   // No box in the URL (e.g. a refresh on step 1): pick up this tab's saved picks instead
-  if (!new URL(window.location.href).searchParams.has('s')) { restoreSession(); startStep = 1; }
+  if (!new URL(window.location.href).searchParams.has('s') || preferSession()) { state.sleeves = []; state.addons = new Set(); restoreSession(); startStep = 1; }
   else {
     // Same box as this tab's saved one: also restore plan/add-on choices made after the last step change
     try {
