@@ -109,7 +109,11 @@
     "brand_description": "<p></p>",
     "brand_image_width": 100,
     "social_facebook_link": "https://www.facebook.com/NYBagelExpress",
+<<<<<<< HEAD
     "social_instagram_link": "https://www.instagram.com/NYBagelExpress",
+=======
+    "social_instagram_link": "https://www.instagram.com/nybagelexpress/",
+>>>>>>> origin/staging
     "social_youtube_link": "",
     "social_tiktok_link": "",
     "social_twitter_link": "",

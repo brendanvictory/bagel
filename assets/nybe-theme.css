@@ -592,3 +592,28 @@ body:has(#Details-menu-drawer-container[open]) .bbb-sticky-cta { display: none !
 }
 .nybe-menu-promo:hover .nybe-menu-promo__btn { background-image: linear-gradient(180deg, #d94512, #b53a09); }
 .nybe-menu-promo:focus-visible { outline: 0.2rem solid var(--nybe-orange); outline-offset: 0.3rem; }
+
+/* Mobile menu: social links as one centred row of round buttons */
+#menu-drawer .menu-drawer__utility-links { background: transparent; padding: 0 2rem 3.2rem; }
+#menu-drawer .menu-drawer__utility-links .list-social {
+  list-style: none; margin: 0; padding: 2.4rem 0 0; border-top: 0.1rem solid rgba(8, 45, 92, 0.1);
+  display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 1.4rem;
+}
+#menu-drawer .menu-drawer__utility-links .list-social::before {
+  content: 'Follow us'; flex: 0 0 100%; text-align: center; margin-bottom: 0.2rem;
+  font-size: 1.2rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--nybe-muted);
+}
+#menu-drawer .list-social__item { margin: 0; }
+#menu-drawer .list-social__link {
+  display: grid; place-items: center; width: 5.2rem; height: 5.2rem; padding: 0; border-radius: 50%;
+  background: #fff; color: var(--nybe-navy); box-shadow: 0 0.2rem 0.6rem rgba(120, 70, 20, 0.06), 0 0.6rem 1.6rem rgba(120, 70, 20, 0.08);
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+#menu-drawer .list-social__link:hover { background: var(--nybe-orange); color: #fff; transform: translateY(-0.1rem); }
+#menu-drawer .list-social__link:focus-visible { outline: 0.2rem solid var(--nybe-orange); outline-offset: 0.3rem; box-shadow: none; }
+#menu-drawer .list-social__link .svg-wrapper { display: grid; place-items: center; width: 2.2rem; height: 2.2rem; }
+#menu-drawer .list-social__link svg { width: 2.2rem; height: 2.2rem; }
+#menu-drawer .list-social__link svg path { fill: currentColor; }
+/* Keep the social row right under the menu card instead of pinned to the bottom */
+#menu-drawer .menu-drawer__navigation-container { grid-template-rows: auto auto; align-content: start; }
+#menu-drawer .menu-drawer__navigation { padding-bottom: 2.4rem; }
