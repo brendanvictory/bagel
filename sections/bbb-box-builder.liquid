@@ -101,7 +101,7 @@
         <div class="nybe-banner__copy nybe-banner__copy--p1">
           {%- if section.settings.eyebrow != blank -%}<p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
           <{{ heading_tag }} id="bbb-builder-title-{{ section.id }}" class="bbb-display nybe-banner__title" tabindex="-1" data-bbb-focus="1">{{ section.settings.heading | default: bp.title | replace: '[sleeves]', sleeves | escape }}</{{ heading_tag }}>
-          <p class="nybe-banner__sub">{{- section.settings.subheading | replace: '[sleeves]', sleeves | replace: '[per_sleeve]', per_sleeve | replace: '[total]', total_bagels | escape -}}</p>
+          <p class="nybe-banner__sub">{{- section.settings.subheading | replace: '[sleeves]', sleeves | replace: '[per_sleeve]', per_sleeve | replace: '[total]', total_bagels | escape | replace: '. ', '.<br>' -}}</p>
         </div>
         <div class="nybe-banner__copy nybe-banner__copy--p2">
           {%- if section.settings.eyebrow != blank -%}<p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
@@ -138,7 +138,7 @@
         {%- if section.settings.eyebrow != blank -%}<p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
         <{{ heading_tag }} id="bbb-builder-title-{{ section.id }}" class="bbb-display bbb-display--l" tabindex="-1" data-bbb-focus="1">{{ section.settings.heading | default: bp.title | replace: '[sleeves]', sleeves | escape }}</{{ heading_tag }}>
         <p class="bbb-builder__sub">
-          {{- section.settings.subheading | replace: '[sleeves]', sleeves | replace: '[per_sleeve]', per_sleeve | replace: '[total]', total_bagels | escape -}}
+          {{- section.settings.subheading | replace: '[sleeves]', sleeves | replace: '[per_sleeve]', per_sleeve | replace: '[total]', total_bagels | escape | replace: '. ', '.<br>' -}}
         </p>
       </header>
       {%- endunless -%}
