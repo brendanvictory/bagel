@@ -76,7 +76,7 @@
         "t3": {
           "type": "item",
           "settings": {
-            "icon": "award",
+            "icon": "badge-check",
             "text": "30+ Years of New York Bagels",
             "link": "shopify://pages/about-us"
           }
