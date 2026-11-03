@@ -489,7 +489,7 @@
     <div class="bbb-bar" data-bbb-bar>
       <div class="bbb-bar__p1">
         <ol class="bbb-bar__dots" role="list" aria-hidden="true">
-          {%- for i in (1..sleeves) -%}<li class="bbb-bar__dot" data-bbb-dot="{{ forloop.index0 }}"></li>{%- endfor -%}
+          {%- for i in (1..sleeves) -%}<li class="bbb-bar__dot" data-bbb-dot="{{ forloop.index0 }}" data-bbb-count="{{ per_sleeve }}"></li>{%- endfor -%}
         </ol>
         <span class="bbb-bar__count" data-bbb-bar-count>0 / {{ sleeves }}</span>
         <button type="button" class="button button--primary" data-bbb-next>{{ section.settings.bar_next_label | escape }}</button>
