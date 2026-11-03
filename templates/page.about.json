@@ -99,7 +99,7 @@
       ],
       "settings": {
         "image": "shopify://shop_images/Centered_New_York_Bagel_Express_Logo.png",
-        "image_alt": "Bagels coming out of the oven at our Long Island commissary",
+        "image_alt": "A New York Bagel Express box delivered to a front doorstep",
         "image_position": "right",
         "ratio": "4 / 3",
         "eyebrow": "Where they're made",
@@ -111,7 +111,8 @@
         "anchor": "",
         "color_scheme": "scheme-2",
         "padding_top": 72,
-        "padding_bottom": 72
+        "padding_bottom": 72,
+        "bundled_photo": "delivery-box"
       }
     },
     "promise": {
