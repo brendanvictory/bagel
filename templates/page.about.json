@@ -62,7 +62,7 @@
         "cta_label": "",
         "cta_link": "",
         "anchor": "numbers",
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-2",
         "padding_top": 72,
         "padding_bottom": 72
       }
@@ -99,6 +99,7 @@
       ],
       "settings": {
         "image": "shopify://shop_images/Centered_New_York_Bagel_Express_Logo.png",
+        "bundled_photo": "delivery-box",
         "image_alt": "A New York Bagel Express box delivered to a front doorstep",
         "image_position": "right",
         "ratio": "4 / 3",
@@ -109,16 +110,16 @@
         "cta_label": "",
         "cta_link": "",
         "anchor": "",
-        "color_scheme": "scheme-2",
+        "color_scheme": "scheme-1",
         "padding_top": 72,
-        "padding_bottom": 72,
-        "bundled_photo": "delivery-box"
+        "padding_bottom": 72
       }
     },
     "promise": {
       "type": "bbb-image-text",
       "settings": {
         "image": "shopify://shop_images/Small_delivery_truck_crossing_the_US_map.png",
+        "bundled_photo": "none",
         "image_alt": "A New York Bagel Express box packed with three sleeves of bagels",
         "image_position": "left",
         "ratio": "1 / 1",
@@ -129,7 +130,7 @@
         "cta_label": "Build your box",
         "cta_link": "shopify://products/build-your-box",
         "anchor": "",
-        "color_scheme": "scheme-1",
+        "color_scheme": "scheme-2",
         "padding_top": 72,
         "padding_bottom": 72
       }
