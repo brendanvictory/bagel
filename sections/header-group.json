@@ -60,7 +60,7 @@
         "t1": {
           "type": "item",
           "settings": {
-            "icon": "truck",
+            "icon": "chef-hat",
             "text": "Freshly Baked in New York",
             "link": ""
           }
@@ -68,7 +68,7 @@
         "t2": {
           "type": "item",
           "settings": {
-            "icon": "package",
+            "icon": "truck",
             "text": "Shipped Nationwide",
             "link": ""
           }
@@ -76,7 +76,7 @@
         "t3": {
           "type": "item",
           "settings": {
-            "icon": "star",
+            "icon": "award",
             "text": "30+ Years of New York Bagels",
             "link": "shopify://pages/about-us"
           }
