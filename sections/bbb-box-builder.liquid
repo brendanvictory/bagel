@@ -39,12 +39,15 @@
   assign b_banner = nil
   assign b_fhead = nil
   assign b_copy = nil
+  assign b_ship = nil
   for blk in section.blocks
     case blk.type
       when 'banner'
         assign b_banner = blk
       when 'flavors_head'
         assign b_fhead = blk
+      when 'shipping'
+        assign b_ship = blk
       when 'copy'
         assign b_copy = blk
     endcase
@@ -505,7 +508,7 @@
       </div>
       <div class="bbb-bar__p2">
         <div class="nybe-bar__info">
-          <span class="nybe-bar__ship">{% render 'bbb-icon', name: 'truck', size: 18 %}<span>Free shipping</span></span>
+          <span class="nybe-bar__ship">{% render 'bbb-icon', name: 'truck', size: 18 %}<span>{% if b_ship %}{{ b_ship.settings.bar_text | escape }}{% else %}Free shipping{% endif %}</span></span>
           <span class="nybe-bar__save" data-bbb-bar-saving hidden>{% render 'bbb-icon', name: 'check-circle', size: 18 %}<span>You save <strong data-bbb-bar-saving-amt></strong></span></span>
         </div>
         <div class="nybe-bar__sum">
@@ -535,6 +538,7 @@
             { "id": {{ alloc.selling_plan.id | json }}, "name": {{ alloc.selling_plan.name | json }}, "key": {{ alloc.selling_plan.options | map: 'value' | join: ' / ' | json }}, "price": {{ alloc.price | json }} }{% unless forloop.last %},{% endunless %}
           {%- endfor -%}
         ],
+        "shipping": {%- if b_ship -%}{ "perBox": {{ b_ship.settings.amount | remove: '$' | strip | times: 100 | round | json }} }{%- else -%}null{%- endif -%},
         "promo": {%- if promo_on -%}{
           "variantId": {{ promo_v.id | json }},
           "title": {{ promo.title | json }},
@@ -680,6 +684,14 @@
       "settings": [
         { "type": "paragraph", "content": "Shows the page 1 heading and subheading, then the page 2 heading, over a photo. Without this block the headings sit above the builder." },
         { "type": "image_picker", "id": "image", "label": "Image", "info": "Defaults to the bundled bagels-and-skyline photo." }
+      ]
+    },
+    {
+      "type": "shipping", "name": "Shipping charge", "limit": 1,
+      "settings": [
+        { "type": "paragraph", "content": "Use only when this box's product is in a paid shipping profile. Shows the shipping charge in the order summary, total, renewal disclosure and mobile bar instead of 'Free'. The real charge comes from Settings → Shipping and delivery." },
+        { "type": "text", "id": "amount", "label": "Shipping per box (USD)", "default": "14.95", "info": "Number only, e.g. 14.95. Match the rate in your shipping profile." },
+        { "type": "text", "id": "bar_text", "label": "Mobile bar text", "default": "+$14.95 shipping per box" }
       ]
     },
     {

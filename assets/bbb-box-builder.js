@@ -69,6 +69,8 @@
     const t = (p.key || p.name).toLowerCase().split(',')[0].replace(/^(deliver(ed|y)?|ships?|renews?)\s+/, '').trim();
     return /^every\b/.test(t) ? t : `every ${t}`;
   };
+  // Per-box shipping shown in the summary (display only; Shopify's shipping profile sets the real charge)
+  const shipPerBox = () => (cfg.shipping && cfg.shipping.perBox ? Number(cfg.shipping.perBox) : 0);
   const promoOn = () => !!(cfg.promo && cfg.promo.variantId && cfg.promo.code);
 
   // ---------- lead step ----------
@@ -180,9 +182,10 @@
       row(label, state.option ? formatMoney(boxPrice()) : '—');
       chosenAddons().forEach((a) => row(a.title, formatMoney(addonPrice(a))));
       if (promoOn()) row(cfg.promo.title, 'Free');
-      row('Shipping', 'Free');
+      row('Shipping', shipPerBox() ? formatMoney(shipPerBox()) : 'Free');
     }
-    const t = state.option ? formatMoney(total()) : '—';
+    // Display total = what checkout will charge for this one box (items + per-box shipping when set)
+    const t = state.option ? formatMoney(total() + shipPerBox()) : '—';
     // Display only: how much the subscription saves versus buying the same items one-time.
     const savingEl = $('[data-bbb-saving]');
     if (savingEl) {
@@ -207,7 +210,7 @@
       const p = plan();
       disc.hidden = !(state.option === 'subscription' && p);
       if (p) {
-        $$('[data-bbb-disc-price]', disc).forEach((e) => (e.textContent = formatMoney(total())));
+        $$('[data-bbb-disc-price]', disc).forEach((e) => (e.textContent = formatMoney(total() + shipPerBox())));
         $$('[data-bbb-disc-freq]', disc).forEach((e) => (e.textContent = freqText()));
       }
     }

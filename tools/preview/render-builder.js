@@ -49,6 +49,7 @@ const product = { id: 1, url: '/products/build-your-box', title: 'Build Your Doz
     blk('p1_benefit', { icon: 'star', title: 'Authentic NY Bagels', text: 'Baked the traditional way.' }),
     blk('p2_benefit', { icon: 'truck', title: 'Free Shipping', text: 'On every box, always.' }),
   ];
+  if (process.env.SHIP === '1') blocks.push(blk('shipping', { amount: '14.95', bar_text: '+$14.95 shipping per box' }));
   if (process.env.PROMO === '1') {
     Object.assign(settings, { product, heading_tag: 'h2', lead_source: 'free-minis', promo_product: product.metafields.custom.addons.value[0], promo_code: 'FREEMINIS' });
     product.metafields.custom.addons.value[0].id = 501; product.metafields.custom.addons.value[1].id = 502;

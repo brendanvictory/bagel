@@ -1,0 +1,165 @@
+{
+  "sections": {
+    "builder": {
+      "type": "bbb-box-builder",
+      "settings": {
+        "lead_enabled": false,
+        "eyebrow": "Build your box",
+        "heading": "Pick your [sleeves] sleeves",
+        "subheading": "Each sleeve holds [per_sleeve] bagels of one flavor. Choose up to [sleeves] flavors ([total] bagels total).",
+        "nav2": "Add-ons & Plan",
+        "nav1": "Pick Flavors",
+        "page2_heading": "Add-ons & Plan",
+        "yourbox_title": "Your dozen",
+        "step2_title": "Add-ons",
+        "step2_hint": "Make your box even better with these fan favorites.",
+        "step3_title": "Delivery plan",
+        "back_label": "Edit flavors",
+        "next_label": "Next: Add-ons & Pricing",
+        "add_label": "Checkout",
+        "tray_hint": "Each sleeve holds [per_sleeve] bagels of one flavor. Choose up to [sleeves] flavors for your box ([total] bagels total).",
+        "shipping_note": "Shipping: $14.95 per box, added at checkout."
+      },
+      "blocks": {
+        "banner": {
+          "type": "banner",
+          "settings": {}
+        },
+        "copy": {
+          "type": "copy",
+          "settings": {
+            "page2_text": "Customize your order with tasty add-ons and choose how often you'd like fresh bagels delivered.",
+            "yourbox_sub": "[sleeves] sleeves × [per_sleeve] bagels ([total] total)",
+            "addons_tag": "Add to every box",
+            "once_note": "A single box, no subscription."
+          }
+        },
+        "fhead": {
+          "type": "flavors_head",
+          "settings": {
+            "eyebrow": "Our bagels",
+            "heading": "Choose your flavors",
+            "text": "Hand-rolled, kettle-boiled, and baked the New York way."
+          }
+        },
+        "b_auth": {
+          "type": "p1_benefit",
+          "settings": {
+            "icon": "star",
+            "title": "Authentic NY Bagels",
+            "text": "Baked the traditional way."
+          }
+        },
+        "b_fresh": {
+          "type": "p1_benefit",
+          "settings": {
+            "icon": "package",
+            "title": "Always Fresh",
+            "text": "Baked to order, never frozen."
+          }
+        },
+        "b_fast": {
+          "type": "p1_benefit",
+          "settings": {
+            "icon": "truck",
+            "title": "Nationwide Shipping",
+            "text": "$14.95 per box, shown before checkout."
+          }
+        },
+        "ship": {
+          "type": "shipping",
+          "settings": {
+            "amount": "14.95",
+            "bar_text": "+$14.95 shipping per box"
+          }
+        },
+        "b_ship": {
+          "type": "p2_benefit",
+          "settings": {
+            "icon": "truck",
+            "title": "Shipping $14.95 per box",
+            "text": "Shipped nationwide from Long Island, NY."
+          }
+        },
+        "b_flex": {
+          "type": "p2_benefit",
+          "settings": {
+            "icon": "calendar",
+            "title": "Flexible Subscription",
+            "text": "Change, pause or cancel anytime."
+          }
+        },
+        "b_sat": {
+          "type": "p2_benefit",
+          "settings": {
+            "icon": "heart",
+            "title": "100% Satisfaction",
+            "text": "Love it or your money back."
+          }
+        }
+      },
+      "block_order": [
+        "banner",
+        "copy",
+        "fhead",
+        "b_auth",
+        "b_fresh",
+        "b_fast",
+        "ship",
+        "b_ship",
+        "b_flex",
+        "b_sat"
+      ]
+    },
+    "faq": {
+      "type": "bbb-faq",
+      "blocks": {
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "How does the box work?",
+            "answer": "<p>Every dozen is 3 sleeves of 4 bagels. Pick a flavor for each sleeve — up to 3 flavors, or the same flavor in every sleeve.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "Where do you ship, and how fast?",
+            "answer": "<p>We ship from our commissary on Long Island, NY, and only ship Monday through Wednesday. If you place an order Wednesday through Sunday, it ships fresh the following Monday. We ship to the lower 48 states and Washington, DC — we can't ship to Alaska, Hawaii, US territories, APO/FPO addresses or outside the US.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "How should I store my bagels?",
+            "answer": "<p>We don't use preservatives. Once your bagels are delivered, eat them within 24 hours and freeze what you don't eat. When you're ready, microwave for 30 seconds, toast and enjoy.</p>"
+          }
+        },
+        "q0": {
+          "type": "question",
+          "settings": {
+            "question": "How much is shipping?",
+            "answer": "<p>Shipping is $14.95 per box, shown before you check out and added at checkout. Subscribers pay the same $14.95 per box on each delivery.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q0",
+        "q2",
+        "q3"
+      ],
+      "settings": {
+        "heading": "Good to know",
+        "schema": false,
+        "layout": "strip",
+        "show_bridge": true,
+        "color_scheme": "scheme-2"
+      }
+    }
+  },
+  "order": [
+    "builder",
+    "faq"
+  ]
+}
