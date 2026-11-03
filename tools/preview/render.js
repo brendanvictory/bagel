@@ -62,7 +62,7 @@ const product = { title: 'The Dozen', url: '/products/build-your-box', featured_
   for (const id of footerGroup.order) { const sec = footerGroup.sections[id]; const b = build(sec); footerHtml += await renderSection(sec.type, ctxFor(id, b.settings, b.blocks)); }
   // Dawn-like color scheme variables from settings_data
   const sd = readJson(path.join(THEME, 'config', 'settings_data.json'));
-  const preset = sd.presets[sd.current];
+  const preset = typeof sd.current === 'string' ? sd.presets[sd.current] : sd.current; // Shopify stores current settings inline after Theme Editor saves
   const rgb = (h) => [1, 3, 5].map((i) => parseInt(h.slice(i, i + 2), 16)).join(',');
   let css = '';
   for (const [k, v] of Object.entries(preset.color_schemes)) {
