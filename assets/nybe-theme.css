@@ -471,7 +471,7 @@ body:has(#Details-menu-drawer-container[open]) .bbb-sticky-cta { display: none !
 .nybe-footer__bottom { display: grid; gap: 2.4rem; padding-top: 3.2rem; border-top: 0.1rem solid var(--nf-line); font-size: 1.4rem; color: var(--nf-muted); text-align: center; }
 .nybe-footer__payrow { display: flex; flex-direction: column; align-items: center; gap: 1.2rem; }
 .nybe-footer__pay-label { margin: 0; display: inline-flex; align-items: center; gap: 0.8rem; font-size: 1.3rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255, 255, 255, 0.7); }
-.nybe-footer__pay-label .bbb-icon { color: var(--nybe-orange); }
+.nybe-footer__pay-label .bbb-icon { color: #05d39a; }
 .nybe-footer__pay { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; }
 .nybe-footer__pay .icon { width: 4rem; height: 2.5rem; display: block; }
 .nybe-footer__legal { display: flex; flex-direction: column; align-items: center; gap: 1.6rem; padding-top: 2.4rem; border-top: 0.1rem solid var(--nf-line); }
