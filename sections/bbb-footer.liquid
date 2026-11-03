@@ -111,6 +111,7 @@
               <p id="NybeFooterNewsMsg" class="nybe-footer__news-msg nybe-footer__news-msg--error" role="alert">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
             {%- elsif form.posted_successfully? -%}
               <p class="nybe-footer__news-msg" role="status">Thanks for subscribing! Watch your inbox for bagel deals.</p>
+              {%- render 'nybe-tracking', event: 'nybe_lead', source: 'newsletter' -%}
             {%- endif -%}
           {%- endform -%}
         </div>
