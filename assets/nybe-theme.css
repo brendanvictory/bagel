@@ -204,16 +204,16 @@ body { color: var(--nybe-navy); }
   .bbb-steps .nybe-steps__media--num .bbb-steps__num { font-size: 3.8rem; }
   .bbb-steps .nybe-steps__copy { padding-top: 1.4rem; }
   .bbb-steps .bbb-steps__title { font-size: 1.9rem; }
-  /* Step connector: solid orange disc with a white arrow, ringed in white so it sits cleanly on the divider */
+  /* Step connector: a short dotted orange line between steps (dots drift gently toward the next step) */
   .nybe-steps__chev {
-    display: grid; place-items: center; position: absolute; right: -1.7rem; top: 3.6rem; z-index: 1;
-    width: 3.4rem; height: 3.4rem; border-radius: 50%; color: #fff;
-    background: linear-gradient(180deg, #f8862a, #e8501a);
-    box-shadow: 0 0 0 0.4rem #fff, 0 0.4rem 1.2rem rgba(232, 80, 26, 0.28);
+    display: block; position: absolute; right: -2.2rem; top: 5.2rem; z-index: 1; width: 4.4rem; height: 0.6rem;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent); mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent);
+    background-image: radial-gradient(circle, var(--nybe-orange) 0.2rem, transparent 0.26rem);
+    background-size: 0.9rem 0.6rem; background-repeat: repeat-x; background-position: 0 50%;
+    animation: nybeDotsFlow 1.6s linear infinite;
   }
-  .nybe-steps__chev .bbb-icon { width: 1.6rem; height: 1.6rem; animation: nybeChevNudge 2.4s ease-in-out infinite; }
-  .bbb-steps__item:nth-child(2) .nybe-steps__chev .bbb-icon { animation-delay: 0.3s; }
-  @keyframes nybeChevNudge { 0%, 60%, 100% { transform: translateX(0); } 30% { transform: translateX(0.3rem); } }
+  .nybe-steps__chev .bbb-icon { display: none; }
+  @keyframes nybeDotsFlow { from { background-position: 0 50%; } to { background-position: 0.9rem 50%; } }
 }
 /* Small desktops: tile above text so the copy keeps a readable width */
 @media screen and (min-width: 990px) and (max-width: 1199px) {
@@ -634,4 +634,4 @@ body:has(#Details-menu-drawer-container[open]) .bbb-sticky-cta { display: none !
 #menu-drawer .menu-drawer__navigation-container { grid-template-rows: auto auto; align-content: start; }
 #menu-drawer .menu-drawer__navigation { padding-bottom: 2.4rem; }
 
-@media (prefers-reduced-motion: reduce) { .nybe-steps__chev .bbb-icon { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .nybe-steps__chev { animation: none; } }
