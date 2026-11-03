@@ -64,7 +64,7 @@
           <li class="bbb-gallery__item nybe-promo-tile">
             <a class="nybe-promo-tile__card{% if promo_img == blank %} nybe-promo-tile__card--solo{% endif %}" href="{{ section.settings.promo_link | default: box.url }}">
               {%- if promo_img != blank -%}
-                <span class="nybe-promo-tile__media" aria-hidden="true">{{ promo_img | image_url: width: 300 | image_tag: loading: 'lazy', widths: '150, 300', sizes: '140px', alt: '' }}</span>
+                <span class="nybe-promo-tile__media" aria-hidden="true">{{ promo_img | image_url: width: 300 | image_tag: loading: 'lazy', widths: '150, 300', sizes: '140px', alt: '' }}<svg class="nybe-promo-tile__spark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" focusable="false"><path d="M29 25 27.5 8"/><path d="M23.5 29.5 11 17"/><path d="M21 35.5 5 34"/></svg></span>
               {%- endif -%}
               <span class="nybe-promo-tile__copy">
                 <span class="nybe-promo-tile__title">{{ section.settings.promo_heading | escape }}</span>
