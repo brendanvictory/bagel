@@ -313,3 +313,19 @@
     </div>
   </details>
 </header-drawer>
+<script>
+  /* Always open the mobile menu scrolled to the top so the first item is fully visible */
+  (function () {
+    var d = document.getElementById('Details-menu-drawer-container');
+    if (!d) return;
+    function toTop() {
+      ['#menu-drawer', '.menu-drawer__navigation-container', '.menu-drawer__inner-container'].forEach(function (sel) {
+        var el = d.querySelector(sel);
+        if (el) el.scrollTop = 0;
+      });
+    }
+    d.addEventListener('toggle', function () { if (d.open) { toTop(); requestAnimationFrame(toTop); } });
+    var s = d.querySelector('summary');
+    if (s) s.addEventListener('click', function () { requestAnimationFrame(function () { requestAnimationFrame(toTop); }); });
+  })();
+</script>
