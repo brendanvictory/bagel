@@ -155,12 +155,10 @@
         "l_wholesale"
       ],
       "settings": {
-        "cta_link": "shopify://products/build-your-box",
-        "tagline": "New York bagels, delivered fresh to your door.",
-        "cta_label": "",
-        "email": "help@nybagelexpress.com",
         "show_skyline": true,
-        "show_contact": false
+        "tagline": "New York bagels, delivered fresh to your door.",
+        "show_contact": false,
+        "email": "help@nybagelexpress.com"
       }
     }
   },

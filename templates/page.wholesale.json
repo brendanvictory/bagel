@@ -36,32 +36,32 @@
           "type": "value",
           "settings": {
             "title": "The full lineup",
-            "icon": "bagel",
-            "text": "<p>Plain, Everything, Sesame, Poppy, Onion, Garlic, Cinnamon Raisin, Egg, Whole Wheat and Pumpernickel.</p>"
+            "text": "<p>Plain, Everything, Sesame, Poppy, Onion, Garlic, Cinnamon Raisin, Egg, Whole Wheat and Pumpernickel.</p>",
+            "icon": "bagel"
           }
         },
         "o2": {
           "type": "value",
           "settings": {
             "title": "Baked on Long Island",
-            "icon": "map-pin",
-            "text": "<p>From our kosher commissary with a peanut-free process — and no preservatives.</p>"
+            "text": "<p>From our kosher commissary with a peanut-free process — and no preservatives.</p>",
+            "icon": "map-pin"
           }
         },
         "o3": {
           "type": "value",
           "settings": {
             "title": "Built around you",
-            "icon": "sliders",
-            "text": "<p>Tell us your volume and schedule, and we'll work out the details with you.</p>"
+            "text": "<p>Tell us your volume and schedule, and we'll work out the details with you.</p>",
+            "icon": "sliders"
           }
         },
         "o4": {
           "type": "value",
           "settings": {
             "title": "A real New York team",
-            "icon": "users",
-            "text": "<p>You'll talk to the people who bake your bagels, not a call center.</p>"
+            "text": "<p>You'll talk to the people who bake your bagels, not a call center.</p>",
+            "icon": "users"
           }
         }
       },
@@ -76,6 +76,7 @@
         "heading": "Wholesale,",
         "heading_accent": "the New York way.",
         "text": "<p>Here's what working with us looks like.</p>",
+        "layout": "cards",
         "anchor": "offer",
         "color_scheme": "scheme-2",
         "padding_top": 72,
@@ -138,6 +139,7 @@
       ],
       "settings": {
         "image": "shopify://shop_images/Warm_morning_bagel_cafe.png",
+        "bundled_photo": "none",
         "image_alt": "Bagels on a café counter",
         "image_position": "right",
         "ratio": "4 / 3",
@@ -164,7 +166,7 @@
         "button": "Send inquiry",
         "success": "Thanks! We got your inquiry and our team will be in touch soon.",
         "anchor": "inquire",
-        "color_scheme": "scheme-1",
+        "color_scheme": "",
         "padding_top": 72,
         "padding_bottom": 80
       }
