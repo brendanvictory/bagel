@@ -79,7 +79,7 @@
 @media screen and (min-width: 990px) {
   .bbb-tray { grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto; gap: 4rem; padding: 2.4rem 3.2rem; }
   /* Wide columns so the longest label ("4x Cinnamon Raisin") stays on one line; the sleeve tile keeps its size */
-  .bbb-tray__slots { width: auto; max-width: none; grid-template-columns: repeat(var(--bbb-sleeves, 3), 16rem); gap: 2.8rem; }
+  .bbb-tray__slots { width: auto; max-width: none; grid-template-columns: repeat(var(--bbb-sleeves, 3), 13rem); gap: 1.6rem; }
   .bbb-tray .bbb-slot__img { width: 12rem; margin-inline: auto; transition: width 0.3s ease; }
   .bbb-tray .bbb-slot__label { white-space: nowrap; }
   .bbb-tray .nybe-slot__plus { left: 50%; width: 12rem; transform: translateX(-50%); }
@@ -321,7 +321,7 @@
     box-shadow: 0 0.4rem 1rem rgba(120, 70, 20, 0.08), 0 1.6rem 4rem rgba(8, 45, 92, 0.16), inset 0 -0.3rem 0 var(--nybe-orange, #f47b20);
     animation: nybeTrayStick 0.35s ease;
   }
-  .bbb-tray.is-stuck .bbb-tray__slots { grid-template-columns: repeat(var(--bbb-sleeves, 3), 13.6rem); gap: 2rem; }
+  .bbb-tray.is-stuck .bbb-tray__slots { grid-template-columns: repeat(var(--bbb-sleeves, 3), 11.6rem); gap: 1.2rem; }
   .bbb-tray.is-stuck .bbb-slot__img, .bbb-tray.is-stuck .nybe-slot__plus { width: 8.4rem; }
   .bbb-tray.is-stuck .nybe-slot__x { right: calc(50% - 4.2rem - 0.8rem); }
   .bbb-tray.is-stuck .bbb-tray__status { padding-left: 2.4rem; }
