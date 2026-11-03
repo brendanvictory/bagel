@@ -117,7 +117,8 @@
 
     $$('[data-bbb-slot]').forEach((slot, i) => {
       const f = byHandle[state.sleeves[i]];
-      $('[data-bbb-slot-label]', slot).textContent = f ? f.name : (cfg.labels.emptySlot || 'Add flavor');
+      // Display only: '4x Plain' makes it clear each sleeve is 4 bagels (product names are unchanged)
+      $('[data-bbb-slot-label]', slot).textContent = f ? `${cfg.perSleeve}x ${f.name}` : (cfg.labels.emptySlot || 'Add flavor');
       const img = $('.bbb-slot__img', slot);
       img.innerHTML = '';
       const t = thumb(f);

@@ -297,3 +297,11 @@
 /* Delivery plan cards: whole card is clickable */
 .bbb-option, [data-bbb-sub-card] { cursor: pointer; }
 [data-bbb-sub-card] select, [data-bbb-sub-card] .bbb-option__freq-label { cursor: auto; }
+
+/* '4x' prefix on flavor names (display only) */
+.nybe-qty { color: var(--nybe-orange, #f47b20); font-weight: 900; }
+
+/* Desktop: the sleeves tray sticks under the header while choosing flavors (phones use the bottom bar) */
+@media screen and (min-width: 990px) {
+  .bbb-builder[data-step="1"] .bbb-tray { position: sticky; top: calc(var(--header-height, 9rem) + 1.2rem); z-index: 3; }
+}

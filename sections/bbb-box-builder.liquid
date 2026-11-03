@@ -210,7 +210,7 @@
               <span class="nybe-fcard__check" aria-hidden="true">{% render 'bbb-icon', name: 'check', size: 16, stroke: 3 %}</span>
             </div>
             <div class="bbb-fcard__body">
-              <h2 class="bbb-fcard__name" id="bbb-fl-{{ section.id }}-{{ f.system.handle }}">{{ f.name.value | escape }}</h2>
+              <h2 class="bbb-fcard__name" id="bbb-fl-{{ section.id }}-{{ f.system.handle }}"><span class="nybe-qty">{{ per_sleeve }}x</span> {{ f.name.value | escape }}</h2>
               {%- if f.description.value != blank -%}<p class="bbb-fcard__desc">{{ f.description.value | escape }}</p>{%- endif -%}
               {%- if f.allergens.value != blank -%}<p class="bbb-fcard__allergen">{{ f.allergens.value | escape }}</p>{%- endif -%}
               {%- unless f_available -%}<p class="bbb-fcard__desc">Unavailable right now</p>{%- endunless -%}
