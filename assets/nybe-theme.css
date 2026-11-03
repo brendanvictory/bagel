@@ -97,13 +97,23 @@ body { color: var(--nybe-navy); }
   .header__inline-menu .header__active-menu-item,
   .header__inline-menu .header__menu-item:hover span { text-decoration-color: var(--nybe-orange); }
 }
-/* Mobile: logo left; account, cart, menu on the right; no search */
+/* Mobile: menu left, logo exactly centered, account + cart right; no search.
+   Dawn's own rules here are very specific (header--has-account/--has-menu), hence !important. */
 @media screen and (max-width: 989px) {
-  .header { grid-template-areas: 'heading icons left-icons'; grid-template-columns: minmax(0, 1fr) auto auto; column-gap: 0.4rem; }
-  .header__heading, .header__heading-link { justify-self: start; text-align: left; margin-left: 0; }
-  .header > .header__search, .header__icons .header__search, details-modal.header__search { display: none; }
-  .header .header__icon--account { display: flex; }
-  .header__heading-logo { max-width: 13.4rem; height: auto; }
+  .section-header .header {
+    grid-template-areas: 'left-icons heading icons' !important;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) !important;
+    column-gap: 0.8rem;
+  }
+  .section-header .header > header-drawer { grid-area: left-icons; justify-self: start; }
+  .section-header .header > .header__search,
+  .section-header .header__icons .header__search,
+  .section-header details-modal.header__search { display: none !important; }
+  .section-header .header__heading { grid-area: heading; justify-self: center; text-align: center; margin: 0; }
+  .section-header .header__heading-link { margin: 0; }
+  .section-header .header__icons { grid-area: icons; justify-self: end; }
+  .section-header .header__icon--account { display: flex; }
+  .header__heading-logo { max-width: 15rem; height: auto; }
 }
 
 /* ---------- Hero ---------- */
