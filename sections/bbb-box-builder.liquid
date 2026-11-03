@@ -154,7 +154,8 @@
         </div>
       {%- endif -%}
 
-      <div class="bbb-tray" aria-label="Your sleeves">
+      <span class="nybe-tray-sentinel" data-nybe-tray-sentinel aria-hidden="true"></span>
+      <div class="bbb-tray" aria-label="Your sleeves" data-nybe-tray>
         <ol class="bbb-tray__slots" role="list" data-bbb-slots style="--bbb-sleeves: {{ sleeves }};">
           {%- for i in (1..sleeves) -%}
             <li>
@@ -457,6 +458,25 @@
           {%- endif -%}
           </div>
         </aside>
+        <script>
+          /* Desktop: mark the sleeves tray as stuck (compact look) once it pins under the header.
+             A sentinel above the tray is watched, so the tray shrinking can't toggle the state back. */
+          (function () {
+            var s = document.querySelector('[data-nybe-tray-sentinel]'), t = document.querySelector('[data-nybe-tray]');
+            if (!s || !t) return;
+            var queued = false;
+            function check() {
+              queued = false;
+              /* Stuck = the spot right above the tray has scrolled past the sticky line under the header */
+              var line = parseFloat(getComputedStyle(t).top) || 0;
+              t.classList.toggle('is-stuck', getComputedStyle(t).position === 'sticky' && s.getBoundingClientRect().bottom < line - 1);
+            }
+            function onScroll() { if (!queued) { queued = true; requestAnimationFrame(check); } }
+            window.addEventListener('scroll', onScroll, { passive: true });
+            window.addEventListener('resize', onScroll, { passive: true });
+            check();
+          })();
+        </script>
         <script>
           /* Delivery plan: the whole subscription card selects it, not just the top row */
           document.addEventListener('click', function (e) {
