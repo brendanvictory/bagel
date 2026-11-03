@@ -246,6 +246,19 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   ok(free && !('selling_plan' in free) && free.properties._offer === 'FREEMINIS' && free.properties._box_id === padd[0].properties._box_id, 'free minis line: one-time, tagged _offer, in the box');
   ok(calls.some((c) => c.path === '/discount/FREEMINIS' && c.redirect === '/checkout'), 'code applied via /discount/FREEMINIS → /checkout');
 
+  console.log('15. Paid-shipping offer (Shipping block)');
+  const sp = await ctx.newPage(); sp.on('pageerror', (e) => errors.push(e.message));
+  calls.length = 0;
+  await sp.goto('http://test.local/ship.html?s=plain,everything,egg&o=690001&step=2'); await sp.waitForLoadState('networkidle');
+  ok((await sp.textContent('[data-bbb-totals]')).includes('Shipping$14.95'), 'summary shows Shipping $14.95 (not Free)');
+  ok((await sp.textContent('[data-bbb-total]')).trim() === '$54.90', 'total includes per-box shipping ($39.95 + $14.95)');
+  ok((await sp.textContent('[data-bbb-disclosure]')).includes('$54.90'), 'renewal disclosure states the full per-renewal amount');
+  ok((await sp.textContent('.nybe-bar__ship')).includes('+$14.95 shipping per box'), 'mobile bar shows the shipping charge');
+  ok((await sp.textContent('[data-bbb-bar-saving]')).includes('$6.00'), 'subscription saving unchanged by shipping');
+  await sp.click(barCheckout); await sp.waitForURL('**/checkout');
+  const shipAdd = calls.find((c) => c.path === '/cart/add.js').body.items;
+  ok(shipAdd.length === 1 && shipAdd[0].selling_plan === 690001, 'cart payload unchanged (box only, on plan)');
+
   ok(errors.length === 0, 'no JavaScript errors' + (errors.length ? ': ' + errors.join('; ') : ''));
   console.log(`\n${pass} passed, ${fail} failed`);
   await b.close(); process.exit(fail ? 1 : 0);
