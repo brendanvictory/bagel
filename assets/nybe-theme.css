@@ -635,3 +635,20 @@ body:has(#Details-menu-drawer-container[open]) .bbb-sticky-cta { display: none !
 #menu-drawer .menu-drawer__navigation { padding-bottom: 2.4rem; }
 
 @media (prefers-reduced-motion: reduce) { .nybe-steps__chev { animation: none; } }
+
+/* How it works, phones/tablets: vertical dotted connector between the icon tiles (same style as desktop) */
+@media screen and (max-width: 989px) {
+  .bbb-steps .bbb-steps__item { align-items: start; }
+  .bbb-steps .bbb-steps__item + .bbb-steps__item { border-top: 0; }
+  .bbb-steps .nybe-steps__copy { padding-top: 0.6rem; }
+  .bbb-steps .bbb-steps__item:not(:last-child)::after {
+    content: ''; position: absolute; left: calc(0.6rem + 3.6rem - 0.3rem); width: 0.6rem;
+    top: calc(2rem + 0.6rem + 7.2rem + 0.8rem); bottom: -1.8rem;
+    background-image: radial-gradient(circle, var(--nybe-orange) 0.2rem, transparent 0.26rem);
+    background-size: 0.6rem 0.9rem; background-repeat: repeat-y; background-position: 50% 0;
+    -webkit-mask-image: linear-gradient(180deg, transparent, #000 20%, #000 80%, transparent); mask-image: linear-gradient(180deg, transparent, #000 20%, #000 80%, transparent);
+    animation: nybeDotsFlowY 1.6s linear infinite;
+  }
+  @keyframes nybeDotsFlowY { from { background-position: 50% 0; } to { background-position: 50% 0.9rem; } }
+}
+@media screen and (max-width: 989px) and (prefers-reduced-motion: reduce) { .bbb-steps .bbb-steps__item::after { animation: none; } }
