@@ -293,3 +293,7 @@
   border: 0.2rem solid #fff; background: var(--nybe-navy, #082d5c); color: #fff;
   font-size: 1.15rem; font-weight: 800; line-height: 1; box-shadow: 0 0.2rem 0.6rem rgba(8, 45, 92, 0.25);
 }
+
+/* Delivery plan cards: whole card is clickable */
+.bbb-option, [data-bbb-sub-card] { cursor: pointer; }
+[data-bbb-sub-card] select, [data-bbb-sub-card] .bbb-option__freq-label { cursor: auto; }
