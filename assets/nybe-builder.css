@@ -303,5 +303,29 @@
 
 /* Desktop: the sleeves tray sticks under the header while choosing flavors (phones use the bottom bar) */
 @media screen and (min-width: 990px) {
-  .bbb-builder[data-step="1"] .bbb-tray { position: sticky; top: calc(var(--header-height, 9rem) + 1.2rem); z-index: 3; }
+  .bbb-builder[data-step="1"] .bbb-tray { position: sticky; top: calc(var(--header-height, 9rem) + 1.2rem); z-index: 2; } /* below the sticky header (z-index 3), so it slides under it at the end of the list */
+  .nybe-tray-sentinel { display: block; height: 1px; margin-bottom: -1px; }
+  /* Smooth shrink into the compact stuck state */
+  .bbb-tray { transition: padding 0.3s ease, gap 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease, transform 0.3s ease; }
+  .bbb-tray .bbb-tray__slots { transition: width 0.3s ease, gap 0.3s ease; }
+  .bbb-tray .bbb-progress, .bbb-tray .bbb-tray__hint, .bbb-tray .bbb-slot__label { transition: font-size 0.3s ease, padding 0.3s ease, opacity 0.3s ease; }
+  /* Compact stuck state: tighter padding, smaller sleeves, frosted glass + deeper shadow, orange glow line */
+  .bbb-builder[data-step="1"] .bbb-tray.is-stuck {
+    padding: 1.2rem 2.4rem; gap: 2.4rem;
+    background: rgba(255, 255, 255, 0.92); -webkit-backdrop-filter: blur(12px) saturate(1.4); backdrop-filter: blur(12px) saturate(1.4);
+    box-shadow: 0 0.4rem 1rem rgba(120, 70, 20, 0.08), 0 1.6rem 4rem rgba(8, 45, 92, 0.16), inset 0 -0.3rem 0 var(--nybe-orange, #f47b20);
+    animation: nybeTrayStick 0.35s ease;
+  }
+  .bbb-tray.is-stuck .bbb-tray__slots { width: calc(var(--bbb-sleeves, 3) * 8.4rem); gap: 1.2rem; }
+  .bbb-tray.is-stuck .bbb-tray__status { padding-left: 2.4rem; }
+  .bbb-tray.is-stuck .bbb-progress { font-size: 1.9rem; padding-top: 1.2rem; }
+  .bbb-tray.is-stuck .bbb-tray__hint { font-size: 1.3rem; }
+  .bbb-tray.is-stuck .bbb-slot__label { font-size: 1.15rem; }
+  .bbb-tray.is-stuck .nybe-slot__x { width: 2.2rem; height: 2.2rem; }
+  .bbb-tray.is-stuck .nybe-tray__art { width: 6.4rem; }
+  @keyframes nybeTrayStick { from { transform: translateY(-0.8rem); } to { transform: none; } }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bbb-tray, .bbb-tray .bbb-tray__slots { transition: none; }
+  .bbb-tray.is-stuck { animation: none; }
 }
