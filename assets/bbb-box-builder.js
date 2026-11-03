@@ -4,8 +4,10 @@
    Page 2: add-ons, one-time vs subscription, pricing, checkout.
    Promo mode (landing pages): a free one-time item rides with the box; the discount code is applied
    on the way to checkout via /discount/<code>?redirect=….
-   State mirrors to the URL (?s=…&o=once|<planId>&a=…&step=lead|2) so refresh and Back work.
-   Edit from cart: ?edit=<box_id> pre-fills and replaces the old box + its add-ons.
+   State: the URL changes only on step changes (?s=…&o=…&a=…&step=lead|2); picks in between live in
+   sessionStorage so pixels don't log a PageView per tap. Refresh, Back and ?s= links still work.
+   One box per order: adding a box first removes any box already in the cart (same-_box_id lines).
+   Edit from cart: ?edit=<box_id> pre-fills the builder; saving replaces the box + its add-ons.
    Cart payload: box line (properties "Sleeve 1..N" + "_box_id") + add-on lines (same "_box_id",
    subscribed on a plan with the same delivery frequency). Shopify prices every line itself. */
 (() => {
@@ -239,11 +241,28 @@
   const hasSession = () => {
     try { const d = JSON.parse(window.sessionStorage.getItem(SESSION_KEY) || 'null'); return !!(d && d.s && d.s.length); } catch (err) { return false; }
   };
-  // Step-1 URLs (no ?step=) defer to this tab's saved picks; a ?s= link only seeds a fresh tab.
-  // Old history entries (e.g. ?s=pumpernickel from earlier visits) can't overwrite the current box.
+  // On Back/Forward and refresh, step-1 URLs (no ?step=) defer to this tab's saved picks, so old
+  // history entries (e.g. ?s=pumpernickel from earlier visits, or the page before checkout) can't
+  // overwrite the box just built. A normal link click (edit-from-cart, ?s= links, menu links) uses
+  // the URL as before.
   const preferSession = () => {
     const p = new URL(window.location.href).searchParams;
-    return !p.get('step') && hasSession();
+    return !p.get('step') && !p.get('edit') && hasSession();
+  };
+  const navType = (() => {
+    try { const n = performance.getEntriesByType('navigation')[0]; return (n && n.type) || 'navigate'; } catch (err) { return 'navigate'; }
+  })();
+  const isReturnVisit = navType === 'back_forward' || navType === 'reload';
+  // Same box as this tab's saved one: also restore plan/add-on choices made after the last step change
+  const mergeSessionChoices = () => {
+    try {
+      const d = JSON.parse(window.sessionStorage.getItem(SESSION_KEY) || 'null');
+      if (d && (d.s || []).join(',') === state.sleeves.join(',')) {
+        if (d.o === 'once') { state.option = 'once'; state.planId = null; }
+        else if (d.o === 'subscription' && cfg.plans.some((pl) => String(pl.id) === String(d.p))) { state.option = 'subscription'; state.planId = String(d.p); }
+        state.addons = new Set((d.a || []).map(String).filter((id) => cfg.addons.some((x) => String(x.variantId) === id)));
+      }
+    } catch (err) { /* ignore */ }
   };
   const render = () => { renderPage1(); renderPage2(); saveSession(); };
 
@@ -316,6 +335,7 @@
     let step = readUrl();
     // Back to a step-1 URL: keep the picks saved for this tab
     if (!new URL(window.location.href).searchParams.has('s') || preferSession()) { state.sleeves = []; state.addons = new Set(); restoreSession(); step = 1; }
+    else mergeSessionChoices();
     $$('[data-bbb-addon]').forEach((cb) => (cb.checked = state.addons.has(cb.value)));
     renderPage1(); renderPage2();
     showStep(step, { push: false });
@@ -497,10 +517,16 @@
   const newBoxId = () => (window.crypto && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(16).slice(2)}`).slice(0, 13);
   let busy = false;
 
-  const removeOldBox = async (boxId) => {
+  // One box per order: adding a box replaces any box already in the cart (its sleeves line,
+  // add-ons and free offer item all share a _box_id), so going back and re-building never
+  // leaves two dozens in the cart. Other products in the cart are kept.
+  const removeOldBox = async () => {
     const cart = await (await fetch(cfg.cartJsUrl, { headers: { Accept: 'application/json' } })).json();
     const updates = {};
-    cart.items.forEach((it) => { if (it.properties && it.properties._box_id === boxId) updates[it.key] = 0; });
+    cart.items.forEach((it) => {
+      const isBoxLine = (it.properties && it.properties._box_id) || String(it.variant_id) === String(cfg.variantId);
+      if (isBoxLine) updates[it.key] = 0;
+    });
     if (Object.keys(updates).length) {
       await fetch(cfg.cartUpdateUrl, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify({ updates }) });
     }
@@ -536,7 +562,7 @@
     if (promoOn()) items.push({ id: cfg.promo.variantId, quantity: 1, properties: { _box_id: boxId, _offer: cfg.promo.code } });
 
     try {
-      if (state.editBoxId) await removeOldBox(state.editBoxId);
+      await removeOldBox();
       const res = await fetch(cfg.cartAddUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -575,18 +601,8 @@
   if (checked) state.option = checked.value;
   let startStep = readUrl();
   // No box in the URL (e.g. a refresh on step 1): pick up this tab's saved picks instead
-  if (!new URL(window.location.href).searchParams.has('s') || preferSession()) { state.sleeves = []; state.addons = new Set(); restoreSession(); startStep = 1; }
-  else {
-    // Same box as this tab's saved one: also restore plan/add-on choices made after the last step change
-    try {
-      const d = JSON.parse(window.sessionStorage.getItem(SESSION_KEY) || 'null');
-      if (d && (d.s || []).join(',') === state.sleeves.join(',')) {
-        if (d.o === 'once') { state.option = 'once'; state.planId = null; }
-        else if (d.o === 'subscription' && cfg.plans.some((pl) => String(pl.id) === String(d.p))) { state.option = 'subscription'; state.planId = String(d.p); }
-        state.addons = new Set((d.a || []).map(String).filter((id) => cfg.addons.some((x) => String(x.variantId) === id)));
-      }
-    } catch (err) { /* ignore */ }
-  }
+  if (isReturnVisit && (!new URL(window.location.href).searchParams.has('s') || preferSession())) { state.sleeves = []; state.addons = new Set(); restoreSession(); startStep = 1; }
+  else if (isReturnVisit) mergeSessionChoices();
   if (!state.option && checked) state.option = checked.value;
   if (state.option === 'subscription' && !state.planId) { const sel = $('[data-bbb-plan]'); state.planId = sel ? sel.value : null; }
   $$('[data-bbb-addon]').forEach((cb) => (cb.checked = state.addons.has(cb.value)));
