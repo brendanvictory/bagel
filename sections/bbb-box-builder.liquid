@@ -455,6 +455,15 @@
           </div>
         </aside>
         <script>
+          /* Delivery plan: the whole subscription card selects it, not just the top row */
+          document.addEventListener('click', function (e) {
+            var card = e.target.closest('[data-bbb-sub-card]');
+            if (!card || e.target.closest('select, input, label, a, button')) return;
+            var r = card.querySelector('input[type="radio"][data-bbb-option]');
+            if (r && !r.checked) { r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); }
+          });
+        </script>
+        <script>
           /* Phones: expose the fixed bottom bar's height (0 when hidden) so the footer can reserve room for it */
           document.addEventListener('DOMContentLoaded', function () {
             var bar = document.querySelector('[data-bbb-bar]');
