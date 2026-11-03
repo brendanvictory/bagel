@@ -7,7 +7,17 @@
 >
   <div class="page-width bbb-section bbb-imgtext__grid bbb-imgtext__grid--{{ section.settings.image_position }}">
     <div class="bbb-imgtext__media">
-      {%- render 'bbb-image-placeholder', image: section.settings.image, alt: section.settings.image_alt, sizes: '(min-width: 990px) 45vw, 100vw', ratio: section.settings.ratio -%}
+      {%- if section.settings.bundled_photo == 'delivery-box' -%}
+        {%- comment -%} Bundled theme photo (pre-cropped 4:3 WebP, lazy, responsive) — overrides the picked image {%- endcomment -%}
+        <div class="bbb-ph" style="--bbb-ph-ratio: {{ section.settings.ratio | default: '4 / 3' }};">
+          <img class="bbb-ph__img" src="{{ 'nybe-delivery-box-1000.webp' | asset_url }}"
+            srcset="{{ 'nybe-delivery-box-480.webp' | asset_url }} 480w, {{ 'nybe-delivery-box-720.webp' | asset_url }} 720w, {{ 'nybe-delivery-box-1000.webp' | asset_url }} 1000w, {{ 'nybe-delivery-box-1367.webp' | asset_url }} 1367w"
+            sizes="(min-width: 990px) 45vw, 100vw" width="1367" height="1025" loading="lazy" decoding="async"
+            alt="{{ section.settings.image_alt | default: 'A New York Bagel Express box on a front doorstep' | escape }}">
+        </div>
+      {%- else -%}
+        {%- render 'bbb-image-placeholder', image: section.settings.image, alt: section.settings.image_alt, sizes: '(min-width: 990px) 45vw, 100vw', ratio: section.settings.ratio -%}
+      {%- endif -%}
     </div>
     <div class="bbb-imgtext__copy">
       {%- if section.settings.eyebrow != blank -%}<p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
@@ -43,6 +53,7 @@
   "max_blocks": 8,
   "settings": [
     { "type": "image_picker", "id": "image", "label": "Image", "info": "A placeholder shows until you choose one." },
+    { "type": "select", "id": "bundled_photo", "label": "Bundled photo", "default": "none", "info": "Uses a photo shipped with the theme (fast WebP) instead of the image above.", "options": [ { "value": "none", "label": "None (use image above)" }, { "value": "delivery-box", "label": "Delivery box on doorstep" } ] },
     { "type": "text", "id": "image_alt", "label": "Image description (alt text)" },
     {
       "type": "select", "id": "image_position", "label": "Image position", "default": "left",
