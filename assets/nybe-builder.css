@@ -77,9 +77,11 @@
 .bbb-tray__hint { color: var(--bbb-ink); font-size: 1.4rem; }
 .nybe-tray__art { display: none; }
 @media screen and (min-width: 990px) {
-  .bbb-tray { grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto; gap: 4rem; padding: 2.4rem 3.2rem; }
+  .bbb-tray { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; gap: 4rem; padding: 2.4rem 3.2rem; }
+  /* Sticky (compact): sleeves take only the room they need */
+  .bbb-builder[data-step="1"] .bbb-tray.is-stuck { grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto; }
   /* Wide columns so the longest label ("4x Cinnamon Raisin") stays on one line; the sleeve tile keeps its size */
-  .bbb-tray__slots { width: auto; max-width: none; grid-template-columns: repeat(var(--bbb-sleeves, 3), 13rem); gap: 1.6rem; }
+  .bbb-tray__slots { width: auto; max-width: none; grid-template-columns: repeat(var(--bbb-sleeves, 3), minmax(13rem, 1fr)); gap: 1.6rem; }
   .bbb-tray .bbb-slot__img { width: 12rem; margin-inline: auto; transition: width 0.3s ease; }
   .bbb-tray .bbb-slot__label { white-space: nowrap; }
   .bbb-tray .nybe-slot__plus { left: 50%; width: 12rem; transform: translateX(-50%); }
