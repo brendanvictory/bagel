@@ -26,7 +26,7 @@
             <h3 class="bbb-steps__title">{{ block.settings.title | escape }}</h3>
             <div class="rte">{{ block.settings.text }}</div>
           </div>
-          {%- unless forloop.last -%}<span class="nybe-steps__chev" aria-hidden="true">{%- render 'bbb-icon', name: 'chevron-right', size: 22 -%}</span>{%- endunless -%}
+          {%- unless forloop.last -%}<span class="nybe-steps__chev" aria-hidden="true">{%- render 'bbb-icon', name: 'arrow-right', size: 18, stroke: 2.5 -%}</span>{%- endunless -%}
         </li>
       {%- endfor -%}
     </ol>

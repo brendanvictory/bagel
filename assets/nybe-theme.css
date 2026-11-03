@@ -204,12 +204,16 @@ body { color: var(--nybe-navy); }
   .bbb-steps .nybe-steps__media--num .bbb-steps__num { font-size: 3.8rem; }
   .bbb-steps .nybe-steps__copy { padding-top: 1.4rem; }
   .bbb-steps .bbb-steps__title { font-size: 1.9rem; }
+  /* Step connector: solid orange disc with a white arrow, ringed in white so it sits cleanly on the divider */
   .nybe-steps__chev {
-    display: grid; place-items: center; position: absolute; right: -1.6rem; top: 3.7rem; z-index: 1;
-    width: 3.2rem; height: 3.2rem; border-radius: 50%; background: #fff; color: var(--nybe-orange);
-    box-shadow: 0 0 0 0.1rem var(--nybe-line, #efe4d4);
+    display: grid; place-items: center; position: absolute; right: -1.7rem; top: 3.6rem; z-index: 1;
+    width: 3.4rem; height: 3.4rem; border-radius: 50%; color: #fff;
+    background: linear-gradient(180deg, #f8862a, #e8501a);
+    box-shadow: 0 0 0 0.4rem #fff, 0 0.4rem 1.2rem rgba(232, 80, 26, 0.28);
   }
-  .nybe-steps__chev .bbb-icon { width: 1.6rem; height: 1.6rem; }
+  .nybe-steps__chev .bbb-icon { width: 1.6rem; height: 1.6rem; animation: nybeChevNudge 2.4s ease-in-out infinite; }
+  .bbb-steps__item:nth-child(2) .nybe-steps__chev .bbb-icon { animation-delay: 0.3s; }
+  @keyframes nybeChevNudge { 0%, 60%, 100% { transform: translateX(0); } 30% { transform: translateX(0.3rem); } }
 }
 /* Small desktops: tile above text so the copy keeps a readable width */
 @media screen and (min-width: 990px) and (max-width: 1199px) {
@@ -629,3 +633,5 @@ body:has(#Details-menu-drawer-container[open]) .bbb-sticky-cta { display: none !
 /* Keep the social row right under the menu card instead of pinned to the bottom */
 #menu-drawer .menu-drawer__navigation-container { grid-template-rows: auto auto; align-content: start; }
 #menu-drawer .menu-drawer__navigation { padding-bottom: 2.4rem; }
+
+@media (prefers-reduced-motion: reduce) { .nybe-steps__chev .bbb-icon { animation: none; } }
