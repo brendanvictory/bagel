@@ -378,14 +378,16 @@ body { color: var(--nybe-navy); }
   padding: 1.6rem 2rem calc(1.6rem + env(safe-area-inset-bottom));
 }
 .bbb-sticky-cta .button { min-height: 5.8rem; font-size: 1.7rem; letter-spacing: 0.06em; display: flex; align-items: center; justify-content: center; }
-body.bbb-has-sticky-cta { padding-bottom: 9.6rem; }
-@media screen and (min-width: 750px) { body.bbb-has-sticky-cta { padding-bottom: 0; } }
+/* Room for the bar is reserved by the footer (--bbb-sticky-h), so no cream strip under the navy footer */
+body.bbb-has-sticky-cta { padding-bottom: 0; }
+/* Never show the floating button over the open mobile menu */
+body:has(#Details-menu-drawer-container[open]) .bbb-sticky-cta { display: none !important; }
 
 /* ---------- Footer ---------- */
 .nybe-footer {
   --nf-bg: #012158; --nf-line: rgba(255, 255, 255, 0.16); --nf-muted: rgba(255, 255, 255, 0.78);
   position: relative; overflow: hidden; isolation: isolate; color: #fff; background: var(--nf-bg);
-  padding: 0 0 calc(4rem + var(--bbb-bar-h, 0px));
+  padding: 0 0 calc(4rem + var(--bbb-bar-h, 0px) + var(--bbb-sticky-h, 0px));
 }
 .nybe-footer__top { position: relative; isolation: isolate; padding: 6.4rem 0 4.8rem; }
 .nybe-footer a { color: inherit; text-decoration: none; }
