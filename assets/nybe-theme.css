@@ -640,7 +640,8 @@ body:has(#Details-menu-drawer-container[open]) .bbb-sticky-cta { display: none !
 @media screen and (max-width: 989px) {
   .bbb-steps .bbb-steps__item { align-items: start; }
   .bbb-steps .bbb-steps__item + .bbb-steps__item { border-top: 0; }
-  .bbb-steps .nybe-steps__copy { padding-top: 0.6rem; }
+  /* Tile stays at the top (the dotted connector is measured from it); the text centres on the tile */
+  .bbb-steps .nybe-steps__copy { padding-top: 0.6rem; align-self: center; }
   .bbb-steps .bbb-steps__item:not(:last-child)::after {
     content: ''; position: absolute; left: calc(0.6rem + 3.6rem - 0.3rem); width: 0.6rem;
     top: calc(2rem + 0.6rem + 7.2rem + 0.8rem); bottom: -1.8rem;
