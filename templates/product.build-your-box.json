@@ -19,7 +19,7 @@
             "quote": "Everything about these bagels is fantastic. Great texture, amazing flavor, and so many options to choose from. My family loved them, and the delivery made everything super convenient. Already planning my next box!",
             "name": "Jennifer L.",
             "rating": 5,
-            "verified": false
+            "verified": true
           }
         },
         "review_xrfc4V": {
@@ -29,7 +29,7 @@
             "quote": "I grew up in New York and have struggled to find bagels that taste like home. These brought back so many memories. They arrived fresh, were easy to freeze, and tasted amazing toasted. Highly recommend!",
             "name": "Michael R.",
             "rating": 5,
-            "verified": false
+            "verified": true
           }
         },
         "review_8H3m8p": {
@@ -39,7 +39,7 @@
             "quote": "These are exactly what I've been missing! Fresh, chewy, full of flavor, and absolutely delicious. The Everything and Sesame bagels are incredible. I'll definitely be ordering again!",
             "name": "Sarah M.",
             "rating": 5,
-            "verified": false
+            "verified": true
           }
         },
         "banner": {
