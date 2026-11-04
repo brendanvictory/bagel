@@ -212,6 +212,8 @@
 .nybe-perks__icon { display: grid; place-items: center; flex: none; width: 5.2rem; height: 5.2rem; border-radius: 50%; background: #f47b201a; color: #f47b20; }
 .nybe-perks__icon .bbb-icon { display: block; width: 2.6rem; height: 2.6rem; overflow: visible; }
 .nybe-perks__item strong { display: block; font-size: 1.7rem; font-weight: 800; line-height: 1.25; }
+/* Desktop splits each perk title onto two lines ("Free / Shipping"); phones keep one line */
+.nybe-perks__br { display: none; }
 .nybe-perks__item span span { display: block; margin-top: 0.4rem; font-size: 1.4rem; line-height: 1.45; }
 
 /* Mobile bottom bar */
@@ -441,6 +443,7 @@
   .nybe-perks--wide .nybe-perks__item span span { grid-column: 1 / -1; margin-top: 0; }
   .nybe-perks--wide .nybe-perks__item + .nybe-perks__item { border-top: 0; border-left: 0; }
   .nybe-perks--wide { align-items: start; }
+  .nybe-perks--wide .nybe-perks__br { display: inline; }
 }
 
 /* Reviews carousel under the order summary */
