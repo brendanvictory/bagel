@@ -405,3 +405,9 @@
 .nybe-ship__icon { flex: none; display: grid; place-items: center; width: 3.6rem; height: 3.6rem; border-radius: 50%; background: #fff; color: var(--bbb-ink, #082d5c); box-shadow: 0 0.1rem 0.4rem rgba(8, 45, 92, 0.08); }
 .nybe-ship--free { background: #e8f6ec; color: #1e7b34; }
 .nybe-ship--free .nybe-ship__icon { color: #1e7b34; }
+
+/* Trust row under Checkout: 3 centred columns, green icon over navy text */
+.nybe-trust3 { list-style: none; margin: 0.4rem 0 0; padding: 1.2rem 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; border-top: 0.1rem solid var(--bbb-line, #ece4d6); }
+.nybe-trust3 li { display: flex; flex-direction: column; align-items: center; gap: 0.6rem; text-align: center; min-width: 0;
+  font-size: 1.25rem; font-weight: 700; line-height: 1.25; color: var(--nybe-navy, #082d5c); }
+.nybe-trust3 .bbb-icon { color: #0aa06e; flex: none; }
