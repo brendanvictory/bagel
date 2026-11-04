@@ -12,7 +12,7 @@
     "builder": {
       "type": "bbb-box-builder",
       "settings": {
-        "lead_enabled": false,
+        "lead_enabled": true,
         "eyebrow": "Build your box",
         "heading": "Pick your [sleeves] sleeves",
         "subheading": "Each sleeve holds [per_sleeve] bagels of one flavor. Choose up to [sleeves] flavors ([total] bagels total).",
@@ -26,7 +26,8 @@
         "back_label": "Edit flavors",
         "next_label": "Next: Add-ons & Pricing",
         "add_label": "Checkout",
-        "tray_hint": "Each sleeve holds [per_sleeve] bagels of one flavor. Choose up to [sleeves] flavors for your box ([total] bagels total)."
+        "tray_hint": "Each sleeve holds [per_sleeve] bagels of one flavor. Choose up to [sleeves] flavors for your box ([total] bagels total).",
+        "lead_source": "builder"
       },
       "blocks": {
         "banner": {

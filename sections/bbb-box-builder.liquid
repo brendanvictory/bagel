@@ -111,6 +111,13 @@
           <h2 class="bbb-display nybe-banner__title" tabindex="-1" data-bbb-focus="2">{{ section.settings.page2_heading | escape }}</h2>
           {%- if b_copy and b_copy.settings.page2_text != blank -%}<p class="nybe-banner__sub">{{ b_copy.settings.page2_text | escape }}</p>{%- endif -%}
         </div>
+        {%- if lead_on -%}
+          <div class="nybe-banner__copy nybe-banner__copy--lead">
+            {%- if section.settings.eyebrow != blank -%}<p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+            <h2 class="bbb-display nybe-banner__title" tabindex="-1" data-bbb-focus="lead">{{ section.settings.lead_heading | escape }}</h2>
+            {%- if section.settings.lead_text != blank -%}<p class="nybe-banner__sub">{{ section.settings.lead_text | escape }}</p>{%- endif -%}
+          </div>
+        {%- endif -%}
       </div>
     </div>
   {%- endif -%}
@@ -121,10 +128,10 @@
         <li class="bbb-stepnav__item" data-bbb-stepnav="1" aria-current="step"><span class="bbb-stepnav__dot" aria-hidden="true"><span class="nybe-stepnav__n">1</span>{% render 'bbb-icon', name: 'check', size: 14, stroke: 3, class: 'nybe-stepnav__check' %}</span> <span class="bbb-stepnav__label">{{ section.settings.nav1 | escape }}</span></li>
         {%- assign nav_n = 2 -%}
         {%- if lead_on -%}
-          <li class="bbb-stepnav__item" data-bbb-stepnav="lead" data-bbb-nav-lead><span class="bbb-stepnav__dot" aria-hidden="true">2</span> <span class="bbb-stepnav__label">Delivery check</span></li>
+          <li class="bbb-stepnav__item" data-bbb-stepnav="lead" data-bbb-nav-lead><span class="bbb-stepnav__dot" aria-hidden="true"><span class="nybe-stepnav__n">2</span>{% render 'bbb-icon', name: 'check', size: 14, stroke: 3, class: 'nybe-stepnav__check' %}</span> <span class="bbb-stepnav__label">Delivery Check</span></li>
           {%- assign nav_n = 3 -%}
         {%- endif -%}
-        <li class="bbb-stepnav__item" data-bbb-stepnav="2"><span class="bbb-stepnav__dot" aria-hidden="true">{{ nav_n }}</span> <span class="bbb-stepnav__label">{{ section.settings.nav2 | escape }}</span></li>
+        <li class="bbb-stepnav__item" data-bbb-stepnav="2"><span class="bbb-stepnav__dot" aria-hidden="true"><span class="nybe-stepnav__n">{{ nav_n }}</span>{% render 'bbb-icon', name: 'check', size: 14, stroke: 3, class: 'nybe-stepnav__check' %}</span> <span class="bbb-stepnav__label">{{ section.settings.nav2 | escape }}</span></li>
         <li class="bbb-stepnav__item"><span class="bbb-stepnav__dot" aria-hidden="true">{{ nav_n | plus: 1 }}</span> <span class="bbb-stepnav__label">Checkout</span></li>
       </ol>
     </nav>
@@ -254,28 +261,37 @@
     {%- endcomment -%}
     {%- if lead_on -%}
       <div class="bbb-view" data-bbb-view="lead" hidden>
-        <header class="bbb-builder__head bbb-builder__head--left">
+        <header class="bbb-builder__head bbb-builder__head--left{% if b_banner %} nybe-leadhead{% endif %}">
           <button type="button" class="bbb-back link" data-bbb-back>
             <svg aria-hidden="true" focusable="false" viewBox="0 0 16 16" width="14" height="14"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             {{ section.settings.back_label | escape }}
           </button>
-          <h2 class="bbb-display bbb-display--l" tabindex="-1" data-bbb-focus="lead">{{ section.settings.lead_heading | escape }}</h2>
-          {%- if section.settings.lead_text != blank -%}<p class="bbb-builder__sub">{{ section.settings.lead_text | escape }}</p>{%- endif -%}
+          {%- unless b_banner -%}
+            <h2 class="bbb-display bbb-display--l" tabindex="-1" data-bbb-focus="lead">{{ section.settings.lead_heading | escape }}</h2>
+            {%- if section.settings.lead_text != blank -%}<p class="bbb-builder__sub">{{ section.settings.lead_text | escape }}</p>{%- endif -%}
+          {%- endunless -%}
         </header>
 
         <div class="bbb-card2 bbb-lead">
+          <div class="nybe-lead__head">
+            <span class="nybe-lead__icon" aria-hidden="true">{% render 'bbb-icon', name: 'map-pin', size: 26, stroke: 2 %}</span>
+            <div>
+              <p class="nybe-lead__title">Where should we send your bagels?</p>
+              <p class="nybe-lead__sub">We ship to the lower 48 states and Washington, DC.</p>
+            </div>
+          </div>
           {%- form 'customer', id: 'BbbLeadForm', class: 'bbb-form bbb-lead__form', novalidate: 'novalidate' -%}
             <input type="hidden" name="contact[tags]" value="lead" data-bbb-lead-tags>
             <input type="hidden" name="contact[first_name]" data-bbb-lead-first>
             <input type="hidden" name="contact[last_name]" data-bbb-lead-last>
             <div class="bbb-form__2col">
+              <div class="bbb-form__row nybe-lead__zip">
+                <label class="bbb-form__label" for="BbbLead-zip">ZIP code <span aria-hidden="true">*</span></label>
+                <input class="bbb-form__input" id="BbbLead-zip" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="10" required aria-required="true" data-bbb-lead-zip>
+              </div>
               <div class="bbb-form__row">
                 <label class="bbb-form__label" for="BbbLead-name">Name <span aria-hidden="true">*</span></label>
                 <input class="bbb-form__input" id="BbbLead-name" type="text" autocomplete="name" required aria-required="true" data-bbb-lead-name>
-              </div>
-              <div class="bbb-form__row">
-                <label class="bbb-form__label" for="BbbLead-zip">ZIP code <span aria-hidden="true">*</span></label>
-                <input class="bbb-form__input" id="BbbLead-zip" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="10" required aria-required="true" data-bbb-lead-zip>
               </div>
               <div class="bbb-form__row">
                 <label class="bbb-form__label" for="BbbLead-email">Email <span aria-hidden="true">*</span></label>
@@ -295,7 +311,7 @@
               {%- endif -%}
             </div>
             <p class="bbb-builder__error" data-bbb-error="lead" role="alert" hidden></p>
-            <button type="submit" class="button button--primary bbb-form__submit bbb-lead__submit" data-bbb-lead-submit>{{ section.settings.lead_button | escape }}</button>
+            <button type="submit" class="button button--primary bbb-form__submit bbb-lead__submit" data-bbb-lead-submit><span>{{ section.settings.lead_button | escape }}</span>{% render 'bbb-icon', name: 'arrow-right', size: 20, class: 'nybe-btn-arrow' %}</button>
             {%- if section.settings.lead_disclosure != blank -%}<div class="bbb-lead__disclosure">{{ section.settings.lead_disclosure }}</div>{%- endif -%}
           {%- endform -%}
 
@@ -304,7 +320,7 @@
               <svg viewBox="0 0 48 48" width="48" height="48" focusable="false"><circle cx="24" cy="24" r="22" fill="currentColor"/><path d="m14 25 7 7 13-15" fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </span>
             <p class="bbb-lead__ok-title" role="status" data-bbb-lead-ok-text></p>
-            <button type="button" class="button button--primary" data-bbb-lead-continue>Continue</button>
+            <button type="button" class="button button--primary" data-bbb-lead-continue><span>Continue</span>{% render 'bbb-icon', name: 'arrow-right', size: 20, class: 'nybe-btn-arrow' %}</button>
           </div>
         </div>
       </div>

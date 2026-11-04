@@ -198,7 +198,7 @@
         "b_sat"
       ],
       "settings": {
-        "lead_enabled": false,
+        "lead_enabled": true,
         "eyebrow": "Build your box",
         "heading": "Pick your [sleeves] sleeves",
         "subheading": "Each sleeve holds [per_sleeve] bagels of one flavor. Choose up to [sleeves] flavors ([total] bagels total).",
@@ -219,7 +219,8 @@
         "anchor": "build",
         "after_add": "checkout",
         "default_option": "none",
-        "color_scheme": "scheme-2"
+        "color_scheme": "scheme-2",
+        "lead_source": "dozen-deal"
       }
     },
     "about": {
