@@ -482,7 +482,8 @@
           -%}
           {%- if p2r.size > 0 or show_review_samples -%}
             {%- comment -%} Customer reviews: genuine, approved quotes only (Review blocks). With none, hidden on the storefront; the Theme Editor shows labelled samples. {%- endcomment -%}
-            <section class="bbb-card2 nybe-reviews" aria-roledescription="carousel" aria-label="Customer reviews" data-nybe-reviews>
+            <section class="bbb-card2 nybe-reviews" aria-roledescription="carousel" aria-labelledby="nybe-reviews-title-{{ section.id }}" data-nybe-reviews>
+              <h3 class="bbb-card2__title" id="nybe-reviews-title-{{ section.id }}">{{ section.settings.reviews_heading | default: 'Join Our Happy Customers' | escape }}</h3>
               <div class="nybe-reviews__track" aria-live="polite">
                 {%- if show_review_samples -%}
                   {%- for i in (1..3) -%}
@@ -789,6 +790,7 @@
     },
     { "type": "text", "id": "error_choose_option", "label": "Error: no purchase option", "default": "Choose Subscribe and Save or a one-time purchase." },
     { "type": "text", "id": "shipping_note", "label": "Shipping note", "default": "Free fast & reliable delivery included." },
+    { "type": "text", "id": "reviews_heading", "label": "Reviews heading (page 2)", "default": "Join Our Happy Customers" },
     { "type": "text", "id": "add_label", "label": "Checkout button", "default": "Checkout" },
     { "type": "text", "id": "bar_label", "label": "Mobile bar checkout button", "default": "Checkout" },
     {
