@@ -351,11 +351,30 @@
 
   // ---------- navigation helpers (presentation) ----------
   function scrollToFlavors(moveFocus) {
-    const target = $('.nybe-fhead') || $('.bbb-fgrid');
-    if (!target) return;
     const hdr = document.querySelector('.section-header');
-    const offset = (hdr ? hdr.getBoundingClientRect().height : 0) + 12;
-    const top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - offset);
+    let offset = (hdr ? hdr.getBoundingClientRect().height : 0) + 12;
+    // Desktop: the sleeves tray sticks under the header in a compact size; land the flavor grid just
+    // below that compact tray so it doesn't cover the first row of bagels.
+    const tray = $('[data-nybe-tray]');
+    const trayIsSticky = tray && getComputedStyle(tray).position === 'sticky';
+    let target = $('.nybe-fhead') || $('.bbb-fgrid');
+    if (!target) return;
+    let targetY;
+    if (trayIsSticky) {
+      target = $('.bbb-fgrid') || target;
+      // Measure with the tray already compact: it shrinks once stuck, which pulls the grid up.
+      const was = tray.classList.contains('is-stuck');
+      tray.classList.add('nybe-measure', 'is-stuck');
+      const stuckH = tray.getBoundingClientRect().height;
+      targetY = target.getBoundingClientRect().top + window.scrollY;
+      if (!was) tray.classList.remove('is-stuck');
+      void tray.offsetHeight;
+      tray.classList.remove('nybe-measure');
+      offset = (parseFloat(getComputedStyle(tray).top) || offset) + stuckH + 16;
+    } else {
+      targetY = target.getBoundingClientRect().top + window.scrollY;
+    }
+    const top = Math.max(0, targetY - offset);
     const smooth = !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     window.scrollTo({ top, behavior: smooth ? 'smooth' : 'auto' });
     if (moveFocus) {
