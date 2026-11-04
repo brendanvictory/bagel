@@ -282,7 +282,7 @@ body { color: var(--nybe-navy); }
   .nybe-strip .bbb-card + .bbb-card { border-top: 0; }
   .nybe-strip .bbb-card:first-child { padding-left: 0; }
   .nybe-strip .bbb-card:last-child { padding-right: 0; }
-  .nybe-strip .bbb-card + .bbb-card { border-left: 0.1rem solid rgba(244, 123, 32, 0.3); }
+  .nybe-strip .bbb-card + .bbb-card { border-left: 0; }
   .nybe-strip .nybe-card__body { padding-top: 0.4rem; }
 }
 .bbb-values:not(.nybe-strip) .bbb-card { border: 0; box-shadow: var(--nybe-shadow); background: #fff; }
