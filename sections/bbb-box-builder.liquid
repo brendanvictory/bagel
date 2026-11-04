@@ -80,6 +80,9 @@
   endif
 -%}
 
+{%- comment -%} Styles load before the markup so the page never paints unstyled (all step headings visible) {%- endcomment -%}
+{{ 'bbb-box-builder.css' | asset_url | stylesheet_tag }}
+{{ 'nybe-builder.css' | asset_url | stylesheet_tag }}
 <section
   id="{{ section.settings.anchor | default: 'build' | handleize }}"
   class="bbb-builder{% if promo_on %} bbb-builder--promo{% endif %}{% if section.settings.product != blank %} bbb-builder--embedded{% endif %} color-{{ section.settings.color_scheme | default: 'scheme-2' }} gradient"
@@ -734,8 +737,6 @@
   </div>
 </section>
 
-{{ 'bbb-box-builder.css' | asset_url | stylesheet_tag }}
-{{ 'nybe-builder.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'bbb-box-builder.js' | asset_url }}" defer="defer"></script>
 
 {%- if template.name == 'product' and section.settings.product == blank -%}
