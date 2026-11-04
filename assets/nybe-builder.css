@@ -421,9 +421,9 @@
   .bbb-p2 > .nybe-perks--wide { grid-column: 1; margin-top: 0; }
   .bbb-p2 > .bbb-p2__side { grid-column: 2; grid-row: 1 / span 2; }
   .nybe-perks--wide { grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 1.2rem 2rem; }
-  .nybe-perks--wide .nybe-perks__item { padding: 1.4rem 1.6rem; grid-template-columns: minmax(0, 1fr); justify-items: start; gap: 1rem; }
+  .nybe-perks--wide .nybe-perks__item { padding: 1.4rem 1.6rem; grid-template-columns: minmax(0, 1fr); justify-items: center; align-items: start; align-content: start; text-align: center; gap: 1rem; }
   .nybe-perks--wide .nybe-perks__item + .nybe-perks__item { border-top: 0; border-left: 0.1rem solid var(--bbb-line); }
-  .nybe-perks--wide .nybe-perks__item:first-child { padding-left: 0; }
+  .nybe-perks--wide { align-items: start; }
 }
 
 /* Reviews carousel under the order summary */
