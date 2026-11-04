@@ -176,6 +176,11 @@ for k, v in EMAILS.items():
 # One-line copies of the full emails for pasting into Messaging -> Code your own
 CODED = os.path.join(OUT, 'coded'); os.makedirs(CODED, exist_ok=True)
 for k, v in EMAILS.items():
-    one = re.sub(r'\n\s*', ' ', v['html']).replace('> <', '><')
+    h = v['html']; i = h.index('<!doctype html>'); pre, rest = h[:i], h[i:]
+    b = rest.index('>', rest.index('<body')) + 1   # Liquid setup goes inside <body>, not before <!doctype>
+    one = rest[:b] + pre + rest[b:]
+    # Messaging's code editor stops rendering on Outlook conditional comments, so they are dropped here
+    one = re.sub(r'<!--\[if mso\]>.*?<!\[endif\]-->', '', one, flags=re.S).replace('<!--[if !mso]><!-->', '').replace('<!--<![endif]-->', '')
+    one = re.sub(r'\n\s*', ' ', one).replace('> <', '><')
     with open(os.path.join(CODED, k + '.liquid'), 'w') as fh: fh.write(one)
     print(k, 'coded bytes', len(one.encode()))
