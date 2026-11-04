@@ -466,23 +466,87 @@
             </button>
             <ul class="nybe-trust3" role="list">
               <li>{% render 'bbb-icon', name: 'lock-keyhole', size: 24, stroke: 1.9 %}<span>Secure<br>Connection</span></li>
-              <li>{% render 'bbb-icon', name: 'badge-check', size: 24, stroke: 1.9 %}<span>Satisfaction Guaranteed</span></li>
-              <li>{% render 'bbb-icon', name: 'credit-card', size: 24, stroke: 1.9 %}<span>Safe &amp; Secure Payments</span></li>
+              <li>{% render 'bbb-icon', name: 'badge-check', size: 24, stroke: 1.9 %}<span>Satisfaction<br>Guaranteed</span></li>
+              <li>{% render 'bbb-icon', name: 'credit-card', size: 24, stroke: 1.9 %}<span>Safe &amp; Secure<br>Payments</span></li>
             </ul>
             <div class="bbb-totals__disclosure" id="bbb-disclosure-{{ section.id }}" data-bbb-disclosure hidden>
               {{ section.settings.disclosure | replace: '<a ', '<a target="_blank" rel="noopener" ' | replace: '[price]', '<span data-bbb-disc-price></span>' | replace: '[frequency]', '<span data-bbb-disc-freq></span>' }}
             </div>
           </div>
-          {%- assign p2b = section.blocks | where: 'type', 'p2_benefit' -%}
-          {%- if p2b.size > 0 -%}
-            <ul class="bbb-card2 nybe-perks" role="list">
-              {%- for blk in p2b -%}
-                <li class="nybe-perks__item" {{ blk.shopify_attributes }}>
-                  <span class="nybe-perks__icon" aria-hidden="true">{%- render 'bbb-icon', name: blk.settings.icon, size: 26, stroke: 1.75 -%}</span>
-                  <span><strong>{{ blk.settings.title | escape }}</strong>{% if blk.settings.text != blank %}<span>{{ blk.settings.text | escape }}</span>{% endif %}</span>
-                </li>
-              {%- endfor -%}
-            </ul>
+          {%- liquid
+            assign p2r = section.blocks | where: 'type', 'review'
+            assign show_review_samples = false
+            if p2r.size == 0 and request.design_mode
+              assign show_review_samples = true
+            endif
+          -%}
+          {%- if p2r.size > 0 or show_review_samples -%}
+            {%- comment -%} Customer reviews: genuine, approved quotes only (Review blocks). With none, hidden on the storefront; the Theme Editor shows labelled samples. {%- endcomment -%}
+            <section class="bbb-card2 nybe-reviews" aria-roledescription="carousel" aria-label="Customer reviews" data-nybe-reviews>
+              <div class="nybe-reviews__track" aria-live="polite">
+                {%- if show_review_samples -%}
+                  {%- for i in (1..3) -%}
+                    <figure class="nybe-review" data-nybe-review{% unless forloop.first %} hidden{% endunless %}>
+                      <blockquote class="nybe-review__text">SAMPLE — add a real customer review in this section (Add block → Review). Samples never show on the live store.</blockquote>
+                      <figcaption class="nybe-review__by"><span class="nybe-review__name">Customer name</span><span class="nybe-review__stars" aria-label="5 out of 5 stars">★★★★★</span></figcaption>
+                    </figure>
+                  {%- endfor -%}
+                {%- else -%}
+                  {%- for r in p2r -%}
+                    <figure class="nybe-review" data-nybe-review {{ r.shopify_attributes }}{% unless forloop.first %} hidden{% endunless %}>
+                      <blockquote class="nybe-review__text">{{ r.settings.quote | escape }}</blockquote>
+                      <figcaption class="nybe-review__by">
+                        <span class="nybe-review__name">{{ r.settings.name | escape }}</span>
+                        {%- assign rating = r.settings.rating | default: 5 -%}
+                        <span class="nybe-review__stars" aria-label="{{ rating }} out of 5 stars">{%- for st in (1..5) -%}{% if st <= rating %}★{% else %}☆{% endif %}{%- endfor -%}</span>
+                      </figcaption>
+                    </figure>
+                  {%- endfor -%}
+                {%- endif -%}
+              </div>
+              {%- assign review_count = p2r.size -%}{%- if show_review_samples -%}{%- assign review_count = 3 -%}{%- endif -%}
+              {%- if review_count > 1 -%}
+                <div class="nybe-reviews__nav">
+                  <button type="button" class="nybe-reviews__arrow" data-nybe-review-prev aria-label="Previous review">{% render 'bbb-icon', name: 'chevron-right', size: 18, stroke: 2.5 %}</button>
+                  <div class="nybe-reviews__dots" role="group" aria-label="Choose a review">
+                    {%- for i in (1..review_count) -%}<button type="button" class="nybe-reviews__dot" data-nybe-review-dot="{{ forloop.index0 }}" aria-label="Review {{ i }}"{% if forloop.first %} aria-current="true"{% endif %}></button>{%- endfor -%}
+                  </div>
+                  <button type="button" class="nybe-reviews__arrow" data-nybe-review-next aria-label="Next review">{% render 'bbb-icon', name: 'chevron-right', size: 18, stroke: 2.5 %}</button>
+                </div>
+              {%- endif -%}
+            </section>
+            <script>
+              /* Reviews carousel: auto-advances every 3s; pauses on hover/focus/touch and for reduced motion; arrows, dots, swipe */
+              (function () {
+                var root = document.currentScript.previousElementSibling;
+                if (!root) return;
+                var slides = root.querySelectorAll('[data-nybe-review]'), dots = root.querySelectorAll('[data-nybe-review-dot]');
+                if (slides.length < 2) return;
+                var i = 0, timer = null, paused = false;
+                var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                function show(n) {
+                  i = (n + slides.length) % slides.length;
+                  slides.forEach(function (s, k) { s.hidden = k !== i; });
+                  dots.forEach(function (d, k) { if (k === i) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
+                }
+                function start() { stop(); if (!reduce && !paused) timer = setInterval(function () { if (!document.hidden) show(i + 1); }, 3000); }
+                function stop() { if (timer) { clearInterval(timer); timer = null; } }
+                root.querySelector('[data-nybe-review-next]').addEventListener('click', function () { show(i + 1); start(); });
+                root.querySelector('[data-nybe-review-prev]').addEventListener('click', function () { show(i - 1); start(); });
+                dots.forEach(function (d) { d.addEventListener('click', function () { show(Number(d.dataset.nybeReviewDot)); start(); }); });
+                root.addEventListener('mouseenter', function () { paused = true; stop(); });
+                root.addEventListener('mouseleave', function () { paused = false; start(); });
+                root.addEventListener('focusin', function () { paused = true; stop(); });
+                root.addEventListener('focusout', function () { paused = false; start(); });
+                var x0 = null;
+                root.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; paused = true; stop(); }, { passive: true });
+                root.addEventListener('touchend', function (e) {
+                  if (x0 !== null) { var dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(i + (dx < 0 ? 1 : -1)); }
+                  x0 = null; paused = false; start();
+                });
+                start();
+              })();
+            </script>
           {%- endif -%}
           </div>
         </aside>
@@ -543,6 +607,17 @@
           })();
         </script>
       </div>
+          {%- assign p2b = section.blocks | where: 'type', 'p2_benefit' -%}
+          {%- if p2b.size > 0 -%}
+            <ul class="bbb-card2 nybe-perks nybe-perks--wide" role="list">
+              {%- for blk in p2b -%}
+                <li class="nybe-perks__item" {{ blk.shopify_attributes }}>
+                  <span class="nybe-perks__icon" aria-hidden="true">{%- render 'bbb-icon', name: blk.settings.icon, size: 26, stroke: 1.75 -%}</span>
+                  <span><strong>{{ blk.settings.title | escape }}</strong>{% if blk.settings.text != blank %}<span>{{ blk.settings.text | escape }}</span>{% endif %}</span>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
     </div>
 
     {%- comment -%} Mobile bottom bar — page 1: progress + Next (no price); page 2: total + Checkout {%- endcomment -%}
@@ -771,6 +846,14 @@
           ] },
         { "type": "text", "id": "title", "label": "Title", "default": "Authentic NY Bagels" },
         { "type": "text", "id": "text", "label": "Text" }
+      ]
+    },
+    {
+      "type": "review", "name": "Review (page 2)", "limit": 10,
+      "settings": [
+        { "type": "textarea", "id": "quote", "label": "Review", "info": "Real customer words only, with their permission." },
+        { "type": "text", "id": "name", "label": "Name (e.g., first name + initial)" },
+        { "type": "range", "id": "rating", "label": "Stars", "min": 1, "max": 5, "step": 1, "default": 5 }
       ]
     },
     {
