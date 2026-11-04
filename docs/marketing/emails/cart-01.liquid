@@ -1,0 +1,40 @@
+{%- assign recovery_url = 'https://nybagelexpress.com/products/build-your-box' -%}
+{%- if abandoned_checkout.url != blank -%}{%- assign recovery_url = abandoned_checkout.url -%}{%- elsif abandoned_visit.url != blank -%}{%- assign recovery_url = abandoned_visit.url -%}{%- endif -%}
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="x-apple-disable-message-reformatting"><title>New York Bagel Express</title>
+<style>@media only screen and (max-width:620px){.shell{width:100%!important}.pad{padding:24px 20px!important}.h1{font-size:34px!important;line-height:1.05!important}.fl td{padding:0 4px!important}.fl img{width:88px!important;height:88px!important}}a{color:#082D5C}</style></head>
+<body style="margin:0;padding:0;background:#FFF4E2;color:#082D5C;font-family:Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%;">
+<div style="display:none;max-height:0;overflow:hidden;mso-hide:all;">Pick up where you left off and finish your bagel order.&#8199;&#65279;&#847;&#8199;&#65279;&#847;&#8199;&#65279;&#847;</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#FFF4E2;"><tr><td align="center" style="padding:20px 8px;">
+<table role="presentation" class="shell" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:100%;background:#FFFFFF;border-radius:18px;overflow:hidden;">
+<tr><td align="center" style="background:#082D5C;padding:22px 24px;"><a href="https://nybagelexpress.com"><img src="https://cdn.shopify.com/s/files/1/0864/7989/6818/files/email-nybe-logo-reverse.png?v=1793807149" width="180" alt="New York Bagel Express" style="display:block;width:180px;max-width:100%;height:auto;border:0;"></a></td></tr>
+<tr><td style="background:#F47B20;height:5px;line-height:5px;font-size:0;">&nbsp;</td></tr>
+<tr><td class="pad" style="padding:34px 40px 22px;"><p style="margin:0 0 12px;font-size:13px;font-weight:bold;letter-spacing:2px;text-transform:uppercase;color:#B9520A;">You have great taste</p><h1 class="h1" style="margin:0;font-size:42px;line-height:1.02;letter-spacing:-1px;font-weight:900;text-transform:uppercase;color:#082D5C;">Let&rsquo;s finish<br>that box.</h1></td></tr>
+<tr><td><img src="https://cdn.shopify.com/s/files/1/0864/7989/6818/files/email-nybe-hero.jpg?v=1793807150&width=1200" width="600" alt="Fresh New York bagels in front of the Manhattan skyline" style="display:block;width:100%;height:auto;border:0;"></td></tr>
+<tr><td class="pad" style="padding:30px 40px 8px;font-size:16px;line-height:1.6;color:#082D5C;">
+<p style="margin-top:0;">Hey {{ customer.first_name | default: 'there' | escape }},</p><p>Looks like you were putting together a pretty good breakfast.</p><p>Your box is saved. Pick up where you left off and complete your order when you&rsquo;re ready.</p>{%- if abandoned_checkout.line_items != blank -%}
+<h2 style="margin:28px 0 8px;font-size:20px;font-weight:900;text-transform:uppercase;color:#082D5C;">Your box</h2>
+{%- for item in abandoned_checkout.line_items -%}
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #ECDCC4;"><tr>
+{%- if item.image_url != blank -%}<td width="96" style="padding:14px 14px 14px 0;"><img src="{{ item.image_url | escape }}" alt="{{ item.product_title | escape }}" width="80" style="display:block;width:80px;height:auto;border-radius:12px;"></td>{%- endif -%}
+<td style="padding:14px 0;font-size:16px;color:#082D5C;"><strong>{{ item.product_title | escape }}</strong>{% if item.variant_title != blank and item.variant_title != 'Default Title' %}<br>{{ item.variant_title | escape }}{% endif %}<br><span style="font-size:14px;color:#4A5A70;">Quantity: {{ item.quantity }}</span></td></tr></table>
+{%- endfor -%}
+{%- if abandoned_checkout.remaining_products_count > 0 -%}<p style="font-size:14px;">Plus {{ abandoned_checkout.remaining_products_count }} more item(s) in your checkout.</p>{%- endif -%}
+{%- elsif abandoned_visit.products_added_to_cart != blank -%}
+<h2 style="margin:28px 0 8px;font-size:20px;font-weight:900;text-transform:uppercase;color:#082D5C;">Your box</h2>
+{%- for item in abandoned_visit.products_added_to_cart -%}
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-top:1px solid #ECDCC4;"><tr>
+{%- if item.image_url != blank -%}<td width="96" style="padding:14px 14px 14px 0;"><img src="{{ item.image_url | escape }}" alt="{{ item.title | escape }}" width="80" style="display:block;width:80px;height:auto;border-radius:12px;"></td>{%- endif -%}
+<td style="padding:14px 0;font-size:16px;color:#082D5C;"><strong>{{ item.title | escape }}</strong>{% if item.variant_title != blank and item.variant_title != 'Default Title' %}<br>{{ item.variant_title | escape }}{% endif %}<br><span style="font-size:14px;color:#4A5A70;">Quantity: {{ item.quantity }}</span></td></tr></table>
+{%- endfor -%}
+{%- if abandoned_visit.remaining_cart_products_count > 0 -%}<p style="font-size:14px;">Plus {{ abandoned_visit.remaining_cart_products_count }} more item(s) in your cart.</p>{%- endif -%}
+{%- endif -%}
+<table role="presentation" cellpadding="0" cellspacing="0" style="margin:26px auto;"><tr><td align="center" bgcolor="#C9420C" style="border-radius:999px;background:#C9420C;">
+<!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="{{ recovery_url | escape }}" style="height:54px;v-text-anchor:middle;width:300px;" arcsize="50%" fillcolor="#C9420C" stroke="f"><center style="color:#ffffff;font-family:Arial;font-size:16px;font-weight:bold;">Complete your order</center></v:roundrect><![endif]-->
+<!--[if !mso]><!--><a href="{{ recovery_url | escape }}" style="display:inline-block;padding:18px 40px;font-size:16px;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:#FFFFFF;text-decoration:none;border-radius:999px;">Complete your order &rarr;</a><!--<![endif]--></td></tr></table>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:6px 0 22px;"><tr><td align="center" style="background:#FFF4E2;border-radius:14px;padding:18px 20px;border-left:5px solid #F47B20;">
+<div style="font-size:18px;font-weight:900;letter-spacing:.5px;text-transform:uppercase;color:#082D5C;">Hand-rolled in New York</div><div style="font-size:13px;line-height:1.5;color:#4A5A70;margin-top:4px;">Your dozen, your way: 3 sleeves of 4, up to 3 flavors.</div></td></tr></table>
+<p style="font-size:15px;margin:8px 0 4px;">A few clicks closer to a New York morning.</p><p style="font-size:15px;margin:0 0 22px;">&mdash; The New York Bagel Express Team</p></td></tr>
+<tr><td style="background:#082D5C;padding:22px 40px;font-size:13px;line-height:1.6;color:#FFFFFF;"><strong style="letter-spacing:1px;">FROM NEW YORK TO YOUR DOOR.</strong><br>We ship Monday&ndash;Wednesday from our commissary on Long Island, NY. Orders placed Wednesday&ndash;Sunday ship the following Monday.<br><a href="https://nybagelexpress.com/pages/contact" style="color:#F47B20;font-weight:bold;">Questions? We&rsquo;re here to help.</a></td></tr>
+</table>
+<table role="presentation" width="600" class="shell" cellpadding="0" cellspacing="0" style="width:600px;max-width:100%;"><tr><td align="center" style="padding:20px 24px;font-size:11px;line-height:1.7;color:#4A5A70;">{{ shop.name | escape }} &middot; {{ shop.address.address1 | escape }}{% if shop.address.address2 != blank %} {{ shop.address.address2 | escape }}{% endif %}, {{ shop.address.city | escape }}, {{ shop.address.province | escape }} {{ shop.address.zip | escape }}<br><a href="{{ unsubscribe_url }}" style="color:#4A5A70;">Unsubscribe</a>{{ open_tracking }}</td></tr></table>
+</td></tr></table></body></html>
