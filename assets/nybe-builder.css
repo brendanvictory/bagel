@@ -197,9 +197,9 @@
 .bbb-totals { font-size: 1.55rem; }
 .bbb-totals dt { color: var(--bbb-ink); }
 .bbb-totals dd { color: var(--bbb-ink); }
-.bbb-totals__total { margin: 0.4rem 0 0; padding: 1.4rem 1.6rem; border: 0; border-radius: 1.4rem; background: #fff6e8; font-size: 2rem; font-weight: 800; color: var(--bbb-ink); }
-.bbb-totals__total strong { color: #c9420c; font-size: 3rem; }
-.nybe-saving { margin: -1.4rem 0 0; padding: 0 1.6rem 1.4rem; border-radius: 0 0 1.4rem 1.4rem; background: #fff6e8; display: flex; justify-content: center; align-items: center; gap: 0.6rem; font-size: 1.45rem; font-weight: 700; color: #1e7b34; }
+.bbb-totals__total { margin: 0.4rem 0 0; padding: 2rem 2.4rem; border: 0; border-radius: 1.4rem; background: var(--nybe-navy, #082d5c); font-size: 2rem; font-weight: 800; color: #fff; align-items: center; }
+.bbb-totals__total strong { color: #fff; font-size: 3.4rem; }
+.nybe-saving { margin: -2rem 0 0; padding: 0 2.4rem 1.6rem; border-radius: 0 0 1.4rem 1.4rem; background: var(--nybe-navy, #082d5c); display: flex; justify-content: center; align-items: center; gap: 0.6rem; font-size: 1.45rem; font-weight: 700; color: #8ee3a8; }
 .nybe-saving[hidden] { display: none; }
 /* Square bottom only when the savings line sits under the total (Subscribe & Save) */
 .bbb-totals__total:has(+ .nybe-saving:not([hidden])) { border-radius: 1.4rem 1.4rem 0 0; }
