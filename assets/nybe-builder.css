@@ -476,3 +476,9 @@
 .nybe-reviews__arrow:focus-visible, .nybe-reviews__dot:focus-visible { outline: 0.2rem solid var(--nybe-orange, #f47b20); outline-offset: 0.2rem; }
 @keyframes nybeReviewIn { from { opacity: 0; transform: translateY(0.4rem); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) { .nybe-review { animation: none; } }
+
+/* Delivery plan, phones/tablets: radio and price sit on the title's first line (titles wrap here) */
+@media screen and (max-width: 989px) {
+  .bbb-options .bbb-option__row, .bbb-options label.bbb-option { align-items: start; }
+  .bbb-options .bbb-option__radio { margin-top: 0.1rem; }
+}
