@@ -10,7 +10,7 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
 (async () => {
   const b = await chromium.launch();
   const ctx = await b.newContext({ viewport: { width: 390, height: 844 } });
-  await ctx.addInitScript(() => { try { localStorage.setItem('bbb_lead_v1', '{"zip":"11701"}'); } catch (e) {} });
+  await ctx.addInitScript(() => { try { localStorage.setItem('bbb_lead_v1', '{"zip":"11701","name":"Pat Bagel","email":"pat@example.com","phone":""}'); } catch (e) {} });
   const calls = [];
   let cartItems = [];
   let leadMode = 'ok';
@@ -45,6 +45,8 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   const visible2 = () => p.isVisible('[data-bbb-view="2"]');
   const total = async () => (await p.textContent('[data-bbb-total]')).trim();
   const barNext = '.bbb-bar [data-bbb-next]';
+  // Returning shopper: Next shows the delivery check pre-filled; Check delivery continues without re-posting
+  const nextThroughLead = async () => { await p.click(barNext); if ((await p.getAttribute('[data-bbb-builder]', 'data-step')) === 'lead') await p.click('[data-bbb-lead-submit]'); };
   const barCheckout = '.bbb-bar [data-bbb-add]';
 
   console.log('1. Page 1 — no pricing');
@@ -84,7 +86,7 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   await inc('everything');
 
   console.log('4. Go to page 2');
-  await p.click(barNext);
+  await nextThroughLead();
   ok((await step()) === '2' && await visible2() && !(await visible1()), 'Next shows page 2');
   ok(new URL(p.url()).searchParams.get('step') === '2', 'URL has step=2');
   const sumItems = await p.$$eval('.bbb-boxsum__item', (els) => els.map((e) => e.innerText.replace(/\s+/g, ' ').trim()));
@@ -116,7 +118,7 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   await p.click('[data-bbb-view="2"] .bbb-card2__edit');
   await p.waitForTimeout(200);
   ok((await step()) === '1', '"Edit flavors" returns to page 1');
-  await p.click(barNext);
+  await nextThroughLead();
 
   console.log('7. Refresh keeps state; step=2 without a full box falls back to page 1');
   await go('?s=everything,everything,plain&o=690001&a=1001&step=2');
@@ -151,7 +153,7 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   cartItems = [{ key: 'old-box:1', properties: { _box_id: 'abc123', 'Sleeve 1': 'Plain' } }, { key: 'old-addon:1', properties: { _box_id: 'abc123' } }, { key: 'other:1', properties: {} }];
   await go('?s=Everything,Everything,Plain&o=once&a=1002&edit=abc123');
   ok((await step()) === '1' && (await count('everything')) === '2', 'cart flavor names map back; opens on page 1 to edit');
-  await p.click(barNext);
+  await nextThroughLead();
   ok(await p.isChecked('[data-bbb-option][value="once"]') && await p.isChecked('[data-bbb-addon="1002"]'), 'option and add-on restored on page 2');
   await p.click(barCheckout); await p.waitForURL('**/checkout');
   const upd = calls.find((c) => c.path === '/cart/update.js');
@@ -165,7 +167,7 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   ok((await count('onion')) === '2', 'Enter and Space add sleeves');
   ok((await p.getAttribute('[data-bbb-progress]', 'aria-live')) === 'polite', 'progress announced politely');
   ok(await p.$$eval('.bbb-stepper__btn', (els) => els.every((e) => (e.getAttribute('aria-label') || '').length > 5)), 'stepper buttons have accessible names');
-  await go('?s=plain,plain,plain'); await p.click(barNext);
+  await go('?s=plain,plain,plain'); await nextThroughLead();
   ok(await p.evaluate(() => document.activeElement && document.activeElement.matches('[data-bbb-focus="2"]')), 'focus moves to page 2 heading');
   ok((await p.$$eval('.bbb-stepper__btn, .bbb-slot, .bbb-bar .button, .bbb-back, .bbb-option, .bbb-addon', (els) => els.filter((e) => { const r = e.getBoundingClientRect(); return r.width && (r.width < 24 || r.height < 24); }).length)) === 0, 'tap targets ≥ 24×24');
   ok(await p.evaluate(() => document.querySelector('[data-bbb-stepnav="2"]').getAttribute('aria-current') === 'step'), 'step nav marks current step');
@@ -176,7 +178,7 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   ok(!(await p.$('[data-bbb-view="lead"]')) && !(await p.$('[data-bbb-stepnav="lead"]')), 'delivery check off: no lead view or step');
   await p.evaluate(() => localStorage.clear());
   await p.goto('http://test.local/noplan.html?s=plain,plain,plain'); await p.waitForLoadState('networkidle');
-  await p.click(barNext);
+  await nextThroughLead();
   ok((await step()) === '2', 'delivery check off: Next goes straight to page 2');
 
   console.log('13. Delivery check (lead step)');
@@ -225,7 +227,10 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   ok(!new URL(q.url()).searchParams.has('bbb_lead') && !new URL(q.url()).searchParams.has('bbb_zip'), 'URL cleaned after landing');
   await q.goto('http://test.local/index.html?s=plain,plain,egg'); await q.waitForLoadState('networkidle');
   await q.click(barNext);
-  ok((await qstep()) === '2', 'returning visitor goes straight to page 2');
+  ok((await qstep()) === 'lead' && (await q.inputValue('[data-bbb-lead-email]')) === 'pat@example.com' && (await q.inputValue('[data-bbb-lead-zip]')) === '11701' && (await q.inputValue('[data-bbb-lead-phone]')) === '(631) 555-0199', 'returning visitor sees the delivery check pre-filled');
+  calls.length = 0;
+  await q.click('[data-bbb-lead-submit]');
+  ok((await qstep()) === '2' && calls.filter((c) => c.path === '/contact').length === 0, 'unchanged details: continues to page 2 without posting again');
 
   console.log('13b. Shopify spam check (captcha) submits the form natively');
   const ctx3 = await b.newContext({ viewport: { width: 390, height: 844 } });
