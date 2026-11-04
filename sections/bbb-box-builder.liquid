@@ -456,13 +456,16 @@
             <dl class="bbb-totals" data-bbb-totals></dl>
             <p class="bbb-totals__total"><span>{% if b_banner %}Total today{% else %}Total{% endif %}</span> <strong data-bbb-total>{{ variant.price | money }}</strong></p>
             <p class="nybe-saving" data-bbb-saving hidden>{% render 'bbb-icon', name: 'check-circle', size: 16, stroke: 2.5 %}<span data-bbb-saving-text></span></p>
-            {%- if section.settings.shipping_note != blank -%}<p class="bbb-totals__ship">{{ section.settings.shipping_note | escape }}</p>{%- endif -%}
+            {%- if section.settings.shipping_note != blank -%}
+              {%- assign ship_free = false -%}{%- if section.settings.shipping_note contains 'Free' or section.settings.shipping_note contains 'free' -%}{%- assign ship_free = true -%}{%- endif -%}
+              <p class="bbb-totals__ship nybe-ship{% if ship_free %} nybe-ship--free{% endif %}"><span class="nybe-ship__icon" aria-hidden="true">{%- render 'bbb-icon', name: 'truck', size: 20, stroke: 2 -%}</span><span>{{ section.settings.shipping_note | escape }}</span></p>
+            {%- endif -%}
             <p class="bbb-builder__error" data-bbb-error="2" role="alert" hidden></p>
             <button type="button" class="button button--primary bbb-checkout" data-bbb-add aria-describedby="bbb-disclosure-{{ section.id }}">
               <span data-bbb-add-label>{{ section.settings.add_label | escape }}</span>{% render 'bbb-icon', name: 'arrow-right', size: 20, class: 'nybe-btn-arrow' %}
             </button>
             <div class="bbb-totals__disclosure" id="bbb-disclosure-{{ section.id }}" data-bbb-disclosure hidden>
-              {{ section.settings.disclosure | replace: '[price]', '<span data-bbb-disc-price></span>' | replace: '[frequency]', '<span data-bbb-disc-freq></span>' }}
+              {{ section.settings.disclosure | replace: '<a ', '<a target="_blank" rel="noopener" ' | replace: '[price]', '<span data-bbb-disc-price></span>' | replace: '[frequency]', '<span data-bbb-disc-freq></span>' }}
             </div>
           </div>
           {%- assign p2b = section.blocks | where: 'type', 'p2_benefit' -%}
@@ -705,7 +708,7 @@
       ]
     },
     { "type": "text", "id": "error_choose_option", "label": "Error: no purchase option", "default": "Choose Subscribe and Save or a one-time purchase." },
-    { "type": "text", "id": "shipping_note", "label": "Shipping note", "default": "Free shipping included." },
+    { "type": "text", "id": "shipping_note", "label": "Shipping note", "default": "Free fast & reliable delivery included." },
     { "type": "text", "id": "add_label", "label": "Checkout button", "default": "Checkout" },
     { "type": "text", "id": "bar_label", "label": "Mobile bar checkout button", "default": "Checkout" },
     {

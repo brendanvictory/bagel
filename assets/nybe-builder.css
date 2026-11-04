@@ -396,3 +396,10 @@
 }
 /* Used by the builder to measure the compact tray instantly */
 .bbb-tray.nybe-measure, .bbb-tray.nybe-measure * { transition: none !important; animation: none !important; }
+
+/* Shipping note in the order summary: icon + text chip */
+.nybe-ship { display: flex; align-items: center; gap: 1.2rem; margin: 0; padding: 1rem 1.4rem; border-radius: 1.2rem;
+  background: #f3f5f9; color: var(--bbb-ink, #082d5c); font-size: 1.45rem; font-weight: 700; line-height: 1.35; }
+.nybe-ship__icon { flex: none; display: grid; place-items: center; width: 3.6rem; height: 3.6rem; border-radius: 50%; background: #fff; color: var(--bbb-ink, #082d5c); box-shadow: 0 0.1rem 0.4rem rgba(8, 45, 92, 0.08); }
+.nybe-ship--free { background: #e8f6ec; color: #1e7b34; }
+.nybe-ship--free .nybe-ship__icon { color: #1e7b34; }
