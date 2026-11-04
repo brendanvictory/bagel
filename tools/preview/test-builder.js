@@ -19,6 +19,9 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
     if (u.pathname === '/contact' && route.request().method() === 'POST') {
       calls.push({ path: '/contact', body: route.request().postData() });
       if (leadMode === 'fail') return route.abort();
+      // Like Shopify: honour return_to after saving the customer
+      const back = new URLSearchParams(route.request().postData() || '').get('return_to');
+      if (back) return route.fulfill({ status: 200, contentType: 'text/html', body: `<script>location.replace(${JSON.stringify(back)})</script>` });
       return route.fulfill({ status: 302, headers: { location: 'http://test.local/index.html?customer_posted=true' } });
     }
     if (u.pathname.startsWith('/discount/')) { calls.push({ path: u.pathname, redirect: u.searchParams.get('redirect') }); return route.fulfill({ status: 200, contentType: 'text/html', body: `<script>location.replace(${JSON.stringify(u.searchParams.get('redirect'))})</script>` }); }
@@ -181,6 +184,7 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   await ctx2.route('http://test.local/**', handler);
   const q = await ctx2.newPage(); q.on('pageerror', (e) => errors.push(e.message));
   const qstep = () => q.getAttribute('[data-bbb-builder]', 'data-step');
+  const lastPost = () => new URLSearchParams([...calls].reverse().find((c) => c.path === '/contact').body);
   await q.goto('http://test.local/index.html?s=plain,plain,egg'); await q.waitForLoadState('networkidle');
   await q.click(barNext);
   ok((await qstep()) === 'lead' && await q.isVisible('[data-bbb-view="lead"]'), 'Next goes to the delivery check first');
@@ -190,46 +194,62 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   ok(await q.evaluate(() => document.querySelector('[data-bbb-stepnav="1"]').classList.contains('is-done') && document.querySelector('[data-bbb-stepnav="lead"]').getAttribute('aria-current') === 'step'), 'step nav: 1 done, delivery check current');
   await q.goto('http://test.local/index.html?s=plain,plain,egg&o=690001&step=2'); await q.waitForLoadState('networkidle');
   ok((await qstep()) === 'lead', 'deep link to step=2 still requires the delivery check');
-  await q.goto('http://test.local/index.html?s=plain,plain,egg&o=690001'); await q.waitForLoadState('networkidle');
-  await q.click(barNext);
   calls.length = 0;
   await q.click('[data-bbb-lead-submit]');
   ok((await q.textContent('[data-bbb-error="lead"]')).includes('name') && calls.length === 0, 'empty form: asks for name, nothing sent');
-  await q.fill('[data-bbb-lead-name]', 'Pat  Q  Bagel'); await q.fill('[data-bbb-lead-zip]', '99501'); await q.fill('[data-bbb-lead-email]', 'pat@example.com');
-  await q.click('[data-bbb-lead-submit]'); await q.waitForTimeout(300);
-  ok((await q.textContent('[data-bbb-error="lead"]')).includes("can't ship to 99501") && (await qstep()) === 'lead', 'Alaska ZIP: out-of-area message, stays put');
-  ok(calls.some((c) => c.path === '/contact' && decodeURIComponent(c.body).includes('out-of-area')), 'out-of-area lead still saved with out-of-area tag');
+  await q.fill('[data-bbb-lead-name]', 'Pat  Q  Bagel'); await q.fill('[data-bbb-lead-zip]', '11701'); await q.fill('[data-bbb-lead-email]', 'pat@example.com');
   await q.fill('[data-bbb-lead-phone]', '555-12');
-  await q.fill('[data-bbb-lead-zip]', '11701');
   await q.click('[data-bbb-lead-submit]');
-  ok((await q.textContent('[data-bbb-error="lead"]')).includes('10-digit'), 'bad phone number rejected');
-  calls.length = 0;
-  await q.fill('[data-bbb-lead-phone]', '(631) 555-0199');
-  await q.check('[data-bbb-lead-sms]');
-  await q.click('[data-bbb-lead-submit]');
-  await q.waitForSelector('[data-bbb-lead-ok]:not([hidden])');
-  ok((await q.textContent('[data-bbb-lead-ok-text]')).includes('we deliver to 11701'), 'green check: "we deliver to 11701"');
-  const post = new URLSearchParams(calls.find((c) => c.path === '/contact').body);
+  ok((await q.textContent('[data-bbb-error="lead"]')).includes('10-digit') && calls.length === 0, 'bad phone number rejected, nothing sent');
+  // Alaska: saved as out-of-area, back on the delivery check with the message
+  await q.fill('[data-bbb-lead-phone]', '');
+  await q.fill('[data-bbb-lead-zip]', '99501');
+  await Promise.all([q.waitForURL(/step=lead/), q.click('[data-bbb-lead-submit]')]);
+  await q.waitForLoadState('networkidle'); await q.waitForTimeout(200);
+  ok(lastPost().get('contact[tags]').includes('out-of-area') && !lastPost().has('contact[phone]'), 'out-of-area lead saved with out-of-area tag (no blank phone sent)');
+  ok((await qstep()) === 'lead' && (await q.textContent('[data-bbb-error="lead"]')).includes("can't ship to 99501"), 'Alaska ZIP: back on the delivery check with the out-of-area message');
+  ok(!new URL(q.url()).searchParams.has('bbb_lead'), 'helper params removed from the URL');
+  // Deliverable ZIP with phone + SMS opt-in
+  await q.fill('[data-bbb-lead-name]', 'Pat  Q  Bagel'); await q.fill('[data-bbb-lead-email]', 'pat@example.com');
+  await q.fill('[data-bbb-lead-zip]', '11701'); await q.fill('[data-bbb-lead-phone]', '(631) 555-0199'); await q.check('[data-bbb-lead-sms]');
+  await Promise.all([q.waitForURL(/step=2/), q.click('[data-bbb-lead-submit]')]);
+  await q.waitForLoadState('networkidle'); await q.waitForTimeout(200);
+  const post = lastPost();
   ok(post.get('form_type') === 'customer' && post.get('contact[email]') === 'pat@example.com', 'posts Shopify customer form with email');
   ok(post.get('contact[first_name]') === 'Pat' && post.get('contact[last_name]') === 'Q Bagel' && post.get('contact[phone]') === '+16315550199', 'name split, phone in E.164');
   ok(post.get('contact[tags]') === 'lead, lead-builder, zip-11701, sms-optin', 'tags: lead, source, zip, sms-optin');
-  await q.waitForFunction(() => document.querySelector('[data-bbb-builder]').dataset.step === '2', null, { timeout: 4000 });
-  ok(await q.isVisible('[data-bbb-view="2"]') && await q.isChecked('[data-bbb-option][value="subscription"]'), 'auto-continues to Subscribe & Save with choices kept');
-  await q.goBack(); await q.waitForTimeout(200);
-  ok((await qstep()) === '1', 'Back from page 2 skips the finished delivery check');
+  ok(/step=2/.test(post.get('return_to')) && /s=plain%2Cplain%2Cegg|s=plain,plain,egg/.test(post.get('return_to')) && /o=690001/.test(post.get('return_to')), 'return_to keeps the box and plan and points at page 2');
+  ok((await qstep()) === '2' && await q.isVisible('[data-bbb-view="2"]') && (await q.textContent('[data-bbb-progress]')).trim() === '3 of 3 sleeves selected', 'lands on Add-ons & Plan with the box intact');
+  ok(await q.isVisible('[data-bbb-lead-landed]') && (await q.textContent('[data-bbb-lead-landed]')).includes('we deliver to 11701'), 'green confirmation: "we deliver to 11701"');
+  ok(await q.isChecked('[data-bbb-option][value="subscription"]'), 'purchase choice kept');
+  ok(!new URL(q.url()).searchParams.has('bbb_lead') && !new URL(q.url()).searchParams.has('bbb_zip'), 'URL cleaned after landing');
+  await q.goto('http://test.local/index.html?s=plain,plain,egg'); await q.waitForLoadState('networkidle');
   await q.click(barNext);
   ok((await qstep()) === '2', 'returning visitor goes straight to page 2');
-  leadMode = 'fail';
+
+  console.log('13b. Shopify spam check (captcha) submits the form natively');
   const ctx3 = await b.newContext({ viewport: { width: 390, height: 844 } });
   await ctx3.route('http://test.local/**', handler);
+  // Mimic Shopify's hCaptcha: block the submit, then call form.submit() (no submit event, full page POST)
+  await ctx3.addInitScript(() => {
+    document.addEventListener('submit', (e) => {
+      if (!e.target.matches('#BbbLeadForm')) return;
+      e.preventDefault(); window.__captcha = (window.__captcha || 0) + 1;
+      setTimeout(() => HTMLFormElement.prototype.submit.call(e.target), 150);
+    }, true);
+  });
   const q2 = await ctx3.newPage(); q2.on('pageerror', (e) => errors.push(e.message));
-  await q2.goto('http://test.local/index.html?s=plain,plain,egg'); await q2.waitForLoadState('networkidle');
+  await q2.goto('http://test.local/index.html?s=plain,everything,egg&o=once'); await q2.waitForLoadState('networkidle');
   await q2.click(barNext);
-  await q2.fill('[data-bbb-lead-name]', 'Sam'); await q2.fill('[data-bbb-lead-zip]', '10001'); await q2.fill('[data-bbb-lead-email]', 'sam@example.com');
+  calls.length = 0;
   await q2.click('[data-bbb-lead-submit]');
-  await q2.waitForFunction(() => document.querySelector('[data-bbb-builder]').dataset.step === '2', null, { timeout: 4000 });
-  ok(true, 'if saving the lead fails, the shopper still continues');
-  leadMode = 'ok';
+  ok((await q2.evaluate(() => window.__captcha || 0)) === 0 && calls.length === 0, 'invalid form never reaches the captcha');
+  await q2.fill('[data-bbb-lead-name]', 'Sam'); await q2.fill('[data-bbb-lead-zip]', '10001'); await q2.fill('[data-bbb-lead-email]', 'sam@example.com');
+  await Promise.all([q2.waitForURL(/step=2/, { timeout: 5000 }), q2.click('[data-bbb-lead-submit]')]);
+  await q2.waitForLoadState('networkidle'); await q2.waitForTimeout(200);
+  ok((await q2.getAttribute('[data-bbb-builder]', 'data-step')) === '2' && (await q2.textContent('[data-bbb-progress]')).trim() === '3 of 3 sleeves selected', 'after the captcha submit: Add-ons & Plan with the box intact');
+  ok(await q2.isChecked('[data-bbb-option][value="once"]'), 'one-time choice kept through the round trip');
+  ok(calls.filter((c) => c.path === '/contact').length === 1, 'lead posted exactly once');
 
   console.log('14. Free-minis landing (promo mode)');
   const r = await ctx.newPage(); r.on('pageerror', (e) => errors.push(e.message));

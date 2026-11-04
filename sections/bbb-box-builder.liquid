@@ -284,6 +284,8 @@
             <input type="hidden" name="contact[tags]" value="lead" data-bbb-lead-tags>
             <input type="hidden" name="contact[first_name]" data-bbb-lead-first>
             <input type="hidden" name="contact[last_name]" data-bbb-lead-last>
+            <input type="hidden" name="contact[phone]" data-bbb-lead-phone-field disabled>
+            <input type="hidden" name="return_to" data-bbb-lead-return>
             <div class="bbb-form__2col">
               <div class="bbb-form__row nybe-lead__zip">
                 <label class="bbb-form__label" for="BbbLead-zip">ZIP code <span aria-hidden="true">*</span></label>
@@ -336,6 +338,7 @@
         {%- unless b_banner -%}<h2 class="bbb-display bbb-display--l" tabindex="-1" data-bbb-focus="2">{{ section.settings.page2_heading | escape }}</h2>{%- endunless -%}
       </header>
 
+      <p class="nybe-lead-landed" data-bbb-lead-landed role="status" hidden>{% render 'bbb-icon', name: 'check-circle', size: 22, stroke: 2.5 %}<span data-bbb-lead-landed-text></span></p>
       <div class="bbb-p2">
         <div class="bbb-p2__main">
           <section class="bbb-card2" aria-labelledby="bbb-yourbox-{{ section.id }}">
@@ -584,6 +587,7 @@
         "lead": {
           "enabled": {{ lead_on | json }},
           "source": {{ section.settings.lead_source | default: 'builder' | handleize | json }},
+          "checking": "Checking…",
           "okText": "Good news — we deliver to [zip]!",
           "outText": "Sorry — we can't ship to [zip] yet. We ship to the lower 48 states and Washington, DC."
         },

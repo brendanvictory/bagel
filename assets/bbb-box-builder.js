@@ -448,10 +448,15 @@
     };
     const goOn = () => { showStep(2, { replace: true }); };
 
-    leadForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
+    // Shopify adds hCaptcha to customer forms and then submits them natively (full page load), so the lead is
+    // sent with a normal form POST whose return_to brings the shopper back to page 2 with their box (or back to
+    // this step with the out-of-area message). Validation runs first, in the capture phase, so Shopify's captcha
+    // never fires on bad input.
+    window.addEventListener('submit', (e) => {
+      if (e.target !== leadForm) return;
       hideErrors();
       leadForm.querySelectorAll('[aria-invalid]').forEach((i) => i.removeAttribute('aria-invalid'));
+      const stop = () => { e.preventDefault(); e.stopImmediatePropagation(); };
       const nameEl = f('[data-bbb-lead-name]');
       const emailEl = f('[data-bbb-lead-email]');
       const phoneEl = f('[data-bbb-lead-phone]');
@@ -465,10 +470,10 @@
       if (digits.length === 10) phone = `+1${digits}`;
       else if (digits.length === 11 && digits[0] === '1') phone = `+${digits}`;
 
-      if (!name) return fieldError(nameEl, 'Please enter your name.');
-      if (!zip) return fieldError(zipEl, 'Please enter a 5-digit ZIP code.');
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return fieldError(emailEl, 'Please enter a valid email address.');
-      if (digits && !phone) return fieldError(phoneEl, 'Please enter a 10-digit US phone number, or leave it blank.');
+      if (!name) { stop(); return fieldError(nameEl, 'Please enter your name.'); }
+      if (!zip) { stop(); return fieldError(zipEl, 'Please enter a 5-digit ZIP code.'); }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { stop(); return fieldError(emailEl, 'Please enter a valid email address.'); }
+      if (digits && !phone) { stop(); return fieldError(phoneEl, 'Please enter a 10-digit US phone number, or leave it blank.'); }
 
       const ok = zipDeliverable(zip);
       const parts = name.split(' ');
@@ -478,39 +483,59 @@
       if (smsEl && smsEl.checked && phone) tags.push('sms-optin');
       if (!ok) tags.push('out-of-area');
       f('[data-bbb-lead-tags]').value = tags.join(', ');
+      const phoneField = f('[data-bbb-lead-phone-field]');
+      if (phoneField) { phoneField.value = phone; phoneField.disabled = !phone; }
 
-      const btn = f('[data-bbb-lead-submit]');
-      btn.disabled = true; btn.setAttribute('aria-busy', 'true');
-      const body = new URLSearchParams(new FormData(leadForm));
-      if (phone) body.set('contact[phone]', phone);
-      let saved = false;
-      try {
-        const res = await fetch(leadForm.action, { method: 'POST', body, headers: { Accept: 'text/html', 'Content-Type': 'application/x-www-form-urlencoded' }, credentials: 'same-origin' });
-        saved = res.ok && /customer_posted=true/.test(res.url);
-        if (!saved && phone && res.ok && !/challenge/.test(res.url)) {
-          // Shopify rejected the phone (e.g. already on another customer) — save the lead without it.
-          body.delete('contact[phone]');
-          const res2 = await fetch(leadForm.action, { method: 'POST', body, headers: { Accept: 'text/html', 'Content-Type': 'application/x-www-form-urlencoded' }, credentials: 'same-origin' });
-          saved = res2.ok && /customer_posted=true/.test(res2.url);
-        }
-      } catch (err) { saved = false; }
-      btn.disabled = false; btn.removeAttribute('aria-busy');
-      document.dispatchEvent(new CustomEvent('bbb:lead', { detail: { deliverable: ok, saved, source: cfg.lead.source } }));
+      // Where Shopify sends the shopper after saving the lead
+      const back = buildUrl();
+      back.searchParams.set('step', ok ? '2' : 'lead');
+      back.searchParams.set('bbb_lead', ok ? 'ok' : 'out');
+      back.searchParams.set('bbb_zip', zip);
+      back.hash = '';
+      f('[data-bbb-lead-return]').value = back.pathname + back.search;
 
-      if (!ok) { showError('lead', fill(cfg.lead.outText, zip)); zipEl.setAttribute('aria-invalid', 'true'); zipEl.focus(); return; }
-
-      leadDoneThisVisit = true;
-      try { window.localStorage.setItem(LEAD_KEY, JSON.stringify({ zip, at: Date.now() })); } catch (err) { /* private mode */ }
-      leadForm.hidden = true;
-      if (okBox) {
-        okBox.hidden = false;
-        $('[data-bbb-lead-ok-text]', okBox).textContent = fill(cfg.lead.okText, zip);
-        okBox.focus({ preventScroll: true });
+      if (ok) {
+        try { window.localStorage.setItem(LEAD_KEY, JSON.stringify({ zip, at: Date.now() })); } catch (err) { /* private mode */ }
       }
-      const nav = $('[data-bbb-nav-lead]');
-      if (nav) nav.classList.add('is-done');
-      window.setTimeout(() => { if (state.step === 'lead') goOn(); }, 1400);
-    });
+      document.dispatchEvent(new CustomEvent('bbb:lead', { detail: { deliverable: ok, source: cfg.lead.source } }));
+      const btn = f('[data-bbb-lead-submit]');
+      btn.setAttribute('aria-busy', 'true');
+      const lbl = btn.querySelector('span');
+      if (lbl) lbl.textContent = cfg.lead.checking || 'Checking…';
+      // No preventDefault: Shopify (and its spam check) submits the form and redirects to return_to.
+    }, true);
+
+    // Back from Shopify after the lead was saved
+    const landed = (() => {
+      const q = new URL(window.location.href).searchParams;
+      const status = q.get('bbb_lead');
+      if (!status) return null;
+      const out = { status, zip: (q.get('bbb_zip') || '').replace(/\D/g, '').slice(0, 5) };
+      const clean = new URL(window.location.href);
+      ['bbb_lead', 'bbb_zip', 'customer_posted', 'contact_posted', 'form_type'].forEach((k) => clean.searchParams.delete(k));
+      clean.hash = '';
+      window.history.replaceState(window.history.state, '', clean);
+      return out;
+    })();
+    if (landed && landed.status === 'ok') {
+      leadDoneThisVisit = true;
+      try { window.localStorage.setItem(LEAD_KEY, JSON.stringify({ zip: landed.zip, at: Date.now() })); } catch (err) { /* private mode */ }
+      window.setTimeout(() => {
+        const note = $('[data-bbb-lead-landed]');
+        if (note) {
+          $('[data-bbb-lead-landed-text]', note).textContent = fill(cfg.lead.okText, landed.zip);
+          note.hidden = false;
+        }
+        const nav = $('[data-bbb-nav-lead]');
+        if (nav) nav.classList.add('is-done');
+      }, 0);
+    } else if (landed && landed.status === 'out') {
+      window.setTimeout(() => {
+        showError('lead', fill(cfg.lead.outText, landed.zip));
+        const zipEl = f('[data-bbb-lead-zip]');
+        if (zipEl) { zipEl.value = landed.zip; zipEl.setAttribute('aria-invalid', 'true'); }
+      }, 0);
+    }
     root.addEventListener('click', (e) => { if (e.target.closest('[data-bbb-lead-continue]')) goOn(); });
   }
 
