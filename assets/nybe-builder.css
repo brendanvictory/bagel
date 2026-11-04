@@ -189,7 +189,7 @@
 .bbb-option input:checked + .bbb-option__radio::after { background: #f47b20; }
 .bbb-option__name { color: var(--bbb-ink); font-size: 1.7rem; }
 .nybe-option__note { display: block; flex-basis: 100%; font-size: 1.4rem; font-weight: 400; color: var(--bbb-muted); }
-.bbb-option__badge { background: #cfe5f8; color: var(--bbb-ink); }
+.bbb-option__badge { background: #f47b20; color: #fff; }
 .bbb-option__price { color: var(--bbb-ink); font-size: 1.9rem; }
 .bbb-option__freq, .bbb-option__note { color: var(--bbb-ink); }
 
