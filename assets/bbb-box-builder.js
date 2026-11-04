@@ -458,6 +458,47 @@
   // ---------- lead form ----------
   const leadForm = root.querySelector('#BbbLeadForm');
   if (leadForm) {
+    // Input masks: ZIP = digits only (max 5); phone = digits only, shown as (516) 888-7633.
+    // The caret stays after the same digit while typing or deleting in the middle.
+    const keepCaret = (el, formatted, digitsBefore) => {
+      el.value = formatted;
+      if (document.activeElement !== el) return;
+      let pos = 0, seen = 0;
+      while (pos < formatted.length && seen < digitsBefore) { if (/\d/.test(formatted[pos])) seen++; pos++; }
+      try { el.setSelectionRange(pos, pos); } catch (err) { /* type=tel supports it; ignore otherwise */ }
+    };
+    const fmtPhone = (d) => {
+      if (!d) return '';
+      if (d.length < 4) return `(${d}`;
+      if (d.length < 7) return `(${d.slice(0, 3)}) ${d.slice(3)}`;
+      return `(${d.slice(0, 3)}) ${d.slice(3, 6)}-${d.slice(6, 10)}`;
+    };
+    const zipIn = leadForm.querySelector('[data-bbb-lead-zip]');
+    if (zipIn) {
+      zipIn.setAttribute('maxlength', '5');
+      zipIn.setAttribute('pattern', '[0-9]{5}');
+      zipIn.addEventListener('input', () => {
+        const before = zipIn.value.slice(0, zipIn.selectionStart || 0).replace(/\D/g, '').length;
+        keepCaret(zipIn, zipIn.value.replace(/\D/g, '').slice(0, 5), before);
+      });
+    }
+    const phoneIn = leadForm.querySelector('[data-bbb-lead-phone]');
+    if (phoneIn) {
+      phoneIn.setAttribute('placeholder', phoneIn.getAttribute('placeholder') || '(555) 555-5555');
+      phoneIn.addEventListener('input', (e) => {
+        let d = phoneIn.value.replace(/\D/g, '');
+        let before = phoneIn.value.slice(0, phoneIn.selectionStart || 0).replace(/\D/g, '').length;
+        if (d.length === 11 && d[0] === '1') { d = d.slice(1); before = Math.max(0, before - 1); } // pasted +1 number
+        d = d.slice(0, 10);
+        // Backspace right after a ')' / '-' / space removes the digit before it instead of doing nothing
+        if (e.inputType === 'deleteContentBackward' && fmtPhone(d) === phoneIn.dataset.nybeLast && before > 0) {
+          d = d.slice(0, before - 1) + d.slice(before); before -= 1;
+        }
+        const out = fmtPhone(d);
+        keepCaret(phoneIn, out, before);
+        phoneIn.dataset.nybeLast = out;
+      });
+    }
     const f = (sel) => leadForm.querySelector(sel);
     const okBox = $('[data-bbb-lead-ok]');
     const fill = (tpl, zip) => String(tpl || '').replace('[zip]', zip);
