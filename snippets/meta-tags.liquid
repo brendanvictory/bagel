@@ -19,7 +19,26 @@
 <meta property="og:type" content="{{ og_type }}">
 <meta property="og:description" content="{{ og_description | escape }}">
 
-{%- if page_image -%}
+{%- comment -%}
+  Share image: products and blog articles use their own image; every other page (homepage, pages,
+  collections, cart…) uses the branded 1200×630 image bundled with the theme.
+{%- endcomment -%}
+{%- liquid
+  assign nybe_own_image = false
+  if request.page_type == 'product' or request.page_type == 'article'
+    if page_image
+      assign nybe_own_image = true
+    endif
+  endif
+-%}
+{%- if nybe_own_image == false -%}
+  <meta property="og:image" content="http:{{ 'nybe-share-1200x630.jpg' | asset_url }}">
+  <meta property="og:image:secure_url" content="https:{{ 'nybe-share-1200x630.jpg' | asset_url }}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="{{ shop.name | escape }}: authentic New York bagels, delivered nationwide">
+  <meta name="twitter:image" content="https:{{ 'nybe-share-1200x630.jpg' | asset_url }}">
+{%- else -%}
   <meta property="og:image" content="http:{{ page_image | image_url }}">
   <meta property="og:image:secure_url" content="https:{{ page_image | image_url }}">
   <meta property="og:image:width" content="{{ page_image.width }}">
