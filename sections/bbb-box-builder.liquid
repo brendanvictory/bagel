@@ -606,7 +606,6 @@
             if (window.ResizeObserver) new ResizeObserver(fit).observe(el);
           })();
         </script>
-      </div>
           {%- assign p2b = section.blocks | where: 'type', 'p2_benefit' -%}
           {%- if p2b.size > 0 -%}
             <ul class="bbb-card2 nybe-perks nybe-perks--wide" role="list">
@@ -618,6 +617,7 @@
               {%- endfor -%}
             </ul>
           {%- endif -%}
+      </div>
     </div>
 
     {%- comment -%} Mobile bottom bar — page 1: progress + Next (no price); page 2: total + Checkout {%- endcomment -%}

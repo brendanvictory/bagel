@@ -417,8 +417,11 @@
 /* Page 2 benefits: full width under the plan/summary; 3 columns from desktop */
 .nybe-perks--wide { margin-top: var(--bbb-space-3, 2.4rem); }
 @media screen and (min-width: 990px) {
-  .nybe-perks--wide { grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 1.2rem 2.4rem; }
-  .nybe-perks--wide .nybe-perks__item { padding: 1.4rem 2.4rem; }
+  /* Desktop: sits in the left column right under Delivery plan (same width); the sidebar spans both rows */
+  .bbb-p2 > .nybe-perks--wide { grid-column: 1; margin-top: 0; }
+  .bbb-p2 > .bbb-p2__side { grid-column: 2; grid-row: 1 / span 2; }
+  .nybe-perks--wide { grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 1.2rem 2rem; }
+  .nybe-perks--wide .nybe-perks__item { padding: 1.4rem 1.6rem; grid-template-columns: minmax(0, 1fr); justify-items: start; gap: 1rem; }
   .nybe-perks--wide .nybe-perks__item + .nybe-perks__item { border-top: 0; border-left: 0.1rem solid var(--bbb-line); }
   .nybe-perks--wide .nybe-perks__item:first-child { padding-left: 0; }
 }
