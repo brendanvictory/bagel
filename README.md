@@ -4,15 +4,15 @@ Online Store 2.0 theme for Bad Boy Bagel Co., built on Shopify Dawn 16.0.0.
 Store: `bagelboys.myshopify.com` (domain nybagelexpress.com). Docs: `docs/IMPLEMENTATION_PLAN.md`, `docs/DECISIONS.md`, `docs/QA_CHECKLIST.md`.
 
 ## Branches & release flow
-- `staging` → theme **bagel/staging**. All changes are released here. The owner previews bagel/staging and clicks **Publish** in Shopify to put it live.
-- `dev` → theme **bagel/dev**. As of 2026-11-04 bagel/dev is the **published** theme, so do not push to `dev`; collaborator work that lands there is merged into `staging` with each release so publishing bagel/staging never drops it.
+- `dev` → theme **bagel/dev** = the **published (live)** theme at nybagelexpress.com.
+- `staging` → theme **bagel/staging** = preview theme.
+- Every change: push to `staging`, then merge `staging` → `dev` (goes live within a minute or two). No Publish click in Shopify (that would swap which theme is live).
 - `main` — planning docs / release snapshots.
-- Theme Editor saves are committed by Shopify to the branch of the theme that was edited ("Update from Shopify…"); fetch and merge both branches before every release. `config/settings_data.json` is per theme, so theme settings (logo, colors, social links) must be set in the theme that will be published.
+- Theme Editor saves are committed by Shopify to the branch of the theme that was edited ("Update from Shopify…"); fetch and merge both branches before every release. `config/settings_data.json` is per theme, so keep theme settings (logo, colors, social links) identical in both.
 
 ## Preview
-1. Shopify admin → Online Store → Themes → **bagel/staging** → **⋯ → Preview** for a shareable preview link, or **Edit theme** for the Theme Editor.
-2. When it looks right: **Publish** on bagel/staging.
-3. Local alternative (on a machine that can reach Shopify): `npm i -g @shopify/cli` then `shopify theme dev --store bagelboys.myshopify.com`.
+1. Shopify admin → Online Store → Themes → **bagel/staging** → **⋯ → Preview** (preview link) or **Edit theme**.
+2. Local alternative (on a machine that can reach Shopify): `npm i -g @shopify/cli` then `shopify theme dev --store bagelboys.myshopify.com`.
 
 ## Checks
 - `shopify theme check` — runs offline; must show 0 errors.
