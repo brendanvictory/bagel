@@ -11,25 +11,31 @@
   "sections": {
     "builder": {
       "type": "bbb-box-builder",
-      "settings": {
-        "lead_enabled": true,
-        "eyebrow": "Build your box",
-        "heading": "Pick your [sleeves] sleeves",
-        "subheading": "Each sleeve holds [per_sleeve] bagels of one flavor. Choose up to [sleeves] flavors ([total] bagels total).",
-        "nav2": "Add-ons & Plan",
-        "nav1": "Pick Flavors",
-        "page2_heading": "Add-ons & Plan",
-        "yourbox_title": "Your dozen",
-        "step2_title": "Add-ons",
-        "step2_hint": "Make your box even better with these fan favorites.",
-        "step3_title": "Delivery plan",
-        "back_label": "Edit flavors",
-        "next_label": "Next: Add-ons & Pricing",
-        "add_label": "Checkout",
-        "tray_hint": "Each sleeve holds [per_sleeve] bagels of one flavor. Choose up to [sleeves] flavors for your box ([total] bagels total).",
-        "lead_source": "builder"
-      },
       "blocks": {
+        "review_wRxNUH": {
+          "type": "review",
+          "settings": {
+            "quote": "Everything about these bagels is fantastic. Great texture, amazing flavor, and so many options to choose from. My family loved them, and the delivery made everything super convenient. Already planning my next box!",
+            "name": "Jennifer L.",
+            "rating": 5
+          }
+        },
+        "review_xrfc4V": {
+          "type": "review",
+          "settings": {
+            "quote": "I grew up in New York and have struggled to find bagels that taste like home. These brought back so many memories. They arrived fresh, were easy to freeze, and tasted amazing toasted. Highly recommend!",
+            "name": "Michael R.",
+            "rating": 5
+          }
+        },
+        "review_8H3m8p": {
+          "type": "review",
+          "settings": {
+            "quote": "These are exactly what I've been missing! Fresh, chewy, full of flavor, and absolutely delicious. The Everything and Sesame bagels are incredible. I'll definitely be ordering again!",
+            "name": "Sarah M.",
+            "rating": 5
+          }
+        },
         "banner": {
           "type": "banner",
           "settings": {}
@@ -101,6 +107,9 @@
         }
       },
       "block_order": [
+        "review_wRxNUH",
+        "review_xrfc4V",
+        "review_8H3m8p",
         "banner",
         "copy",
         "fhead",
@@ -110,7 +119,49 @@
         "b_ship",
         "b_flex",
         "b_sat"
-      ]
+      ],
+      "settings": {
+        "product": "",
+        "heading_tag": "h1",
+        "anchor": "build",
+        "nav1": "Pick Flavors",
+        "nav2": "Add-ons & Plan",
+        "eyebrow": "Build your box",
+        "heading": "Pick your [sleeves] sleeves",
+        "subheading": "Each sleeve holds [per_sleeve] bagels of one flavor. Choose up to [sleeves] flavors ([total] bagels total).",
+        "tray_hint": "Each sleeve holds [per_sleeve] bagels of one flavor. Choose up to [sleeves] flavors for your box ([total] bagels total).",
+        "progress_label": "[n] of [total] sleeves selected",
+        "next_label": "Next: Add-ons & Pricing",
+        "bar_next_label": "Next",
+        "error_need_more": "Pick [remaining] more sleeve(s) to fill your box.",
+        "lead_enabled": true,
+        "lead_source": "builder",
+        "lead_heading": "Let's make sure we deliver to your ZIP code",
+        "lead_text": "Enter your ZIP to check delivery, and we'll save your box so you can pick up where you left off.",
+        "lead_button": "Check delivery",
+        "lead_sms_text": "Text me offers and updates from New York Bagel Express. Msg & data rates may apply. Reply STOP to opt out. Not required to buy.",
+        "lead_disclosure": "<p>By continuing you agree to get emails from New York Bagel Express about your box and offers. Unsubscribe anytime. <a href=\"/policies/privacy-policy\">Privacy policy</a>.</p>",
+        "promo_product": "",
+        "promo_code": "",
+        "promo_note": "Ships with your first box.",
+        "back_label": "Edit flavors",
+        "page2_heading": "Add-ons & Plan",
+        "yourbox_title": "Your dozen",
+        "step2_title": "Add-ons",
+        "step2_hint": "Make your box even better with these fan favorites.",
+        "step3_title": "Delivery plan",
+        "sub_label": "Subscribe and Save",
+        "sub_note": "Cancel, pause and adjust anytime.",
+        "once_label": "One-time purchase",
+        "default_option": "none",
+        "error_choose_option": "Choose Subscribe and Save or a one-time purchase.",
+        "shipping_note": "Free fast & reliable delivery included.",
+        "add_label": "Checkout",
+        "bar_label": "Checkout",
+        "after_add": "checkout",
+        "disclosure": "<p>Renews automatically [frequency] at [price] (shipping included) until you cancel. Cancel anytime in your account before your next renewal. <a href=\"/policies/terms-of-service\">Subscription terms</a>.</p>",
+        "color_scheme": ""
+      }
     },
     "faq": {
       "type": "bbb-faq",
@@ -144,10 +195,12 @@
       ],
       "settings": {
         "heading": "Good to know",
-        "schema": false,
         "layout": "strip",
         "show_bridge": true,
-        "color_scheme": "scheme-2"
+        "schema": false,
+        "color_scheme": "scheme-2",
+        "padding_top": 48,
+        "padding_bottom": 48
       }
     }
   },
