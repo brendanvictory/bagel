@@ -44,7 +44,8 @@
     document.addEventListener('bbb:builder-lead', onCustomized);
     /* Box builder ZIP / email step saved a lead */
     document.addEventListener('bbb:lead', function (e) {
-      if (e.detail && e.detail.saved) window.nybeTrack('nybe_lead', { source: 'builder-' + (e.detail.source || 'zip') });
+      var d = e.detail || {};
+      if (d.saved) window.nybeTrack('nybe_lead', { source: 'builder-' + (d.source || 'zip'), deliverable: !!d.deliverable }, d.key || null);
     });
   })();
 </script>
