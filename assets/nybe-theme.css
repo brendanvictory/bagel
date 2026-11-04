@@ -97,13 +97,12 @@ body { color: var(--nybe-navy); }
   .header__inline-menu .header__active-menu-item,
   .header__inline-menu .header__menu-item:hover span { text-decoration-color: var(--nybe-orange); }
 }
+/* Header search icon: hidden on every screen size (Dawn forces it visible in some layouts, hence !important) */
+.section-header .header__search, .header > .header__search, .header__icons .header__search, details-modal.header__search { display: none !important; }
 /* Mobile header: original layout (menu, logo, account, cart); only the search icon is removed */
 @media screen and (max-width: 989px) {
   .header { grid-template-areas: 'heading icons left-icons'; grid-template-columns: minmax(0, 1fr) auto auto; column-gap: 0.4rem; }
   .header__heading, .header__heading-link { justify-self: start; text-align: left; margin-left: 0; }
-  .header > .header__search, .header__icons .header__search, details-modal.header__search { display: none; }
-  /* Dawn forces search visible when customer accounts are on; hide it for good */
-  .section-header .header > .header__search, .section-header .header__icons .header__search { display: none !important; }
   .header .header__icon--account { display: flex; }
   .header__heading-logo { max-width: 15rem; height: auto; }
 }
