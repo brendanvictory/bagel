@@ -2,7 +2,7 @@
   Inline Lucide icons (https://lucide.dev, ISC License, © Lucide Contributors). Decorative by default.
   Usage: {% render 'bbb-icon', name: 'truck', size: 24, class: 'x' %}
   Names: search user cart menu x chevron-right chevron-down plus minus pencil truck package leaf map-pin
-         heart calendar star check check-circle smile arrow-right flame box wheat chef-hat clock shield bagel gift layers store timer users sliders award shopping-bag book-open circle-help mail house badge-check lock-keyhole shield-check credit-card
+         heart calendar star check check-circle smile arrow-right flame box wheat chef-hat clock shield bagel gift layers store timer users sliders award shopping-bag book-open circle-help mail house badge-check lock-keyhole shield-check credit-card quote
 {%- endcomment -%}
 {%- assign s = size | default: 24 -%}
 <svg class="bbb-icon{% if class %} {{ class }}{% endif %}" width="{{ s }}" height="{{ s }}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="{{ stroke | default: 2 }}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
@@ -50,6 +50,7 @@
     {%- when 'badge-check' -%}<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m16 9-5.5 5.5L8 12"/>
     {%- when 'lock-keyhole' -%}<circle cx="12" cy="16" r="1"/><rect x="3" y="10" width="18" height="12" rx="2"/><path d="M7 10V7a5 5 0 0 1 10 0v3"/>
     {%- when 'credit-card' -%}<rect width="20" height="14" x="2" y="5" rx="2"/><line x1="2" x2="22" y1="10" y2="10"/><path d="M6 14h2"/>
+    {%- when 'quote' -%}<path d="M16 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/><path d="M5 3a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2 1 1 0 0 1 1 1v1a2 2 0 0 1-2 2 1 1 0 0 0-1 1v2a1 1 0 0 0 1 1 6 6 0 0 0 6-6V5a2 2 0 0 0-2-2z"/>
     {%- else -%}<circle cx="12" cy="12" r="10"/>
   {%- endcase -%}
 </svg>

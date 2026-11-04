@@ -431,11 +431,20 @@
 .nybe-reviews__track { display: grid; min-height: 11rem; align-items: start; }
 .nybe-review { margin: 0; display: grid; gap: 1.2rem; animation: nybeReviewIn 0.4s ease; }
 .nybe-review[hidden] { display: none; }
-.nybe-review__text { margin: 0; padding: 0; border: 0; font-size: 1.55rem; line-height: 1.55; font-style: normal; color: var(--nybe-navy, #082d5c); }
+.nybe-review__top { display: flex; align-items: center; gap: 1.2rem; }
+.nybe-review__mark { display: grid; place-items: center; width: 4rem; height: 4rem; border-radius: 50%; background: #f47b201a; color: var(--nybe-orange, #f47b20); }
+.nybe-review__mark .bbb-icon { fill: currentColor; stroke: none; }
+.nybe-review__stars { color: #f39a1e; font-size: 2rem; letter-spacing: 0.08em; line-height: 1; }
+.nybe-review__title { margin: 0; font-family: var(--font-heading-family); font-size: 2rem; font-weight: 800; line-height: 1.25; color: var(--nybe-navy, #082d5c); letter-spacing: 0; }
+.nybe-review__text { margin: 0; padding: 0; border: 0; font-size: 1.55rem; line-height: 1.6; font-style: normal; color: var(--nybe-navy, #082d5c); }
 .nybe-review__text::before { content: '“'; } .nybe-review__text::after { content: '”'; }
-.nybe-review__by { display: flex; align-items: center; justify-content: space-between; gap: 1.2rem; flex-wrap: wrap; }
-.nybe-review__name { font-size: 1.4rem; font-weight: 800; color: var(--nybe-navy, #082d5c); }
-.nybe-review__stars { color: #f5a623; font-size: 1.6rem; letter-spacing: 0.15em; }
+.nybe-review__by { display: flex; align-items: center; gap: 1.4rem; margin-top: 0.4rem; }
+.nybe-review__avatar { flex: none; display: grid; place-items: center; width: 5.2rem; height: 5.2rem; border-radius: 50%; overflow: hidden; background: #fdf0e6; color: var(--nybe-orange, #f47b20); font-weight: 800; font-size: 2rem; box-shadow: 0 0 0 0.3rem #fff, 0 0.2rem 0.8rem rgba(8, 45, 92, 0.12); }
+.nybe-review__avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.nybe-review__who { display: grid; gap: 0.3rem; min-width: 0; }
+.nybe-review__name { font-size: 1.6rem; font-weight: 800; color: var(--nybe-navy, #082d5c); }
+.nybe-review__verified { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 1.35rem; color: var(--nybe-muted, #4a5a70); }
+.nybe-review__tick { display: grid; place-items: center; width: 1.8rem; height: 1.8rem; border-radius: 50%; background: var(--nybe-orange, #f47b20); color: #fff; }
 .nybe-reviews__nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
 .nybe-reviews__dots { display: flex; gap: 0.6rem; }
 .nybe-reviews__dot { width: 0.8rem; height: 0.8rem; padding: 0; border: 0; border-radius: 99rem; background: #e3d9c9; cursor: pointer; transition: width 0.25s ease, background 0.25s ease; }

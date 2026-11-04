@@ -483,23 +483,37 @@
           {%- if p2r.size > 0 or show_review_samples -%}
             {%- comment -%} Customer reviews: genuine, approved quotes only (Review blocks). With none, hidden on the storefront; the Theme Editor shows labelled samples. {%- endcomment -%}
             <section class="bbb-card2 nybe-reviews" aria-roledescription="carousel" aria-labelledby="nybe-reviews-title-{{ section.id }}" data-nybe-reviews>
-              <h3 class="bbb-card2__title" id="nybe-reviews-title-{{ section.id }}">{{ section.settings.reviews_heading | default: 'Join Our Happy Customers' | escape }}</h3>
+              <h3 class="bbb-card2__title" id="nybe-reviews-title-{{ section.id }}">{{ section.settings.reviews_heading | default: 'Loved by Bagel Lovers' | escape }}</h3>
               <div class="nybe-reviews__track" aria-live="polite">
                 {%- if show_review_samples -%}
                   {%- for i in (1..3) -%}
                     <figure class="nybe-review" data-nybe-review{% unless forloop.first %} hidden{% endunless %}>
-                      <blockquote class="nybe-review__text">SAMPLE — add a real customer review in this section (Add block → Review). Samples never show on the live store.</blockquote>
+                      <p class="nybe-review__title">Sample review title</p><blockquote class="nybe-review__text">SAMPLE — add a real customer review in this section (Add block → Review). Samples never show on the live store.</blockquote>
                       <figcaption class="nybe-review__by"><span class="nybe-review__name">Customer name</span><span class="nybe-review__stars" aria-label="5 out of 5 stars">★★★★★</span></figcaption>
                     </figure>
                   {%- endfor -%}
                 {%- else -%}
                   {%- for r in p2r -%}
+                    {%- assign rating = r.settings.rating | default: 5 -%}
                     <figure class="nybe-review" data-nybe-review {{ r.shopify_attributes }}{% unless forloop.first %} hidden{% endunless %}>
+                      <div class="nybe-review__top">
+                        <span class="nybe-review__mark" aria-hidden="true">{% render 'bbb-icon', name: 'quote', size: 18, stroke: 0 %}</span>
+                        <span class="nybe-review__stars" role="img" aria-label="{{ rating }} out of 5 stars">{%- for st in (1..5) -%}{% if st <= rating %}★{% else %}☆{% endif %}{%- endfor -%}</span>
+                      </div>
+                      {%- if r.settings.title != blank -%}<p class="nybe-review__title">{{ r.settings.title | escape }}</p>{%- endif -%}
                       <blockquote class="nybe-review__text">{{ r.settings.quote | escape }}</blockquote>
                       <figcaption class="nybe-review__by">
-                        <span class="nybe-review__name">{{ r.settings.name | escape }}</span>
-                        {%- assign rating = r.settings.rating | default: 5 -%}
-                        <span class="nybe-review__stars" aria-label="{{ rating }} out of 5 stars">{%- for st in (1..5) -%}{% if st <= rating %}★{% else %}☆{% endif %}{%- endfor -%}</span>
+                        <span class="nybe-review__avatar" aria-hidden="true">
+                          {%- if r.settings.photo != blank -%}
+                            {{ r.settings.photo | image_url: width: 120 | image_tag: width: 52, height: 52, loading: 'lazy', alt: '' }}
+                          {%- else -%}
+                            {{ r.settings.name | default: '?' | slice: 0 | upcase | escape }}
+                          {%- endif -%}
+                        </span>
+                        <span class="nybe-review__who">
+                          <span class="nybe-review__name">{{ r.settings.name | escape }}</span>
+                          {%- if r.settings.verified -%}<span class="nybe-review__verified"><span class="nybe-review__tick" aria-hidden="true">{% render 'bbb-icon', name: 'check', size: 11, stroke: 3.5 %}</span>Verified Customer</span>{%- endif -%}
+                        </span>
                       </figcaption>
                     </figure>
                   {%- endfor -%}
@@ -790,7 +804,7 @@
     },
     { "type": "text", "id": "error_choose_option", "label": "Error: no purchase option", "default": "Choose Subscribe and Save or a one-time purchase." },
     { "type": "text", "id": "shipping_note", "label": "Shipping note", "default": "Free fast & reliable delivery included." },
-    { "type": "text", "id": "reviews_heading", "label": "Reviews heading (page 2)", "default": "Join Our Happy Customers" },
+    { "type": "text", "id": "reviews_heading", "label": "Reviews heading (page 2)", "default": "Loved by Bagel Lovers" },
     { "type": "text", "id": "add_label", "label": "Checkout button", "default": "Checkout" },
     { "type": "text", "id": "bar_label", "label": "Mobile bar checkout button", "default": "Checkout" },
     {
@@ -853,9 +867,12 @@
     {
       "type": "review", "name": "Review (page 2)", "limit": 10,
       "settings": [
+        { "type": "text", "id": "title", "label": "Title (optional)", "info": "e.g. the customer's own headline." },
         { "type": "textarea", "id": "quote", "label": "Review", "info": "Real customer words only, with their permission." },
         { "type": "text", "id": "name", "label": "Name (e.g., first name + initial)" },
-        { "type": "range", "id": "rating", "label": "Stars", "min": 1, "max": 5, "step": 1, "default": 5 }
+        { "type": "range", "id": "rating", "label": "Stars", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "image_picker", "id": "photo", "label": "Photo (optional)", "info": "Only with the customer's permission. Initials show when empty." },
+        { "type": "checkbox", "id": "verified", "label": "Show \"Verified Customer\"", "default": false, "info": "Tick only if this person really ordered from you." }
       ]
     },
     {
