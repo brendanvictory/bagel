@@ -117,7 +117,11 @@
         {%- if lead_on -%}
           <div class="nybe-banner__copy nybe-banner__copy--lead">
             {%- if section.settings.eyebrow != blank -%}<p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
-            <h2 class="bbb-display nybe-banner__title" tabindex="-1" data-bbb-focus="lead">{{ section.settings.lead_heading | escape }}</h2>
+            {%- comment -%} Keep the last two words together ("ZIP code") so they never split across lines {%- endcomment -%}
+            {%- assign lead_words = section.settings.lead_heading | escape | split: ' ' -%}
+            <h2 class="bbb-display nybe-banner__title" tabindex="-1" data-bbb-focus="lead">
+              {%- for w in lead_words -%}{{ w }}{% unless forloop.last %}{% if forloop.rindex == 2 %}&nbsp;{% else %} {% endif %}{% endunless %}{%- endfor -%}
+            </h2>
             {%- if section.settings.lead_text != blank -%}<p class="nybe-banner__sub">{{ section.settings.lead_text | escape }}</p>{%- endif -%}
           </div>
         {%- endif -%}
