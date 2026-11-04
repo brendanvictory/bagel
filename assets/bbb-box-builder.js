@@ -84,6 +84,11 @@
   let leadDoneThisVisit = false;
   const needLead = () => !!(cfg.lead && cfg.lead.enabled && $('[data-bbb-view="lead"]')) && !state.editBoxId && !leadPass;
   const LEAD_PENDING = 'bbb:lead-pending';
+  // Shopify saved the lead (we're back from its form post): tell the tracking bridge once per submission
+  let leadLanded = null;
+  const leadSavedEvent = (ok, zip, key) => document.dispatchEvent(new CustomEvent('bbb:lead', {
+    detail: { saved: true, deliverable: !!ok, zip: zip || '', source: (cfg.lead && cfg.lead.source) || 'builder', key: `builder:${key || zip || Date.now()}` },
+  }));
   // Lower 48 + DC only: reject AK, HI, PR/VI, Guam & Pacific territories, APO/FPO, unassigned 000–004.
   const zipDeliverable = (zip) => {
     const p = Number(zip.slice(0, 3));
@@ -600,6 +605,7 @@
       window.history.replaceState(window.history.state, '', clean);
       return out;
     })();
+    leadLanded = landed;
     if (landed && landed.status === 'ok') {
       leadDoneThisVisit = true;
       leadPass = true;
@@ -716,6 +722,8 @@
   // Coming back from Shopify after the delivery check was submitted: restore the box and continue
   let leadPending = null;
   try { leadPending = JSON.parse(window.sessionStorage.getItem(LEAD_PENDING) || 'null'); window.sessionStorage.removeItem(LEAD_PENDING); } catch (err) { leadPending = null; }
+  if (leadPending && Date.now() - (leadPending.at || 0) < 30 * 60 * 1000) leadSavedEvent(leadPending.ok, leadPending.zip, leadPending.at);
+  else if (leadLanded) leadSavedEvent(leadLanded.status === 'ok', leadLanded.zip, leadLanded.zip);
   if (leadPending && Date.now() - (leadPending.at || 0) < 30 * 60 * 1000) {
     if (!state.sleeves.length || state.sleeves.length < cfg.sleeves) { state.sleeves = []; state.addons = new Set(); restoreSession(); mergeSessionChoices(); }
     if (leadPending.ok) { leadPass = true; startStep = 2; }
