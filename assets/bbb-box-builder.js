@@ -77,9 +77,13 @@
 
   // ---------- lead step ----------
   const LEAD_KEY = 'bbb_lead_v1';
-  const leadStored = () => { try { return !!window.localStorage.getItem(LEAD_KEY); } catch (e) { return false; } };
+  const leadSaved = () => { try { return JSON.parse(window.localStorage.getItem(LEAD_KEY) || 'null'); } catch (e) { return null; } };
+  // The delivery check is shown every time (pre-filled once completed). leadPass lets the shopper through to
+  // page 2 for this trip only; going back to page 1 resets it.
+  let leadPass = false;
   let leadDoneThisVisit = false;
-  const needLead = () => !!(cfg.lead && cfg.lead.enabled && $('[data-bbb-view="lead"]')) && !state.editBoxId && !leadDoneThisVisit && !leadStored();
+  const needLead = () => !!(cfg.lead && cfg.lead.enabled && $('[data-bbb-view="lead"]')) && !state.editBoxId && !leadPass;
+  const LEAD_PENDING = 'bbb:lead-pending';
   // Lower 48 + DC only: reject AK, HI, PR/VI, Guam & Pacific territories, APO/FPO, unassigned 000–004.
   const zipDeliverable = (zip) => {
     const p = Number(zip.slice(0, 3));
@@ -271,6 +275,7 @@
   const ORDER = ['1', 'lead', '2'];
   const showStep = (step, { push = true, focus = true, replace = false } = {}) => {
     if (step !== 1 && !isFull()) step = 1;
+    if (step === 1) leadPass = false;
     if (step === 2 && needLead()) step = 'lead';
     if (step === 'lead' && !needLead()) step = isFull() ? 2 : 1;
     state.step = step;
@@ -337,6 +342,7 @@
     // Back to a step-1 URL: keep the picks saved for this tab
     if (!new URL(window.location.href).searchParams.has('s') || preferSession()) { state.sleeves = []; state.addons = new Set(); restoreSession(); step = 1; }
     else mergeSessionChoices();
+    if (step === 2 && leadSaved()) leadPass = true; // browser Forward onto page 2 after the check
     $$('[data-bbb-addon]').forEach((cb) => (cb.checked = state.addons.has(cb.value)));
     renderPage1(); renderPage2();
     showStep(step, { push: false });
@@ -506,7 +512,15 @@
       showError('lead', msg);
       if (input) { input.setAttribute('aria-invalid', 'true'); input.focus(); }
     };
-    const goOn = () => { showStep(2, { replace: true }); };
+    const goOn = () => { leadPass = true; showStep(2, { replace: true }); };
+    // Pre-fill the delivery check with what this shopper entered last time
+    (() => {
+      const d = leadSaved();
+      if (!d) return;
+      const set = (sel, v) => { const el = f(sel); if (el && !el.value && v) { el.value = v; el.dispatchEvent(new Event('input', { bubbles: true })); } };
+      set('[data-bbb-lead-zip]', d.zip); set('[data-bbb-lead-name]', d.name); set('[data-bbb-lead-email]', d.email); set('[data-bbb-lead-phone]', d.phone);
+      const sms = f('[data-bbb-lead-sms]'); if (sms && d.sms) sms.checked = true;
+    })();
 
     // Shopify adds hCaptcha to customer forms and then submits them natively (full page load), so the lead is
     // sent with a normal form POST whose return_to brings the shopper back to page 2 with their box (or back to
@@ -536,6 +550,11 @@
       if (digits && !phone) { stop(); return fieldError(phoneEl, 'Please enter a 10-digit US phone number, or leave it blank.'); }
 
       const ok = zipDeliverable(zip);
+      // Already checked with exactly these details: continue without re-submitting (no page reload)
+      const saved = leadSaved();
+      if (ok && saved && saved.zip === zip && (saved.email || '') === email && (saved.name || '') === name && (saved.phone || '') === digits) {
+        stop(); goOn(); return;
+      }
       const parts = name.split(' ');
       f('[data-bbb-lead-first]').value = parts.shift();
       f('[data-bbb-lead-last]').value = parts.join(' ');
@@ -555,8 +574,12 @@
       f('[data-bbb-lead-return]').value = back.pathname + back.search;
 
       if (ok) {
-        try { window.localStorage.setItem(LEAD_KEY, JSON.stringify({ zip, at: Date.now() })); } catch (err) { /* private mode */ }
+        try { window.localStorage.setItem(LEAD_KEY, JSON.stringify({ zip, name, email, phone: digits, sms: !!(smsEl && smsEl.checked), at: Date.now() })); } catch (err) { /* private mode */ }
       }
+      // Shopify reloads the page after saving (sometimes via its spam check); remember the box and the outcome
+      // in this tab so the builder can pick up where the shopper was, whatever URL Shopify lands on.
+      saveSession();
+      try { window.sessionStorage.setItem(LEAD_PENDING, JSON.stringify({ ok, zip, at: Date.now() })); } catch (err) { /* private mode */ }
       document.dispatchEvent(new CustomEvent('bbb:lead', { detail: { deliverable: ok, source: cfg.lead.source } }));
       const btn = f('[data-bbb-lead-submit]');
       btn.setAttribute('aria-busy', 'true');
@@ -579,7 +602,8 @@
     })();
     if (landed && landed.status === 'ok') {
       leadDoneThisVisit = true;
-      try { window.localStorage.setItem(LEAD_KEY, JSON.stringify({ zip: landed.zip, at: Date.now() })); } catch (err) { /* private mode */ }
+      leadPass = true;
+      if (!leadSaved()) { try { window.localStorage.setItem(LEAD_KEY, JSON.stringify({ zip: landed.zip, at: Date.now() })); } catch (err) { /* private mode */ } }
       window.setTimeout(() => {
         const note = $('[data-bbb-lead-landed]');
         if (note) {
@@ -689,6 +713,19 @@
   // No box in the URL (e.g. a refresh on step 1): pick up this tab's saved picks instead
   if (isReturnVisit && (!new URL(window.location.href).searchParams.has('s') || preferSession())) { state.sleeves = []; state.addons = new Set(); restoreSession(); startStep = 1; }
   else if (isReturnVisit) mergeSessionChoices();
+  // Coming back from Shopify after the delivery check was submitted: restore the box and continue
+  let leadPending = null;
+  try { leadPending = JSON.parse(window.sessionStorage.getItem(LEAD_PENDING) || 'null'); window.sessionStorage.removeItem(LEAD_PENDING); } catch (err) { leadPending = null; }
+  if (leadPending && Date.now() - (leadPending.at || 0) < 30 * 60 * 1000) {
+    if (!state.sleeves.length || state.sleeves.length < cfg.sleeves) { state.sleeves = []; state.addons = new Set(); restoreSession(); mergeSessionChoices(); }
+    if (leadPending.ok) { leadPass = true; startStep = 2; }
+    else {
+      startStep = 'lead';
+      window.setTimeout(() => showError('lead', String((cfg.lead && cfg.lead.outText) || '').replace('[zip]', leadPending.zip || '')), 0);
+    }
+  } else if (startStep === 2 && leadSaved()) {
+    leadPass = true; // refresh on page 2 after the check
+  }
   if (!state.option && checked) state.option = checked.value;
   if (state.option === 'subscription' && !state.planId) { const sel = $('[data-bbb-plan]'); state.planId = sel ? sel.value : null; }
   $$('[data-bbb-addon]').forEach((cb) => (cb.checked = state.addons.has(cb.value)));
