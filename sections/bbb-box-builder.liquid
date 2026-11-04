@@ -437,7 +437,7 @@
                       </select>
                     {%- else -%}
                       <input type="hidden" value="{{ best_alloc.selling_plan.id }}" data-bbb-plan>
-                      <p class="bbb-option__freq">{{ best_alloc.selling_plan.options | map: 'value' | join: ' / ' | default: best_alloc.selling_plan.name | escape }}</p>
+                      <p class="bbb-option__freq">{% render 'bbb-icon', name: 'calendar', size: 18, stroke: 2.25, class: 'bbb-option__freq-icon' %}<span>{{ best_alloc.selling_plan.options | map: 'value' | join: ' / ' | default: best_alloc.selling_plan.name | escape }}</span></p>
                     {%- endif -%}
                     {%- if section.settings.sub_note != blank -%}<p class="bbb-option__note">{{ section.settings.sub_note | escape }}</p>{%- endif -%}
                   </div>

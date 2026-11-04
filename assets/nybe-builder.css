@@ -192,6 +192,8 @@
 .bbb-option__badge { background: #f47b20; color: #fff; }
 .bbb-option__price { color: var(--bbb-ink); font-size: 1.9rem; }
 .bbb-option__freq, .bbb-option__note { color: var(--bbb-ink); }
+.bbb-option__freq { display: flex; align-items: center; gap: 0.8rem; }
+.bbb-option__freq-icon { flex: none; width: 1.8rem; height: 1.8rem; color: var(--nybe-orange, #f47b20); }
 
 /* Order summary */
 .bbb-totals { font-size: 1.55rem; }
