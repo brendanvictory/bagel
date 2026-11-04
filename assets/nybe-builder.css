@@ -374,3 +374,6 @@
 .bbb-lead__tick svg { width: 7.2rem; height: 7.2rem; }
 .bbb-lead__ok-title { font-size: 2.4rem; font-weight: 900; color: var(--bbb-ink); }
 .bbb-lead__ok .button { min-height: 5.6rem; min-width: 22rem; border-radius: 999px; font-size: 1.7rem; display: inline-flex; align-items: center; justify-content: center; }
+/* longer delivery-check heading: slightly smaller so it stays 2–3 lines */
+.nybe-banner__copy--lead .nybe-banner__title { font-size: clamp(2.8rem, 4.4vw, 4.8rem); }
+@media screen and (min-width: 750px) { .nybe-banner__copy--lead { max-width: 64rem; } }
