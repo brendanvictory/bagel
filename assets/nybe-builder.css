@@ -197,10 +197,12 @@
 .bbb-totals { font-size: 1.55rem; }
 .bbb-totals dt { color: var(--bbb-ink); }
 .bbb-totals dd { color: var(--bbb-ink); }
-.bbb-totals__total { margin: 0.4rem 0 0; padding: 1.4rem 1.6rem; border: 0; border-radius: 1.4rem 1.4rem 0 0; background: #fff6e8; font-size: 2rem; font-weight: 800; color: var(--bbb-ink); }
+.bbb-totals__total { margin: 0.4rem 0 0; padding: 1.4rem 1.6rem; border: 0; border-radius: 1.4rem; background: #fff6e8; font-size: 2rem; font-weight: 800; color: var(--bbb-ink); }
 .bbb-totals__total strong { color: #c9420c; font-size: 3rem; }
 .nybe-saving { margin: -1.4rem 0 0; padding: 0 1.6rem 1.4rem; border-radius: 0 0 1.4rem 1.4rem; background: #fff6e8; display: flex; justify-content: center; align-items: center; gap: 0.6rem; font-size: 1.45rem; font-weight: 700; color: #1e7b34; }
 .nybe-saving[hidden] { display: none; }
+/* Square bottom only when the savings line sits under the total (Subscribe & Save) */
+.bbb-totals__total:has(+ .nybe-saving:not([hidden])) { border-radius: 1.4rem 1.4rem 0 0; }
 .bbb-totals__ship { color: #1e7b34; }
 
 /* Perks card under the summary */
