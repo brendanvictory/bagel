@@ -286,6 +286,10 @@
     {{ 'bbb-sections.css' | asset_url | stylesheet_tag }}
     {{ 'nybe-theme.css' | asset_url | stylesheet_tag }}
     {{ 'bbb-outfit-var.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+    {%- if settings.logo == blank -%}
+      {%- comment -%} Fetch the header logo first so it isn't blank while the page's big images load {%- endcomment -%}
+      <link rel="preload" as="image" fetchpriority="high" href="{{ 'nybe-logo-400.webp' | asset_url }}" imagesrcset="{{ 'nybe-logo-400.webp' | asset_url }} 400w, {{ 'nybe-logo-776.webp' | asset_url }} 776w" imagesizes="{{ settings.logo_width | default: 170 }}px">
+    {%- endif -%}
     <meta name="theme-color" content="#082D5C">
     <link rel="stylesheet" href="{{ 'component-cart-items.css' | asset_url }}" media="print" onload="this.media='all'">
 
