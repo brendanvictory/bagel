@@ -497,7 +497,6 @@
                     {%- assign rating = r.settings.rating | default: 5 -%}
                     <figure class="nybe-review" data-nybe-review {{ r.shopify_attributes }}{% unless forloop.first %} hidden{% endunless %}>
                       <div class="nybe-review__top">
-                        <span class="nybe-review__mark" aria-hidden="true">{% render 'bbb-icon', name: 'quote', size: 18, stroke: 0 %}</span>
                         <span class="nybe-review__stars" role="img" aria-label="{{ rating }} out of 5 stars">{%- for st in (1..5) -%}{% if st <= rating %}★{% else %}☆{% endif %}{%- endfor -%}</span>
                       </div>
                       {%- if r.settings.title != blank -%}<p class="nybe-review__title">{{ r.settings.title | escape }}</p>{%- endif -%}
@@ -531,7 +530,7 @@
               {%- endif -%}
             </section>
             <script>
-              /* Reviews carousel: auto-advances every 3s; pauses on hover/focus; stops for good once someone uses arrows, dots or swipes (they're reading); off for reduced motion */
+              /* Reviews carousel: auto-advances every 5s; pauses on hover/focus; stops for good once someone uses arrows, dots or swipes (they're reading); off for reduced motion */
               (function () {
                 var root = document.currentScript.previousElementSibling;
                 if (!root) return;
@@ -544,7 +543,7 @@
                   slides.forEach(function (s, k) { s.hidden = k !== i; });
                   dots.forEach(function (d, k) { if (k === i) d.setAttribute('aria-current', 'true'); else d.removeAttribute('aria-current'); });
                 }
-                function start() { stop(); if (!reduce && !paused && !manual) timer = setInterval(function () { if (!document.hidden) show(i + 1); }, 3000); }
+                function start() { stop(); if (!reduce && !paused && !manual) timer = setInterval(function () { if (!document.hidden) show(i + 1); }, 5000); }
                 function stop() { if (timer) { clearInterval(timer); timer = null; } }
                 function go(n) { manual = true; stop(); show(n); }
                 root.querySelector('[data-nybe-review-next]').addEventListener('click', function () { go(i + 1); });
