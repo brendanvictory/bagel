@@ -2,7 +2,7 @@
 """Generate the six New York Bagel Express remarketing emails (Shopify Messaging, 'Code your own').
 Run: python3 tools/email/build_emails.py  ->  docs/marketing/emails/*.liquid
 Only Shopify Messaging-supported Liquid is used: customer.first_name, customer.tags, shop.*,
-abandoned_checkout.*, abandoned_visit.*, unsubscribe_url, open_tracking."""
+abandoned_checkout.*, abandoned_visit.*, unsubscribe_link, open_tracking_block (the names Messaging's code editor requires)."""
 import json, os, urllib.parse
 OUT = os.path.join(os.path.dirname(__file__), '..', '..', 'docs', 'marketing', 'emails')
 SITE = 'https://nybagelexpress.com'
@@ -107,7 +107,7 @@ def foot(signoff, fine=''):
     return f"""<p style="font-size:15px;margin:8px 0 4px;">{signoff}</p><p style="font-size:15px;margin:0 0 22px;">&mdash; The New York Bagel Express Team</p>{fine_html}</td></tr>
 <tr><td style="background:{NAVY};padding:22px 40px;font-size:13px;line-height:1.6;color:#FFFFFF;"><strong style="letter-spacing:1px;">FROM NEW YORK TO YOUR DOOR.</strong><br>We ship Monday&ndash;Wednesday from our commissary on Long Island, NY. Orders placed Wednesday&ndash;Sunday ship the following Monday.<br><a href="{SITE}/pages/contact" style="color:{ORANGE};font-weight:bold;">Questions? We&rsquo;re here to help.</a></td></tr>
 </table>
-<table role="presentation" width="600" class="shell" cellpadding="0" cellspacing="0" style="width:600px;max-width:100%;"><tr><td align="center" style="padding:20px 24px;font-size:11px;line-height:1.7;color:{MUTED};">{{{{ shop.name | escape }}}} &middot; {{{{ shop.address.address1 | escape }}}}{{% if shop.address.address2 != blank %}} {{{{ shop.address.address2 | escape }}}}{{% endif %}}, {{{{ shop.address.city | escape }}}}, {{{{ shop.address.province | escape }}}} {{{{ shop.address.zip | escape }}}}<br><a href="{{{{ unsubscribe_url }}}}" style="color:{MUTED};">Unsubscribe</a>{{{{ open_tracking }}}}</td></tr></table>
+<table role="presentation" width="600" class="shell" cellpadding="0" cellspacing="0" style="width:600px;max-width:100%;"><tr><td align="center" style="padding:20px 24px;font-size:11px;line-height:1.7;color:{MUTED};">{{{{ shop.name | escape }}}} &middot; {{{{ shop.address.address1 | escape }}}}{{% if shop.address.address2 != blank %}} {{{{ shop.address.address2 | escape }}}}{{% endif %}}, {{{{ shop.address.city | escape }}}}, {{{{ shop.address.province | escape }}}} {{{{ shop.address.zip | escape }}}}<br><span style="color:{MUTED};">{{{{ unsubscribe_link }}}}</span>{{{{ open_tracking_block }}}}</td></tr></table>
 </td></tr></table></body></html>
 """
 
@@ -153,3 +153,29 @@ for k, v in EMAILS.items():
     meta.append({'id': k, 'timing': v['timing'], 'subject': v['subject'], 'preview_text': v['preview'], 'file': k + '.liquid', 'bytes': len(v['html'].encode())})
 with open(os.path.join(OUT, 'email-settings.json'), 'w') as fh: json.dump(meta, fh, indent=2, ensure_ascii=False)
 print(json.dumps(meta, indent=1, ensure_ascii=False))
+
+# ---------- Custom Liquid section versions ----------
+# Shopify Messaging automations offer no "Code your own" option, so each email is pasted into a
+# Blank template as one Custom Liquid section (50KB limit). The template's own footer supplies the
+# shop address and unsubscribe link; our section is the card content only, on one line.
+import re
+SEC = os.path.join(OUT, 'sections')
+os.makedirs(SEC, exist_ok=True)
+for k, v in EMAILS.items():
+    h = v['html']
+    pre = h[:h.index('<!doctype html>')]
+    card_start = h.index('<tr><td align="center" style="background:' + NAVY)
+    card_end = h.index('</table>\n<table role="presentation" width="600" class="shell"')
+    body = h[card_start:card_end]
+    body = re.sub(r'<!--\[if mso\]>.*?<!\[endif\]-->', '', body, flags=re.S).replace('<!--[if !mso]><!-->', '').replace('<!--<![endif]-->', '')
+    sec = (pre + f'<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width:100%;background:#FFFFFF;color:{NAVY};font-family:{FONT};">' + body + '</table>')
+    sec = re.sub(r'\n\s*', '', sec)
+    with open(os.path.join(SEC, k + '.liquid'), 'w') as fh: fh.write(sec)
+    print(k, 'section bytes', len(sec.encode()))
+
+# One-line copies of the full emails for pasting into Messaging -> Code your own
+CODED = os.path.join(OUT, 'coded'); os.makedirs(CODED, exist_ok=True)
+for k, v in EMAILS.items():
+    one = re.sub(r'\n\s*', ' ', v['html']).replace('> <', '><')
+    with open(os.path.join(CODED, k + '.liquid'), 'w') as fh: fh.write(one)
+    print(k, 'coded bytes', len(one.encode()))

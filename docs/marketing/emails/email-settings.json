@@ -5,7 +5,7 @@
     "subject": "A little New York. A much better breakfast.",
     "preview_text": "Real New York bagels, delivered to your door.",
     "file": "lead-01.liquid",
-    "bytes": 10695
+    "bytes": 10689
   },
   {
     "id": "lead-02",
@@ -13,7 +13,7 @@
     "subject": "A dozen bagels. Plenty of good mornings.",
     "preview_text": "Enjoy some now. Slice and freeze the rest.",
     "file": "lead-02.liquid",
-    "bytes": 10851
+    "bytes": 10845
   },
   {
     "id": "lead-03",
@@ -21,7 +21,7 @@
     "subject": "One last nudge: take 10% off today",
     "preview_text": "Use FINAL10 and make your next breakfast a New York one.",
     "file": "lead-03.liquid",
-    "bytes": 6514
+    "bytes": 6508
   },
   {
     "id": "cart-01",
@@ -29,7 +29,7 @@
     "subject": "Your next New York breakfast is waiting",
     "preview_text": "Pick up where you left off and finish your bagel order.",
     "file": "cart-01.liquid",
-    "bytes": 7721
+    "bytes": 7715
   },
   {
     "id": "cart-02",
@@ -37,7 +37,7 @@
     "subject": "Still thinking about those bagels?",
     "preview_text": "Enjoy some now, freeze the rest. Here’s how.",
     "file": "cart-02.liquid",
-    "bytes": 7945
+    "bytes": 7939
   },
   {
     "id": "cart-03",
@@ -45,6 +45,6 @@
     "subject": "Final reminder: your bagels + 10% off",
     "preview_text": "Finish your order today with code FINAL10.",
     "file": "cart-03.liquid",
-    "bytes": 8435
+    "bytes": 8429
   }
 ]
