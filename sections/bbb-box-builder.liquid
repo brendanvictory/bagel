@@ -290,7 +290,7 @@
             <div class="bbb-form__2col">
               <div class="bbb-form__row nybe-lead__zip">
                 <label class="bbb-form__label" for="BbbLead-zip">ZIP code <span aria-hidden="true">*</span></label>
-                <input class="bbb-form__input" id="BbbLead-zip" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="10" required aria-required="true" data-bbb-lead-zip>
+                <input class="bbb-form__input" id="BbbLead-zip" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="5" pattern="[0-9]{5}" required aria-required="true" data-bbb-lead-zip>
               </div>
               <div class="bbb-form__row">
                 <label class="bbb-form__label" for="BbbLead-name">Name <span aria-hidden="true">*</span></label>
@@ -315,7 +315,7 @@
             </div>
             <p class="bbb-builder__error" data-bbb-error="lead" role="alert" hidden></p>
             <button type="submit" class="button button--primary bbb-form__submit bbb-lead__submit" data-bbb-lead-submit><span>{{ section.settings.lead_button | escape }}</span>{% render 'bbb-icon', name: 'arrow-right', size: 20, class: 'nybe-btn-arrow' %}</button>
-            {%- if section.settings.lead_disclosure != blank -%}<div class="bbb-lead__disclosure">{{ section.settings.lead_disclosure }}</div>{%- endif -%}
+            {%- if section.settings.lead_disclosure != blank -%}<div class="bbb-lead__disclosure">{{ section.settings.lead_disclosure | replace: '<a ', '<a target="_blank" rel="noopener" ' }}</div>{%- endif -%}
           {%- endform -%}
 
           <div class="bbb-lead__ok" data-bbb-lead-ok hidden tabindex="-1">
