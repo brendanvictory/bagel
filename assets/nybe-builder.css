@@ -432,7 +432,13 @@
   .bbb-p2 > .nybe-perks--wide { grid-column: 1; margin-top: 0; }
   .bbb-p2 > .bbb-p2__side { grid-column: 2; grid-row: 1 / span 2; }
   .nybe-perks--wide { grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 1.2rem 2rem; }
-  .nybe-perks--wide .nybe-perks__item { padding: 1.4rem 1.6rem; grid-template-columns: minmax(0, 1fr); justify-items: center; align-items: start; align-content: start; text-align: center; gap: 1rem; }
+  /* Row 1: icon + title side by side; row 2: the text across the full width */
+  .nybe-perks--wide .nybe-perks__item { padding: 1.4rem 1.6rem; grid-template-columns: auto minmax(0, 1fr); align-items: center; align-content: start; text-align: left; column-gap: 1.2rem; row-gap: 1rem; }
+  .nybe-perks--wide .nybe-perks__item > span:not(.nybe-perks__icon) { display: contents; }
+  .nybe-perks--wide .nybe-perks__icon { width: 4.4rem; height: 4.4rem; }
+  .nybe-perks--wide .nybe-perks__icon .bbb-icon { width: 2.2rem; height: 2.2rem; }
+  .nybe-perks--wide .nybe-perks__item strong { grid-column: 2; font-size: 1.6rem; }
+  .nybe-perks--wide .nybe-perks__item span span { grid-column: 1 / -1; margin-top: 0; }
   .nybe-perks--wide .nybe-perks__item + .nybe-perks__item { border-top: 0; border-left: 0; }
   .nybe-perks--wide { align-items: start; }
 }
