@@ -179,6 +179,7 @@
           <p class="bbb-progress" data-bbb-progress aria-live="polite">0 of {{ sleeves }} sleeves selected</p>
           <p class="bbb-tray__hint">{{ section.settings.tray_hint | replace: '[per_sleeve]', per_sleeve | replace: '[sleeves]', sleeves | replace: '[total]', total_bagels | escape }}</p>
         </div>
+        <button type="button" class="button button--primary bbb-next nybe-tray__next" data-bbb-next aria-disabled="true"><span>{{ section.settings.next_short_label | default: 'Next' | escape }}</span>{% render 'bbb-icon', name: 'arrow-right', size: 18, class: 'nybe-btn-arrow' %}</button>
         {%- if b_banner and addons.first.featured_image != blank -%}
           <span class="nybe-tray__art" aria-hidden="true">{{ addons.first.featured_image | image_url: width: 200 | image_tag: loading: 'lazy', alt: '' }}</span>
         {%- endif -%}
