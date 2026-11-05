@@ -278,6 +278,14 @@
 
   // ---------- pages ----------
   const ORDER = ['1', 'lead', '2'];
+  // Scroll so the visible step progress sits right under the sticky header (nothing above it)
+  const scrollToSteps = () => {
+    const hdr = document.querySelector('.section-header');
+    const nav = $$('.bbb-stepnav').find((n) => n.offsetParent !== null);
+    const anchor = nav || root;
+    const top = Math.max(0, anchor.getBoundingClientRect().top + window.scrollY - 16 - (hdr ? hdr.offsetHeight : 0));
+    window.scrollTo({ top, behavior: 'instant' in document.documentElement.style ? 'instant' : 'auto' });
+  };
   const showStep = (step, { push = true, focus = true, replace = false } = {}) => {
     if (step !== 1 && !isFull()) step = 1;
     if (step === 1) leadPass = false;
@@ -294,12 +302,7 @@
     hideErrors();
     syncUrl(push && !replace);
     if (focus) {
-      // Scroll so the visible step progress sits right under the sticky header (nothing above it)
-      const hdr = document.querySelector('.section-header');
-      const nav = $$('.bbb-stepnav').find((n) => n.offsetParent !== null);
-      const anchor = nav || root;
-      const top = Math.max(0, anchor.getBoundingClientRect().top + window.scrollY - 16 - (hdr ? hdr.offsetHeight : 0));
-      window.scrollTo({ top, behavior: 'instant' in document.documentElement.style ? 'instant' : 'auto' });
+      scrollToSteps();
       const h = $(`[data-bbb-focus="${step}"]`);
       if (h) h.focus({ preventScroll: true });
     }
@@ -353,7 +356,16 @@
     $$('[data-bbb-addon]').forEach((cb) => (cb.checked = state.addons.has(cb.value)));
     renderPage1(); renderPage2();
     showStep(step, { push: false });
+    window.requestAnimationFrame(scrollToSteps); // after the browser's own scroll restore
   });
+  // We place the page ourselves on step changes, so the browser shouldn't restore old scroll positions
+  try { if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'; } catch (e) { /* ignore */ }
+  // Back/Forward into this page from another document (page restored from cache, or reloaded from history)
+  window.addEventListener('pageshow', (e) => { if (e.persisted) window.requestAnimationFrame(scrollToSteps); });
+  try {
+    const nav = performance.getEntriesByType && performance.getEntriesByType('navigation')[0];
+    if (nav && nav.type === 'back_forward') window.addEventListener('load', () => window.requestAnimationFrame(scrollToSteps), { once: true });
+  } catch (e) { /* ignore */ }
 
   // ---------- errors ----------
   const showError = (step, msg) => {
@@ -768,5 +780,10 @@
   $$('[data-bbb-addon]').forEach((cb) => (cb.checked = state.addons.has(cb.value)));
   renderPage1(); renderPage2();
   showStep(startStep, { push: false, focus: false });
+  // Back from Shopify's form post after the delivery check: the page reloads at the top, so bring the step progress into place
+  if ((leadPending && Date.now() - (leadPending.at || 0) < 30 * 60 * 1000) || leadLanded) {
+    window.requestAnimationFrame(scrollToSteps);
+    window.addEventListener('load', scrollToSteps, { once: true }); // again once images/fonts have settled the layout
+  }
   document.dispatchEvent(new CustomEvent('bbb:builder-start'));
 })();
