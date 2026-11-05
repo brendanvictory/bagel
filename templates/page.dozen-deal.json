@@ -230,14 +230,14 @@
           "type": "stat",
           "settings": {
             "value": "30+",
-            "label": "Years in the Bagel Business"
+            "label": "Years in the NY bagel business"
           }
         },
         "a2": {
           "type": "stat",
           "settings": {
             "value": "28",
-            "label": "Retail Locations"
+            "label": "Retail locations"
           }
         }
       },
@@ -249,16 +249,18 @@
         "eyebrow": "Who's baking",
         "heading": "New York bagel people.",
         "heading_accent": "",
-        "text": "<p>We've been in the bagel business in New York for over 30 years and have 28 retail locations. Every bagel is hand-rolled and shipped from our Long Island commissary the day it's baked.</p>",
+        "text": "<p>We've been in the bagel business in New York for over 30 years and run 28 retail locations. Every bagel is hand-rolled and shipped from our Long Island commissary the day it's baked.</p>",
         "use_bundled_photo": true,
-        "bundled_photo": "nyc",
-        "image_alt": "Fresh bagels in front of the New York City skyline",
-        "cta_label": "Build my dozen",
+        "bundled_photo": "scatter",
+        "image_alt": "An assortment of bagels on a white background",
+        "cta_label": "Build my box",
         "cta_link": "/pages/dozen-deal#build",
         "anchor": "about",
         "color_scheme": "scheme-1",
         "padding_top": 72,
-        "padding_bottom": 72
+        "padding_bottom": 72,
+        "layout": "card",
+        "card_product": "build-your-box"
       }
     },
     "faq": {
