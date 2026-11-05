@@ -573,19 +573,25 @@
 .nybe-ship__icon--logo { background: none; box-shadow: none; border-radius: 0; width: auto; height: auto; }
 .nybe-ship__icon--logo img { display: block; width: auto; height: 3rem; }
 
-/* Add-on cards, tablet/desktop: same row as on phones (photo | title + text | price); check on the top-right corner of the border */
+/* Add-on cards, tablet/desktop: two side by side, each a compact row (photo | title + text | price), check on the top-right corner */
 @media screen and (min-width: 750px) {
-  .bbb-addons { grid-template-columns: minmax(0, 1fr); gap: 1.2rem; } /* one per row, so each card has room for the row layout */
+  .bbb-addons { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.4rem; }
   .bbb-addons .bbb-addon {
-    position: relative; display: grid; grid-template-columns: 8.4rem minmax(0, 1fr) auto;
-    grid-template-areas: 'media name price' 'media note price';
-    column-gap: 1.6rem; row-gap: 0.3rem; align-items: center; padding: 1.4rem 1.8rem 1.4rem 1.4rem;
+    position: relative; display: grid; grid-template-columns: 6.8rem minmax(0, 1fr) auto;
+    grid-template-areas: 'media name price' 'media note price'; grid-template-rows: auto 1fr;
+    column-gap: 1.2rem; row-gap: 0.3rem; align-items: start; padding: 1.4rem 1.4rem 1.4rem 1.2rem;
   }
-  .bbb-addons .bbb-addon__media { grid-area: media; width: 8.4rem; height: 8.4rem; display: grid; place-items: center; }
-  .bbb-addons .bbb-addon__img { max-width: 8.4rem; max-height: 8.4rem; }
+  .bbb-addons .bbb-addon__media { grid-area: media; align-self: center; width: 6.8rem; height: 6.8rem; display: grid; place-items: center; }
+  .bbb-addons .bbb-addon__img { max-width: 6.8rem; max-height: 6.8rem; }
   .bbb-addons .bbb-addon__text { display: contents; }
-  .bbb-addons .bbb-addon__name { grid-area: name; align-self: end; font-size: 1.7rem; line-height: 1.2; }
-  .bbb-addons .nybe-addon__desc { grid-area: note; align-self: start; font-size: 1.35rem; line-height: 1.4; }
-  .bbb-addons .bbb-addon__price { grid-area: price; display: grid; justify-items: end; text-align: right; white-space: nowrap; font-size: 1.7rem; line-height: 1.2; margin: 0; padding: 0; }
+  .bbb-addons .bbb-addon__name { grid-area: name; align-self: start; padding-top: 0.2rem; font-size: 1.55rem; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bbb-addons .nybe-addon__desc { grid-area: note; align-self: start; font-size: 1.3rem; line-height: 1.4; }
+  .bbb-addons .bbb-addon__price { grid-area: price; align-self: start; padding-top: 0.2rem; display: grid; justify-items: end; text-align: right; white-space: nowrap; font-size: 1.6rem; line-height: 1.2; margin: 0; }
+  .bbb-addons .bbb-addon__every:not([hidden]) { font-size: 1.15rem; }
   .bbb-addons .bbb-addon__check { position: absolute; top: -0.9rem; right: -0.9rem; width: 2.4rem; height: 2.4rem; box-shadow: 0 0 0 0.25rem #fff; }
+}
+/* When the add-ons box itself is narrow (e.g. ~1000px screens), one card per row so titles never get cut */
+.bbb-addons { container-type: inline-size; }
+@container (max-width: 560px) {
+  .bbb-addons > li { grid-column: 1 / -1; }
 }
