@@ -278,15 +278,22 @@
 
   // ---------- pages ----------
   const ORDER = ['1', 'lead', '2'];
-  // Scroll so the visible step progress sits right under the sticky header (nothing above it)
+  const instant = 'instant' in document.documentElement.style ? 'instant' : 'auto';
+  const headerH = () => { const hdr = document.querySelector('.section-header'); return hdr ? hdr.offsetHeight : 0; };
+  // Going back: the visible step progress sits right under the sticky header (nothing above it)
   const scrollToSteps = () => {
-    const hdr = document.querySelector('.section-header');
     const nav = $$('.bbb-stepnav').find((n) => n.offsetParent !== null);
     const anchor = nav || root;
-    const top = Math.max(0, anchor.getBoundingClientRect().top + window.scrollY - 16 - (hdr ? hdr.offsetHeight : 0));
-    window.scrollTo({ top, behavior: 'instant' in document.documentElement.style ? 'instant' : 'auto' });
+    window.scrollTo({ top: Math.max(0, anchor.getBoundingClientRect().top + window.scrollY - 16 - headerH()), behavior: instant });
   };
+  // Going forward: the top of the builder (the page top on the product page, so the photo hero with the step's copy shows)
+  const scrollToBuilder = () => {
+    const top = Math.max(0, root.getBoundingClientRect().top + window.scrollY - 12 - headerH());
+    window.scrollTo({ top: top < 240 ? 0 : top, behavior: instant });
+  };
+  const isBackward = (from, to) => ORDER.indexOf(String(to)) < ORDER.indexOf(String(from));
   const showStep = (step, { push = true, focus = true, replace = false } = {}) => {
+    const fromStep = state.step;
     if (step !== 1 && !isFull()) step = 1;
     if (step === 1) leadPass = false;
     if (step === 2 && needLead()) step = 'lead';
@@ -302,7 +309,8 @@
     hideErrors();
     syncUrl(push && !replace);
     if (focus) {
-      scrollToSteps();
+      if (isBackward(fromStep, step)) scrollToSteps();
+      else scrollToBuilder();
       const h = $(`[data-bbb-focus="${step}"]`);
       if (h) h.focus({ preventScroll: true });
     }
@@ -355,8 +363,10 @@
     if (step === 2 && leadSaved()) leadPass = true; // browser Forward onto page 2 after the check
     $$('[data-bbb-addon]').forEach((cb) => (cb.checked = state.addons.has(cb.value)));
     renderPage1(); renderPage2();
+    const fromStep = state.step;
     showStep(step, { push: false });
-    window.requestAnimationFrame(scrollToSteps); // after the browser's own scroll restore
+    // Browser Back: step progress on top (again after any browser scroll restore); Forward behaves like Next
+    if (isBackward(fromStep, state.step)) window.requestAnimationFrame(scrollToSteps);
   });
   // We place the page ourselves on step changes, so the browser shouldn't restore old scroll positions
   try { if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'; } catch (e) { /* ignore */ }
@@ -780,10 +790,5 @@
   $$('[data-bbb-addon]').forEach((cb) => (cb.checked = state.addons.has(cb.value)));
   renderPage1(); renderPage2();
   showStep(startStep, { push: false, focus: false });
-  // Back from Shopify's form post after the delivery check: the page reloads at the top, so bring the step progress into place
-  if ((leadPending && Date.now() - (leadPending.at || 0) < 30 * 60 * 1000) || leadLanded) {
-    window.requestAnimationFrame(scrollToSteps);
-    window.addEventListener('load', scrollToSteps, { once: true }); // again once images/fonts have settled the layout
-  }
   document.dispatchEvent(new CustomEvent('bbb:builder-start'));
 })();
