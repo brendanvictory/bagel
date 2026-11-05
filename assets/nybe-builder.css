@@ -539,7 +539,7 @@
 }
 
 /* Builder heading (embedded on landing pages): same eyebrow as other section titles, and the same top rhythm as a 72px section */
-.bbb-builder__head .bbb-eyebrow.nybe-rule { color: var(--nybe-orange-text, #b9520a); }
+.bbb-builder__head .bbb-eyebrow.nybe-rule { color: var(--nybe-muted, #4a5a70); font-size: 1.4rem; font-weight: 800; letter-spacing: 0.16em; } /* same as the other section eyebrows (grey text, orange rules) */
 .bbb-builder--embedded { padding-top: calc(7.2rem * 0.8); }
 @media screen and (min-width: 750px) { .bbb-builder--embedded { padding-top: 7.2rem; } }
 @media screen and (min-width: 990px) { .bbb-builder--embedded { padding-top: calc(7.2rem * 1.33); } }
