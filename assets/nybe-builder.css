@@ -330,13 +330,14 @@
     box-shadow: 0 0.4rem 1rem rgba(120, 70, 20, 0.08), 0 1.6rem 4rem rgba(8, 45, 92, 0.16), inset 0 -0.3rem 0 var(--nybe-orange, #f47b20);
     animation: nybeTrayStick 0.35s ease;
   }
-  .bbb-tray.is-stuck .bbb-tray__slots { grid-template-columns: repeat(var(--bbb-sleeves, 3), 11.6rem); gap: 1.2rem; }
+  /* Compact: columns just wider than the 8.4rem tile; long flavor names wrap to two lines instead of spreading the tiles */
+  .bbb-tray.is-stuck .bbb-tray__slots { grid-template-columns: repeat(var(--bbb-sleeves, 3), 9.4rem); gap: 0.8rem; }
   .bbb-tray.is-stuck .bbb-slot__img, .bbb-tray.is-stuck .nybe-slot__plus { width: 8.4rem; }
   .bbb-tray.is-stuck .nybe-slot__x { right: calc(50% - 4.2rem - 0.8rem); }
   .bbb-tray.is-stuck .bbb-tray__status { padding-left: 2.4rem; }
   .bbb-tray.is-stuck .bbb-progress { font-size: 1.9rem; padding-top: 1.2rem; }
   .bbb-tray.is-stuck .bbb-tray__hint { font-size: 1.3rem; }
-  .bbb-tray.is-stuck .bbb-slot__label { font-size: 1.15rem; }
+  .bbb-tray.is-stuck .bbb-slot__label { font-size: 1.15rem; white-space: normal; line-height: 1.2; max-width: 9.4rem; }
   .bbb-tray.is-stuck .nybe-slot__x { width: 2.2rem; height: 2.2rem; }
   .bbb-tray.is-stuck .nybe-tray__art { width: 6.4rem; }
   @keyframes nybeTrayStick { from { transform: translateY(-0.8rem); } to { transform: none; } }
@@ -509,4 +510,11 @@
   .bbb-builder--promo .bbb-tray { grid-template-columns: auto minmax(0, 1fr) auto; gap: 3.2rem; }
   .bbb-builder--promo .bbb-tray__slots { grid-template-columns: repeat(var(--bbb-sleeves, 4), 13rem); gap: 0.4rem; }
   .bbb-builder--promo .bbb-tray__status { padding-left: 2.4rem; }
+}
+
+/* Mobile bar: "+" in empty sleeve boxes, like the desktop tray */
+.bbb-bar__dot:not(.is-filled)::before {
+  content: ''; position: absolute; inset: 0; margin: auto; width: 45%; height: 45%; background: #8a7e6c;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.75' stroke-linecap='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='M12 5v14'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.75' stroke-linecap='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='M12 5v14'/%3E%3C/svg%3E") center / contain no-repeat;
 }
