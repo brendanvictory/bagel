@@ -516,7 +516,7 @@
   .bbb-promo__reg-icon { width: 2rem; height: 2rem; }
   .bbb-promo__reg-note { font-size: 1.25rem; }
 }
-.bbb-promo--banner .bbb-promo__tag { background: #f47b20; color: #fff; }
+.bbb-promo__tag { background: #f47b20; color: #fff; } /* banner + page-2 card ("FREE WITH YOUR DOZEN") */
 @media screen and (min-width: 750px) {
   .bbb-promo--banner .bbb-promo__img { height: 15rem; max-width: 15rem; }
 }

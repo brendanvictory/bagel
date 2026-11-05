@@ -442,8 +442,10 @@
       return;
     }
     if (back) {
+      // "Edit flavors" always lands on the flavor picker. From the delivery check the previous history entry is
+      // page 1, so Back is fine; from page 2 the previous entry is usually the delivery check, so go straight to 1.
       const hs = window.history.state;
-      if (hs && hs.bbbStep != null && hs.bbbStep !== 1) window.history.back();
+      if (hs && hs.bbbStep === 'lead') window.history.back();
       else showStep(1);
     }
   });
