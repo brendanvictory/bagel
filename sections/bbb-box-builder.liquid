@@ -152,7 +152,7 @@
     <div class="bbb-view" data-bbb-view="1">
       {%- unless b_banner -%}
       <header class="bbb-builder__head">
-        {%- if section.settings.eyebrow != blank -%}<p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
+        {%- if section.settings.eyebrow != blank -%}<p class="bbb-eyebrow nybe-rule">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
         <{{ heading_tag }} id="bbb-builder-title-{{ section.id }}" class="bbb-display bbb-display--l" tabindex="-1" data-bbb-focus="1">{{ section.settings.heading | default: bp.title | replace: '[sleeves]', sleeves | escape }}</{{ heading_tag }}>
         <p class="bbb-builder__sub">
           {{- section.settings.subheading | replace: '[sleeves]', sleeves | replace: '[per_sleeve]', per_sleeve | replace: '[total]', total_bagels | escape | replace: '. ', '.<br>' -}}

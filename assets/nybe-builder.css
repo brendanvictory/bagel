@@ -537,3 +537,9 @@
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.75' stroke-linecap='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='M12 5v14'/%3E%3C/svg%3E") center / contain no-repeat;
           mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.75' stroke-linecap='round'%3E%3Cpath d='M5 12h14'/%3E%3Cpath d='M12 5v14'/%3E%3C/svg%3E") center / contain no-repeat;
 }
+
+/* Builder heading (embedded on landing pages): same eyebrow as other section titles, and the same top rhythm as a 72px section */
+.bbb-builder__head .bbb-eyebrow.nybe-rule { color: var(--nybe-orange-text, #b9520a); }
+.bbb-builder--embedded { padding-top: calc(7.2rem * 0.8); }
+@media screen and (min-width: 750px) { .bbb-builder--embedded { padding-top: 7.2rem; } }
+@media screen and (min-width: 990px) { .bbb-builder--embedded { padding-top: calc(7.2rem * 1.33); } }
