@@ -176,9 +176,11 @@
 }
 
 /* Add-ons */
-.bbb-addon { grid-template-columns: 8rem minmax(0, 1fr) auto; align-items: center; padding: 1.2rem; border: 0.2rem solid #e4d6c2; border-radius: 1.6rem; }
-.bbb-addon__media { width: 9.6rem; height: 9.6rem; background: none; }
-.bbb-addon__img { width: 100%; height: 100%; }
+/* Add-on card: fixed photo box | text (top-aligned, so titles line up across cards) | check */
+.bbb-addon { grid-template-columns: 9.6rem minmax(0, 1fr) auto; align-items: start; column-gap: 1.8rem; padding: 1.6rem 1.6rem 1.6rem 1.4rem; border: 0.2rem solid #e4d6c2; border-radius: 1.6rem; }
+.bbb-addon__media { width: 9.6rem; height: 9.6rem; background: none; border-radius: 0; overflow: visible; display: grid; place-items: center; }
+.bbb-addon__img { width: auto; height: auto; max-width: 9.6rem; max-height: 9.6rem; object-fit: contain; } /* whole photo, never cropped */
+.bbb-addon__text { align-self: start; padding-top: 0.2rem; gap: 0.4rem; }
 .bbb-addon:has(.bbb-addon__input:checked) { border-color: #f47b20; background: #fff6e8; }
 .bbb-addon__name { font-size: 1.7rem; color: var(--bbb-ink); }
 .nybe-addon__desc { font-size: 1.35rem; color: var(--bbb-muted); line-height: 1.35; }
@@ -261,11 +263,12 @@
 @media screen and (max-width: 749px) {
   .bbb-addons { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
   .bbb-addons .bbb-addon {
-    grid-template-columns: 6.4rem minmax(0, 1fr) auto;
+    grid-template-columns: 7.6rem minmax(0, 1fr) auto;
     grid-template-areas: 'media name price' 'media note price';
     column-gap: 1.4rem; row-gap: 0.2rem; align-items: center; padding: 1.2rem 1.6rem 1.2rem 1.2rem;
   }
   .bbb-addon__media { grid-area: media; width: 7.6rem; height: 7.6rem; }
+  .bbb-addon__img { max-width: 7.6rem; max-height: 7.6rem; }
   .bbb-addon__text { display: contents; }
   .bbb-addon__name { grid-area: name; align-self: end; font-size: 1.6rem; line-height: 1.2; }
   .nybe-addon__desc { grid-area: note; align-self: start; font-size: 1.3rem; }
@@ -497,7 +500,7 @@
 
 /* Delivery plan: radio and price sit on the title's first line on every screen size */
 .bbb-options .bbb-option__row, .bbb-options label.bbb-option { align-items: start; }
-.bbb-options .bbb-option__radio { margin-top: 0.1rem; }
+.bbb-options .bbb-option__radio { margin-top: 0.3rem; }
 
 /* Free-item banner (free minis page): whole product photo, two left-aligned lines */
 .bbb-promo--banner { justify-items: start; text-align: left; }
