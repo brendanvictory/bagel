@@ -209,7 +209,14 @@
               <div class="bbb-slot is-filled nybe-slot--free" role="img" aria-label="Free with this box: {{ promo_name | escape }}">
                 <span class="bbb-slot__img" aria-hidden="true">{{ promo.featured_image | image_url: height: 240 | image_tag: loading: 'lazy', alt: '' }}</span>
                 <svg class="nybe-slot__spark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M11 25 12.5 8"/><path d="M16.5 29.5 29 17"/><path d="M19 35.5 35 34"/></svg>
-                <span class="bbb-slot__label" aria-hidden="true"><span class="bbb-slot__n">Free</span> <span>{{ promo_name | escape }}</span></span>
+                {%- liquid
+                  # Short tile label: "6x Minis" (full name stays in the aria-label)
+                  assign tile_name = promo_name
+                  if pr_qty != blank
+                    assign tile_name = pr_qty | append: 'x Minis'
+                  endif
+                -%}
+                <span class="bbb-slot__label" aria-hidden="true"><span class="bbb-slot__n">Free</span> <span>{{ tile_name | escape }}</span></span>
               </div>
             </li>
           {%- endif -%}
