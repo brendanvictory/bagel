@@ -408,7 +408,7 @@
           {%- if promo_on -%}
             <section class="bbb-card2 bbb-promo bbb-promo--card" aria-labelledby="bbb-promo-{{ section.id }}">
               <span class="bbb-promo__media" aria-hidden="true">
-                {%- if promo.featured_image != blank -%}{{ promo.featured_image | image_url: width: 240 | image_tag: loading: 'lazy', alt: '', class: 'bbb-promo__img' }}{%- endif -%}
+                {%- if promo.featured_image != blank -%}{{ promo.featured_image | image_url: height: 320 | image_tag: loading: 'lazy', alt: '', class: 'bbb-promo__img' }}{%- endif -%}
               </span>
               <div class="bbb-promo__body">
                 <p class="bbb-promo__tag">Free with your dozen</p>
