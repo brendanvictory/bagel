@@ -145,7 +145,8 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
 
   console.log('9. Option required');
   await go('?s=plain,plain,plain&step=2');
-  await p.click(barCheckout, { force: true });
+  ok(await p.evaluate(() => getComputedStyle(document.querySelector('.bbb-bar')).display === 'none'), 'mobile bar hidden until Checkout is active');
+  await p.locator('.bbb-p2__side [data-bbb-add], .bbb-totals ~ [data-bbb-add], [data-bbb-add]:not(.bbb-bar [data-bbb-add])').first().evaluate((b) => b.click());
   ok((await p.textContent('[data-bbb-error="2"]')).includes('Choose Subscribe and Save'), 'checkout without an option asks to choose');
 
   console.log('10. Edit from cart replaces old box');
