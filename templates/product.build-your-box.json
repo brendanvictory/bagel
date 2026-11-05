@@ -140,7 +140,7 @@
         "subheading": "Each sleeve holds [per_sleeve] bagels of one flavor. Choose up to [sleeves] flavors ([total] bagels total).",
         "tray_hint": "Each sleeve holds [per_sleeve] bagels of one flavor. Choose up to [sleeves] flavors for your box ([total] bagels total).",
         "progress_label": "[n] of [total] sleeves selected",
-        "next_label": "Next: Add-ons & Pricing",
+        "next_label": "Next",
         "bar_next_label": "Next",
         "error_need_more": "Pick [remaining] more sleeve(s) to fill your box.",
         "lead_enabled": true,
