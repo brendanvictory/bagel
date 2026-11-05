@@ -260,7 +260,7 @@
 .bbb-promo__note { margin: 0; font-size: 1.35rem; }
 .bbb-promo__price { margin: 0; text-align: right; display: grid; }
 .bbb-promo__price s { font-size: 1.3rem; opacity: 0.6; }
-.bbb-promo__price strong { font-size: 1.8rem; text-transform: uppercase; color: #1f6f9e; }
+.bbb-promo__price strong { font-size: 1.8rem; text-transform: uppercase; color: #08a06e; }
 @media screen and (max-width: 420px) {
   .bbb-promo--card { grid-template-columns: auto minmax(0, 1fr); }
   .bbb-promo--card .bbb-promo__price { grid-column: 2; text-align: left; display: flex; gap: 0.8rem; align-items: baseline; }
