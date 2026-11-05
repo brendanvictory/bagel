@@ -488,17 +488,17 @@
 .bbb-promo--banner .bbb-promo__img { border-radius: 1rem; }
 /* Three "fresh out of the oven" lines at the top-left of the bagel stack (same mark as the homepage promo tile) */
 .nybe-promo__spark {
-  position: absolute; top: -18%; left: -4%; width: 26%; min-width: 3.2rem; max-width: 5.2rem; height: auto; color: var(--nybe-orange, #f47b20); overflow: visible; pointer-events: none;
+  position: absolute; top: -17%; left: 7%; width: 2.6rem; height: auto; color: var(--nybe-orange, #f47b20); overflow: visible; pointer-events: none;
   transform-origin: 90% 90%; animation: nybeSpark 0.6s cubic-bezier(.2, .9, .3, 1.3) 0.2s both;
 }
 @media (prefers-reduced-motion: reduce) { .nybe-promo__spark { animation: none; } }
-@media screen and (min-width: 750px) { .nybe-promo__spark { top: -17%; left: 7%; } } /* desktop position tuned by the owner; phones keep the one above */
+@media screen and (min-width: 750px) { .nybe-promo__spark { width: 3.2rem; } } /* same spot on every size (owner-tuned), scaled with the photo */
 .bbb-promo--banner .bbb-promo__img { width: auto; height: 9.6rem; max-width: 9.6rem; object-fit: contain; }
 .bbb-promo--banner .bbb-promo__text { display: grid; gap: 0.5rem; justify-items: start; line-height: 1.3; }
 .bbb-promo__line1 { display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem; }
 .bbb-promo__line1 strong { font-family: var(--font-heading-family); font-weight: 800; }
 .bbb-promo__line2 { font-size: 0.8em; color: var(--bbb-muted, #4a5a70); }
-.bbb-promo__line2 > span { display: block; } /* one sentence per row */
+.bbb-promo__was { font-size: 0.75em; font-weight: 700; color: #8a93a3; text-decoration-thickness: 0.12em; line-height: 1; }
 .bbb-promo--banner .bbb-promo__tag { background: #f47b20; color: #fff; }
 @media screen and (min-width: 750px) {
   .bbb-promo--banner .bbb-promo__img { height: 12rem; max-width: 12rem; }
