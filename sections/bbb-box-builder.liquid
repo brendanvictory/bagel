@@ -114,17 +114,7 @@
           <h2 class="bbb-display nybe-banner__title" tabindex="-1" data-bbb-focus="2">{{ section.settings.page2_heading | escape }}</h2>
           {%- if b_copy and b_copy.settings.page2_text != blank -%}<p class="nybe-banner__sub">{{ b_copy.settings.page2_text | escape }}</p>{%- endif -%}
         </div>
-        {%- if lead_on -%}
-          <div class="nybe-banner__copy nybe-banner__copy--lead">
-            {%- if section.settings.eyebrow != blank -%}<p class="bbb-eyebrow">{{ section.settings.eyebrow | escape }}</p>{%- endif -%}
-            {%- comment -%} Keep the last two words together ("ZIP code") so they never split across lines {%- endcomment -%}
-            {%- assign lead_words = section.settings.lead_heading | escape | split: ' ' -%}
-            <h2 class="bbb-display nybe-banner__title" tabindex="-1" data-bbb-focus="lead">
-              {%- for w in lead_words -%}{{ w }}{% unless forloop.last %}{% if forloop.rindex == 2 %}&nbsp;{% else %} {% endif %}{% endunless %}{%- endfor -%}
-            </h2>
-            {%- if section.settings.lead_text != blank -%}<p class="nybe-banner__sub">{{ section.settings.lead_text | escape }}</p>{%- endif -%}
-          </div>
-        {%- endif -%}
+        {%- comment -%} Delivery check copy is shown in the step itself (above the form), so the banner keeps just its photo on that step {%- endcomment -%}
       </div>
     </div>
   {%- endif -%}
@@ -318,11 +308,9 @@
             <svg aria-hidden="true" focusable="false" viewBox="0 0 16 16" width="14" height="14"><path d="M10 3 5 8l5 5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
             {{ section.settings.back_label | escape }}
           </button>
-          {%- unless b_banner -%}
             {%- assign lead_words2 = section.settings.lead_heading | escape | split: ' ' -%}
             <h2 class="bbb-display bbb-display--l" tabindex="-1" data-bbb-focus="lead">{%- for w in lead_words2 -%}{{ w }}{% unless forloop.last %}{% if forloop.rindex == 2 %}&nbsp;{% else %} {% endif %}{% endunless %}{%- endfor -%}</h2>
             {%- if section.settings.lead_text != blank -%}<p class="bbb-builder__sub">{{ section.settings.lead_text | escape }}</p>{%- endif -%}
-          {%- endunless -%}
         </header>
 
         <div class="bbb-card2 bbb-lead">
