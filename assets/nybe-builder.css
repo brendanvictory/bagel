@@ -563,4 +563,5 @@
 @media screen and (min-width: 750px) { .bbb-promo--card .bbb-promo__img { height: 13rem; max-width: 13rem; } }
 
 /* Shipping note with the carrier logo instead of the truck icon */
-.nybe-ship__icon--logo img { display: block; width: auto; height: 2.6rem; }
+.nybe-ship__icon--logo { background: none; box-shadow: none; border-radius: 0; width: auto; height: auto; }
+.nybe-ship__icon--logo img { display: block; width: auto; height: 3rem; }
