@@ -586,7 +586,7 @@
   .bbb-addons .bbb-addon__text { display: contents; }
   .bbb-addons .bbb-addon__name { grid-area: name; align-self: start; padding-top: 0.2rem; font-size: 1.55rem; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .bbb-addons .nybe-addon__desc { grid-area: note; align-self: start; font-size: 1.3rem; line-height: 1.4; }
-  .bbb-addons .bbb-addon__price { grid-area: price; align-self: start; padding-top: 0.2rem; display: grid; justify-items: end; text-align: right; white-space: nowrap; font-size: 1.6rem; line-height: 1.2; margin: 0; }
+  .bbb-addons .bbb-addon__price { grid-area: price; align-self: center; padding-top: 0; display: grid; justify-items: end; text-align: right; white-space: nowrap; font-size: 1.6rem; line-height: 1.2; margin: 0; }
   .bbb-addons .bbb-addon__every:not([hidden]) { font-size: 1.15rem; }
   .bbb-addons .bbb-addon__check { position: absolute; top: -0.9rem; right: -0.9rem; width: 2.4rem; height: 2.4rem; box-shadow: 0 0 0 0.25rem #fff; }
 }
