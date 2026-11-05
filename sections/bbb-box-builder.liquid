@@ -516,7 +516,7 @@
             <h3 class="bbb-card2__title" id="bbb-summary-{{ section.id }}">Order summary</h3>
             <dl class="bbb-totals" data-bbb-totals></dl>
             <p class="bbb-totals__total"><span>{% if b_banner %}Total today{% else %}Total{% endif %}</span> <strong data-bbb-total>{{ variant.price | money }}</strong></p>
-            <p class="nybe-saving" data-bbb-saving hidden>{% render 'bbb-icon', name: 'check-circle', size: 16, stroke: 2.5 %}<span data-bbb-saving-text></span></p>
+            <p class="nybe-saving" data-bbb-saving hidden>{% render 'bbb-icon', name: 'check-check', size: 18, stroke: 2.5 %}<span data-bbb-saving-text></span></p>
             {%- if section.settings.shipping_note != blank -%}
               {%- comment -%} Green "good news" chip unless the note quotes a price (e.g. "Shipping: $14.95 …") {%- endcomment -%}{%- assign ship_free = true -%}{%- if section.settings.shipping_note contains '$' -%}{%- assign ship_free = false -%}{%- endif -%}
               <p class="bbb-totals__ship nybe-ship{% if ship_free %} nybe-ship--free{% endif %}"><span class="nybe-ship__icon{% if section.settings.shipping_icon == 'ups' %} nybe-ship__icon--logo{% endif %}" aria-hidden="true">{%- if section.settings.shipping_icon == 'ups' -%}<img src="{{ 'nybe-ups-logo.svg' | asset_url }}" width="20" height="24" alt="" loading="lazy">{%- else -%}{%- render 'bbb-icon', name: 'truck', size: 20, stroke: 2 -%}{%- endif -%}</span><span>{{ section.settings.shipping_note | escape }}</span></p>
