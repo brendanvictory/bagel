@@ -454,7 +454,12 @@
 /* Page 2 benefits: full width under the plan/summary; 3 columns from desktop */
 /* Benefits card under Delivery plan: same gap above it as between the other page-2 cards */
 .nybe-perks--wide { margin-top: 0; }
-@media screen and (min-width: 990px) { .bbb-p2 { row-gap: var(--bbb-space-2); } }
+/* Row 1 hugs the left cards; row 2 takes whatever extra height the (taller) sidebar needs,
+   so the benefits card always sits exactly one gap below Delivery plan */
+@media screen and (min-width: 990px) {
+  .bbb-p2 { row-gap: var(--bbb-space-2); grid-template-rows: min-content 1fr; }
+  .bbb-p2 > .nybe-perks--wide { align-self: start; }
+}
 @media screen and (min-width: 990px) {
   /* Desktop: sits in the left column right under Delivery plan (same width); the sidebar spans both rows */
   .bbb-p2 > .nybe-perks--wide { grid-column: 1; margin-top: 0; }
