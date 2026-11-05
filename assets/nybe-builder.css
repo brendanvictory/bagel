@@ -177,11 +177,15 @@
 
 /* Add-ons */
 .bbb-addon { grid-template-columns: 8rem minmax(0, 1fr) auto; align-items: center; padding: 1.2rem; border: 0.2rem solid #e4d6c2; border-radius: 1.6rem; }
-.bbb-addon__media { width: 8rem; height: 8rem; background: #fff4e2; }
+.bbb-addon__media { width: 9.6rem; height: 9.6rem; background: none; }
+.bbb-addon__img { width: 100%; height: 100%; }
 .bbb-addon:has(.bbb-addon__input:checked) { border-color: #f47b20; background: #fff6e8; }
 .bbb-addon__name { font-size: 1.7rem; color: var(--bbb-ink); }
 .nybe-addon__desc { font-size: 1.35rem; color: var(--bbb-muted); line-height: 1.35; }
 .bbb-addon__price { color: #b9520a; font-weight: 800; font-size: 1.6rem; }
+/* "+$9.95" on one line, "every box" under it in grey (same as the phone layout) */
+.bbb-addon__price { display: grid; justify-items: start; }
+.bbb-addon__every:not([hidden]) { display: block; font-size: 1.2rem; font-weight: 600; color: var(--bbb-muted); }
 .bbb-addon__check { align-self: start; border-color: #b7aa97; background: #fff; }
 .bbb-addon__input:checked ~ .bbb-addon__check { background: #f47b20; border-color: #f47b20; }
 
@@ -261,7 +265,7 @@
     grid-template-areas: 'media name price' 'media note price';
     column-gap: 1.4rem; row-gap: 0.2rem; align-items: center; padding: 1.2rem 1.6rem 1.2rem 1.2rem;
   }
-  .bbb-addon__media { grid-area: media; width: 6.4rem; height: 6.4rem; }
+  .bbb-addon__media { grid-area: media; width: 7.6rem; height: 7.6rem; }
   .bbb-addon__text { display: contents; }
   .bbb-addon__name { grid-area: name; align-self: end; font-size: 1.6rem; line-height: 1.2; }
   .nybe-addon__desc { grid-area: note; align-self: start; font-size: 1.3rem; }
