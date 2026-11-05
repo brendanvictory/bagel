@@ -174,7 +174,7 @@
             endif
           -%}
           <p class="bbb-promo__text">
-            {%- if promo.price > 0 -%}<s class="bbb-promo__was"><span class="bbb-sr-only">Regular price </span>{{ promo.price | money }}</s>{%- endif -%}
+            {%- if promo.price > 0 -%}<span class="bbb-promo__reg">{% render 'bbb-icon', name: 'tag', size: 18, stroke: 2.25, class: 'bbb-promo__reg-icon' %}<s class="bbb-promo__was"><span class="bbb-sr-only">Regular price </span>{{ promo.price | money }}</s><span class="bbb-promo__reg-note">value</span></span>{%- endif -%}
             <span class="bbb-promo__line1"><span class="bbb-promo__tag">Free</span> <strong>{{ promo_name | escape }}</strong></span>
             <span class="bbb-promo__line2">On us with this box. Fresh-baked and packed right in.</span>
           </p>
