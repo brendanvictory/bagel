@@ -292,6 +292,7 @@
     const top = Math.max(0, root.getBoundingClientRect().top + window.scrollY - 12 - headerH());
     window.scrollTo({ top: top < 240 ? 0 : top, behavior: instant });
   };
+  const embedded = root.classList.contains('bbb-builder--embedded');
   const isBackward = (from, to) => ORDER.indexOf(String(to)) < ORDER.indexOf(String(from));
   const showStep = (step, { push = true, focus = true, replace = false } = {}) => {
     const fromStep = state.step;
@@ -310,7 +311,8 @@
     hideErrors();
     syncUrl(push && !replace);
     if (focus) {
-      if (isBackward(fromStep, step)) scrollToSteps();
+      // Landing pages (builder embedded below other sections, no photo hero): step progress on top both ways
+      if (isBackward(fromStep, step) || embedded) scrollToSteps();
       else scrollToBuilder();
       const h = $(`[data-bbb-focus="${step}"]`);
       if (h) h.focus({ preventScroll: true });
@@ -791,5 +793,26 @@
   $$('[data-bbb-addon]').forEach((cb) => (cb.checked = state.addons.has(cb.value)));
   renderPage1(); renderPage2();
   showStep(startStep, { push: false, focus: false });
+  // Links to this builder on the same page (e.g. "Claim my free minis" → #build): glide down instead of jumping
+  if (root.id) {
+    document.addEventListener('click', (e) => {
+      const a = e.target.closest && e.target.closest('a[href*="#"]');
+      if (!a || e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.button > 0) return;
+      let url;
+      try { url = new URL(a.href, window.location.href); } catch (err) { return; }
+      if (url.hash !== `#${root.id}` || url.pathname !== window.location.pathname) return;
+      e.preventDefault();
+      const top = Math.max(0, root.getBoundingClientRect().top + window.scrollY - headerH());
+      const smooth = !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      window.scrollTo({ top, behavior: smooth ? 'smooth' : 'auto' });
+      try { window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search + url.hash); } catch (err) { /* ignore */ } // keep the box picks in the URL
+    });
+  }
+  // Landing pages: after the delivery check, Shopify reloads the page at its very top (the landing hero), so bring the
+  // step progress back into place. (On the product page the top is the builder's own photo hero, which is what we want.)
+  if (embedded && ((leadPending && Date.now() - (leadPending.at || 0) < 30 * 60 * 1000) || leadLanded)) {
+    window.requestAnimationFrame(scrollToSteps);
+    window.addEventListener('load', scrollToSteps, { once: true }); // again once images/fonts have settled the layout
+  }
   document.dispatchEvent(new CustomEvent('bbb:builder-start'));
 })();
