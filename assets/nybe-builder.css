@@ -483,7 +483,14 @@
 
 /* Free-item banner (free minis page): whole product photo, two left-aligned lines */
 .bbb-promo--banner { justify-items: start; text-align: left; }
-.bbb-promo--banner .bbb-promo__media { width: auto; height: auto; background: #fff; border-radius: 1rem; overflow: hidden; display: block; line-height: 0; }
+.bbb-promo--banner .bbb-promo__media { position: relative; width: auto; height: auto; background: #fff; border-radius: 1rem; overflow: visible; display: block; line-height: 0; }
+.bbb-promo--banner .bbb-promo__img { border-radius: 1rem; }
+/* Three "fresh out of the oven" lines at the top-left of the bagel stack (same mark as the homepage promo tile) */
+.nybe-promo__spark {
+  position: absolute; top: -10%; left: 8%; width: 26%; min-width: 3.2rem; max-width: 5.2rem; height: auto; color: var(--nybe-orange, #f47b20); overflow: visible; pointer-events: none;
+  transform-origin: 90% 90%; animation: nybeSpark 0.6s cubic-bezier(.2, .9, .3, 1.3) 0.2s both;
+}
+@media (prefers-reduced-motion: reduce) { .nybe-promo__spark { animation: none; } }
 .bbb-promo--banner .bbb-promo__img { width: auto; height: 9.6rem; max-width: 9.6rem; object-fit: contain; }
 .bbb-promo--banner .bbb-promo__text { display: grid; gap: 0.5rem; justify-items: start; line-height: 1.3; }
 .bbb-promo__line1 { display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem; }
@@ -494,19 +501,12 @@
   .bbb-promo--banner .bbb-promo__img { height: 12rem; max-width: 12rem; }
 }
 
-/* Free-item page: 4th tray tile with the free minis (not clickable) + three "fresh" lines on its top-right corner */
+/* Free-item page: 4th tray tile with the free minis (not clickable) */
 .nybe-slot--free { cursor: default; }
 .nybe-slot--free .bbb-slot__img img { width: 84%; height: 84%; object-fit: contain; }
-.nybe-slot__spark {
-  position: absolute; top: -1.5rem; right: -1.2rem; width: 3rem; height: 3rem; color: var(--nybe-orange, #f47b20); overflow: visible; pointer-events: none;
-  transform-origin: 10% 90%; animation: nybeSpark 0.6s cubic-bezier(.2, .9, .3, 1.3) 0.3s both;
-}
-@media (prefers-reduced-motion: reduce) { .nybe-slot__spark { animation: none; } }
 @media screen and (min-width: 990px) {
   /* Four tiles: sleeves get more than half the tray, the progress column less */
   .bbb-builder--promo .bbb-tray { grid-template-columns: auto minmax(0, 1fr) auto; gap: 3.2rem; }
   .bbb-builder--promo .bbb-tray__slots { grid-template-columns: repeat(var(--bbb-sleeves, 4), 13rem); gap: 0.4rem; }
   .bbb-builder--promo .bbb-tray__status { padding-left: 2.4rem; }
-  .bbb-tray .nybe-slot__spark { right: calc(50% - 6rem - 2.2rem); top: -2.2rem; width: 4rem; height: 4rem; }
-  .bbb-tray.is-stuck .nybe-slot__spark { right: calc(50% - 4.2rem - 1.6rem); top: -1.6rem; width: 2.8rem; height: 2.8rem; }
 }
