@@ -540,10 +540,9 @@
 
 /* Builder heading (embedded on landing pages): same eyebrow as other section titles */
 .bbb-builder__head .bbb-eyebrow.nybe-rule { color: var(--nybe-muted, #4a5a70); font-size: 1.7rem; font-weight: 800; letter-spacing: 0.16em; } /* same as the other section eyebrows (grey text, orange rules) */
-/* Top gap above the step progress: enough to clear the section above, but tighter than a full section (the steps lead into the title) */
-.bbb-builder--embedded { padding-top: 3.2rem; }
-@media screen and (min-width: 750px) { .bbb-builder--embedded { padding-top: 4rem; } }
-@media screen and (min-width: 990px) { .bbb-builder--embedded { padding-top: 4.8rem; } }
+/* Small top gap: the section above already ends with its own bottom padding */
+.bbb-builder--embedded { padding-top: 1.6rem; }
+@media screen and (min-width: 990px) { .bbb-builder--embedded { padding-top: 2.4rem; } }
 
 /* Free-item pages: on page 1 the step progress moves under the free minis banner */
 .bbb-builder--promo[data-step="1"] .nybe-stepnav--top { display: none; }
