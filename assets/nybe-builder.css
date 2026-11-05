@@ -437,7 +437,7 @@
 .bbb-tray.nybe-measure, .bbb-tray.nybe-measure * { transition: none !important; animation: none !important; }
 
 /* Shipping note in the order summary: icon + text chip */
-.nybe-ship { display: flex; align-items: center; gap: 1.2rem; margin: 0; padding: 1rem 1.4rem; border-radius: 1.2rem;
+.nybe-ship { display: flex; align-items: center; justify-content: center; text-align: left; gap: 1.2rem; margin: 0; padding: 1rem 1.4rem; border-radius: 1.2rem;
   background: #f3f5f9; color: var(--bbb-ink, #082d5c); font-size: 1.45rem; font-weight: 700; line-height: 1.35; }
 .nybe-ship__icon { flex: none; display: grid; place-items: center; width: 3.6rem; height: 3.6rem; border-radius: 50%; background: #fff; color: var(--bbb-ink, #082d5c); box-shadow: 0 0.1rem 0.4rem rgba(8, 45, 92, 0.08); }
 .nybe-ship--free { background: #e8f6ec; color: #1e7b34; }
@@ -572,3 +572,18 @@
 /* Shipping note with the carrier logo instead of the truck icon */
 .nybe-ship__icon--logo { background: none; box-shadow: none; border-radius: 0; width: auto; height: auto; }
 .nybe-ship__icon--logo img { display: block; width: auto; height: 3rem; }
+
+/* Add-on cards, tablet/desktop: vertical card (photo on top, then title, text, price); check in the top-right corner */
+@media screen and (min-width: 750px) {
+  .bbb-addons .bbb-addon {
+    position: relative; display: flex; flex-direction: column; align-items: stretch; gap: 1.2rem;
+    padding: 1.6rem 1.8rem 1.8rem;
+  }
+  .bbb-addons .bbb-addon__media { width: 100%; height: 12rem; display: grid; place-items: center; }
+  .bbb-addons .bbb-addon__img { max-width: 100%; max-height: 12rem; }
+  .bbb-addons .bbb-addon__text { padding-top: 0; gap: 0.4rem; flex: 1; display: flex; flex-direction: column; }
+  .bbb-addons .bbb-addon__name { font-size: 1.7rem; line-height: 1.25; }
+  .bbb-addons .nybe-addon__desc { font-size: 1.4rem; line-height: 1.45; }
+  .bbb-addons .bbb-addon__price { margin-top: auto; padding-top: 0.6rem; font-size: 1.7rem; line-height: 1.2; } /* same height in every card */
+  .bbb-addons .bbb-addon__check { position: absolute; top: 1.4rem; right: 1.4rem; }
+}
