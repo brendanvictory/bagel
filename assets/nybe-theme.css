@@ -241,6 +241,7 @@ body { color: var(--nybe-navy); }
 .nybe-promo-tile__spark {
   position: absolute; top: -10%; left: 8%; width: 26%; max-width: 5.2rem; height: auto; color: var(--nybe-orange); overflow: visible;
   transform-origin: 90% 90%; animation: nybeSpark 0.6s cubic-bezier(.2, .9, .3, 1.3) 0.2s both;
+  rotate: 20deg; /* tilted right; separate from the pop-in transform */
 }
 /* Hover wiggle lives on the inner group, so the one-time pop-in never restarts (no blink on mouse-out) */
 .nybe-promo-tile__spark-g { transform-box: fill-box; transform-origin: 100% 100%; }
