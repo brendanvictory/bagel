@@ -502,22 +502,19 @@
 .bbb-promo__line1 { display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem; }
 .bbb-promo__line1 strong { font-family: var(--font-heading-family); font-weight: 800; }
 .bbb-promo__line2 { font-size: 0.8em; color: var(--bbb-muted, #4a5a70); }
-/* Regular price: tag icon + grey price with a bold red-orange diagonal slash (ad-style price cut) */
-.bbb-promo__reg { display: inline-flex; align-items: center; gap: 0.6rem; padding-left: 4px; line-height: 1; }
-.bbb-promo__reg-icon { flex: none; width: 1.8rem; height: 1.8rem; color: #e4572e; transform: rotate(-8deg); }
-.bbb-promo__was {
-  position: relative; display: inline-block; text-decoration: none; line-height: 1;
-  font-size: 1.7rem; font-weight: 800; color: #4a5a70; padding: 0 0.15em;
+/* Value chip under the copy: tag icon + price + VALUE, navy on a light navy pill */
+.bbb-promo__reg {
+  display: inline-flex; align-items: center; gap: 0.7rem; margin-top: 0.5rem; padding: 0.5rem 1.2rem 0.5rem 1rem;
+  border-radius: 1.6rem; background: rgb(8 45 92 / 10%); color: #082d5c; line-height: 1;
 }
-.bbb-promo__was::after {
-  content: ''; position: absolute; left: -0.12em; right: -0.12em; top: 50%; height: 0.09em; min-height: 2px;
-  background: #e4572e; border-radius: 99rem; transform: rotate(-12deg);
-}
-.bbb-promo__reg-note { font-size: 1.2rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: #6b778a; }
+.bbb-promo__reg-icon { flex: none; width: 1.8rem; height: 1.8rem; color: #082d5c; }
+.bbb-promo__reg-amt { font-family: var(--font-heading-family); font-size: 1.7rem; font-weight: 800; letter-spacing: 0.01em; font-variant-numeric: tabular-nums; }
+.bbb-promo__reg-note { font-size: 1.15rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; }
 @media screen and (min-width: 750px) {
-  .bbb-promo__reg { padding-left: 5px; }
-  .bbb-promo__was { font-size: 2rem; }
+  .bbb-promo__reg { padding: 0.6rem 1.4rem 0.6rem 1.1rem; }
   .bbb-promo__reg-icon { width: 2rem; height: 2rem; }
+  .bbb-promo__reg-amt { font-size: 1.9rem; }
+  .bbb-promo__reg-note { font-size: 1.25rem; }
 }
 .bbb-promo--banner .bbb-promo__tag { background: #f47b20; color: #fff; }
 @media screen and (min-width: 750px) {
