@@ -110,9 +110,13 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   ok((await total()) === '$55.90' && !(await p.isVisible('[data-bbb-disclosure]')), 'one-time $45.95 + $9.95 = $55.90, no renewal note');
   ok((await p.textContent('.bbb-bar__total')).trim() === '$55.90', 'mobile bar shows total on page 2');
 
-  console.log('6. Back button returns to page 1, forward to page 2');
+  console.log('6. Back button returns to the delivery check, then page 1; forward to page 2');
   await p.goBack(); await p.waitForTimeout(200);
-  ok((await step()) === '1' && (await progress()) === '3 of 3 sleeves selected', 'browser Back → page 1 with box intact');
+  ok((await step()) === 'lead', 'browser Back from page 2 → delivery check');
+  await p.goBack(); await p.waitForTimeout(200);
+  ok((await step()) === '1' && (await progress()) === '3 of 3 sleeves selected', 'browser Back again → page 1 with box intact');
+  await p.goForward(); await p.waitForTimeout(200);
+  ok((await step()) === 'lead', 'browser Forward → delivery check');
   await p.goForward(); await p.waitForTimeout(200);
   ok((await step()) === '2' && await p.isChecked('[data-bbb-addon="1001"]'), 'browser Forward → page 2 with add-on intact');
   await p.click('[data-bbb-view="2"] .bbb-card2__edit');
