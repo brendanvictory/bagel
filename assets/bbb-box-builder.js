@@ -227,6 +227,7 @@
       }
     }
     $$('[data-bbb-add]').forEach((b) => b.setAttribute('aria-disabled', String(!(isFull() && state.option))));
+    root.classList.toggle('is-addable', !!(isFull() && state.option)); // mobile bar on page 2 shows only when Checkout is active
   };
 
   // Picks are remembered per tab (sessionStorage), not in the URL: rewriting the URL on every

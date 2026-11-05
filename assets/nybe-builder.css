@@ -293,6 +293,16 @@
   .bbb-builder[data-step='2'] .bbb-bar__total { font-size: 2.6rem; }
   .bbb-builder[data-step='2'] .bbb-bar__p2 .button { grid-area: btn; margin-left: 0; }
 }
+/* Info row in the bar (Free shipping · You save $X + divider): switched OFF for now.
+   To bring it back, delete this block. */
+@media screen and (max-width: 989px) {
+  .bbb-builder .nybe-bar__info { display: none; }
+  .bbb-builder[data-step='2'] .bbb-bar__p2 { grid-template-areas: 'sum btn'; }
+}
+/* Page 2 on phones: the bottom bar only appears once Checkout is active (a plan is chosen) */
+@media screen and (max-width: 989px) {
+  .bbb-builder[data-step='2']:not(.is-addable) .bbb-bar { display: none; }
+}
 
 /* ---------- Page 2: sticky sidebar runs to the end of the left column ---------- */
 .nybe-side-stick { display: grid; gap: 0; }
