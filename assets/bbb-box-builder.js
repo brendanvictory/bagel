@@ -442,11 +442,9 @@
       return;
     }
     if (back) {
-      // "Edit flavors" always lands on the flavor picker. From the delivery check the previous history entry is
-      // page 1, so Back is fine; from page 2 the previous entry is usually the delivery check, so go straight to 1.
-      const hs = window.history.state;
-      if (hs && hs.bbbStep === 'lead') window.history.back();
-      else showStep(1);
+      // "Edit flavors" always opens the flavor picker scrolled to its top. (Not history.back(): that lands on the
+      // delivery check from page 2, and restores the old scroll position, i.e. down by the Next button.)
+      showStep(1);
     }
   });
 
