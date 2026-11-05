@@ -441,7 +441,16 @@
                           {%- endif -%}
                         </span>
                         <span class="bbb-addon__text">
-                          <span class="bbb-addon__name">{{ a.title | escape }}</span>
+                          {%- liquid
+                            # "Mini Bagels (6)" reads as "6 Mini Bagels" on the card (the product title itself is unchanged)
+                            assign a_name = a.title
+                            if a.title contains ' (' and a.title contains ')'
+                              assign a_parts = a.title | split: ' ('
+                              assign a_qty = a_parts.last | remove: ')' | strip
+                              assign a_name = a_qty | append: ' ' | append: a_parts.first
+                            endif
+                          -%}
+                          <span class="bbb-addon__name">{{ a_name | escape }}</span>
                           {%- assign a_desc = a.description | strip_html | strip -%}
                           {%- if a_desc != blank -%}<span class="nybe-addon__desc">{{ a_desc | truncatewords: 12 | escape }}</span>{%- endif -%}
                           <span class="bbb-addon__price">+{{ av.price | money }}<span class="bbb-addon__every" data-bbb-every hidden> every box</span></span>
