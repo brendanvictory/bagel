@@ -162,7 +162,7 @@
       {%- if promo_on -%}
         <div class="bbb-promo bbb-promo--banner">
           <span class="bbb-promo__media" aria-hidden="true">
-            {%- if promo.featured_image != blank -%}{{ promo.featured_image | image_url: height: 320 | image_tag: loading: 'lazy', alt: '', class: 'bbb-promo__img' }}{%- endif -%}
+            {%- if promo.featured_image != blank -%}{{ promo.featured_image | image_url: height: 320 | image_tag: loading: 'lazy', alt: '', class: 'bbb-promo__img' }}<svg class="nybe-promo__spark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" focusable="false"><path d="M29 25 27.5 8"/><path d="M23.5 29.5 11 17"/><path d="M21 35.5 5 34"/></svg>{%- endif -%}
           </span>
           {%- liquid
             # "Mini Bagels (6)" reads as "6x Mini Bagels"
@@ -208,7 +208,6 @@
             <li>
               <div class="bbb-slot is-filled nybe-slot--free" role="img" aria-label="Free with this box: {{ promo_name | escape }}">
                 <span class="bbb-slot__img" aria-hidden="true">{{ promo.featured_image | image_url: height: 240 | image_tag: loading: 'lazy', alt: '' }}</span>
-                <svg class="nybe-slot__spark" viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M11 25 12.5 8"/><path d="M16.5 29.5 29 17"/><path d="M19 35.5 35 34"/></svg>
                 {%- liquid
                   # Short tile label: "6x Minis" (full name stays in the aria-label)
                   assign tile_name = promo_name
