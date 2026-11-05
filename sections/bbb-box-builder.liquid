@@ -130,7 +130,8 @@
   {%- endif -%}
 
   <div class="page-width bbb-builder__wrap">
-    <nav class="bbb-stepnav" aria-label="Order steps">
+    {%- capture stepnav -%}
+    <nav class="bbb-stepnav STEPNAV_CLASS" aria-label="Order steps">
       <ol class="bbb-stepnav__list" role="list">
         <li class="bbb-stepnav__item" data-bbb-stepnav="1" aria-current="step"><span class="bbb-stepnav__dot" aria-hidden="true"><span class="nybe-stepnav__n">1</span>{% render 'bbb-icon', name: 'check', size: 14, stroke: 3, class: 'nybe-stepnav__check' %}</span> <span class="bbb-stepnav__label">{{ section.settings.nav1 | escape }}</span></li>
         {%- assign nav_n = 2 -%}
@@ -142,6 +143,8 @@
         <li class="bbb-stepnav__item"><span class="bbb-stepnav__dot" aria-hidden="true">{{ nav_n | plus: 1 }}</span> <span class="bbb-stepnav__label">Checkout</span></li>
       </ol>
     </nav>
+    {%- endcapture -%}
+    {{ stepnav | replace: 'STEPNAV_CLASS', 'nybe-stepnav--top' }}
 
     {%- if flavors == blank -%}
       <p class="bbb-editor-note">Add flavors to this product's “Box flavors” field in Shopify admin to use the builder.</p>
@@ -179,6 +182,8 @@
             {%- if promo.price > 0 -%}<span class="bbb-promo__reg">{% render 'bbb-icon', name: 'gift', size: 18, stroke: 2, class: 'bbb-promo__reg-icon' %}<span class="bbb-promo__reg-amt">{{ promo.price | money }}</span><span class="bbb-promo__reg-note">value</span></span>{%- endif -%}
           </p>
         </div>
+        {%- comment -%} On free-item pages the step progress sits under this banner on page 1 (the top copy is hidden there) {%- endcomment -%}
+        {{ stepnav | replace: 'STEPNAV_CLASS', 'nybe-stepnav--inline' }}
       {%- endif -%}
 
       <span class="nybe-tray-sentinel" data-nybe-tray-sentinel aria-hidden="true"></span>
