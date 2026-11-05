@@ -510,7 +510,7 @@
             <p class="nybe-saving" data-bbb-saving hidden>{% render 'bbb-icon', name: 'check-circle', size: 16, stroke: 2.5 %}<span data-bbb-saving-text></span></p>
             {%- if section.settings.shipping_note != blank -%}
               {%- comment -%} Green "good news" chip unless the note quotes a price (e.g. "Shipping: $14.95 …") {%- endcomment -%}{%- assign ship_free = true -%}{%- if section.settings.shipping_note contains '$' -%}{%- assign ship_free = false -%}{%- endif -%}
-              <p class="bbb-totals__ship nybe-ship{% if ship_free %} nybe-ship--free{% endif %}"><span class="nybe-ship__icon" aria-hidden="true">{%- render 'bbb-icon', name: 'truck', size: 20, stroke: 2 -%}</span><span>{{ section.settings.shipping_note | escape }}</span></p>
+              <p class="bbb-totals__ship nybe-ship{% if ship_free %} nybe-ship--free{% endif %}"><span class="nybe-ship__icon{% if section.settings.shipping_icon == 'ups' %} nybe-ship__icon--logo{% endif %}" aria-hidden="true">{%- if section.settings.shipping_icon == 'ups' -%}<img src="{{ 'nybe-ups-logo.svg' | asset_url }}" width="20" height="24" alt="" loading="lazy">{%- else -%}{%- render 'bbb-icon', name: 'truck', size: 20, stroke: 2 -%}{%- endif -%}</span><span>{{ section.settings.shipping_note | escape }}</span></p>
             {%- endif -%}
             <p class="bbb-builder__error" data-bbb-error="2" role="alert" hidden></p>
             <button type="button" class="button button--primary bbb-checkout" data-bbb-add aria-describedby="bbb-disclosure-{{ section.id }}">
@@ -854,6 +854,7 @@
     },
     { "type": "text", "id": "error_choose_option", "label": "Error: no purchase option", "default": "Choose Subscribe and Save or a one-time purchase." },
     { "type": "text", "id": "shipping_note", "label": "Shipping note", "default": "Free fast & reliable delivery included." },
+    { "type": "select", "id": "shipping_icon", "label": "Shipping note icon", "default": "truck", "options": [ { "value": "truck", "label": "Truck" }, { "value": "ups", "label": "UPS logo" } ] },
     { "type": "text", "id": "reviews_heading", "label": "Reviews heading (page 2)", "default": "Loved by Bagel Lovers" },
     { "type": "text", "id": "add_label", "label": "Checkout button", "default": "Checkout" },
     { "type": "text", "id": "bar_label", "label": "Mobile bar checkout button", "default": "Checkout" },

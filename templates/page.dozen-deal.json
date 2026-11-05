@@ -213,14 +213,15 @@
         "next_label": "Next: Add-ons & Pricing",
         "add_label": "Checkout",
         "tray_hint": "Each sleeve holds [per_sleeve] bagels of one flavor. Choose up to [sleeves] flavors for your box ([total] bagels total).",
-        "shipping_note": "Fast & reliable delivery included.",
+        "shipping_note": "UPS 2-Day Guaranteed Delivery",
         "product": "dozen-deal",
         "heading_tag": "h2",
         "anchor": "build",
         "after_add": "checkout",
         "default_option": "none",
         "color_scheme": "scheme-2",
-        "lead_source": "dozen-deal"
+        "lead_source": "dozen-deal",
+        "shipping_icon": "ups"
       }
     },
     "about": {
