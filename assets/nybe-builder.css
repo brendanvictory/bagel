@@ -595,3 +595,11 @@
 @container (max-width: 560px) {
   .bbb-addons > li { grid-column: 1 / -1; }
 }
+/* Under 1145px: one card per row, everything vertically centred in the card */
+@media screen and (min-width: 750px) and (max-width: 1145px) {
+  .bbb-addons > li { grid-column: 1 / -1; }
+  .bbb-addons .bbb-addon { grid-template-rows: auto auto; align-content: center; align-items: center; }
+  .bbb-addons .bbb-addon__name { align-self: end; padding-top: 0; }
+  .bbb-addons .nybe-addon__desc { align-self: start; }
+  .bbb-addons .bbb-addon__price { align-self: center; padding-top: 0; }
+}
