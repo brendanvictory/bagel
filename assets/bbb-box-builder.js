@@ -294,10 +294,12 @@
     hideErrors();
     syncUrl(push && !replace);
     if (focus) {
-      // Scroll to the top of the builder (the page top on the product page; below the hero on landing pages)
+      // Scroll so the visible step progress sits right under the sticky header (nothing above it)
       const hdr = document.querySelector('.section-header');
-      const top = Math.max(0, root.getBoundingClientRect().top + window.scrollY - 12 - (hdr ? hdr.offsetHeight : 0));
-      window.scrollTo({ top: top < 240 ? 0 : top, behavior: 'instant' in document.documentElement.style ? 'instant' : 'auto' });
+      const nav = $$('.bbb-stepnav').find((n) => n.offsetParent !== null);
+      const anchor = nav || root;
+      const top = Math.max(0, anchor.getBoundingClientRect().top + window.scrollY - 16 - (hdr ? hdr.offsetHeight : 0));
+      window.scrollTo({ top, behavior: 'instant' in document.documentElement.style ? 'instant' : 'auto' });
       const h = $(`[data-bbb-focus="${step}"]`);
       if (h) h.focus({ preventScroll: true });
     }
