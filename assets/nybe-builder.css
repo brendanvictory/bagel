@@ -100,6 +100,10 @@
 .bbb-fcard { background: var(--nybe-card, #fff6e8); border: 0.2rem solid transparent; box-shadow: 0 0.2rem 0.6rem rgba(120, 70, 20, 0.06); position: relative; }
 .bbb-fcard__media { background: transparent; }
 .bbb-fcard__body { justify-items: center; text-align: center; padding: 0.4rem 1.2rem 1.4rem; }
+/* Same-height cards in a row: the name block takes the spare room (centred), so every - 0 + stepper sits on the same line */
+.bbb-fcard__body { display: flex; flex-direction: column; align-items: center; }
+.bbb-fcard__name { flex: 1 0 auto; display: grid; align-content: center; width: 100%; }
+.bbb-fcard__body .bbb-stepper { margin-top: 0.4rem; align-self: stretch; }
 .bbb-fcard__name { color: var(--bbb-ink); }
 .bbb-fcard__badge { display: none !important; }
 .nybe-fcard__check { display: none; position: absolute; top: 0.8rem; right: 0.8rem; width: 3rem; height: 3rem; border-radius: 50%; background: #f47b20; color: #fff; place-items: center; box-shadow: 0 0 0 0.25rem #fff; }
