@@ -527,6 +527,28 @@
       const sms = f('[data-bbb-lead-sms]'); if (sms && d.sms) sms.checked = true;
     })();
 
+    // Ticking "Text me" makes the phone number required (no number, no texts)
+    const smsBox = f('[data-bbb-lead-sms]');
+    const syncPhoneRequired = () => {
+      const on = !!(smsBox && smsBox.checked);
+      const ph = f('[data-bbb-lead-phone]'), opt = f('[data-bbb-lead-phone-opt]');
+      if (ph) { ph.required = on; ph.setAttribute('aria-required', on ? 'true' : 'false'); if (!on) ph.removeAttribute('aria-invalid'); }
+      if (opt) opt.textContent = on ? '(required for texts)' : '(optional)';
+    };
+    if (smsBox) { smsBox.addEventListener('change', syncPhoneRequired); syncPhoneRequired(); }
+
+    // "Checking…" is only for the moment the form posts; undo it if the browser restores this page (Back/Forward)
+    const leadBtn = f('[data-bbb-lead-submit]');
+    const leadBtnLbl = leadBtn && leadBtn.querySelector('span');
+    const leadBtnText = leadBtnLbl ? leadBtnLbl.textContent : '';
+    const resetLeadBtn = () => {
+      if (!leadBtn) return;
+      leadBtn.removeAttribute('aria-busy');
+      if (leadBtnLbl) leadBtnLbl.textContent = leadBtnText;
+    };
+    window.addEventListener('pageshow', resetLeadBtn);
+    window.addEventListener('popstate', resetLeadBtn);
+
     // Shopify adds hCaptcha to customer forms and then submits them natively (full page load), so the lead is
     // sent with a normal form POST whose return_to brings the shopper back to page 2 with their box (or back to
     // this step with the out-of-area message). Validation runs first, in the capture phase, so Shopify's captcha
@@ -552,7 +574,8 @@
       if (!name) { stop(); return fieldError(nameEl, 'Please enter your name.'); }
       if (!zip) { stop(); return fieldError(zipEl, 'Please enter a 5-digit ZIP code.'); }
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { stop(); return fieldError(emailEl, 'Please enter a valid email address.'); }
-      if (digits && !phone) { stop(); return fieldError(phoneEl, 'Please enter a 10-digit US phone number, or leave it blank.'); }
+      if (smsEl && smsEl.checked && !digits) { stop(); return fieldError(phoneEl, 'Please enter your phone number to get texts, or untick the text box.'); }
+      if (digits && !phone) { stop(); return fieldError(phoneEl, smsEl && smsEl.checked ? 'Please enter a 10-digit US phone number.' : 'Please enter a 10-digit US phone number, or leave it blank.'); }
 
       const ok = zipDeliverable(zip);
       // Already checked with exactly these details: continue without re-submitting (no page reload)
@@ -700,10 +723,14 @@
   };
   $$('[data-bbb-add]').forEach((b) => b.addEventListener('click', add));
 
+  // Back from checkout (page restored from the browser cache): undo "Adding…" and re-enable the button
+  const addLabelEl = $('[data-bbb-add-label]');
+  const addLabelText = addLabelEl ? addLabelEl.textContent : '';
   window.addEventListener('pageshow', (e) => {
     if (e.persisted) {
       busy = false;
       $$('[data-bbb-add]').forEach((b) => { b.removeAttribute('aria-busy'); b.disabled = false; });
+      if (addLabelEl && addLabelEl.textContent === cfg.labels.adding) addLabelEl.textContent = addLabelText;
     }
   });
 
