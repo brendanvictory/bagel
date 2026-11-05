@@ -162,9 +162,21 @@
       {%- if promo_on -%}
         <div class="bbb-promo bbb-promo--banner">
           <span class="bbb-promo__media" aria-hidden="true">
-            {%- if promo.featured_image != blank -%}{{ promo.featured_image | image_url: width: 200 | image_tag: loading: 'lazy', alt: '', class: 'bbb-promo__img' }}{%- endif -%}
+            {%- if promo.featured_image != blank -%}{{ promo.featured_image | image_url: height: 320 | image_tag: loading: 'lazy', alt: '', class: 'bbb-promo__img' }}{%- endif -%}
           </span>
-          <p class="bbb-promo__text"><span class="bbb-promo__tag">Free</span> <strong>{{ promo.title | escape }}</strong> comes free with this box.</p>
+          {%- liquid
+            # "Mini Bagels (6)" reads as "6x Mini Bagels"
+            assign promo_name = promo.title
+            if promo.title contains ' ('
+              assign pr_parts = promo.title | split: ' ('
+              assign pr_qty = pr_parts.last | remove: ')' | strip
+              assign promo_name = pr_qty | append: 'x ' | append: pr_parts.first
+            endif
+          -%}
+          <p class="bbb-promo__text">
+            <span class="bbb-promo__line1"><span class="bbb-promo__tag">Free</span> <strong>{{ promo_name | escape }}</strong></span>
+            <span class="bbb-promo__line2">On us with this box{% if promo.price > 0 %}, a {{ promo.price | money_without_trailing_zeros }} value{% endif %}. Fresh-baked and packed right in.</span>
+          </p>
         </div>
       {%- endif -%}
 

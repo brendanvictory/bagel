@@ -480,3 +480,16 @@
 /* Delivery plan: radio and price sit on the title's first line on every screen size */
 .bbb-options .bbb-option__row, .bbb-options label.bbb-option { align-items: start; }
 .bbb-options .bbb-option__radio { margin-top: 0.1rem; }
+
+/* Free-item banner (free minis page): whole product photo, two left-aligned lines */
+.bbb-promo--banner { justify-items: start; text-align: left; }
+.bbb-promo--banner .bbb-promo__media { width: auto; height: auto; background: #fff; border-radius: 1rem; overflow: hidden; display: block; line-height: 0; }
+.bbb-promo--banner .bbb-promo__img { width: auto; height: 9.6rem; max-width: 9.6rem; object-fit: contain; }
+.bbb-promo--banner .bbb-promo__text { display: grid; gap: 0.5rem; justify-items: start; line-height: 1.3; }
+.bbb-promo__line1 { display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem; }
+.bbb-promo__line1 strong { font-family: var(--font-heading-family); font-weight: 800; }
+.bbb-promo__line2 { font-size: 0.8em; color: var(--bbb-muted, #4a5a70); }
+.bbb-promo--banner .bbb-promo__tag { background: #f47b20; color: #fff; }
+@media screen and (min-width: 750px) {
+  .bbb-promo--banner .bbb-promo__img { height: 12rem; max-width: 12rem; }
+}
