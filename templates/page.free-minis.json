@@ -72,6 +72,7 @@
           "type": "step",
           "settings": {
             "title": "Build your dozen",
+            "icon": "bagel",
             "text": "<p>Pick 3 sleeves of 4. Mix up to 3 flavors, or go all-in on your favorite.</p>"
           }
         },
@@ -79,6 +80,7 @@
           "type": "step",
           "settings": {
             "title": "6 minis, on us",
+            "icon": "bagel-stack",
             "text": "<p>Your free Mini Bagels (6) are added to your box automatically. No code to type.</p>"
           }
         },
@@ -86,6 +88,7 @@
           "type": "step",
           "settings": {
             "title": "Shipped free",
+            "icon": "truck",
             "text": "<p>Baked and shipped the same day from our Long Island commissary. Enjoy now or freeze for later.</p>"
           }
         }
