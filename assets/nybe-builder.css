@@ -452,7 +452,9 @@
 .bbb-totals__disclosure { padding-top: 1.4rem; border-top: 0.1rem solid var(--bbb-line, #ece4d6); }
 
 /* Page 2 benefits: full width under the plan/summary; 3 columns from desktop */
-.nybe-perks--wide { margin-top: var(--bbb-space-3, 2.4rem); }
+/* Benefits card under Delivery plan: same gap above it as between the other page-2 cards */
+.nybe-perks--wide { margin-top: 0; }
+@media screen and (min-width: 990px) { .bbb-p2 { row-gap: var(--bbb-space-2); } }
 @media screen and (min-width: 990px) {
   /* Desktop: sits in the left column right under Delivery plan (same width); the sidebar spans both rows */
   .bbb-p2 > .nybe-perks--wide { grid-column: 1; margin-top: 0; }
