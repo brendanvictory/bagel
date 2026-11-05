@@ -30,7 +30,7 @@
           "type": "chip",
           "settings": {
             "text": "Mix up to 3 flavors",
-            "icon": "numbers"
+            "icon": "rows-3"
           }
         }
       },
