@@ -126,7 +126,8 @@
         "promo_note": "Ships with your first box. Added automatically at checkout.",
         "default_option": "none",
         "after_add": "checkout",
-        "color_scheme": "scheme-2"
+        "color_scheme": "scheme-2",
+        "step3_title": "Delivery plan"
       },
       "blocks": {
         "copy": {
