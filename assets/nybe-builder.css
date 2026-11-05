@@ -356,6 +356,7 @@
 .bbb-builder[data-step='lead'] .nybe-banner__copy--p1 { display: none; }
 .bbb-builder[data-step='lead'] .nybe-banner__copy--lead { display: grid; }
 .nybe-leadhead { max-width: 76rem; width: 100%; margin-inline: auto; }
+.nybe-leadhead .bbb-builder__sub { max-width: none; } /* text spans the same width as the form card */
 .bbb-lead { max-width: 76rem; width: 100%; margin-inline: auto; padding: 2rem 1.8rem 2.4rem; gap: 2rem; }
 @media screen and (min-width: 750px) { .bbb-lead { padding: 3.2rem 3.6rem 3.6rem; } }
 .nybe-lead__head { display: flex; gap: 1.4rem; align-items: center; padding-bottom: 1.8rem; border-bottom: 0.1rem solid var(--bbb-line); }
