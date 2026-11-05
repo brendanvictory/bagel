@@ -206,7 +206,9 @@
         "anchor": "about",
         "color_scheme": "scheme-1",
         "padding_top": 72,
-        "padding_bottom": 72
+        "padding_bottom": 72,
+        "layout": "card",
+        "card_product": "build-your-box"
       }
     },
     "faq": {
