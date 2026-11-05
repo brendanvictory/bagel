@@ -544,3 +544,7 @@
 .bbb-builder--embedded { padding-top: 3.2rem; }
 @media screen and (min-width: 750px) { .bbb-builder--embedded { padding-top: 4rem; } }
 @media screen and (min-width: 990px) { .bbb-builder--embedded { padding-top: 4.8rem; } }
+
+/* Free-item pages: on page 1 the step progress moves under the free minis banner */
+.bbb-builder--promo[data-step="1"] .nybe-stepnav--top { display: none; }
+.nybe-stepnav--inline { margin: -0.8rem 0 0.4rem; }
