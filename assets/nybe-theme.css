@@ -239,16 +239,16 @@ body { color: var(--nybe-navy); }
 /* Three "fresh out of the oven" lines at the top-left of the bagel stack */
 .nybe-promo-tile__media { position: relative; display: block; }
 .nybe-promo-tile__spark {
-  position: absolute; top: -10%; left: 8%; width: 26%; max-width: 5.2rem; height: auto; color: var(--nybe-orange); overflow: visible;
+  position: absolute; top: -12%; left: 5%; width: 30%; max-width: 6rem; height: auto; color: var(--nybe-orange); overflow: visible;
   transform-origin: 90% 90%; animation: nybeSpark 0.6s cubic-bezier(.2, .9, .3, 1.3) 0.2s both;
   rotate: -20deg; /* tilted (owner-tuned); separate from the pop-in transform */
 }
-/* Hover wiggle lives on the inner group, so the one-time pop-in never restarts (no blink on mouse-out) */
-.nybe-promo-tile__spark-g { transform-box: fill-box; transform-origin: 100% 100%; }
-.nybe-promo-tile__card:hover .nybe-promo-tile__spark-g { animation: nybeSparkWiggle 0.5s ease; }
+/* Hover: the lines grow (with a little overshoot) and stay bigger while hovered; on the inner group so the pop-in never restarts.
+   Shared by the homepage promo tile and the free-minis banner. */
+.nybe-promo-tile__spark-g, .nybe-promo__spark-g { transform-box: fill-box; transform-origin: 100% 100%; transition: transform 0.35s cubic-bezier(.2, .9, .3, 1.4); }
+.nybe-promo-tile__card:hover .nybe-promo-tile__spark-g, .bbb-promo--banner:hover .nybe-promo__spark-g { transform: scale(1.25); }
 @keyframes nybeSpark { from { opacity: 0; transform: scale(0.4); } to { opacity: 1; transform: scale(1); } }
-@keyframes nybeSparkWiggle { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.15) rotate(-4deg); } }
-@media (prefers-reduced-motion: reduce) { .nybe-promo-tile__spark, .nybe-promo-tile__card:hover .nybe-promo-tile__spark-g { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .nybe-promo-tile__spark { animation: none; } .nybe-promo-tile__spark-g, .nybe-promo__spark-g { transition: none; } }
 .nybe-promo-tile__copy { display: grid; gap: 1.6rem; justify-items: start; align-content: center; min-width: 0; }
 .nybe-promo-tile__title { font-weight: 900; font-style: italic; font-size: clamp(2.4rem, 2.4vw, 3.2rem); line-height: 1.05; color: var(--nybe-orange-big); }
 .nybe-promo-tile__btn { min-height: 4.8rem; padding: 0 2.4rem; font-size: 1.4rem; display: inline-flex; align-items: center; white-space: nowrap; }
