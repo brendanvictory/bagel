@@ -514,7 +514,6 @@
 @media screen and (min-width: 750px) {
   .bbb-promo__reg { padding: 0.6rem 1.4rem 0.6rem 1.1rem; }
   .bbb-promo__reg-icon { width: 2rem; height: 2rem; }
-  .bbb-promo__reg-amt { font-size: 1.9rem; }
   .bbb-promo__reg-note { font-size: 1.25rem; }
 }
 .bbb-promo--banner .bbb-promo__tag { background: #f47b20; color: #fff; }
