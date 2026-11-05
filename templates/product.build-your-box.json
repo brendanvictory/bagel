@@ -146,7 +146,7 @@
         "lead_enabled": true,
         "lead_source": "builder",
         "lead_heading": "Let's make sure we deliver to your ZIP code",
-        "lead_text": "Enter your ZIP to check delivery, and we'll save your box so you can pick up where you left off.",
+        "lead_text": "Enter your ZIP to check delivery. We'll hold your box.",
         "lead_button": "Check delivery",
         "lead_sms_text": "Text me offers and updates from New York Bagel Express. Msg & data rates may apply. Reply STOP to opt out. Not required to buy.",
         "lead_disclosure": "<p>By continuing you agree to get emails from New York Bagel Express about your box and offers. Unsubscribe anytime. <a href=\"/policies/privacy-policy\">Privacy policy</a>.</p>",
