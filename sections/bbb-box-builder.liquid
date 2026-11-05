@@ -176,7 +176,7 @@
           <p class="bbb-promo__text">
             <span class="bbb-promo__line1"><span class="bbb-promo__tag">Free</span> <strong>{{ promo_name | escape }}</strong></span>
             <span class="bbb-promo__line2">On us with this box. Fresh-baked and packed right in.</span>
-            {%- if promo.price > 0 -%}<span class="bbb-promo__reg">{% render 'bbb-icon', name: 'gift', size: 18, stroke: 2, class: 'bbb-promo__reg-icon' %}<span class="bbb-promo__reg-note">a</span><span class="bbb-promo__reg-amt">{{ promo.price | money }}</span><span class="bbb-promo__reg-note">value</span></span>{%- endif -%}
+            {%- if promo.price > 0 -%}<span class="bbb-promo__reg">{% render 'bbb-icon', name: 'gift', size: 18, stroke: 2, class: 'bbb-promo__reg-icon' %}<span class="bbb-promo__reg-amt">{{ promo.price | money }}</span><span class="bbb-promo__reg-note">value</span></span>{%- endif -%}
           </p>
         </div>
       {%- endif -%}
