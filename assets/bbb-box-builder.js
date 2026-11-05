@@ -364,6 +364,7 @@
     if (!new URL(window.location.href).searchParams.has('s') || preferSession()) { state.sleeves = []; state.addons = new Set(); restoreSession(); step = 1; }
     else mergeSessionChoices();
     if (step === 2 && leadSaved()) leadPass = true; // browser Forward onto page 2 after the check
+    if (step === 'lead') leadPass = false; // browser Back onto the delivery check: show it (pre-filled), don't skip past it
     $$('[data-bbb-addon]').forEach((cb) => (cb.checked = state.addons.has(cb.value)));
     renderPage1(); renderPage2();
     const fromStep = state.step;
@@ -544,7 +545,8 @@
       showError('lead', msg);
       if (input) { input.setAttribute('aria-invalid', 'true'); input.focus(); }
     };
-    const goOn = () => { leadPass = true; showStep(2, { replace: true }); };
+    // Push (not replace) so browser Back from page 2 always returns to the delivery check
+    const goOn = () => { leadPass = true; showStep(2); };
     // Pre-fill the delivery check with what this shopper entered last time
     (() => {
       const d = leadSaved();
