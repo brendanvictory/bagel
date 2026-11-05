@@ -175,7 +175,7 @@
           -%}
           <p class="bbb-promo__text">
             <span class="bbb-promo__line1"><span class="bbb-promo__tag">Free</span> <strong>{{ promo_name | escape }}</strong></span>
-            <span class="bbb-promo__line2">On us with this box{% if promo.price > 0 %}, a {{ promo.price | money_without_trailing_zeros }} value{% endif %}. Fresh-baked and packed right in.</span>
+            <span class="bbb-promo__line2"><span>On us with this box{% if promo.price > 0 %}, a {{ promo.price | money_without_trailing_zeros }} value{% endif %}.</span> <span>Fresh-baked and packed right in.</span></span>
           </p>
         </div>
       {%- endif -%}
