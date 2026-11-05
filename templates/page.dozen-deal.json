@@ -213,7 +213,7 @@
         "next_label": "Next: Add-ons & Pricing",
         "add_label": "Checkout",
         "tray_hint": "Each sleeve holds [per_sleeve] bagels of one flavor. Choose up to [sleeves] flavors for your box ([total] bagels total).",
-        "shipping_note": "",
+        "shipping_note": "Fast & reliable delivery included.",
         "product": "dozen-deal",
         "heading_tag": "h2",
         "anchor": "build",
