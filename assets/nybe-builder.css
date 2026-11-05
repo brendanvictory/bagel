@@ -498,7 +498,16 @@
 .bbb-promo__line1 { display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem; }
 .bbb-promo__line1 strong { font-family: var(--font-heading-family); font-weight: 800; }
 .bbb-promo__line2 { font-size: 0.8em; color: var(--bbb-muted, #4a5a70); }
-.bbb-promo__was { font-size: 0.75em; font-weight: 700; color: #8a93a3; text-decoration-thickness: 0.12em; line-height: 1; }
+/* Regular price, crossed out with a diagonal slash like an ad price cut */
+.bbb-promo__was {
+  position: relative; display: inline-block; text-decoration: none; line-height: 1;
+  font-size: 1.7rem; font-weight: 800; color: #c9420d; padding-left: 4px; padding-right: 2px;
+}
+.bbb-promo__was::after {
+  content: ''; position: absolute; left: 1px; right: -2px; top: 50%; height: 0.12em; min-height: 2px;
+  background: currentColor; border-radius: 99rem; transform: rotate(-14deg); transform-origin: center;
+}
+@media screen and (min-width: 750px) { .bbb-promo__was { font-size: 2rem; padding-left: 5px; } }
 .bbb-promo--banner .bbb-promo__tag { background: #f47b20; color: #fff; }
 @media screen and (min-width: 750px) {
   .bbb-promo--banner .bbb-promo__img { height: 12rem; max-width: 12rem; }
