@@ -608,10 +608,3 @@
   .bbb-addons .nybe-addon__desc { align-self: start; }
   .bbb-addons .bbb-addon__price { align-self: center; padding-top: 0; }
 }
-
-/* Benefits card is rendered twice: in the left column (desktop) and after the summary (phones/tablets) */
-.nybe-perks--in-main { display: none; }
-@media screen and (min-width: 990px) {
-  .nybe-perks--in-main { display: grid; }
-  .nybe-perks--after { display: none; }
-}
