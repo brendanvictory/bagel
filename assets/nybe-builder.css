@@ -454,16 +454,14 @@
 /* Page 2 benefits: full width under the plan/summary; 3 columns from desktop */
 /* Benefits card under Delivery plan: same gap above it as between the other page-2 cards */
 .nybe-perks--wide { margin-top: 0; }
-/* Row 1 hugs the left cards; row 2 takes whatever extra height the (taller) sidebar needs,
-   so the benefits card always sits exactly one gap below Delivery plan */
+/* Page-2 grid gaps (the benefits card lives inside the left column on desktop) */
 @media screen and (min-width: 990px) {
-  .bbb-p2 { row-gap: var(--bbb-space-2); grid-template-rows: min-content 1fr; }
-  .bbb-p2 > .nybe-perks--wide { align-self: start; }
+  .bbb-p2 { row-gap: var(--bbb-space-2); }
 }
 @media screen and (min-width: 990px) {
   /* Desktop: sits in the left column right under Delivery plan (same width); the sidebar spans both rows */
   .bbb-p2 > .nybe-perks--wide { grid-column: 1; margin-top: 0; }
-  .bbb-p2 > .bbb-p2__side { grid-column: 2; grid-row: 1 / span 2; }
+  .bbb-p2 > .bbb-p2__side { grid-column: 2; grid-row: 1; }
   .nybe-perks--wide { grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 1.2rem 2rem; }
   /* Row 1: icon + title side by side; row 2: the text across the full width */
   .nybe-perks--wide .nybe-perks__item { padding: 1.4rem 1.6rem; grid-template-columns: auto minmax(0, 1fr); align-items: center; align-content: start; text-align: left; column-gap: 1.2rem; row-gap: 0.6rem; }
@@ -609,4 +607,11 @@
   .bbb-addons .bbb-addon__name { align-self: end; padding-top: 0; }
   .bbb-addons .nybe-addon__desc { align-self: start; }
   .bbb-addons .bbb-addon__price { align-self: center; padding-top: 0; }
+}
+
+/* Benefits card is rendered twice: in the left column (desktop) and after the summary (phones/tablets) */
+.nybe-perks--in-main { display: none; }
+@media screen and (min-width: 990px) {
+  .nybe-perks--in-main { display: grid; }
+  .nybe-perks--after { display: none; }
 }

@@ -508,6 +508,21 @@
               </label>
             </fieldset>
           </section>
+          {%- comment -%} Benefits card: inside the left column on desktop (always one gap under Delivery plan); after the summary on phones {%- endcomment -%}
+          {%- capture p2_perks -%}
+          {%- assign p2b = section.blocks | where: 'type', 'p2_benefit' -%}
+          {%- if p2b.size > 0 -%}
+            <ul class="bbb-card2 nybe-perks nybe-perks--wide PERKS_WHERE" role="list">
+              {%- for blk in p2b -%}
+                <li class="nybe-perks__item" {{ blk.shopify_attributes }}>
+                  <span class="nybe-perks__icon" aria-hidden="true">{%- render 'bbb-icon', name: blk.settings.icon, size: 26, stroke: 1.75 -%}</span>
+                  <span><strong>{{ blk.settings.title | escape | replace_first: ' ', ' <br class="nybe-perks__br">' }}</strong>{% if blk.settings.text != blank %}<span>{{ blk.settings.text | escape }}</span>{% endif %}</span>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+          {%- endcapture -%}
+          {{ p2_perks | replace: 'PERKS_WHERE', 'nybe-perks--in-main' }}
         </div>
 
         <aside class="bbb-p2__side" aria-labelledby="bbb-summary-{{ section.id }}">
@@ -682,17 +697,7 @@
             if (window.ResizeObserver) new ResizeObserver(fit).observe(el);
           })();
         </script>
-          {%- assign p2b = section.blocks | where: 'type', 'p2_benefit' -%}
-          {%- if p2b.size > 0 -%}
-            <ul class="bbb-card2 nybe-perks nybe-perks--wide" role="list">
-              {%- for blk in p2b -%}
-                <li class="nybe-perks__item" {{ blk.shopify_attributes }}>
-                  <span class="nybe-perks__icon" aria-hidden="true">{%- render 'bbb-icon', name: blk.settings.icon, size: 26, stroke: 1.75 -%}</span>
-                  <span><strong>{{ blk.settings.title | escape | replace_first: ' ', ' <br class="nybe-perks__br">' }}</strong>{% if blk.settings.text != blank %}<span>{{ blk.settings.text | escape }}</span>{% endif %}</span>
-                </li>
-              {%- endfor -%}
-            </ul>
-          {%- endif -%}
+          {{ p2_perks | replace: 'PERKS_WHERE', 'nybe-perks--after' }}
       </div>
     </div>
 
