@@ -128,7 +128,9 @@
         "after_add": "checkout",
         "color_scheme": "scheme-2",
         "step3_title": "Delivery plan",
-        "reviews_heading": "Loved by Bagel Lovers"
+        "reviews_heading": "Loved by Bagel Lovers",
+        "shipping_note": "UPS 2-Day Guaranteed Delivery",
+        "shipping_icon": "ups"
       },
       "blocks": {
         "copy": {

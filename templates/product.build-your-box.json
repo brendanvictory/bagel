@@ -164,13 +164,14 @@
         "once_label": "One-time purchase",
         "default_option": "none",
         "error_choose_option": "Choose Subscribe and Save or a one-time purchase.",
-        "shipping_note": "Free fast & reliable delivery included.",
+        "shipping_note": "UPS 2-Day Guaranteed Delivery",
         "reviews_heading": "Loved by Bagel Lovers",
         "add_label": "Checkout",
         "bar_label": "Checkout",
         "after_add": "checkout",
         "disclosure": "<p>Renews automatically [frequency] at [price] (shipping included) until you cancel. Cancel anytime in your account before your next renewal. <a href=\"/policies/terms-of-service\">Subscription terms</a>.</p>",
-        "color_scheme": ""
+        "color_scheme": "",
+        "shipping_icon": "ups"
       }
     },
     "faq": {
