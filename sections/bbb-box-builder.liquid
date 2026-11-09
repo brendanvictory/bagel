@@ -515,7 +515,7 @@
               {%- for blk in p2b -%}
                 <li class="nybe-perks__item" {{ blk.shopify_attributes }}>
                   <span class="nybe-perks__icon" aria-hidden="true">{%- render 'bbb-icon', name: blk.settings.icon, size: 26, stroke: 1.75 -%}</span>
-                  <span><strong>{{ blk.settings.title | escape | replace_first: ' ', ' <br class="nybe-perks__br">' }}</strong>{% if blk.settings.text != blank %}<span>{{ blk.settings.text | escape }}</span>{% endif %}</span>
+                  {%- assign pk_words = blk.settings.title | escape | split: ' ' -%}<span><strong>{%- for w in pk_words -%}{%- if forloop.index > 1 -%}{{ ' ' }}{%- endif -%}{%- if forloop.last and forloop.length > 1 -%}<br class="nybe-perks__br">{%- endif -%}{{ w }}{%- endfor -%}</strong>{% if blk.settings.text != blank %}<span>{{ blk.settings.text | escape }}</span>{% endif %}</span>
                 </li>
               {%- endfor -%}
             </ul>
