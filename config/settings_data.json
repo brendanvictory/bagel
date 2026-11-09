@@ -109,7 +109,7 @@
     "brand_description": "<p></p>",
     "brand_image_width": 100,
     "social_facebook_link": "https://www.facebook.com/NYBagelExpress",
-    "social_instagram_link": "https://www.instagram.com/nybagelexpress/",
+    "social_instagram_link": "https://www.instagram.com/ny_bagel_express",
     "social_youtube_link": "",
     "social_tiktok_link": "",
     "social_twitter_link": "",
@@ -152,56 +152,56 @@
     "color_schemes": {
       "scheme-1": {
         "settings": {
-          "background": "#FFFFFF",
+          "background": "#ffffff",
           "background_gradient": "",
-          "text": "#082D5C",
-          "button": "#C9420C",
-          "button_label": "#FFFFFF",
-          "secondary_button_label": "#082D5C",
-          "shadow": "#082D5C"
+          "text": "#082d5c",
+          "button": "#c9420c",
+          "button_label": "#ffffff",
+          "secondary_button_label": "#082d5c",
+          "shadow": "#082d5c"
         }
       },
       "scheme-2": {
         "settings": {
-          "background": "#FFF4E2",
+          "background": "#fff4e2",
           "background_gradient": "",
-          "text": "#082D5C",
-          "button": "#C9420C",
-          "button_label": "#FFFFFF",
-          "secondary_button_label": "#082D5C",
-          "shadow": "#082D5C"
+          "text": "#082d5c",
+          "button": "#c9420c",
+          "button_label": "#ffffff",
+          "secondary_button_label": "#082d5c",
+          "shadow": "#082d5c"
         }
       },
       "scheme-3": {
         "settings": {
-          "background": "#F47B20",
+          "background": "#f47b20",
           "background_gradient": "",
-          "text": "#082D5C",
-          "button": "#082D5C",
-          "button_label": "#FFFFFF",
-          "secondary_button_label": "#082D5C",
-          "shadow": "#082D5C"
+          "text": "#082d5c",
+          "button": "#082d5c",
+          "button_label": "#ffffff",
+          "secondary_button_label": "#082d5c",
+          "shadow": "#082d5c"
         }
       },
       "scheme-4": {
         "settings": {
-          "background": "#082D5C",
+          "background": "#082d5c",
           "background_gradient": "",
-          "text": "#FFFFFF",
-          "button": "#C9420C",
-          "button_label": "#FFFFFF",
-          "secondary_button_label": "#FFFFFF",
+          "text": "#ffffff",
+          "button": "#c9420c",
+          "button_label": "#ffffff",
+          "secondary_button_label": "#ffffff",
           "shadow": "#000000"
         }
       },
       "scheme-5": {
         "settings": {
-          "background": "#082D5C",
+          "background": "#082d5c",
           "background_gradient": "",
-          "text": "#FFFFFF",
-          "button": "#C9420C",
-          "button_label": "#FFFFFF",
-          "secondary_button_label": "#FFFFFF",
+          "text": "#ffffff",
+          "button": "#c9420c",
+          "button_label": "#ffffff",
+          "secondary_button_label": "#ffffff",
           "shadow": "#000000"
         }
       }
