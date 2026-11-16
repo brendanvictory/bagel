@@ -58,7 +58,7 @@ def offer_box(title, sub):
 <div style="font-size:18px;font-weight:900;letter-spacing:.5px;text-transform:uppercase;color:{NAVY};">{title}</div><div style="font-size:13px;line-height:1.5;color:{MUTED};margin-top:4px;">{sub}</div></td></tr></table>
 """
 
-LEAD_OFFER = ("{%- if src == 'dozen' -%}" + offer_box('A dozen for $19.95', 'With Subscribe &amp; Save, or $24.95 one-time. Shipping is $14.95 per box.')
+LEAD_OFFER = ("{%- if src == 'dozen' -%}" + offer_box('A dozen for $21.95 + 6 free minis', 'With Subscribe &amp; Save, or $25.95 one-time. 6 mini bagels free with your first box. Shipping is $14.95 per box.')
   + "{%- elsif src == 'minis' -%}" + offer_box('6 free mini bagels', 'Added free to your first box when you order from our offer page. One per customer.')
   + "{%- else -%}" + offer_box('Free shipping, always', 'Shipping is included in every box.') + "{%- endif -%}\n")
 VALUE_STRIP = offer_box('Hand-rolled in New York', 'Your dozen, your way: 4 sleeves of 3, up to 4 flavors.')

@@ -7,7 +7,7 @@ Each file is pasted into Messaging → email → **Code your own** (limit 500KB;
 ## Lead flow (emails only for now)
 Trigger: customer tagged `lead` (set by the builder's ZIP check). Exit when the customer places an order.
 Offer and links follow the source tag: `lead-builder` → /products/build-your-box (free shipping),
-`lead-free-minis` → /pages/free-minis#build (6 free minis), `lead-dozen-deal` → /pages/dozen-deal#build ($19.95 Subscribe & Save, $24.95 one-time, $14.95 shipping per box).
+`lead-free-minis` → /pages/free-minis#build (6 free minis), `lead-dozen-deal` → /pages/dozen-deal#build ($21.95 Subscribe & Save, $25.95 one-time, 6 free minis with the first box, $14.95 shipping per box).
 
 | Email | Send | Subject |
 |---|---|---|
