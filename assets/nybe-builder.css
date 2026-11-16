@@ -645,3 +645,11 @@
 /* No double-tap zoom in the builder (tapping + twice fast to add a flavor twice
    zoomed the page on phones). Pinch-to-zoom still works. */
 .bbb-builder, .bbb-builder button, .bbb-builder a, .bbb-builder label, .bbb-builder input, .bbb-builder [data-bbb-dot] { touch-action: manipulation; }
+
+/* Space under the builder (below the benefits row): desktop matches the roomy
+   top of the next section; phones get about the same gap as above the benefits
+   (the floating bar no longer reserves a tall empty strip on page 1) */
+@media screen and (min-width: 990px) { .bbb-builder { padding-bottom: 10rem; } }
+@media screen and (max-width: 989px) {
+  .bbb-builder[data-step='1'], .bbb-builder:not(.is-full)[data-step='1'] { padding-bottom: 4.8rem; }
+}
