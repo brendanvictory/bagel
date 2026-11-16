@@ -616,3 +616,23 @@
   .bbb-addons .nybe-addon__desc { align-self: start; }
   .bbb-addons .bbb-addon__price { align-self: center; padding-top: 0; }
 }
+
+/* ---------- Mobile bar, page 1: sleeves (+ free minis) and count on one row,
+   full-width Next on a second row only once every sleeve is picked ---------- */
+@media screen and (max-width: 989px) {
+  .bbb-builder[data-step='1'] .bbb-bar__p1 { flex-wrap: wrap; justify-content: space-between; row-gap: 1.2rem; }
+  .bbb-bar__p1 .bbb-bar__count { margin-left: auto; }
+  .bbb-bar__p1 .button { flex: 1 0 100%; margin-left: 0; }
+  .bbb-builder:not(.is-full) .bbb-bar__p1 .button { display: none; }
+  .bbb-builder:not(.is-full)[data-step='1'] { padding-bottom: 10rem; }
+  .bbb-bar__dot.bbb-bar__dot--free { cursor: default; border-style: solid; border-color: #08a06e; background: #eefaf4; }
+  .bbb-bar__dot--free > span { display: grid; place-items: center; width: 100%; height: 100%; }
+  .bbb-bar__dot--free img { width: 90%; height: 90%; object-fit: contain; mix-blend-mode: multiply; }
+  .bbb-bar__dot--free.is-filled::after { background: #08a06e; font-size: 0.95rem; letter-spacing: 0.04em; }
+  .bbb-builder--promo .bbb-bar__dots { gap: 0.6rem; }
+  .bbb-builder--promo .bbb-bar__dot { width: 5rem; height: 5rem; }
+}
+@media screen and (max-width: 374px) {
+  .bbb-builder--promo .bbb-bar__dot { width: 4.2rem; height: 4.2rem; }
+  .bbb-builder--promo .bbb-bar__count { font-size: 1.6rem; }
+}
