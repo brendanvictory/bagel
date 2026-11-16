@@ -534,7 +534,7 @@
                 <span class="nybe-ship__body">
                   <strong class="nybe-ship__title">{{ section.settings.shipping_note | escape }}</strong>
                 </span>
-                <span class="nybe-ship__price"><strong data-bbb-ship-amt>Free</strong><span>Shipping</span></span>
+                <span class="nybe-ship__price"><strong data-bbb-ship-amt>Free</strong><span class="visually-hidden"> shipping</span></span>
               </div>
             {%- endif -%}
             <p class="bbb-totals__total"><span>{% if b_banner %}Total today{% else %}Total{% endif %}</span> <strong data-bbb-total>{{ variant.price | money }}</strong></p>
