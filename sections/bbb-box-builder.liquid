@@ -7,8 +7,8 @@
   Data (Shopify-native, nothing hardcoded):
     product.metafields.custom.flavors          bagel_flavor metaobjects (name, image, description, allergens, available)
     product.metafields.custom.addons           add-on products
-    product.metafields.custom.sleeves_per_box  default 3
-    product.metafields.custom.bagels_per_sleeve default 4
+    product.metafields.custom.sleeves_per_box  default 4
+    product.metafields.custom.bagels_per_sleeve default 3
     variant price + selling plans              one-time price and Shopify Subscriptions plans
   Cart: 1 box line with properties "Sleeve 1".."Sleeve N" + hidden "_box_id"; add-on lines with the same
   "_box_id", subscribed on a plan with the same delivery frequency so they recur.
@@ -54,8 +54,8 @@
   endfor
 
   assign variant = bp.selected_or_first_available_variant
-  assign sleeves = bp.metafields.custom.sleeves_per_box.value | default: 3
-  assign per_sleeve = bp.metafields.custom.bagels_per_sleeve.value | default: 4
+  assign sleeves = bp.metafields.custom.sleeves_per_box.value | default: 4
+  assign per_sleeve = bp.metafields.custom.bagels_per_sleeve.value | default: 3
   assign total_bagels = sleeves | times: per_sleeve
   assign flavors = bp.metafields.custom.flavors.value
   assign addons = bp.metafields.custom.addons.value
@@ -189,7 +189,7 @@
       <span class="nybe-tray-sentinel" data-nybe-tray-sentinel aria-hidden="true"></span>
       <div class="bbb-tray" aria-label="Your sleeves" data-nybe-tray>
         {%- liquid
-          # Free-item page: the free minis show as a 4th (already filled) tile next to the sleeves
+          # Free-item page: the free minis show as an extra (already filled) tile after the sleeves
           assign tray_free = false
           if promo_on and promo.featured_image != blank
             assign tray_free = true

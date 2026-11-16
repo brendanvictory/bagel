@@ -1,5 +1,5 @@
 /* New York Bagel Express — Build Your Box (ADR-002 Option C)
-   Page 1: pick exactly N sleeves (3 of 4 bagels per the product settings), repeats allowed, no pricing shown.
+   Page 1: pick exactly N sleeves (4 of 3 bagels per the product settings), repeats allowed, no pricing shown.
    Lead step (optional): name, email, phone, ZIP → delivery check → Shopify customer tagged "lead".
    Page 2: add-ons, one-time vs subscription, pricing, checkout.
    Promo mode (landing pages): a free one-time item rides with the box; the discount code is applied
@@ -126,7 +126,7 @@
 
     $$('[data-bbb-slot]').forEach((slot, i) => {
       const f = byHandle[state.sleeves[i]];
-      // Display only: '4x Plain' makes it clear each sleeve is 4 bagels (product names are unchanged)
+      // Display only: '3x Plain' makes it clear each sleeve is 3 bagels (product names are unchanged)
       $('[data-bbb-slot-label]', slot).textContent = f ? `${cfg.perSleeve}x ${f.name}` : (cfg.labels.emptySlot || 'Add flavor');
       const img = $('.bbb-slot__img', slot);
       img.innerHTML = '';

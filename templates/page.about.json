@@ -120,7 +120,7 @@
       "settings": {
         "image": "shopify://shop_images/Small_delivery_truck_crossing_the_US_map.png",
         "bundled_photo": "none",
-        "image_alt": "A New York Bagel Express box packed with three sleeves of bagels",
+        "image_alt": "A New York Bagel Express box packed with sleeves of bagels",
         "image_position": "left",
         "ratio": "1 / 1",
         "eyebrow": "Why we started shipping",
@@ -139,7 +139,7 @@
       "type": "bbb-cta-band",
       "settings": {
         "heading": "Taste the 30 years.",
-        "text": "<p>Three sleeves, up to three flavors, free shipping included.</p>",
+        "text": "<p>Four sleeves, up to four flavors, free shipping included.</p>",
         "cta_label": "Build your box",
         "cta_link": "shopify://products/build-your-box",
         "bundled_bg": "pile",

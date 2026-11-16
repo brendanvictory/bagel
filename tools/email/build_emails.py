@@ -61,7 +61,7 @@ def offer_box(title, sub):
 LEAD_OFFER = ("{%- if src == 'dozen' -%}" + offer_box('A dozen for $19.95', 'With Subscribe &amp; Save, or $24.95 one-time. Shipping is $14.95 per box.')
   + "{%- elsif src == 'minis' -%}" + offer_box('6 free mini bagels', 'Added free to your first box when you order from our offer page. One per customer.')
   + "{%- else -%}" + offer_box('Free shipping, always', 'Shipping is included in every box.') + "{%- endif -%}\n")
-VALUE_STRIP = offer_box('Hand-rolled in New York', 'Your dozen, your way: 3 sleeves of 4, up to 3 flavors.')
+VALUE_STRIP = offer_box('Hand-rolled in New York', 'Your dozen, your way: 4 sleeves of 3, up to 4 flavors.')
 
 def flavor_row():
     cells = []
@@ -115,7 +115,7 @@ EMAILS = {}
 # ---------------- LEAD FLOW ----------------
 EMAILS['lead-01'] = dict(subject="A little New York. A much better breakfast.", preview="Real New York bagels, delivered to your door.", timing="30 minutes after lead signup",
   html=LEAD_SOURCE + head("Real New York bagels, delivered to your door.") + headline("Your New York breakfast starts here", "Good mornings.<br>Delivered.") + body_open()
-  + "<p>You came for New York bagels. Let&rsquo;s get a box headed your way.</p><p>Pick 3 sleeves of 4 &mdash; up to 3 flavors &mdash; and bring a little New York to your kitchen. Breakfast with the family, a weekend spread, or your everyday go-to: it starts with a great bagel.</p>"
+  + "<p>You came for New York bagels. Let&rsquo;s get a box headed your way.</p><p>Pick 4 sleeves of 3 &mdash; up to 4 flavors &mdash; and bring a little New York to your kitchen. Breakfast with the family, a weekend spread, or your everyday go-to: it starts with a great bagel.</p>"
   + button("{{ base }}{{ tail }}", "Build your box") + LEAD_OFFER + flavor_row() + foot("Pick your favorites. We&rsquo;ll handle the trip."))
 EMAILS['lead-02'] = dict(subject="A dozen bagels. Plenty of good mornings.", preview="Enjoy some now. Slice and freeze the rest.", timing="24 hours after lead signup",
   html=LEAD_SOURCE + head("Enjoy some now. Slice and freeze the rest.") + headline("One box. More breakfasts.", "Your freezer&rsquo;s<br>new favorite.") + body_open()
