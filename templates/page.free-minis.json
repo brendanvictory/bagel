@@ -198,6 +198,30 @@
             "photo": "shopify://shop_images/article_author.jpg",
             "verified": true
           }
+        },
+        "b_auth": {
+          "type": "p1_benefit",
+          "settings": {
+            "icon": "star",
+            "title": "Authentic NY Bagels",
+            "text": "Baked the traditional way."
+          }
+        },
+        "b_fresh": {
+          "type": "p1_benefit",
+          "settings": {
+            "icon": "package",
+            "title": "Always Fresh",
+            "text": "Baked to order, never frozen."
+          }
+        },
+        "b_fast": {
+          "type": "p1_benefit",
+          "settings": {
+            "icon": "truck",
+            "title": "Fast Nationwide Shipping",
+            "text": "Get fresh bagels at your door."
+          }
         }
       },
       "block_order": [
@@ -205,6 +229,9 @@
         "review_xrfc4V",
         "review_8H3m8p",
         "copy",
+        "b_auth",
+        "b_fresh",
+        "b_fast",
         "b_ship",
         "b_flex",
         "b_sat"
