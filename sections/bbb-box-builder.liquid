@@ -528,12 +528,11 @@
             <h3 class="bbb-card2__title" id="bbb-summary-{{ section.id }}">Order summary</h3>
             <dl class="bbb-totals" data-bbb-totals></dl>
             {%- if section.settings.shipping_note != blank -%}
-              {%- comment -%} Shipping card: carrier logo | note + reassurance line | shipping price (set by JS: "$14.95" or "Free") {%- endcomment -%}
+              {%- comment -%} Shipping card: carrier logo | note | shipping price (set by JS: "$14.95" or "Free") {%- endcomment -%}
               <div class="bbb-totals__ship nybe-ship" data-bbb-ship-card>
                 <span class="nybe-ship__icon{% if section.settings.shipping_icon == 'ups' %} nybe-ship__icon--logo{% endif %}" aria-hidden="true">{%- if section.settings.shipping_icon == 'ups' -%}<img src="{{ 'nybe-ups-logo.svg' | asset_url }}" width="40" height="48" alt="" loading="lazy">{%- else -%}{%- render 'bbb-icon', name: 'truck', size: 22, stroke: 2 -%}{%- endif -%}</span>
                 <span class="nybe-ship__body">
                   <strong class="nybe-ship__title">{{ section.settings.shipping_note | escape }}</strong>
-                  {%- if section.settings.shipping_sub != blank -%}<span class="nybe-ship__sub">{% render 'bbb-icon', name: 'check-circle', size: 16, stroke: 2.5 %}<span>{{ section.settings.shipping_sub | escape }}</span></span>{%- endif -%}
                 </span>
                 <span class="nybe-ship__price"><strong data-bbb-ship-amt>Free</strong><span>Shipping</span></span>
               </div>
@@ -872,7 +871,6 @@
     },
     { "type": "text", "id": "error_choose_option", "label": "Error: no purchase option", "default": "Choose Subscribe and Save or a one-time purchase." },
     { "type": "text", "id": "shipping_note", "label": "Shipping note", "default": "Free fast & reliable delivery included." },
-    { "type": "text", "id": "shipping_sub", "label": "Shipping note: second line", "default": "Fast delivery to your door" },
     { "type": "select", "id": "shipping_icon", "label": "Shipping note icon", "default": "truck", "options": [ { "value": "truck", "label": "Truck" }, { "value": "ups", "label": "UPS logo" } ] },
     { "type": "text", "id": "reviews_heading", "label": "Reviews heading (page 2)", "default": "Loved by Bagel Lovers" },
     { "type": "text", "id": "add_label", "label": "Checkout button", "default": "Checkout" },
