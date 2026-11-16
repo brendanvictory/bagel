@@ -194,7 +194,10 @@
       row(label, state.option ? formatMoney(boxPrice()) : '—');
       chosenAddons().forEach((a) => row(a.title, formatMoney(addonPrice(a))));
       if (promoOn()) row(cfg.promo.title, 'Free');
-      row('Shipping', shipPerBox() ? formatMoney(shipPerBox()) : 'Free');
+      // Shipping: shown in its own card when the section has one, else as a summary row
+      const shipAmt = $('[data-bbb-ship-amt]');
+      if (shipAmt) shipAmt.textContent = shipPerBox() ? formatMoney(shipPerBox()) : 'Free';
+      else row('Shipping', shipPerBox() ? formatMoney(shipPerBox()) : 'Free');
     }
     // Display total = what checkout will charge for this one box (items + per-box shipping when set)
     const t = state.option ? formatMoney(total() + shipPerBox()) : '—';
