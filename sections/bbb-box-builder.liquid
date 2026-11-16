@@ -705,7 +705,7 @@
           {%- if tray_free -%}<li class="bbb-bar__dot bbb-bar__dot--free is-filled" data-bbb-count="FREE"><span>{{ promo.featured_image | image_url: height: 120 | image_tag: loading: 'lazy', alt: '' }}</span></li>{%- endif -%}
         </ol>
         <span class="bbb-bar__count" data-bbb-bar-count>0 / {{ sleeves }}</span>
-        <button type="button" class="button button--primary" data-bbb-next>{{ section.settings.bar_next_label | escape }}</button>
+        <button type="button" class="button button--primary" data-bbb-next><span>{{ section.settings.bar_next_label | escape }}</span>{% render 'bbb-icon', name: 'arrow-right', size: 20, class: 'nybe-btn-arrow' %}</button>
       </div>
       <div class="bbb-bar__p2">
         <div class="nybe-bar__info">
