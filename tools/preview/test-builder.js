@@ -61,7 +61,8 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   ok((await p.getAttribute(barNext, 'aria-disabled')) === 'true', 'Next marked disabled while box not full');
 
   console.log('2. Next blocked until full');
-  await p.click(barNext, { force: true });
+  ok(!(await p.isVisible(barNext)), 'mobile Next hidden until every sleeve is picked');
+  await p.evaluate((sel) => document.querySelector(sel).click(), barNext);
   ok((await step()) === '1' && (await p.textContent('[data-bbb-error="1"]')).includes('Pick 4 more'), 'Next on empty box stays on page 1 with message');
 
   console.log('3. Fill 4 sleeves of 3 (repeat allowed)');
