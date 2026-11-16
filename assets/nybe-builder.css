@@ -546,18 +546,18 @@
 .nybe-slot--free { cursor: default; }
 .nybe-slot--free .bbb-slot__img img { width: 84%; height: 84%; object-fit: contain; }
 @media screen and (min-width: 990px) {
-  /* Sleeves + free tile: sleeves get more than half the tray, the progress column less */
-  .bbb-builder--promo .bbb-tray { grid-template-columns: auto minmax(0, 1fr) auto; gap: 3.2rem; }
-  .bbb-builder--promo .bbb-tray__slots { grid-template-columns: repeat(var(--bbb-sleeves, 4), 13rem); gap: 0.4rem; }
-  .bbb-builder--promo .bbb-tray__status { padding-left: 2.4rem; }
+  /* Desktop tray (every offer): sleeve columns sized to fit 4 sleeves (+ the free tile on the free-minis page); the progress column takes the rest */
+  .bbb-builder .bbb-tray { grid-template-columns: auto minmax(0, 1fr) auto; gap: 3.2rem; }
+  .bbb-builder .bbb-tray__slots { grid-template-columns: repeat(var(--bbb-sleeves, 4), 13rem); gap: 0.4rem; }
+  .bbb-builder .bbb-tray__status { padding-left: 2.4rem; }
 }
-/* Small laptops: 4 sleeves + the free tile need narrower tiles so the progress column keeps room */
+/* Small laptops: narrower tiles so the progress column keeps room */
 @media screen and (min-width: 990px) and (max-width: 1199px) {
-  .bbb-builder--promo .bbb-tray { gap: 2rem; padding-inline: 2.4rem; }
-  .bbb-builder--promo .bbb-tray__slots { grid-template-columns: repeat(var(--bbb-sleeves, 5), 10.6rem); }
-  .bbb-builder--promo .bbb-tray .bbb-slot__img, .bbb-builder--promo .bbb-tray .nybe-slot__plus { width: 9.6rem; }
-  .bbb-builder--promo .bbb-tray .nybe-slot__x { right: calc(50% - 4.8rem - 0.8rem); }
-  .bbb-builder--promo .bbb-tray .bbb-slot__label { white-space: normal; }
+  .bbb-builder .bbb-tray { gap: 2rem; padding-inline: 2.4rem; }
+  .bbb-builder .bbb-tray__slots { grid-template-columns: repeat(var(--bbb-sleeves, 5), 10.6rem); }
+  .bbb-builder .bbb-tray .bbb-slot__img, .bbb-builder .bbb-tray .nybe-slot__plus { width: 9.6rem; }
+  .bbb-builder .bbb-tray .nybe-slot__x { right: calc(50% - 4.8rem - 0.8rem); }
+  .bbb-builder .bbb-tray .bbb-slot__label { white-space: normal; }
 }
 
 /* Mobile bar: "+" in empty sleeve boxes, like the desktop tray */
