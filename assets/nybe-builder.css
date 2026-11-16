@@ -636,3 +636,7 @@
 @media screen and (max-width: 374px) {
   .bbb-bar__p1 .bbb-bar__count { font-size: 1.6rem; }
 }
+
+/* No double-tap zoom in the builder (tapping + twice fast to add a flavor twice
+   zoomed the page on phones). Pinch-to-zoom still works. */
+.bbb-builder, .bbb-builder button, .bbb-builder a, .bbb-builder label, .bbb-builder input, .bbb-builder [data-bbb-dot] { touch-action: manipulation; }
