@@ -29,15 +29,15 @@
         "c3": {
           "type": "chip",
           "settings": {
-            "text": "Mix up to 4 flavors",
-            "icon": "square-stack"
+            "text": "Freshly Baked in New York",
+            "icon": "chef-hat"
           }
         }
       },
       "block_order": [
+        "c3",
         "c1",
-        "c2",
-        "c3"
+        "c2"
       ],
       "settings": {
         "layout": "background",
