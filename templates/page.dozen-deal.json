@@ -15,8 +15,8 @@
         "c1": {
           "type": "chip",
           "settings": {
-            "text": "Hand-rolled in New York",
-            "icon": "leaf"
+            "text": "Freshly Baked in New York",
+            "icon": "chef-hat"
           }
         },
         "c2": {
