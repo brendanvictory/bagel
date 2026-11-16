@@ -148,6 +148,7 @@ body { color: var(--nybe-navy); }
 }
 .nybe-benefit:first-child { padding-left: 0; }
 .nybe-benefit + .nybe-benefit { border-left: 0.1rem solid rgba(255, 255, 255, 0.3); }
+@media screen and (min-width: 750px) { .nybe-benefit + .nybe-benefit { border-left: 0; } } /* desktop: no dividers between hero benefits */
 .nybe-benefit__icon { color: var(--nybe-orange); flex: none; }
 @media screen and (max-width: 749px) {
   .nybe-hero .bbb-section { padding-bottom: 0; }
