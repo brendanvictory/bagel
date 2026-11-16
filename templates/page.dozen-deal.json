@@ -183,8 +183,8 @@
           "type": "p1_benefit",
           "settings": {
             "icon": "truck",
-            "title": "Nationwide Shipping",
-            "text": "$14.95 per box, shown before checkout."
+            "title": "Fast Nationwide Shipping",
+            "text": "Get fresh bagels at your door."
           }
         },
         "ship": {
