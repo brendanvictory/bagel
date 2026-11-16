@@ -29,8 +29,8 @@
         "c3": {
           "type": "chip",
           "settings": {
-            "text": "Mix up to 4 flavors",
-            "icon": "square-stack"
+            "text": "Freshly Baked in New York",
+            "icon": "chef-hat"
           }
         }
       },
