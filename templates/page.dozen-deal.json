@@ -12,7 +12,7 @@
     "hero": {
       "type": "bbb-hero",
       "blocks": {
-        "c1": {
+        "c_baked": {
           "type": "chip",
           "settings": {
             "text": "Freshly Baked in New York",
@@ -35,7 +35,7 @@
         }
       },
       "block_order": [
-        "c1",
+        "c_baked",
         "c2",
         "c3"
       ],
