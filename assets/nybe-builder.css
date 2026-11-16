@@ -445,6 +445,7 @@
 .nybe-ship__title { font-size: 1.55rem; font-weight: 800; color: var(--bbb-ink, #082d5c); }
 .nybe-ship__price { flex: none; display: grid; justify-items: end; text-align: right; gap: 0.2rem; }
 .nybe-ship__price strong { font-size: 1.55rem; font-weight: 800; color: var(--bbb-ink, #082d5c); } /* same size as the summary rows */
+.nybe-ship__price strong.is-free { color: #1e7b34; } /* "Free" in green; a price stays navy */
 
 /* Trust row under Checkout: 3 centred columns, green icon over navy text */
 .nybe-trust3 { list-style: none; margin: 0.4rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; }
