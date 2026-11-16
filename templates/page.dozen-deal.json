@@ -88,7 +88,7 @@
           "type": "step",
           "settings": {
             "title": "Shipped to you",
-            "text": "<p>$14.95 per box, nationwide.</p>",
+            "text": "<p>2-day guaranteed delivery, nationwide.</p>",
             "icon": "truck"
           }
         }
