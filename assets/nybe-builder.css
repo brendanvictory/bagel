@@ -440,7 +440,7 @@
    carrier logo, note, price (no dividers) + "Shipping" */
 .nybe-ship { display: flex; align-items: center; gap: 1.2rem; padding: 1.4rem var(--bbb-space-2); background: #eaf6ee; color: var(--bbb-ink, #082d5c); text-align: left; line-height: 1.25;
   /* full-width strip: runs edge to edge of the summary card; its content lines up with the rows above */
-  margin: 0 calc(-1 * var(--bbb-space-2)) 0; border: 0; border-radius: 0; }
+  margin: -0.7rem calc(-1 * var(--bbb-space-2)) 0; border: 0; border-radius: 0; }
 @media screen and (min-width: 750px) { .nybe-ship { padding-inline: var(--bbb-space-3); margin-inline: calc(-1 * var(--bbb-space-3)); } }
 .nybe-ship__icon { flex: none; display: grid; place-items: center; width: 3.6rem; height: 3.6rem; border-radius: 50%; background: #fff; color: #1e7b34; box-shadow: 0 0.1rem 0.4rem rgba(8, 45, 92, 0.08); }
 .nybe-ship__body { flex: 1 1 auto; min-width: 0; display: grid; gap: 0.5rem; }
