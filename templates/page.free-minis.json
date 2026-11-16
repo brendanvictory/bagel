@@ -35,9 +35,9 @@
         }
       },
       "block_order": [
+        "c3",
         "c1",
-        "c2",
-        "c3"
+        "c2"
       ],
       "settings": {
         "layout": "background",
