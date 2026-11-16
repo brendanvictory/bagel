@@ -19,10 +19,15 @@
     {%- endunless -%}
 
     <title>
+      {%- comment -%} Dozen Deal landing page (page.dozen-deal template): fixed SEO title {%- endcomment -%}
+      {%- if template.name == 'page' and template.suffix == 'dozen-deal' -%}
+        Buy a Dozen, Get 6 Mini Bagels Free &ndash; {{ shop.name }}
+      {%- else -%}
       {{ page_title }}
       {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%}
       {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
       {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}
+      {%- endif -%}
     </title>
 
     {% if page_description %}
