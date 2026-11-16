@@ -104,7 +104,8 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   ok((await total()) === '$49.90', 'with Mini Bagels $49.90');
   ok(await p.isVisible('[data-bbb-addon="1001"] ~ .bbb-addon__text .bbb-addon__every') || await p.isVisible('.bbb-addon__every'), '"every box" shown on add-ons when subscribing');
   const totalsText = await p.textContent('[data-bbb-totals]');
-  ok(totalsText.includes('Shipping') && totalsText.includes('Free') && totalsText.includes('(every 4 weeks)') && !totalsText.includes('every every'), 'summary lists box (every 4 weeks), add-on, free shipping');
+  ok((await p.textContent('[data-bbb-ship-amt]')).trim() === 'Free' && !totalsText.includes('Shipping'), 'free shipping shown once, in the shipping card (not repeated as a summary row)');
+  ok( totalsText.includes('(every 4 weeks)') && !totalsText.includes('every every'), 'summary lists box (every 4 weeks) and add-on');
   const disc = await p.textContent('[data-bbb-disclosure]');
   ok(await p.isVisible('[data-bbb-disclosure]') && disc.includes('Renews automatically every 4 weeks at $49.90'), 'renewal disclosure with live price');
   await p.$eval('[data-bbb-option][value="once"]', (e) => e.click());
@@ -281,7 +282,7 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   const sp = await ctx.newPage(); sp.on('pageerror', (e) => errors.push(e.message));
   calls.length = 0;
   await sp.goto('http://test.local/ship.html?s=plain,everything,egg,sesame&o=690001&step=2'); await sp.waitForLoadState('networkidle');
-  ok((await sp.textContent('[data-bbb-totals]')).includes('Shipping$14.95'), 'summary shows Shipping $14.95 (not Free)');
+  ok((await sp.textContent('[data-bbb-ship-amt]')).trim() === '$14.95', 'shipping card shows $14.95 (not Free)');
   ok((await sp.textContent('[data-bbb-total]')).trim() === '$54.90', 'total includes per-box shipping ($39.95 + $14.95)');
   ok((await sp.textContent('[data-bbb-disclosure]')).includes('$54.90'), 'renewal disclosure states the full per-renewal amount');
   ok((await sp.textContent('.nybe-bar__ship')).includes('+$14.95 shipping per box'), 'mobile bar shows the shipping charge');

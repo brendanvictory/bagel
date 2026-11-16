@@ -436,12 +436,18 @@
 /* Used by the builder to measure the compact tray instantly */
 .bbb-tray.nybe-measure, .bbb-tray.nybe-measure * { transition: none !important; animation: none !important; }
 
-/* Shipping note in the order summary: icon + text chip */
-.nybe-ship { display: flex; align-items: center; justify-content: center; text-align: left; gap: 1.2rem; margin: 0; padding: 1rem 1.4rem; border-radius: 1.2rem;
-  background: #f3f5f9; color: var(--bbb-ink, #082d5c); font-size: 1.45rem; font-weight: 700; line-height: 1.35; }
-.nybe-ship__icon { flex: none; display: grid; place-items: center; width: 3.6rem; height: 3.6rem; border-radius: 50%; background: #fff; color: var(--bbb-ink, #082d5c); box-shadow: 0 0.1rem 0.4rem rgba(8, 45, 92, 0.08); }
-.nybe-ship--free { background: #e8f6ec; color: #1e7b34; }
-.nybe-ship--free .nybe-ship__icon { color: #1e7b34; }
+/* Shipping card in the order summary (between the line items and the total):
+   carrier logo | note + green check line | price + "Shipping" */
+.nybe-ship { display: flex; align-items: center; gap: 1.2rem; margin: 0.4rem 0 0; padding: 1.4rem 1.4rem; border-radius: 1.4rem;
+  background: #eaf6ee; border: 0.15rem solid #bfe3cb; color: var(--bbb-ink, #082d5c); text-align: left; line-height: 1.25; }
+.nybe-ship__icon { flex: none; display: grid; place-items: center; width: 3.6rem; height: 3.6rem; border-radius: 50%; background: #fff; color: #1e7b34; box-shadow: 0 0.1rem 0.4rem rgba(8, 45, 92, 0.08); }
+.nybe-ship__body { flex: 1 1 auto; min-width: 0; display: grid; gap: 0.5rem; padding-left: 1.2rem; border-left: 0.1rem solid #bfe3cb; }
+.nybe-ship__title { font-size: 1.55rem; font-weight: 800; color: var(--bbb-ink, #082d5c); }
+.nybe-ship__sub { display: flex; align-items: center; gap: 0.6rem; font-size: 1.3rem; font-weight: 600; font-style: italic; color: #1e7b34; }
+.nybe-ship__sub .bbb-icon { flex: none; }
+.nybe-ship__price { flex: none; display: grid; justify-items: center; gap: 0.2rem; padding-left: 1.2rem; border-left: 0.1rem solid #bfe3cb; }
+.nybe-ship__price strong { font-size: 1.55rem; font-weight: 800; color: var(--bbb-ink, #082d5c); } /* same size as the summary rows */
+.nybe-ship__price span { font-size: 1.2rem; font-weight: 700; color: #1e7b34; }
 
 /* Trust row under Checkout: 3 centred columns, green icon over navy text */
 .nybe-trust3 { list-style: none; margin: 0.4rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.8rem; }
@@ -584,7 +590,7 @@
 
 /* Shipping note with the carrier logo instead of the truck icon */
 .nybe-ship__icon--logo { background: none; box-shadow: none; border-radius: 0; width: auto; height: auto; }
-.nybe-ship__icon--logo img { display: block; width: auto; height: 3rem; }
+.nybe-ship__icon--logo img { display: block; width: auto; height: 4rem; }
 
 /* Add-on cards, tablet/desktop: two side by side, each a compact row (photo | title + text | price), check on the top-right corner */
 @media screen and (min-width: 750px) {
