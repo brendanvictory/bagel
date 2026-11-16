@@ -196,7 +196,7 @@
       if (promoOn()) row(cfg.promo.title, 'Free');
       // Shipping: shown in its own card when the section has one, else as a summary row
       const shipAmt = $('[data-bbb-ship-amt]');
-      if (shipAmt) shipAmt.textContent = shipPerBox() ? formatMoney(shipPerBox()) : 'Free';
+      if (shipAmt) { shipAmt.textContent = shipPerBox() ? formatMoney(shipPerBox()) : 'Free'; shipAmt.classList.toggle('is-free', !shipPerBox()); }
       else row('Shipping', shipPerBox() ? formatMoney(shipPerBox()) : 'Free');
     }
     // Display total = what checkout will charge for this one box (items + per-box shipping when set)
