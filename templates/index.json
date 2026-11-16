@@ -73,7 +73,7 @@
           "type": "step",
           "settings": {
             "title": "Pick Your Bagels",
-            "text": "<p>Choose up to 3 flavors (4 bagels per flavor).</p>",
+            "text": "<p>Choose up to 4 flavors (3 bagels per flavor).</p>",
             "icon": "bagel"
           }
         },
@@ -240,7 +240,7 @@
           "settings": {
             "kicker": "",
             "title": "Packed Fresh",
-            "text": "<p>In sleeves of 4 bagels.</p>",
+            "text": "<p>In sleeves of 3 bagels.</p>",
             "icon": "package"
           }
         },
@@ -320,7 +320,7 @@
           "type": "question",
           "settings": {
             "question": "How does the box work?",
-            "answer": "<p>Every dozen is 3 sleeves of 4 bagels. Pick a flavor for each sleeve — up to 3 flavors, or the same flavor in every sleeve.</p>"
+            "answer": "<p>Every dozen is 4 sleeves of 3 bagels. Pick a flavor for each sleeve — up to 4 flavors, or the same flavor in every sleeve.</p>"
           }
         },
         "q2": {

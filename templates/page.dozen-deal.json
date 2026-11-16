@@ -22,7 +22,7 @@
         "c2": {
           "type": "chip",
           "settings": {
-            "text": "Mix up to 3 flavors",
+            "text": "Mix up to 4 flavors",
             "icon": "package"
           }
         },
@@ -72,7 +72,7 @@
           "type": "step",
           "settings": {
             "title": "Pick your bagels",
-            "text": "<p>3 sleeves of 4. Mix up to 3 flavors.</p>",
+            "text": "<p>4 sleeves of 3. Mix up to 4 flavors.</p>",
             "icon": "bagel"
           }
         },
@@ -325,7 +325,7 @@
           "type": "question",
           "settings": {
             "question": "How does the box work?",
-            "answer": "<p>Every dozen is 3 sleeves of 4 bagels. Pick a flavor for each sleeve — up to 3 flavors, or the same flavor in every sleeve.</p>"
+            "answer": "<p>Every dozen is 4 sleeves of 3 bagels. Pick a flavor for each sleeve — up to 4 flavors, or the same flavor in every sleeve.</p>"
           }
         },
         "q0": {

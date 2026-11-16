@@ -5,7 +5,7 @@ Last updated: 2026-10-27 (rev 2: sleeve model, pricing, post-purchase upsells) �
 
 ## Owner-confirmed requirements (2026-10-27)
 
-- **R1 — Sleeves of 4** *(corrected by owner 2026-10-30; was sleeves of 3)*. Bagels are packed in sleeves of 4, one flavor per sleeve. A dozen = 3 sleeves, so a dozen can hold at most 3 flavors. Set by product metafields `custom.sleeves_per_box` = 3 and `custom.bagels_per_sleeve` = 4; the builder, cart properties (`Sleeve 1–3`) and packing slip follow them. Orders #1001/#1002 and the test contract predate the change and carry 4 sleeves.
+- **R1 — Sleeves of 3** *(changed back by owner 2026-11-16; was sleeves of 4 from 2026-10-30)*. Bagels are packed in sleeves of 3, one flavor per sleeve. A dozen = 4 sleeves, so a dozen can hold at most 4 flavors. Set by product metafields `custom.sleeves_per_box` = 4 and `custom.bagels_per_sleeve` = 3 on both box products; all copy and the packing slip follow.
 - **R2 — Post-purchase one-click upsells.** After checkout, offer one-click add-ons (examples: 6 free mini bagels, free bagel chips). The owner must be able to add new offer variations without code.
 - **R3 — Subscribe & save pricing (revised 2026-10-27).** Dozen: **$45.95 one-time**, **$39.95 per shipment every 4 weeks** ($6.00 / ~13% off). **Shipping included** in both (ADR-009 Option A).
 - **R8 — Add-on prices.** Mini Bagels (6) **$9.95**, Bagel Chips **$9.95**; they recur on every subscription shipment once added.

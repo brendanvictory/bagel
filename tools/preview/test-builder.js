@@ -62,25 +62,25 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
 
   console.log('2. Next blocked until full');
   await p.click(barNext, { force: true });
-  ok((await step()) === '1' && (await p.textContent('[data-bbb-error="1"]')).includes('Pick 3 more'), 'Next on empty box stays on page 1 with message');
+  ok((await step()) === '1' && (await p.textContent('[data-bbb-error="1"]')).includes('Pick 4 more'), 'Next on empty box stays on page 1 with message');
 
-  console.log('3. Fill 3 sleeves of 4 (repeat allowed)');
-  await inc('everything'); await inc('everything'); await inc('plain');
-  ok((await progress()) === '3 of 3 sleeves selected', 'progress 3 of 3');
+  console.log('3. Fill 4 sleeves of 3 (repeat allowed)');
+  await inc('everything'); await inc('everything'); await inc('plain'); await inc('sesame');
+  ok((await progress()) === '4 of 4 sleeves selected', 'progress 4 of 4');
   ok((await count('everything')) === '2', 'Everything ×2');
   ok((await p.textContent('[data-bbb-flavor="everything"] [data-bbb-badge]')).trim() === '×2' && await p.isVisible('[data-bbb-flavor="everything"] .nybe-fcard__check') && !(await p.isVisible('[data-bbb-flavor="plain"] .nybe-fcard__check')) === false, 'picked flavors show the orange check (count kept in badge data + stepper)');
   ok(await p.isDisabled('[data-bbb-flavor="poppy"] [data-bbb-inc]'), 'all + disabled when full');
-  ok((await p.$$('.bbb-slot.is-filled .bbb-slot__img img')).length === 3, 'all 3 sleeve slots show the flavor photo');
-  ok((await p.$$('.bbb-bar__dot.is-filled img')).length === 3, 'mobile bar shows 3 filled photo dots');
+  ok((await p.$$('.bbb-slot.is-filled .bbb-slot__img img')).length === 4, 'all 4 sleeve slots show the flavor photo');
+  ok((await p.$$('.bbb-bar__dot.is-filled img')).length === 4, 'mobile bar shows 4 filled photo dots');
   await p.click('[data-bbb-slot="1"]');
-  ok((await progress()) === '2 of 3 sleeves selected', 'tapping a sleeve removes it');
+  ok((await progress()) === '3 of 4 sleeves selected', 'tapping a sleeve removes it');
   await p.evaluate(() => window.scrollTo(0, 0));
-  await p.click('[data-bbb-slot="2"]');
+  await p.click('[data-bbb-slot="3"]');
   await p.waitForTimeout(700);
-  ok((await progress()) === '2 of 3 sleeves selected' && (await p.evaluate(() => window.scrollY)) > 100, 'tapping an empty sleeve scrolls to the flavors (box unchanged)');
+  ok((await progress()) === '3 of 4 sleeves selected' && (await p.evaluate(() => window.scrollY)) > 100, 'tapping an empty sleeve scrolls to the flavors (box unchanged)');
   ok(await p.evaluate(() => document.activeElement && document.activeElement.matches('[data-bbb-inc]')), 'empty sleeve tap moves focus to the first + button');
   await p.evaluate(() => window.scrollTo(0, 0));
-  await p.click('.bbb-bar [data-bbb-dot="2"]', { force: true });
+  await p.click('.bbb-bar [data-bbb-dot="3"]', { force: true });
   await p.waitForTimeout(700);
   ok((await p.evaluate(() => window.scrollY)) > 100, 'tapping an empty sleeve in the bottom bar scrolls to the flavors');
   await inc('everything');
@@ -90,8 +90,8 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   ok((await step()) === '2' && await visible2() && !(await visible1()), 'Next shows page 2');
   ok(new URL(p.url()).searchParams.get('step') === '2', 'URL has step=2');
   const sumItems = await p.$$eval('.bbb-boxsum__item', (els) => els.map((e) => e.innerText.replace(/\s+/g, ' ').trim()));
-  ok(sumItems.length === 2 && sumItems.some((t) => t.includes('Everything') && t.includes('2 sleeves · 8 bagels')), 'box summary groups flavors with sleeve + bagel counts');
-  ok((await p.$$('.bbb-boxsum__img img')).length === 2, 'box summary shows flavor photos');
+  ok(sumItems.length === 3 && sumItems.some((t) => t.includes('Everything') && t.includes('2 sleeves · 6 bagels')), 'box summary groups flavors with sleeve + bagel counts');
+  ok((await p.$$('.bbb-boxsum__img img')).length === 3, 'box summary shows flavor photos');
   ok((await total()) === '—', 'no total until an option is chosen');
 
   console.log('5. Pricing on page 2');
@@ -114,7 +114,7 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   await p.goBack(); await p.waitForTimeout(200);
   ok((await step()) === 'lead', 'browser Back from page 2 → delivery check');
   await p.goBack(); await p.waitForTimeout(200);
-  ok((await step()) === '1' && (await progress()) === '3 of 3 sleeves selected', 'browser Back again → page 1 with box intact');
+  ok((await step()) === '1' && (await progress()) === '4 of 4 sleeves selected', 'browser Back again → page 1 with box intact');
   await p.goForward(); await p.waitForTimeout(200);
   ok((await step()) === 'lead', 'browser Forward → delivery check');
   await p.goForward(); await p.waitForTimeout(200);
@@ -125,16 +125,16 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   await nextThroughLead();
 
   console.log('7. Refresh keeps state; step=2 without a full box falls back to page 1');
-  await go('?s=everything,everything,plain&o=690001&a=1001&step=2');
+  await go('?s=everything,everything,plain,sesame&o=690001&a=1001&step=2');
   ok((await step()) === '2' && await p.isChecked('[data-bbb-option][value="subscription"]') && await p.isChecked('[data-bbb-addon="1001"]'), 'refresh on page 2 restores everything');
   await go('?s=plain,plain&step=2');
-  ok((await step()) === '1' && (await progress()) === '2 of 3 sleeves selected', 'incomplete box cannot open page 2');
+  ok((await step()) === '1' && (await progress()) === '2 of 4 sleeves selected', 'incomplete box cannot open page 2');
   await go('?s=pumpernickel,fake,plain,plain,plain,plain,plain&o=99999');
-  ok((await progress()) === '3 of 3 sleeves selected' && (await count('pumpernickel')) === '0', 'junk/unavailable flavors dropped, capped at 3');
+  ok((await progress()) === '4 of 4 sleeves selected' && (await count('pumpernickel')) === '0', 'junk/unavailable flavors dropped, capped at 4');
 
   console.log('8. Checkout: one request, exact payload, then /checkout');
   calls.length = 0;
-  await go('?s=everything,everything,plain&o=690001&a=1001,1002&step=2');
+  await go('?s=everything,everything,plain,sesame&o=690001&a=1001,1002&step=2');
   await Promise.all([p.click(barCheckout, { force: true }), p.click(barCheckout, { force: true, noWaitAfter: true }).catch(() => {})]);
   await p.waitForURL('**/checkout');
   const adds = calls.filter((c) => c.path === '/cart/add.js');
@@ -142,13 +142,13 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   const items = adds[0].body.items;
   ok(items.length === 3, 'box + 2 add-on lines');
   ok(items[0].id === 67907099787506 && items[0].selling_plan === 690001, 'box line: variant + $6-off plan');
-  ok(['Sleeve 1', 'Sleeve 2', 'Sleeve 3'].map((k) => items[0].properties[k]).join('|') === 'Everything|Everything|Plain' && !('Sleeve 4' in items[0].properties), 'box line: Sleeve 1–3 in order, no Sleeve 4');
+  ok(['Sleeve 1', 'Sleeve 2', 'Sleeve 3', 'Sleeve 4'].map((k) => items[0].properties[k]).join('|') === 'Everything|Everything|Plain|Sesame' && !('Sleeve 5' in items[0].properties), 'box line: Sleeve 1–4 in order, no Sleeve 5');
   ok(items.slice(1).every((i) => i.properties._box_id === items[0].properties._box_id), 'add-ons linked by _box_id');
   ok(items[1].selling_plan === 690002 && items[2].selling_plan === 690002, 'add-ons on the 4-week no-discount plan (recur)');
   ok(new URL(p.url()).pathname === '/checkout', 'lands on Shopify checkout');
 
   console.log('9. Option required');
-  await go('?s=plain,plain,plain&step=2');
+  await go('?s=plain,plain,plain,plain&step=2');
   ok(await p.evaluate(() => getComputedStyle(document.querySelector('.bbb-bar')).display === 'none'), 'mobile bar hidden until Checkout is active');
   await p.locator('.bbb-p2__side [data-bbb-add], .bbb-totals ~ [data-bbb-add], [data-bbb-add]:not(.bbb-bar [data-bbb-add])').first().evaluate((b) => b.click());
   ok((await p.textContent('[data-bbb-error="2"]')).includes('Choose Subscribe and Save'), 'checkout without an option asks to choose');
@@ -156,7 +156,7 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   console.log('10. Edit from cart replaces old box');
   calls.length = 0;
   cartItems = [{ key: 'old-box:1', properties: { _box_id: 'abc123', 'Sleeve 1': 'Plain' } }, { key: 'old-addon:1', properties: { _box_id: 'abc123' } }, { key: 'other:1', properties: {} }];
-  await go('?s=Everything,Everything,Plain&o=once&a=1002&edit=abc123');
+  await go('?s=Everything,Everything,Plain,Sesame&o=once&a=1002&edit=abc123');
   ok((await step()) === '1' && (await count('everything')) === '2', 'cart flavor names map back; opens on page 1 to edit');
   await nextThroughLead();
   ok(await p.isChecked('[data-bbb-option][value="once"]') && await p.isChecked('[data-bbb-addon="1002"]'), 'option and add-on restored on page 2');
@@ -172,17 +172,17 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   ok((await count('onion')) === '2', 'Enter and Space add sleeves');
   ok((await p.getAttribute('[data-bbb-progress]', 'aria-live')) === 'polite', 'progress announced politely');
   ok(await p.$$eval('.bbb-stepper__btn', (els) => els.every((e) => (e.getAttribute('aria-label') || '').length > 5)), 'stepper buttons have accessible names');
-  await go('?s=plain,plain,plain'); await nextThroughLead();
+  await go('?s=plain,plain,plain,plain'); await nextThroughLead();
   ok(await p.evaluate(() => document.activeElement && document.activeElement.matches('[data-bbb-focus="2"]')), 'focus moves to page 2 heading');
   ok((await p.$$eval('.bbb-stepper__btn, .bbb-slot, .bbb-bar .button, .bbb-back, .bbb-option, .bbb-addon', (els) => els.filter((e) => { const r = e.getBoundingClientRect(); return r.width && (r.width < 24 || r.height < 24); }).length)) === 0, 'tap targets ≥ 24×24');
   ok(await p.evaluate(() => document.querySelector('[data-bbb-stepnav="2"]').getAttribute('aria-current') === 'step'), 'step nav marks current step');
 
   console.log('12. No subscription plan');
-  await p.goto('http://test.local/noplan.html?s=plain,plain,plain&step=2'); await p.waitForLoadState('networkidle');
+  await p.goto('http://test.local/noplan.html?s=plain,plain,plain,plain&step=2'); await p.waitForLoadState('networkidle');
   ok(!(await p.$('[data-bbb-option][value="subscription"]')) && await p.isChecked('[data-bbb-option][value="once"]') && (await total()) === '$45.95', 'only one-time, pre-selected, $45.95');
   ok(!(await p.$('[data-bbb-view="lead"]')) && !(await p.$('[data-bbb-stepnav="lead"]')), 'delivery check off: no lead view or step');
   await p.evaluate(() => localStorage.clear());
-  await p.goto('http://test.local/noplan.html?s=plain,plain,plain'); await p.waitForLoadState('networkidle');
+  await p.goto('http://test.local/noplan.html?s=plain,plain,plain,plain'); await p.waitForLoadState('networkidle');
   await nextThroughLead();
   ok((await step()) === '2', 'delivery check off: Next goes straight to page 2');
 
@@ -192,14 +192,14 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   const q = await ctx2.newPage(); q.on('pageerror', (e) => errors.push(e.message));
   const qstep = () => q.getAttribute('[data-bbb-builder]', 'data-step');
   const lastPost = () => new URLSearchParams([...calls].reverse().find((c) => c.path === '/contact').body);
-  await q.goto('http://test.local/index.html?s=plain,plain,egg'); await q.waitForLoadState('networkidle');
+  await q.goto('http://test.local/index.html?s=plain,plain,egg,sesame'); await q.waitForLoadState('networkidle');
   await q.click(barNext);
   ok((await qstep()) === 'lead' && await q.isVisible('[data-bbb-view="lead"]'), 'Next goes to the delivery check first');
   ok(new URL(q.url()).searchParams.get('step') === 'lead', 'URL has step=lead');
   ok(!(await q.isVisible('.bbb-bar')), 'mobile bar hidden on the delivery check');
   ok(!/\$\s?\d/.test(await q.textContent('[data-bbb-view="lead"]')), 'no prices on the delivery check');
   ok(await q.evaluate(() => document.querySelector('[data-bbb-stepnav="1"]').classList.contains('is-done') && document.querySelector('[data-bbb-stepnav="lead"]').getAttribute('aria-current') === 'step'), 'step nav: 1 done, delivery check current');
-  await q.goto('http://test.local/index.html?s=plain,plain,egg&o=690001&step=2'); await q.waitForLoadState('networkidle');
+  await q.goto('http://test.local/index.html?s=plain,plain,egg,sesame&o=690001&step=2'); await q.waitForLoadState('networkidle');
   ok((await qstep()) === 'lead', 'deep link to step=2 still requires the delivery check');
   calls.length = 0;
   await q.click('[data-bbb-lead-submit]');
@@ -225,12 +225,12 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   ok(post.get('form_type') === 'customer' && post.get('contact[email]') === 'pat@example.com', 'posts Shopify customer form with email');
   ok(post.get('contact[first_name]') === 'Pat' && post.get('contact[last_name]') === 'Q Bagel' && post.get('contact[phone]') === '+16315550199', 'name split, phone in E.164');
   ok(post.get('contact[tags]') === 'lead, lead-builder, zip-11701, sms-optin', 'tags: lead, source, zip, sms-optin');
-  ok(/step=2/.test(post.get('return_to')) && /s=plain%2Cplain%2Cegg|s=plain,plain,egg/.test(post.get('return_to')) && /o=690001/.test(post.get('return_to')), 'return_to keeps the box and plan and points at page 2');
-  ok((await qstep()) === '2' && await q.isVisible('[data-bbb-view="2"]') && (await q.textContent('[data-bbb-progress]')).trim() === '3 of 3 sleeves selected', 'lands on Add-ons & Plan with the box intact');
+  ok(/step=2/.test(post.get('return_to')) && /s=plain%2Cplain%2Cegg%2Csesame|s=plain,plain,egg,sesame,sesame/.test(post.get('return_to')) && /o=690001/.test(post.get('return_to')), 'return_to keeps the box and plan and points at page 2');
+  ok((await qstep()) === '2' && await q.isVisible('[data-bbb-view="2"]') && (await q.textContent('[data-bbb-progress]')).trim() === '4 of 4 sleeves selected', 'lands on Add-ons & Plan with the box intact');
   ok(await q.isVisible('[data-bbb-lead-landed]') && (await q.textContent('[data-bbb-lead-landed]')).includes('we deliver to 11701'), 'green confirmation: "we deliver to 11701"');
   ok(await q.isChecked('[data-bbb-option][value="subscription"]'), 'purchase choice kept');
   ok(!new URL(q.url()).searchParams.has('bbb_lead') && !new URL(q.url()).searchParams.has('bbb_zip'), 'URL cleaned after landing');
-  await q.goto('http://test.local/index.html?s=plain,plain,egg'); await q.waitForLoadState('networkidle');
+  await q.goto('http://test.local/index.html?s=plain,plain,egg,sesame'); await q.waitForLoadState('networkidle');
   await q.click(barNext);
   ok((await qstep()) === 'lead' && (await q.inputValue('[data-bbb-lead-email]')) === 'pat@example.com' && (await q.inputValue('[data-bbb-lead-zip]')) === '11701' && (await q.inputValue('[data-bbb-lead-phone]')) === '(631) 555-0199', 'returning visitor sees the delivery check pre-filled');
   calls.length = 0;
@@ -249,7 +249,7 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
     }, true);
   });
   const q2 = await ctx3.newPage(); q2.on('pageerror', (e) => errors.push(e.message));
-  await q2.goto('http://test.local/index.html?s=plain,everything,egg&o=once'); await q2.waitForLoadState('networkidle');
+  await q2.goto('http://test.local/index.html?s=plain,everything,egg,sesame&o=once'); await q2.waitForLoadState('networkidle');
   await q2.click(barNext);
   calls.length = 0;
   await q2.click('[data-bbb-lead-submit]');
@@ -257,14 +257,14 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   await q2.fill('[data-bbb-lead-name]', 'Sam'); await q2.fill('[data-bbb-lead-zip]', '10001'); await q2.fill('[data-bbb-lead-email]', 'sam@example.com');
   await Promise.all([q2.waitForURL(/step=2/, { timeout: 5000 }), q2.click('[data-bbb-lead-submit]')]);
   await q2.waitForLoadState('networkidle'); await q2.waitForTimeout(200);
-  ok((await q2.getAttribute('[data-bbb-builder]', 'data-step')) === '2' && (await q2.textContent('[data-bbb-progress]')).trim() === '3 of 3 sleeves selected', 'after the captcha submit: Add-ons & Plan with the box intact');
+  ok((await q2.getAttribute('[data-bbb-builder]', 'data-step')) === '2' && (await q2.textContent('[data-bbb-progress]')).trim() === '4 of 4 sleeves selected', 'after the captcha submit: Add-ons & Plan with the box intact');
   ok(await q2.isChecked('[data-bbb-option][value="once"]'), 'one-time choice kept through the round trip');
   ok(calls.filter((c) => c.path === '/contact').length === 1, 'lead posted exactly once');
 
   console.log('14. Free-minis landing (promo mode)');
   const r = await ctx.newPage(); r.on('pageerror', (e) => errors.push(e.message));
   calls.length = 0;
-  await r.goto('http://test.local/promo.html?s=plain,everything,egg&o=690001&a=1002&step=2'); await r.waitForLoadState('networkidle');
+  await r.goto('http://test.local/promo.html?s=plain,everything,egg,sesame&o=690001&a=1002&step=2'); await r.waitForLoadState('networkidle');
   ok(await r.isVisible('.bbb-promo--card') && /Free/.test(await r.textContent('.bbb-promo--card')), 'page 2 shows the free minis card');
   ok(!(await r.$('[data-bbb-addon="1001"]')), 'minis not offered again as a paid add-on');
   ok((await r.textContent('[data-bbb-totals]')).includes('Mini Bagels (6)Free'), 'order summary lists minis as Free');
@@ -279,7 +279,7 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   console.log('15. Paid-shipping offer (Shipping block)');
   const sp = await ctx.newPage(); sp.on('pageerror', (e) => errors.push(e.message));
   calls.length = 0;
-  await sp.goto('http://test.local/ship.html?s=plain,everything,egg&o=690001&step=2'); await sp.waitForLoadState('networkidle');
+  await sp.goto('http://test.local/ship.html?s=plain,everything,egg,sesame&o=690001&step=2'); await sp.waitForLoadState('networkidle');
   ok((await sp.textContent('[data-bbb-totals]')).includes('Shipping$14.95'), 'summary shows Shipping $14.95 (not Free)');
   ok((await sp.textContent('[data-bbb-total]')).trim() === '$54.90', 'total includes per-box shipping ($39.95 + $14.95)');
   ok((await sp.textContent('[data-bbb-disclosure]')).includes('$54.90'), 'renewal disclosure states the full per-renewal amount');
