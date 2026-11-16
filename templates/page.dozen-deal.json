@@ -385,8 +385,8 @@
   },
   "order": [
     "hero",
-    "deal",
     "builder",
+    "deal",
     "about",
     "faq"
   ]
