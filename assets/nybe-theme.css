@@ -655,3 +655,57 @@ body:has(#Details-menu-drawer-container[open]) .bbb-sticky-cta { display: none !
   @keyframes nybeDotsFlowY { from { background-position: 50% 0; } to { background-position: 50% 0.9rem; } }
 }
 @media screen and (max-width: 989px) and (prefers-reduced-motion: reduce) { .bbb-steps .bbb-steps__item::after { animation: none; } }
+
+/* ---------- 404 page: "Oops! This Page Got Toasted!" ---------- */
+.nybe-404 { background: #fff7ed; padding: var(--nybe-404-pad-top, 64px) 0 var(--nybe-404-pad-bottom, 88px); overflow: hidden; color: var(--nybe-navy); }
+.nybe-404__grid { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: 'head' 'art' 'body'; row-gap: 2.4rem; text-align: center; }
+.nybe-404__head { grid-area: head; }
+.nybe-404__art { grid-area: art; }
+.nybe-404__body { grid-area: body; }
+.nybe-404__oops { margin: 0 auto 0.8rem; width: 19rem; max-width: 60%; }
+.nybe-404__oops-img { display: block; width: 100%; height: auto; }
+.nybe-404__title {
+  margin: 0; font-family: var(--font-heading-family); font-weight: 900; font-style: italic; letter-spacing: -0.02em; line-height: 1.02;
+  font-size: clamp(3.6rem, 10vw, 5.2rem); color: var(--nybe-navy);
+}
+.nybe-404__title > span { display: block; }
+.nybe-404__title-accent { position: relative; display: inline-block !important; }
+.nybe-404__title-accent::after {
+  content: ''; position: absolute; left: 0.1em; width: 62%; bottom: -0.2em; height: 0.11em;
+  background: var(--nybe-orange); border-radius: 50%; transform: rotate(-2deg);
+}
+.nybe-404__art { position: relative; width: 100%; max-width: 48rem; margin: 0.8rem auto 0; padding: 4% 0 40%; }
+.nybe-404__skyline { position: absolute; z-index: 0; top: 0; right: 0; width: 62%; height: auto; opacity: 0.45; pointer-events: none; }
+.nybe-404__rays { position: absolute; z-index: 1; left: 0; top: 2%; width: 14%; height: auto; color: var(--nybe-orange); transform: rotate(-8deg); }
+.nybe-404__number { position: relative; z-index: 1; display: block; width: 88%; height: auto; margin: 0 auto; }
+.nybe-404__mascot { position: absolute; z-index: 2; left: 50%; bottom: 0; width: 54%; height: auto; transform: translateX(-50%); }
+.nybe-404__text { margin: 0 auto; max-width: 42ch; font-size: 1.6rem; line-height: 1.55; color: var(--nybe-navy); }
+.nybe-404__actions { display: grid; gap: 1.2rem; margin-top: 2.4rem; }
+.nybe-404__btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.8rem; min-height: 5.6rem; padding: 0 3rem; border-radius: 999px;
+  font-family: var(--font-heading-family); font-size: 1.7rem; font-weight: 800; letter-spacing: 0; text-transform: none; text-decoration: none;
+}
+.nybe-404__btn.button { box-shadow: 0 0.8rem 2rem rgba(201, 66, 12, 0.25); }
+.nybe-404__btn--ghost { border: 0.2rem solid var(--nybe-navy); background: transparent; color: var(--nybe-navy); font-size: 1.6rem; font-weight: 700; transition: background-color 0.2s, color 0.2s; }
+.nybe-404__btn--ghost:hover { background: var(--nybe-navy); color: #fff; }
+@media screen and (min-width: 990px) {
+  .nybe-404__grid {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); grid-template-areas: 'head art' 'body art';
+    column-gap: 4rem; row-gap: 0; text-align: left; align-items: center;
+  }
+  .nybe-404__head { align-self: end; }
+  .nybe-404__body { align-self: start; padding-top: 2.8rem; }
+  .nybe-404__oops { margin: 0 0 1rem -0.6rem; width: 23rem; max-width: none; }
+  .nybe-404__title { font-size: clamp(4.4rem, 4.6vw, 6.6rem); }
+  .nybe-404__art { max-width: none; margin: 0; padding: 7% 0 22% 4%; }
+  .nybe-404__skyline { width: 58%; top: 0; right: 2%; }
+  .nybe-404__rays { left: 0; top: 4%; width: 10%; }
+  .nybe-404__number { width: 86%; margin: 0; }
+  .nybe-404__mascot { left: auto; right: -2%; bottom: 0; width: 44%; transform: none; }
+  .nybe-404__text { margin: 0; max-width: 36ch; font-size: 1.8rem; }
+  .nybe-404__actions { display: flex; flex-wrap: wrap; gap: 1.6rem; margin-top: 3.2rem; }
+}
+@media screen and (min-width: 990px) and (max-width: 1199px) {
+  .nybe-404__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 3.2rem; }
+  .nybe-404__btn { padding: 0 2.2rem; font-size: 1.6rem; }
+}

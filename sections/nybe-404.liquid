@@ -1,0 +1,97 @@
+{%- comment -%}
+  New York Bagel Express — 404 page ("Oops! This Page Got Toasted!")
+  Desktop: copy on the left, bagel "404" + mascot over a faint skyline on the right.
+  Phones: centred and stacked — heading, artwork, text, full-width buttons.
+  Artwork ships as theme assets (nybe-404-*.webp); any of it can be swapped from the Theme Editor.
+{%- endcomment -%}
+{%- liquid
+  assign oops_alt = 'Oops!'
+  assign w_oops = 662
+  assign h_oops = 319
+  assign w_num = 1093
+  assign h_num = 462
+  assign w_mas = 623
+  assign h_mas = 530
+  assign w_sky = 1070
+  assign h_sky = 355
+-%}
+<section class="nybe-404" style="--nybe-404-pad-top: {{ section.settings.padding_top }}px; --nybe-404-pad-bottom: {{ section.settings.padding_bottom }}px;" aria-labelledby="nybe-404-title-{{ section.id }}">
+  <div class="page-width nybe-404__grid">
+    <div class="nybe-404__head">
+      <p class="nybe-404__oops">
+        {%- if section.settings.oops_image != blank -%}
+          {{ section.settings.oops_image | image_url: width: 700 | image_tag: alt: oops_alt, width: w_oops, height: h_oops, loading: 'eager', class: 'nybe-404__oops-img' }}
+        {%- else -%}
+          <img class="nybe-404__oops-img" src="{{ 'nybe-404-oops.webp' | asset_url }}" alt="{{ oops_alt }}" width="{{ w_oops }}" height="{{ h_oops }}">
+        {%- endif -%}
+      </p>
+      <h1 class="nybe-404__title" id="nybe-404-title-{{ section.id }}">
+        <span>{{ section.settings.heading_line1 | escape }}</span>
+        <span class="nybe-404__title-accent">{{ section.settings.heading_line2 | escape }}</span>
+      </h1>
+    </div>
+
+    <div class="nybe-404__art" aria-hidden="true">
+      {%- if section.settings.skyline_image != blank -%}
+        {{ section.settings.skyline_image | image_url: width: 1100 | image_tag: alt: '', loading: 'lazy', class: 'nybe-404__skyline' }}
+      {%- else -%}
+        <img class="nybe-404__skyline" src="{{ 'nybe-404-skyline.webp' | asset_url }}" alt="" width="{{ w_sky }}" height="{{ h_sky }}" loading="lazy">
+      {%- endif -%}
+      <svg class="nybe-404__rays" viewBox="0 0 80 80" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round">
+        <path d="M44 10 54 32"/><path d="M14 30 36 42"/><path d="M8 62 32 60"/>
+      </svg>
+      {%- if section.settings.number_image != blank -%}
+        {{ section.settings.number_image | image_url: width: 1100 | image_tag: alt: '', loading: 'eager', fetchpriority: 'high', class: 'nybe-404__number' }}
+      {%- else -%}
+        <img class="nybe-404__number" src="{{ 'nybe-404-number.webp' | asset_url }}" alt="" width="{{ w_num }}" height="{{ h_num }}" fetchpriority="high">
+      {%- endif -%}
+      {%- if section.settings.mascot_image != blank -%}
+        {{ section.settings.mascot_image | image_url: width: 700 | image_tag: alt: '', loading: 'eager', class: 'nybe-404__mascot' }}
+      {%- else -%}
+        <img class="nybe-404__mascot" src="{{ 'nybe-404-mascot.webp' | asset_url }}" alt="" width="{{ w_mas }}" height="{{ h_mas }}">
+      {%- endif -%}
+    </div>
+
+    <div class="nybe-404__body">
+      {%- if section.settings.text != blank -%}<p class="nybe-404__text">{{ section.settings.text | escape }}</p>{%- endif -%}
+      <div class="nybe-404__actions">
+        {%- if section.settings.primary_label != blank -%}
+          <a class="button button--primary nybe-404__btn" href="{{ section.settings.primary_link | default: routes.all_products_collection_url }}">
+            <span>{{ section.settings.primary_label | escape }}</span>{% render 'bbb-icon', name: 'arrow-right', size: 20, class: 'nybe-btn-arrow' %}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.secondary_label != blank -%}
+          <a class="nybe-404__btn nybe-404__btn--ghost" href="{{ section.settings.secondary_link | default: routes.root_url }}">
+            {% render 'bbb-icon', name: 'house', size: 20, stroke: 2 %}<span>{{ section.settings.secondary_label | escape }}</span>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "404 page",
+  "tag": "div",
+  "class": "nybe-404-section",
+  "settings": [
+    { "type": "text", "id": "heading_line1", "label": "Heading line 1", "default": "This Page" },
+    { "type": "text", "id": "heading_line2", "label": "Heading line 2 (underlined)", "default": "Got Toasted!" },
+    { "type": "textarea", "id": "text", "label": "Text", "default": "Looks like the page you're looking for isn't on the menu. But don't worry — we've got plenty of fresh bagels waiting for you!" },
+    { "type": "text", "id": "primary_label", "label": "Main button label", "default": "Continue Shopping" },
+    { "type": "url", "id": "primary_link", "label": "Main button link", "default": "/products/build-your-box" },
+    { "type": "text", "id": "secondary_label", "label": "Second button label", "default": "Go to Homepage" },
+    { "type": "url", "id": "secondary_link", "label": "Second button link", "default": "/" },
+    { "type": "header", "content": "Artwork (leave empty to use the built-in images)" },
+    { "type": "image_picker", "id": "oops_image", "label": "\"Oops!\" brush" },
+    { "type": "image_picker", "id": "number_image", "label": "Bagel \"404\"" },
+    { "type": "image_picker", "id": "mascot_image", "label": "Mascot" },
+    { "type": "image_picker", "id": "skyline_image", "label": "Skyline" },
+    { "type": "header", "content": "Spacing" },
+    { "type": "range", "id": "padding_top", "label": "Top padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding_bottom", "label": "Bottom padding", "min": 0, "max": 160, "step": 8, "unit": "px", "default": 88 }
+  ],
+  "presets": [{ "name": "404 page" }]
+}
+{% endschema %}
