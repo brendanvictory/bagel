@@ -677,7 +677,7 @@ body:has(#Details-menu-drawer-container[open]) .bbb-sticky-cta { display: none !
 /* Artwork (mockup proportions): the bagel "404" on top, the mascot below it (about 85% of its width, left of centre)
    with its cap over the bottom of the "404"; rays at the top-left; only the tower end of the skyline shows, faint, at the right */
 .nybe-404__art { position: relative; width: 100%; max-width: 46rem; margin: 0.4rem auto 0; padding-top: 6%; }
-.nybe-404__skyline { position: absolute; z-index: 0; top: -2%; right: -26%; width: 66%; height: auto; opacity: 0.35; pointer-events: none; }
+.nybe-404__skyline { position: absolute; z-index: 0; top: -3%; right: 0; width: 100%; height: auto; opacity: 0.35; pointer-events: none; }
 .nybe-404__rays { position: absolute; z-index: 1; left: 2%; top: 0; width: 11%; height: auto; color: var(--nybe-orange); transform: rotate(-8deg); }
 .nybe-404__number { position: relative; z-index: 1; display: block; width: 90%; height: auto; margin: 0 auto; }
 .nybe-404__mascot { position: relative; z-index: 2; display: block; width: 76%; height: auto; margin: -8% auto 0; }
@@ -701,7 +701,7 @@ body:has(#Details-menu-drawer-container[open]) .bbb-sticky-cta { display: none !
   .nybe-404__title { font-size: clamp(4.4rem, 4.6vw, 6.6rem); }
   .nybe-404__art { align-self: center; max-width: 62rem; margin: 0 0 0 -2rem; padding-top: 5%; }
   .nybe-404__number { width: 90%; margin: 0 0 0 4%; }
-  .nybe-404__skyline { width: 64%; right: -24%; top: -3%; }
+  .nybe-404__skyline { width: 100%; right: 0; top: -15%; } /* centred behind the "404", raised */
   .nybe-404__rays { left: 0; top: 0; width: 9%; }
   .nybe-404__mascot { width: 64%; margin: -9% 0 0 30%; }
   .nybe-404__text { margin: 0; max-width: 36ch; font-size: 1.8rem; }
