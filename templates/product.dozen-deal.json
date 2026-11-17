@@ -32,7 +32,7 @@
         "promo_product": "mini-bagels-7",
         "promo_code": "FREEMINIS",
         "promo_note": "Ships with your first box. Added automatically at checkout.",
-        "disclosure": "<p>Renews automatically [frequency] at [price] plus $14.95 shipping per box until you cancel. Cancel anytime in your account before your next renewal. <a href=\"/policies/terms-of-service\">Subscription terms</a>.</p>"
+        "disclosure": "<p>Renews automatically [frequency] at [items] plus [shipping] shipping per box until you cancel. Cancel anytime in your account before your next renewal. <a href=\"/policies/terms-of-service\">Subscription terms</a>.</p>"
       },
       "blocks": {
         "banner": {

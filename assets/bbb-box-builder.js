@@ -226,6 +226,8 @@
       disc.hidden = !(state.option === 'subscription' && p);
       if (p) {
         $$('[data-bbb-disc-price]', disc).forEach((e) => (e.textContent = formatMoney(total() + shipPerBox())));
+        $$('[data-bbb-disc-items]', disc).forEach((e) => (e.textContent = formatMoney(total()))); // bagels + add-ons, before shipping
+        $$('[data-bbb-disc-ship]', disc).forEach((e) => (e.textContent = formatMoney(shipPerBox())));
         $$('[data-bbb-disc-freq]', disc).forEach((e) => (e.textContent = freqText()));
       }
     }
