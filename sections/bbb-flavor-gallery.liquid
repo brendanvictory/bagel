@@ -32,10 +32,13 @@
         {%- for f in flavors -%}
           {%- if f.available.value == false and section.settings.hide_unavailable -%}{%- continue -%}{%- endif -%}
           {%- assign f_img = f.image.value -%}
+          {%- capture f_even -%}{% render 'nybe-flavor-src', flavor: f %}{%- endcapture -%}
           <li class="bbb-gallery__item">
             <a class="bbb-gallery__card" href="{{ box.url }}?s={{ f.system.handle | url_encode }}">
               <span class="bbb-gallery__media">
-                {%- if f_img != blank -%}
+                {%- if f_even != blank -%}
+                  <img src="{{ f_even }}" alt="" width="600" height="600" loading="lazy" class="bbb-gallery__img">
+                {%- elsif f_img != blank -%}
                   {{ f_img | image_url: width: 600 | image_tag: loading: 'lazy', widths: '200, 300, 400, 600', sizes: '(min-width: 1100px) 220px, (min-width: 750px) 30vw, 46vw', alt: '', class: 'bbb-gallery__img' }}
                 {%- else -%}
                   <span class="bbb-fcard__noimg" aria-hidden="true"></span>
