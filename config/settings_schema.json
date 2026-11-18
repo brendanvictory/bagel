@@ -1466,5 +1466,17 @@
         "label": "t:settings_schema.customer_accounts.settings.customer_account_menu.label"
       }
     ]
+  },
+  {
+    "name": "Bagel flavor photos",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "nybe_even_flavor_photos",
+        "label": "Use evened-out flavor photos",
+        "default": true,
+        "info": "On: every bagel shows at the same size (theme images nybe-flavor-*.webp). Off: the photos set on each flavor entry in Shopify."
+      }
+    ]
   }
 ]

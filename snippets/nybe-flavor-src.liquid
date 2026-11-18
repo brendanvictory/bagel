@@ -1,0 +1,20 @@
+{%- comment -%}
+  Evened-out flavor photo (every bagel the same size) for a bagel_flavor metaobject.
+  Outputs the theme image URL, or nothing — then the caller uses the photo on the flavor entry. Nothing is output when
+  Theme settings → "Bagel flavor photos" is off, or for a flavor that has no evened-out photo yet (e.g. a new flavor).
+  Usage: {% capture url %}{% render 'nybe-flavor-src', flavor: f %}{% endcapture %}   (thumb: true → 160px version)
+  Masters, the script that made them and the original photo links: docs/flavor-photos/
+{%- endcomment -%}
+{%- liquid
+  if settings.nybe_even_flavor_photos and flavor != blank
+    assign known = 'plain,everything,sesame,poppy,onion,garlic,cinnamon-raisin,egg,whole-wheat,pumpernickel' | split: ','
+    assign h = flavor.system.handle
+    if known contains h
+      if thumb
+        echo 'nybe-flavor-' | append: h | append: '-thumb.webp' | asset_url
+      else
+        echo 'nybe-flavor-' | append: h | append: '.webp' | asset_url
+      endif
+    endif
+  endif
+-%}
