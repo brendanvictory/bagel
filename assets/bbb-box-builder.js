@@ -104,10 +104,15 @@
   const counts = () => state.sleeves.reduce((m, h) => ((m[h] = (m[h] || 0) + 1), m), {});
 
   // ---------- render ----------
+  // Sleeve / bar thumbnail: reuse the photo the flavor card already shows (already downloaded, so it appears instantly);
+  // the small data-img file is only the fallback, e.g. for picks restored from the link before the cards' photos load.
   const thumb = (f) => {
-    if (!f || !f.img) return '';
+    if (!f) return '';
+    const card = f.el && f.el.querySelector('img');
+    const src = card && card.complete && card.naturalWidth ? card.currentSrc || card.src : f.img;
+    if (!src) return '';
     const i = document.createElement('img');
-    i.src = f.img; i.alt = ''; i.width = 80; i.height = 80; i.loading = 'lazy';
+    i.src = src; i.alt = ''; i.width = 80; i.height = 80; i.decoding = 'async';
     return i;
   };
 
