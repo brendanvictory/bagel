@@ -127,6 +127,8 @@
       {%- assign idx_end = forloop.index | prepend: '|' | append: '|' -%}
       {%- assign test_list = box_ids | append: '|' -%}
       {%- if test_list contains idx_end -%}{%- continue -%}{%- endif -%}
+      {%- assign sku_pre = line_item.sku | slice: 0, 6 | upcase -%}
+      {%- if sku_pre == 'BAGEL-' -%}{%- continue -%}{%- endif -%}{%- comment -%} $0 per-flavor pick-list lines {%- endcomment -%}
       {%- assign lb = '' -%}
       {%- for p in line_item.properties -%}{%- if p.first == '_box_id' -%}{%- assign lb = p.last -%}{%- endif -%}{%- endfor -%}
       {%- if lb != '' -%}

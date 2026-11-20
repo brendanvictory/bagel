@@ -1,11 +1,15 @@
-/* New York Bagel Express — keeps the $0 bagel lines in step with their box.
-   The builder adds one hidden line per flavor ("_box_part", "_per_box" = bagels per box) next to the
-   box line (same "_box_id") so ShipStation's pick list can total bagels by flavor. The cart hides
-   those lines, so if a shopper removes the box or changes its quantity, this script removes the
-   matching bagel lines or sets them to _per_box × box quantity. Runs on page load and after every
-   cart change. */
+/* New York Bagel Express — keeps the $0 bagel lines in step with the box.
+   The builder adds one $0 line per flavor (SKU BAGEL-<FLAVOR>, quantity = bagels of that flavor)
+   next to the box so ShipStation's pick list can total bagels by flavor. Those lines carry no
+   properties (so ShipStation adds them up across orders), and the cart hides them. This script
+   works out how many of each flavor the boxes in the cart need (box quantity x sleeves of that
+   flavor x 3) and sets the bagel lines to match, removing them when the box is gone.
+   Runs on page load and after every cart change. */
 (() => {
   const root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
+  const PER_SLEEVE = 3; // docs/DECISIONS.md R1: sleeves of 3
+  const skuFor = (flavor) => 'BAGEL-' + String(flavor).trim().toUpperCase().replace(/\s+/g, '-');
+  const isBagelLine = (it) => String(it.sku || '').toUpperCase().startsWith('BAGEL-') || !!(it.properties && it.properties._box_part);
   let running = false;
   let again = false;
 
@@ -14,18 +18,22 @@
     running = true;
     try {
       const cart = await (await fetch(`${root}cart.js`, { headers: { Accept: 'application/json' } })).json();
-      const boxes = new Map();
+      const want = new Map(); // SKU -> bagels needed
       cart.items.forEach((it) => {
         const p = it.properties || {};
-        if (p._box_id && p['Sleeve 1'] && !p._box_part) boxes.set(p._box_id, (boxes.get(p._box_id) || 0) + it.quantity);
+        if (isBagelLine(it) || !p['Sleeve 1']) return;
+        Object.keys(p).forEach((k) => {
+          if (!/^Sleeve \d+$/.test(k) || !p[k]) return;
+          const sku = skuFor(p[k]);
+          want.set(sku, (want.get(sku) || 0) + it.quantity * PER_SLEEVE);
+        });
       });
       const updates = {};
-      cart.items.forEach((it) => {
-        const p = it.properties || {};
-        if (!p._box_part) return;
-        const boxQty = boxes.get(p._box_id) || 0;
-        const want = boxQty * (Number(p._per_box) || 0);
-        if (it.quantity !== want) updates[it.key] = want;
+      cart.items.filter(isBagelLine).forEach((it) => {
+        const sku = String(it.sku || '').toUpperCase();
+        const left = want.get(sku) || 0; // first line of a SKU takes what's needed, any extra lines go to 0
+        if (it.quantity !== left) updates[it.key] = left;
+        want.set(sku, 0);
       });
       if (Object.keys(updates).length) {
         await fetch(`${root}cart/update.js`, {

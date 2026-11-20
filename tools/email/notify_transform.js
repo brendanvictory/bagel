@@ -2,7 +2,7 @@
 // Applied in the admin code editor to Shopify's own default template, so all of Shopify's logic
 // (split carts, pending payments, bundles, gift cards, RTL) stays intact. It only:
 //   1. appends brand CSS, 2. swaps the header logo, 3. adds a brand line to the footer,
-//   4. hides the $0 per-flavor pick-list lines (_box_part), 5. shows the box's sleeves on
+//   4. hides the $0 per-flavor pick-list lines (SKU BAGEL-*), 5. shows the box's sleeves on
 //   shipping emails, 6. rewrites the plain-text title/body for each template.
 // Usage (in the template's edit page): window.nybeTransform(docString, templateKey) -> new string.
 window.nybeTransform = (src, key) => {
@@ -46,7 +46,7 @@ window.nybeTransform = (src, key) => {
     `<p class="nybe-tag">Real New York bagels. Shipped 2-day.</p>\n              <p class="disclaimer__subtext">`, 'footer');
 
   // 4. Hide the $0 per-flavor lines that exist only for the ShipStation pick list
-  const guard = (v) => `{% if ${v}.properties['_box_part'] != blank %}{% continue %}{% endif %}`;
+  const guard = (v) => `{% assign nybe_pre = ${v}.sku | slice: 0, 6 | upcase %}{% if ${v}.properties['_box_part'] != blank or nybe_pre == 'BAGEL-' %}{% continue %}{% endif %}`;
   let hits = 0;
   d = d.replace(/(\{%-?\s*for\s+line\s+in\s+(?:subtotal_line_items|delivery_agreement\.non_parent_line_items)\s*-?%\})/g, (m) => { hits++; return m + guard('line'); });
   d = d.replace(/(\{%-?\s*for\s+line\s+in\s+fulfillment\.fulfillment_line_items\s*-?%\})/g, (m) => { hits++; return m + guard('line.line_item'); });
