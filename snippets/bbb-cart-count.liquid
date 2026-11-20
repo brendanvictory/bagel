@@ -1,11 +1,12 @@
 {%- comment -%}
-  Cart count without the $0 bagel lines that ride with a Build Your Box line ("_box_part"),
+  Cart count without the $0 bagel lines that ride with a Build Your Box line (SKU BAGEL-*),
   so a dozen shows as 1 item, not 13. Outputs the number only.
 {%- endcomment -%}
 {%- liquid
   assign bbb_count = 0
   for it in cart.items
-    if it.properties['_box_part'] == blank
+    assign bbb_pre = it.sku | slice: 0, 6 | upcase
+    if it.properties['_box_part'] == blank and bbb_pre != 'BAGEL-'
       assign bbb_count = bbb_count | plus: it.quantity
     endif
   endfor

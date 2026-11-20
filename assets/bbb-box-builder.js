@@ -10,10 +10,11 @@
    Edit from cart: ?edit=<box_id> pre-fills the builder; saving replaces the box + its add-ons.
    Cart payload: box line (properties "Sleeve 1..N" + "_box_id") + add-on lines (same "_box_id",
    subscribed on a plan with the same delivery frequency). Shopify prices every line itself.
-   Bagel lines (cfg.parts): one $0 line per flavor with quantity = bagels of that flavor
-   ("_box_part", "_per_box"), on the same delivery frequency as the box, so ShipStation's
-   pick list totals bagels by flavor. The cart hides them and bbb-cart-guard.js keeps them
-   in step with the box. */
+   Bagel lines (cfg.parts): one $0 line per flavor (SKU BAGEL-<FLAVOR>) with quantity = bagels of
+   that flavor, on the same delivery frequency as the box, so ShipStation's pick list totals
+   bagels by flavor. They carry no properties on purpose: ShipStation prints lines with
+   different properties as separate rows, so property-free lines add up across orders. The
+   cart hides them (by SKU) and bbb-cart-guard.js keeps them in step with the box's sleeves. */
 (() => {
   const root = document.querySelector('[data-bbb-builder]');
   if (!root) return;
@@ -725,13 +726,14 @@
   let busy = false;
 
   // One box per order: adding a box replaces any box already in the cart (its sleeves line,
-  // add-ons and free offer item all share a _box_id), so going back and re-building never
+  // add-ons and free offer item all share a _box_id; its bagel lines are found by SKU), so going back and re-building never
   // leaves two dozens in the cart. Other products in the cart are kept.
   const removeOldBox = async () => {
     const cart = await (await fetch(cfg.cartJsUrl, { headers: { Accept: 'application/json' } })).json();
     const updates = {};
     cart.items.forEach((it) => {
-      const isBoxLine = (it.properties && it.properties._box_id) || String(it.variant_id) === String(cfg.variantId);
+      const isBagelLine = String(it.sku || '').toUpperCase().startsWith('BAGEL-'); // property-free flavor lines
+      const isBoxLine = (it.properties && it.properties._box_id) || String(it.variant_id) === String(cfg.variantId) || isBagelLine;
       if (isBoxLine) updates[it.key] = 0;
     });
     if (Object.keys(updates).length) {
@@ -763,7 +765,7 @@
     const items = [{ id: cfg.variantId, quantity: 1, properties, ...(sp ? { selling_plan: sp } : {}) }];
     const pp = partsPlanId();
     partLines().forEach(([vid, qty]) => {
-      items.push({ id: vid, quantity: qty, properties: { _box_id: boxId, _box_part: '1', _per_box: String(qty) }, ...(pp ? { selling_plan: Number(pp) } : {}) });
+      items.push({ id: vid, quantity: qty, ...(pp ? { selling_plan: Number(pp) } : {}) }); // no properties: see header
     });
     chosenAddons().forEach((a) => {
       const ap = addonPlanId(a);
