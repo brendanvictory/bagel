@@ -30,6 +30,7 @@
         "shipping_note": "Fast & reliable delivery included.",
         "lead_source": "dozen-deal",
         "promo_product": "mini-bagels-7",
+        "parts_product": "bagels-1",
         "promo_code": "FREEMINIS",
         "promo_note": "Ships with your first box. Added automatically at checkout.",
         "disclosure": "<p>Renews automatically [frequency] at [items] plus [shipping] shipping per box until you cancel. Cancel anytime in your account before your next renewal. <a href=\"/policies/terms-of-service\">Subscription terms</a>.</p>"
