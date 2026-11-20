@@ -100,6 +100,7 @@
                 {%- if p.first == '_box_id' -%}{%- assign other_box = p.last -%}{%- endif -%}
                 {%- assign ks = p.first | slice: 0, 6 -%}
                 {%- if ks == 'Sleeve' -%}{%- assign other_is_box = true -%}{%- endif -%}
+                {%- if p.first == '_box_part' -%}{%- assign other_is_box = true -%}{%- endif -%}{%- comment -%} $0 per-flavor pick-list lines {%- endcomment -%}
               {%- endfor -%}
               {%- if other_box == this_box and other_is_box == false and other.title != line_item.title -%}
                 {%- assign addon_count = addon_count | plus: 1 -%}
