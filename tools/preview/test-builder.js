@@ -142,11 +142,14 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   const adds = calls.filter((c) => c.path === '/cart/add.js');
   ok(adds.length === 1, 'exactly one add-to-cart request (double tap safe)');
   const items = adds[0].body.items;
-  ok(items.length === 3, 'box + 2 add-on lines');
+  ok(items.length === 6, 'box + 3 bagel lines + 2 add-on lines');
+  const parts = items.filter((i) => i.properties && i.properties._box_part === '1');
+  ok(parts.length === 3 && parts.map((i) => `${i.id}:${i.quantity}:${i.properties._per_box}`).sort().join(',') === '3000:3:3,3001:6:6,3002:3:3', 'bagel lines: Everything 6, Plain 3, Sesame 3 (qty = sleeves × 3)');
+  ok(parts.every((i) => i.selling_plan === 690002), 'bagel lines recur on the 4-week plan');
   ok(items[0].id === 67907099787506 && items[0].selling_plan === 690001, 'box line: variant + $6-off plan');
   ok(['Sleeve 1', 'Sleeve 2', 'Sleeve 3', 'Sleeve 4'].map((k) => items[0].properties[k]).join('|') === 'Everything|Everything|Plain|Sesame' && !('Sleeve 5' in items[0].properties), 'box line: Sleeve 1–4 in order, no Sleeve 5');
   ok(items.slice(1).every((i) => i.properties._box_id === items[0].properties._box_id), 'add-ons linked by _box_id');
-  ok(items[1].selling_plan === 690002 && items[2].selling_plan === 690002, 'add-ons on the 4-week no-discount plan (recur)');
+  ok(items[4].selling_plan === 690002 && items[5].selling_plan === 690002 && [1001, 1002].every((id) => items.some((i) => i.id === id)), 'add-ons on the 4-week no-discount plan (recur)');
   ok(new URL(p.url()).pathname === '/checkout', 'lands on Shopify checkout');
 
   console.log('9. Option required');
@@ -166,7 +169,7 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   const upd = calls.find((c) => c.path === '/cart/update.js');
   ok(upd && upd.body.updates['old-box:1'] === 0 && upd.body.updates['old-addon:1'] === 0 && !('other:1' in upd.body.updates), 'old box + its add-on removed, other lines untouched');
   const add2 = calls.find((c) => c.path === '/cart/add.js');
-  ok(add2 && !('selling_plan' in add2.body.items[0]) && !('selling_plan' in add2.body.items[1]), 'one-time order sends no selling plan');
+  ok(add2 && add2.body.items.every((i) => !('selling_plan' in i)), 'one-time order sends no selling plan (box, bagel lines, add-on)');
 
   console.log('11. Keyboard & a11y');
   await go();
@@ -289,7 +292,7 @@ const ok = (cond, msg) => { if (cond) { pass++; console.log('  PASS', msg); } el
   ok((await sp.textContent('[data-bbb-bar-saving]')).includes('$6.00'), 'subscription saving unchanged by shipping');
   await sp.click(barCheckout); await sp.waitForURL('**/checkout');
   const shipAdd = calls.find((c) => c.path === '/cart/add.js').body.items;
-  ok(shipAdd.length === 1 && shipAdd[0].selling_plan === 690001, 'cart payload unchanged (box only, on plan)');
+  ok(shipAdd.filter((i) => !(i.properties && i.properties._box_part)).length === 1 && shipAdd[0].selling_plan === 690001, 'cart payload: box on plan (+ bagel lines only)');
 
   ok(errors.length === 0, 'no JavaScript errors' + (errors.length ? ': ' + errors.join('; ') : ''));
   console.log(`\n${pass} passed, ${fail} failed`);

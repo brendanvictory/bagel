@@ -23,7 +23,7 @@
 
       assign addon_ids = ''
       for other in cart.items
-        if other.key != item.key and other.properties['_box_id'] == box_id and other.properties['_offer'] == blank
+        if other.key != item.key and other.properties['_box_id'] == box_id and other.properties['_offer'] == blank and other.properties['_box_part'] == blank
           if addon_ids != ''
             assign addon_ids = addon_ids | append: ','
           endif

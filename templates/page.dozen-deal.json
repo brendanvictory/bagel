@@ -255,6 +255,7 @@
         "lead_sms_text": "Text me offers and updates from New York Bagel Express. Msg & data rates may apply. Reply STOP to opt out. Not required to buy.",
         "lead_disclosure": "<p>By continuing you agree to get emails from New York Bagel Express about your box and offers. Unsubscribe anytime. <a href=\"/policies/privacy-policy\">Privacy policy</a>.</p>",
         "promo_product": "mini-bagels-7",
+        "parts_product": "bagels-1",
         "promo_code": "FREEMINIS",
         "promo_note": "Ships with your first box. Added automatically at checkout.",
         "back_label": "Edit flavors",

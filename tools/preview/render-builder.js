@@ -35,11 +35,13 @@ const addon = (id, t, pl) => ({ title: t, selected_or_first_available_variant: {
 const product = { id: 1, url: '/products/build-your-box', title: 'Build Your Dozen',
   selected_or_first_available_variant: { id: 67907099787506, price: 4595, selling_plan_allocations: WITH_PLAN ? [{ price: 3995, selling_plan: plan }] : [] },
   metafields: { custom: { flavors: { value: flavors }, addons: { value: [addon(1001, 'Mini Bagels (6)', addonPlan), addon(1002, 'Bagel Chips', addonPlan)] }, sleeves_per_box: { value: 4 }, bagels_per_sleeve: { value: 3 } } } };
+const partsProduct = { title: 'Bagels', variants: names.map((n, i) => ({ id: 3000 + i, option1: n, selling_plan_allocations: WITH_PLAN && i === 0 ? [{ price: 0, selling_plan: addonPlan }] : [] })) };
 (async () => {
   let src = fs.readFileSync(path.join(THEME, 'sections', 'bbb-box-builder.liquid'), 'utf8');
   const schema = JSON.parse(src.match(/{% schema %}([\s\S]*?){% endschema %}/)[1]);
   const settings = {}; for (const s of schema.settings) if ('default' in s) settings[s.id] = s.default;
-  settings.lead_enabled = process.env.NOLEAD !== '1'; // step is off in the live templates; keep it under test
+  settings.lead_enabled = process.env.NOLEAD !== '1';
+  if (process.env.NOPARTS !== '1') settings.parts_product = partsProduct; // $0 bagel-per-flavor lines for the pick list // step is off in the live templates; keep it under test
   // Mirror templates/product.build-your-box.json blocks (banner design) unless rendering the landing page
   const blk = (type, settings) => ({ type, settings, shopify_attributes: '' });
   const blocks = process.env.PROMO === '1' ? [] : [

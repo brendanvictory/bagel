@@ -300,10 +300,11 @@
         <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
         {%- if cart != empty -%}
           <div class="cart-count-bubble">
-            {%- if cart.item_count < 100 -%}
-              <span aria-hidden="true">{{ cart.item_count }}</span>
+            {%- capture bbb_n -%}{% render 'bbb-cart-count' %}{%- endcapture -%}{%- assign bbb_n = bbb_n | plus: 0 -%}
+{%- if bbb_n < 100 -%}
+              <span aria-hidden="true">{{ bbb_n }}</span>
             {%- endif -%}
-            <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+            <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: bbb_n }}</span>
           </div>
         {%- endif -%}
       </a>

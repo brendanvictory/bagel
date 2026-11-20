@@ -792,6 +792,36 @@
             }
           {%- endfor -%}
         ],
+        "parts": {%- liquid
+          assign parts_p = section.settings.parts_product
+          if parts_p != blank
+            assign parts_ok = true
+          else
+            assign parts_ok = false
+          endif
+        -%}{%- if parts_ok -%}{
+          "variants": {
+            {%- for pv in parts_p.variants -%}
+              {{ pv.option1 | downcase | strip | json }}: {{ pv.id | json }}{% unless forloop.last %},{% endunless %}
+            {%- endfor -%}
+          },
+          {%- assign pv0 = parts_p.variants.first -%}
+          "plans": {
+            {%- for alloc in pv0.selling_plan_allocations -%}
+              {{ alloc.selling_plan.id | append: '' | json }}: {{ alloc.price | json }}{% unless forloop.last %},{% endunless %}
+            {%- endfor -%}
+          },
+          "planNames": {
+            {%- for alloc in pv0.selling_plan_allocations -%}
+              {{ alloc.selling_plan.id | append: '' | json }}: {{ alloc.selling_plan.name | json }}{% unless forloop.last %},{% endunless %}
+            {%- endfor -%}
+          },
+          "planKeys": {
+            {%- for alloc in pv0.selling_plan_allocations -%}
+              {{ alloc.selling_plan.id | append: '' | json }}: {{ alloc.selling_plan.options | map: 'value' | join: ' / ' | json }}{% unless forloop.last %},{% endunless %}
+            {%- endfor -%}
+          }
+        }{%- else -%}null{%- endif -%},
         "labels": {
           "progress": {{ section.settings.progress_label | json }},
           "needMore": {{ section.settings.error_need_more | json }},
@@ -850,6 +880,8 @@
       "type": "richtext", "id": "lead_disclosure", "label": "Disclosure under the button",
       "default": "<p>By continuing you agree to get emails from New York Bagel Express about your box and offers. Unsubscribe anytime. <a href=\"/policies/privacy-policy\">Privacy policy</a>.</p>"
     },
+    { "type": "header", "content": "Bagel lines (pick list)" },
+    { "type": "product", "id": "parts_product", "label": "Bagel flavors product", "info": "A $0 product with one variant per flavor (names must match the flavors). The builder adds one line per flavor with the number of bagels, so ShipStation's pick list can total bagels by flavor. Use the copy in the same shipping profile as this box." },
     { "type": "header", "content": "Free item offer (landing pages)" },
     { "type": "product", "id": "promo_product", "label": "Free item", "info": "One unit is added free with the box as a one-time item. Only active when a discount code is set." },
     { "type": "text", "id": "promo_code", "label": "Discount code", "info": "A Buy X Get Y code in Shopify admin → Discounts that makes the free item $0. Applied automatically at checkout." },

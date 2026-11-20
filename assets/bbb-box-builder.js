@@ -9,7 +9,11 @@
    One box per order: adding a box first removes any box already in the cart (same-_box_id lines).
    Edit from cart: ?edit=<box_id> pre-fills the builder; saving replaces the box + its add-ons.
    Cart payload: box line (properties "Sleeve 1..N" + "_box_id") + add-on lines (same "_box_id",
-   subscribed on a plan with the same delivery frequency). Shopify prices every line itself. */
+   subscribed on a plan with the same delivery frequency). Shopify prices every line itself.
+   Bagel lines (cfg.parts): one $0 line per flavor with quantity = bagels of that flavor
+   ("_box_part", "_per_box"), on the same delivery frequency as the box, so ShipStation's
+   pick list totals bagels by flavor. The cart hides them and bbb-cart-guard.js keeps them
+   in step with the box. */
 (() => {
   const root = document.querySelector('[data-bbb-builder]');
   if (!root) return;
@@ -58,6 +62,31 @@
     const byNm = Object.entries(a.planNames || {}).find(([, n]) => norm(n) === norm(p.name));
     const match = byKey || byNm;
     return match ? match[0] : null;
+  };
+  // Bagel lines follow the box's delivery frequency the same way add-ons do.
+  const partsPlanId = () => {
+    const pt = cfg.parts;
+    if (!pt || state.option !== 'subscription' || !state.planId) return null;
+    if (pt.plans && pt.plans[String(state.planId)] != null) return String(state.planId);
+    const p = plan();
+    if (!p) return null;
+    const byKey = p.key && Object.entries(pt.planKeys || {}).find(([, k]) => norm(k) === norm(p.key));
+    const byNm = Object.entries(pt.planNames || {}).find(([, n]) => norm(n) === norm(p.name));
+    const match = byKey || byNm;
+    return match ? match[0] : null;
+  };
+  // { variantId: bagels } for the chosen sleeves, e.g. two Plain sleeves of 3 → 6 Plain bagels
+  const partLines = () => {
+    const pt = cfg.parts;
+    if (!pt || !pt.variants) return [];
+    const per = Number(cfg.perSleeve) || 1;
+    const counts = new Map();
+    state.sleeves.forEach((h) => {
+      const f = byHandle[h];
+      const vid = f && pt.variants[norm(f.name)];
+      if (vid) counts.set(vid, (counts.get(vid) || 0) + per);
+    });
+    return Array.from(counts.entries());
   };
   const addonPrice = (a) => {
     const id = addonPlanId(a);
@@ -732,6 +761,10 @@
     state.sleeves.forEach((h, i) => (properties[`Sleeve ${i + 1}`] = byHandle[h].name));
     const sp = state.option === 'subscription' && state.planId ? Number(state.planId) : undefined;
     const items = [{ id: cfg.variantId, quantity: 1, properties, ...(sp ? { selling_plan: sp } : {}) }];
+    const pp = partsPlanId();
+    partLines().forEach(([vid, qty]) => {
+      items.push({ id: vid, quantity: qty, properties: { _box_id: boxId, _box_part: '1', _per_box: String(qty) }, ...(pp ? { selling_plan: Number(pp) } : {}) });
+    });
     chosenAddons().forEach((a) => {
       const ap = addonPlanId(a);
       items.push({ id: a.variantId, quantity: 1, properties: { _box_id: boxId }, ...(ap ? { selling_plan: Number(ap) } : {}) });

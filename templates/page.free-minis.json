@@ -122,6 +122,7 @@
         "lead_source": "free-minis",
         "lead_text": "Enter your ZIP to check delivery. We'll hold your box and your free minis.",
         "promo_product": "mini-bagels-6",
+        "parts_product": "bagels",
         "promo_code": "FREEMINIS",
         "promo_note": "Ships with your first box. Added automatically at checkout.",
         "default_option": "none",

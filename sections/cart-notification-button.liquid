@@ -1,1 +1,1 @@
-{{ 'general.cart.view' | t: count: cart.item_count }}
+{%- capture bbb_n -%}{% render 'bbb-cart-count' %}{%- endcapture -%}{{ 'general.cart.view' | t: count: bbb_n }}
