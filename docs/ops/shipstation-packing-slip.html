@@ -1,94 +1,58 @@
 <!--
-  New York Bagel Express — ShipStation packing slip
-  Install: ShipStation → Settings → Templates → Packing Slips → copy the default slip →
-  paste this whole file into the HTML editor (replace what's there) → Preview a real order → Save.
-  Then pick it as the store's packing slip (Settings → Stores → New York Bagel Express → Templates).
-
-  How it reads the order: every box arrives with hidden $0 "Bagels" lines, one per flavor,
-  SKU BAGEL-(flavor), quantity = bagels. This slip adds those up per flavor (1 sleeve = 3 bagels),
-  then lists everything else (the box itself, free minis, add-ons) under "Also in this box".
-  Uses only ShipStation's documented Liquid fields: items (item.sku, item.name, item.quantity),
-  order_number, order_date, gift_message, recipient.*, store.*. Works on 4x6 and letter paper.
+  New York Bagel Express — ShipStation packing slip (4" x 6"), field replacements only (no Liquid:
+  this ShipStation account shows Liquid as raw text). Paste each block into the matching section of
+  ShipStation's packing slip editor. Document Options → Packing Slip: Order Items By = SKU,
+  Item Prices = Hide, Item SKUs = Hide.
+  Each box arrives with $0 "Bagels – <flavor>" lines whose quantity is the bagel count for that
+  flavor, so the item list reads as the bake/pack list. [Item Options] is left out on purpose
+  (it would print hidden box ids).
 -->
+
+<!-- ===== 1. ORDER HEADER ===== -->
 <style>
-  .nybe { font-family: Arial, Helvetica, sans-serif; color: #000; max-width: 7.5in; margin: 0 auto; font-size: 12px; line-height: 1.35; }
-  .nybe-head { display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid #082D5C; padding-bottom: 6px; }
-  .nybe-head img { max-height: 48px; max-width: 45%; }
-  .nybe-store { font-size: 18px; font-weight: 800; color: #082D5C; text-transform: uppercase; }
-  .nybe-order { text-align: right; }
-  .nybe-order b { font-size: 20px; display: block; }
-  .nybe-h { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .04em; margin: 12px 0 4px; color: #082D5C; }
-  .nybe table { width: 100%; border-collapse: collapse; }
-  .nybe th { text-align: left; font-size: 10px; text-transform: uppercase; border-bottom: 1px solid #000; padding: 3px 4px; }
-  .nybe td { padding: 6px 4px; border-bottom: 1px solid #ccc; font-size: 14px; }
-  .nybe .num { text-align: right; white-space: nowrap; font-weight: 700; }
-  .nybe .chk { display: inline-block; width: 12px; height: 12px; border: 1.5px solid #000; margin-right: 8px; vertical-align: -2px; }
-  .nybe .total td { border-bottom: 0; border-top: 2px solid #000; font-weight: 800; }
-  .nybe-ship { margin-top: 12px; padding: 8px; border: 1px solid #000; font-size: 12px; }
-  .nybe-gift { margin-top: 10px; padding: 8px; border: 2px dashed #F47B20; font-size: 13px; }
-  .nybe-stop { margin-top: 10px; padding: 8px; border: 3px solid #c00; color: #c00; font-weight: 800; font-size: 14px; }
-  .nybe-foot { margin-top: 14px; text-align: center; font-size: 12px; border-top: 1px solid #000; padding-top: 6px; }
+  .nybe-t { width: 3.8in; font-family: Arial, Helvetica, sans-serif; color: #000; }
+  .nybe-t td, .nybe-t th { font-family: Arial, Helvetica, sans-serif; }
+  .nybe-order { font-size: 20px; font-weight: bold; text-align: right; }
+  .nybe-date { font-size: 11px; text-align: right; }
+  .nybe-shipto { font-size: 11px; padding-top: 6px; }
+  .nybe-bar { border-top: 3px solid #000; height: 4px; }
+  .nybe-h { font-size: 12px; font-weight: bold; text-transform: uppercase; letter-spacing: .5px; padding: 4px 0; }
+  .nybe-q { width: 0.55in; font-size: 16px; font-weight: bold; text-align: center; border-bottom: 1px solid #999; padding: 5px 2px; }
+  .nybe-i { font-size: 14px; border-bottom: 1px solid #999; padding: 5px 4px; }
+  .nybe-chk { display: inline-block; width: 11px; height: 11px; border: 1.5px solid #000; margin-right: 6px; vertical-align: -1px; }
+  .nybe-note { font-size: 12px; border: 2px dashed #000; padding: 5px; margin-top: 6px; }
+  .nybe-foot { font-size: 11px; text-align: center; padding-top: 8px; }
 </style>
+<table class="nybe-t" cellspacing="0" cellpadding="2" border="0">
+  <tr>
+    <td valign="middle"><img src="http://image-resizer.kube.sslocal.com/150/60/http://images.shipstation.com/[Store Logo]" /></td>
+    <td valign="top">
+      <div class="nybe-order">#[Order #]</div>
+      <div class="nybe-date">[Order Date]</div>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" class="nybe-shipto"><b>Ship to:</b> [Recipient Name] · [Recipient Address]</td>
+  </tr>
+  <tr><td colspan="2" class="nybe-bar"></td></tr>
+  <tr><td colspan="2" class="nybe-h">Pack this box — bagels by flavor, then extras</td></tr>
+</table>
 
-{%- assign flavor_skus = "BAGEL-PLAIN,BAGEL-EVERYTHING,BAGEL-SESAME,BAGEL-POPPY,BAGEL-ONION,BAGEL-GARLIC,BAGEL-CINNAMON-RAISIN,BAGEL-EGG,BAGEL-WHOLE-WHEAT,BAGEL-PUMPERNICKEL" | split: "," -%}
-{%- assign flavor_names = "Plain,Everything,Sesame,Poppy,Onion,Garlic,Cinnamon Raisin,Egg,Whole Wheat,Pumpernickel" | split: "," -%}
-{%- assign bagel_total = 0 -%}
+<!-- ===== 2. ORDER ITEMS HEADER ===== -->
+<tr>
+  <th class="nybe-q" style="font-size:10px">QTY</th>
+  <th class="nybe-i" style="font-size:10px;text-align:left">ITEM</th>
+</tr>
 
-<div class="nybe">
-  <div class="nybe-head">
-    {%- if store.logo_url != blank -%}<img src="{{ store.logo_url }}" alt="{{ store.name }}">{%- else -%}<div class="nybe-store">{{ store.name }}</div>{%- endif -%}
-    <div class="nybe-order"><b>#{{ order_number }}</b>{{ order_date | date: "%b %d, %Y" }}</div>
-  </div>
+<!-- ===== 3. ORDER ITEMS ===== -->
+<tr>
+  <td class="nybe-q">[Quantity]</td>
+  <td class="nybe-i"><span class="nybe-chk"></span>[Item Title]</td>
+</tr>
 
-  <div class="nybe-h">Bake &amp; pack — bagels by flavor</div>
-  <table>
-    <tr><th>Flavor</th><th class="num">Sleeves</th><th class="num">Bagels</th></tr>
-    {%- for fsku in flavor_skus -%}
-      {%- assign qty = 0 -%}
-      {%- for item in items -%}
-        {%- assign isku = item.sku | upcase | strip -%}
-        {%- if isku == fsku -%}{%- assign qty = qty | plus: item.quantity -%}{%- endif -%}
-      {%- endfor -%}
-      {%- if qty > 0 -%}
-        {%- assign bagel_total = bagel_total | plus: qty -%}
-        <tr>
-          <td><span class="chk"></span>{{ flavor_names[forloop.index0] }}</td>
-          <td class="num">{{ qty | divided_by: 3 }}</td>
-          <td class="num">{{ qty }}</td>
-        </tr>
-      {%- endif -%}
-    {%- endfor -%}
-    <tr class="total"><td>Total</td><td class="num">{{ bagel_total | divided_by: 3 }}</td><td class="num">{{ bagel_total }}</td></tr>
-  </table>
-
-  {%- if bagel_total == 0 -%}
-    <div class="nybe-stop">STOP — no bagel flavors on this order. Check the order in Shopify before packing.</div>
-  {%- endif -%}
-
-  <div class="nybe-h">Also in this box</div>
-  <table>
-    {%- for item in items -%}
-      {%- assign isku = item.sku | upcase | strip -%}
-      {%- assign head = isku | slice: 0, 6 -%}
-      {%- if head != "BAGEL-" -%}
-        <tr><td><span class="chk"></span>{{ item.name }}</td><td class="num">× {{ item.quantity }}</td></tr>
-      {%- endif -%}
-    {%- endfor -%}
-  </table>
-
-  {%- if gift_message != blank -%}
-    <div class="nybe-gift"><b>Gift note:</b> {{ gift_message }}</div>
-  {%- endif -%}
-
-  <div class="nybe-ship">
-    <b>Ship to</b><br>
-    {{ recipient.name }}<br>
-    {{ recipient.address1 }}{% if recipient.address2 != blank %}, {{ recipient.address2 }}{% endif %}<br>
-    {{ recipient.city }}, {{ recipient.state }} {{ recipient.zip }}
-  </div>
-
-  <div class="nybe-foot">
-    <b>Thanks for ordering real New York bagels!</b><br>
-    Questions? {{ store.email }}{% if store.website != blank %} · {{ store.website }}{% endif %}
-  </div>
-</div>
+<!-- ===== 4. ORDER FOOTER ===== -->
+<table class="nybe-t" cellspacing="0" cellpadding="2" border="0">
+  <tr><td><div class="nybe-note"><b>Gift note:</b> [Gift Message]</div></td></tr>
+  <tr><td style="font-size:11px;padding-top:4px"><b>Customer note:</b> [Notes from Buyer]</td></tr>
+  <tr><td class="nybe-foot"><b>Thanks for ordering real New York bagels!</b><br>[Store Email] · [Store Website]</td></tr>
+</table>
