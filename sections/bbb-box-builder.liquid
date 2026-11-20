@@ -431,7 +431,7 @@
               </div>
               <ul class="bbb-addons" role="list">
                 {%- for a in addons -%}
-                  {%- if promo_on and a.id == promo.id -%}{%- continue -%}{%- endif -%}
+                  {%- if promo_on and a.id == promo.id or promo_on and a.selected_or_first_available_variant.sku != blank and a.selected_or_first_available_variant.sku == promo_v.sku -%}{%- continue -%}{%- endif -%}
                   {%- assign av = a.selected_or_first_available_variant -%}
                   {%- if av -%}
                     <li>
@@ -766,7 +766,7 @@
         "addons": [
           {%- assign printed = false -%}
           {%- for a in addons -%}
-            {%- if promo_on and a.id == promo.id -%}{%- continue -%}{%- endif -%}
+            {%- if promo_on and a.id == promo.id or promo_on and a.selected_or_first_available_variant.sku != blank and a.selected_or_first_available_variant.sku == promo_v.sku -%}{%- continue -%}{%- endif -%}
             {%- assign av = a.selected_or_first_available_variant -%}
             {%- if printed -%},{%- endif -%}
             {%- assign printed = true -%}
