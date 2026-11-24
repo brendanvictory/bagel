@@ -15,7 +15,7 @@
         "c1": {
           "type": "chip",
           "settings": {
-            "text": "Delivered Thursday, Dec 24",
+            "text": "Delivered[br] Thursday,[br] Dec 24",
             "icon": "truck"
           }
         },
