@@ -731,8 +731,8 @@ body:has(#Details-menu-drawer-container[open]) .bbb-sticky-cta { display: none !
 .bbb-br--mob { display: none; }
 @media screen and (max-width: 749px) { .bbb-br--mob { display: inline; } }
 /* How it works heading accent: orange line of its own with the hero's swoosh underline */
-.bbb-steps__accent { display: block; width: fit-content; margin-inline: auto; position: relative; font-style: italic; padding-right: 0.1em; color: var(--nybe-orange); }
-.bbb-steps__accent::after {
+.bbb-steps .bbb-accent.bbb-steps__accent { display: block; width: fit-content; margin-inline: auto; position: relative; font-style: italic; padding-right: 0.1em; color: var(--nybe-orange); } /* beats the colour-scheme accent colour */
+.bbb-steps .bbb-accent.bbb-steps__accent::after {
   content: ''; position: absolute; left: 0.05em; right: -0.1em; bottom: -0.16em; height: 0.12em;
   background: var(--nybe-orange); border-radius: 50%; transform: rotate(-1.5deg); opacity: 0.95;
 }
