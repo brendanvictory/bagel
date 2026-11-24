@@ -120,6 +120,7 @@
         "heading_tag": "h2",
         "anchor": "build",
         "eyebrow": "Your Christmas box",
+        "steps_under_title": true,
         "heading": "Build your Christmas dozen",
         "lead_enabled": false,
         "default_option": "once",
