@@ -106,7 +106,8 @@
       <{{ heading_tag }} id="bbb-hero-heading-{{ section.id }}" class="bbb-display bbb-display--xl">
         {{ section.settings.heading | escape }}
         {%- if section.settings.heading_accent != blank %}
-          <span class="bbb-accent">{{ section.settings.heading_accent | escape }}</span>
+          {% comment %} "[br]" in the accent = line break on desktop only (each line kept whole there); phones flow naturally {% endcomment %}
+          <span class="bbb-accent{% if section.settings.heading_accent contains '[br]' %} bbb-accent--lines{% endif %}">{{ section.settings.heading_accent | escape | replace: '[br]', '<br class="bbb-br--desk">' }}</span>
         {%- endif -%}
       </{{ heading_tag }}>
 
@@ -220,7 +221,7 @@
     },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "New York bagels, shipped." },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Build your" },
-    { "type": "text", "id": "heading_accent", "label": "Heading accent (orange)", "default": "Delivered." },
+    { "type": "text", "id": "heading_accent", "label": "Heading accent (orange)", "default": "Delivered.", "info": "Type [br] for a line break on desktop only (phones wrap naturally)." },
     {
       "type": "select", "id": "heading_tag", "label": "Heading level", "default": "h1",
       "info": "Use H1 for the first hero on the homepage only.",
