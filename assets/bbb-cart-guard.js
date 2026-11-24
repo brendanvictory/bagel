@@ -8,7 +8,8 @@
 (() => {
   const root = (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) || '/';
   const PER_SLEEVE = 3; // docs/DECISIONS.md R1: sleeves of 3
-  const skuFor = (flavor) => 'BAGEL-' + String(flavor).trim().toUpperCase().replace(/\s+/g, '-');
+  // "Red & Green Swirl" → BAGEL-RED-AND-GREEN-SWIRL (no & in SKUs)
+  const skuFor = (flavor) => 'BAGEL-' + String(flavor).trim().toUpperCase().replace(/\s*&\s*/g, ' AND ').replace(/\s+/g, '-');
   const isBagelLine = (it) => String(it.sku || '').toUpperCase().startsWith('BAGEL-') || !!(it.properties && it.properties._box_part);
   let running = false;
   let again = false;
