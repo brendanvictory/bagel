@@ -1,0 +1,362 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "bbb-hero",
+      "blocks": {
+        "c1": {
+          "type": "chip",
+          "settings": {
+            "text": "Delivered Thursday, Dec 24",
+            "icon": "truck"
+          }
+        },
+        "c2": {
+          "type": "chip",
+          "settings": {
+            "text": "Freshly Baked in New York",
+            "icon": "chef-hat"
+          }
+        },
+        "c3": {
+          "type": "chip",
+          "settings": {
+            "text": "Order by Monday, Dec 21",
+            "icon": "calendar"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3"
+      ],
+      "settings": {
+        "layout": "background",
+        "text_align": "left",
+        "eyebrow": "Christmas morning, New York style",
+        "heading": "Red & green bagels.",
+        "heading_accent": "Here by Christmas morning.",
+        "heading_tag": "h1",
+        "subheading": "<p>Our hand-rolled red and green swirl bagels, baked fresh on December 22 and delivered December 24. Build a dozen with as many swirl sleeves as you like.</p>",
+        "price_product": "christmas-dozen",
+        "show_price": true,
+        "cta_label": "Build my Christmas dozen",
+        "cta_link": "/pages/christmas#build",
+        "cta2_label": "",
+        "cta2_link": "",
+        "use_bundled_photo": true,
+        "bundled_media": "swirl",
+        "overlay_opacity": 0,
+        "height": "medium",
+        "show_logo_art": true,
+        "color_scheme": "scheme-5",
+        "spray": true,
+        "padding_top": 64,
+        "padding_bottom": 64,
+        "sticky_cta": true,
+        "sticky_color_scheme": "scheme-3",
+        "bundled_photo": "christmas"
+      }
+    },
+    "deal": {
+      "type": "bbb-how-it-works",
+      "blocks": {
+        "s1": {
+          "type": "step",
+          "settings": {
+            "title": "Build your dozen",
+            "icon": "bagel",
+            "text": "<p>Pick 4 sleeves of 3. Choose Red &amp; Green Swirl for one sleeve or all four, and fill the rest with your favorite flavors.</p>"
+          }
+        },
+        "s2": {
+          "type": "step",
+          "settings": {
+            "title": "Baked December 22",
+            "icon": "bagel-stack",
+            "text": "<p>Every Christmas order is baked fresh and shipped the same day from our Long Island commissary. Last day to order is Monday, December 21.</p>"
+          }
+        },
+        "s3": {
+          "type": "step",
+          "settings": {
+            "title": "Delivered December 24",
+            "icon": "truck",
+            "text": "<p>Your box arrives Christmas Eve, ready for Christmas morning. Shipping is calculated at checkout.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "settings": {
+        "eyebrow": "How it works",
+        "heading": "Order by 12/21. Baked 12/22. At your door 12/24.",
+        "text": "",
+        "anchor": "how",
+        "cta_label": "",
+        "cta_link": "",
+        "color_scheme": "scheme-2",
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
+    "builder": {
+      "type": "bbb-box-builder",
+      "settings": {
+        "product": "christmas-dozen",
+        "heading_tag": "h2",
+        "anchor": "build",
+        "eyebrow": "Your Christmas box",
+        "heading": "Build your Christmas dozen",
+        "lead_enabled": false,
+        "default_option": "once",
+        "after_add": "checkout",
+        "color_scheme": "scheme-2",
+        "step3_title": "Delivery plan",
+        "reviews_heading": "Loved by Bagel Lovers",
+        "shipping_note": "Delivered Thursday, December 24",
+        "shipping_icon": "ups",
+        "parts_product": "bagels-1",
+        "subheading": "Pick [sleeves] sleeves of [per_sleeve]. Include at least one sleeve of Red & Green Swirl.",
+        "close_at": "2026-12-22T00:00:00-05:00",
+        "closed_text": "Christmas orders are closed. Thanks to everyone who ordered!",
+        "require_flavor": "red-and-green-swirl",
+        "require_error": "Add at least one sleeve of Red & Green Swirl to your Christmas dozen."
+      },
+      "blocks": {
+        "copy": {
+          "type": "copy",
+          "settings": {
+            "page2_text": "Customize your order with tasty add-ons and choose how often you'd like fresh bagels delivered.",
+            "yourbox_sub": "[sleeves] sleeves \u00d7 [per_sleeve] bagels ([total] total)",
+            "addons_tag": "Add to your box",
+            "once_note": "A one-time Christmas delivery."
+          }
+        },
+        "b_sat": {
+          "type": "p2_benefit",
+          "settings": {
+            "icon": "heart",
+            "title": "100% Satisfaction",
+            "text": "Love it or your money back."
+          }
+        },
+        "review_wRxNUH": {
+          "type": "review",
+          "settings": {
+            "title": "My new favorite breakfast!",
+            "quote": "Everything about these bagels is fantastic. Great texture, amazing flavor, and so many options to choose from. My family loved them, and the delivery made everything super convenient. Already planning my next box!",
+            "name": "Jennifer L.",
+            "rating": 5,
+            "photo": "shopify://shop_images/article_author.jpg",
+            "verified": true
+          }
+        },
+        "review_xrfc4V": {
+          "type": "review",
+          "settings": {
+            "title": "Finally, real New York bagels delivered!",
+            "quote": "I grew up in New York and have struggled to find bagels that taste like home. These brought back so many memories. They arrived fresh, were easy to freeze, and tasted amazing toasted. Highly recommend!",
+            "name": "Michael R.",
+            "rating": 5,
+            "photo": "shopify://shop_images/article_author.jpg",
+            "verified": true
+          }
+        },
+        "review_8H3m8p": {
+          "type": "review",
+          "settings": {
+            "title": "Best bagels outside of New York!",
+            "quote": "These are exactly what I've been missing! Fresh, chewy, full of flavor, and absolutely delicious. The Everything and Sesame bagels are incredible. I'll definitely be ordering again!",
+            "name": "Sarah M.",
+            "rating": 5,
+            "photo": "shopify://shop_images/article_author.jpg",
+            "verified": true
+          }
+        },
+        "b_auth": {
+          "type": "p1_benefit",
+          "settings": {
+            "icon": "star",
+            "title": "Authentic NY Bagels",
+            "text": "Baked the traditional way."
+          }
+        },
+        "b_fresh": {
+          "type": "p1_benefit",
+          "settings": {
+            "icon": "package",
+            "title": "Always Fresh",
+            "text": "Baked to order, never frozen."
+          }
+        },
+        "b_fast": {
+          "type": "p1_benefit",
+          "settings": {
+            "icon": "truck",
+            "title": "Fast Nationwide Shipping",
+            "text": "Get fresh bagels at your door."
+          }
+        },
+        "b_xmas": {
+          "type": "p2_benefit",
+          "settings": {
+            "icon": "calendar",
+            "title": "Christmas Eve delivery",
+            "text": "Baked 12/22, delivered 12/24."
+          }
+        }
+      },
+      "block_order": [
+        "review_wRxNUH",
+        "review_xrfc4V",
+        "review_8H3m8p",
+        "copy",
+        "b_auth",
+        "b_fresh",
+        "b_fast",
+        "b_xmas",
+        "b_sat"
+      ]
+    },
+    "about": {
+      "type": "bbb-about",
+      "blocks": {
+        "a1": {
+          "type": "stat",
+          "settings": {
+            "value": "30+",
+            "label": "Years in the NY bagel business"
+          }
+        },
+        "a2": {
+          "type": "stat",
+          "settings": {
+            "value": "28",
+            "label": "Retail locations"
+          }
+        }
+      },
+      "block_order": [
+        "a1",
+        "a2"
+      ],
+      "settings": {
+        "eyebrow": "Who's baking",
+        "heading": "New York bagel people.",
+        "heading_accent": "",
+        "text": "<p>We've been in the bagel business in New York for over 30 years and run 28 retail locations. Every bagel is hand-rolled and shipped from our Long Island commissary the day it's baked.</p>",
+        "use_bundled_photo": true,
+        "bundled_photo": "scatter",
+        "image_alt": "An assortment of bagels on a white background",
+        "cta_label": "Build my Christmas dozen",
+        "cta_link": "/pages/christmas#build",
+        "anchor": "about",
+        "color_scheme": "scheme-1",
+        "padding_top": 72,
+        "padding_bottom": 72,
+        "layout": "card",
+        "card_product": "christmas-dozen"
+      }
+    },
+    "faq": {
+      "type": "bbb-faq",
+      "blocks": {
+        "q1": {
+          "type": "question",
+          "settings": {
+            "question": "When will my bagels arrive?",
+            "answer": "<p>All Christmas orders are baked and shipped on Tuesday, December 22, for delivery on Thursday, December 24. The last day to order is Monday, December 21.</p>"
+          }
+        },
+        "q2": {
+          "type": "question",
+          "settings": {
+            "question": "What are Red & Green Swirl bagels?",
+            "answer": "<p>Our hand-rolled New York bagels with red and green dough swirled together, made only for Christmas. Each sleeve holds 3 swirl bagels.</p>"
+          }
+        },
+        "q3": {
+          "type": "question",
+          "settings": {
+            "question": "How many swirl sleeves can I get?",
+            "answer": "<p>As many as you like: 1, 2, 3 or all 4 sleeves of your dozen. Every Christmas dozen includes at least one swirl sleeve; fill the rest with any of our regular flavors.</p>"
+          }
+        },
+        "q4": {
+          "type": "question",
+          "settings": {
+            "question": "How much is it?",
+            "answer": "<p>A dozen is $24.95. Shipping is calculated at checkout. This is a one-time order, not a subscription.</p>"
+          }
+        },
+        "q5": {
+          "type": "question",
+          "settings": {
+            "question": "Where do you ship?",
+            "answer": "<p>We ship from our commissary on Long Island, NY, to the lower 48 states and Washington, DC. We can't ship to Alaska, Hawaii, US territories, APO/FPO addresses or outside the US.</p>"
+          }
+        },
+        "q6": {
+          "type": "question",
+          "settings": {
+            "question": "How should I store my bagels?",
+            "answer": "<p>We don't use preservatives. Once your bagels are delivered, eat them within 24 hours and freeze what you don't eat. When you're ready, microwave for 30 seconds, toast and enjoy.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3",
+        "q4",
+        "q5",
+        "q6"
+      ],
+      "settings": {
+        "heading": "Good to know",
+        "layout": "strip",
+        "show_bridge": true,
+        "schema": false,
+        "color_scheme": "scheme-2",
+        "padding_top": 72,
+        "padding_bottom": 72
+      }
+    },
+    "cta": {
+      "type": "bbb-cta-band",
+      "settings": {
+        "heading": "Red & green bagels for Christmas morning.",
+        "text": "",
+        "cta_label": "Build my Christmas dozen",
+        "cta_link": "/pages/christmas#build",
+        "bundled_bg": "pile",
+        "overlay_opacity": 55,
+        "spray": true,
+        "color_scheme": "scheme-3",
+        "padding_top": 80,
+        "padding_bottom": 80
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "deal",
+    "builder",
+    "about",
+    "faq",
+    "cta"
+  ]
+}

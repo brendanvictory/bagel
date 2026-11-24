@@ -51,6 +51,15 @@
   const norm = (x) => String(x || '').trim().toLowerCase();
   const plan = () => cfg.plans.find((p) => String(p.id) === String(state.planId)) || null;
   const isFull = () => state.sleeves.length === cfg.sleeves;
+  // Required flavor (e.g. the Christmas page's Red and Green Swirl): a full box needs at least `min` sleeves of it
+  const req = cfg.require && cfg.require.handle ? cfg.require : null;
+  const hasRequired = () => !req || state.sleeves.filter((h) => h === req.handle).length >= (Number(req.min) || 1);
+  // Ordering window (e.g. the Christmas page closes after the last order day): no checkout once it has passed
+  const closed = () => !!(cfg.closeAt && Date.now() >= Date.parse(cfg.closeAt));
+  const ready = () => isFull() && hasRequired() && !closed();
+  const needMsg = () => (closed() ? cfg.closedText : !isFull()
+    ? cfg.labels.needMore.replace('[remaining]', cfg.sleeves - state.sleeves.length)
+    : (req && req.error) || cfg.labels.needMore.replace('[remaining]', 0));
   const boxPrice = () => (state.option === 'subscription' && plan() ? plan().price : cfg.oncePrice);
   // Add-ons recur on the box's plan if they share it, otherwise on their own plan with the same
   // delivery frequency (or same name). No match = one-time add-on.
@@ -183,8 +192,14 @@
     root.style.setProperty('--bbb-fill', `${(n / cfg.sleeves) * 100}%`);
     const bc = $('[data-bbb-bar-count]');
     if (bc) bc.textContent = `${n} / ${cfg.sleeves}`;
-    $$('[data-bbb-next]').forEach((b) => b.setAttribute('aria-disabled', String(!isFull())));
+    $$('[data-bbb-next]').forEach((b) => b.setAttribute('aria-disabled', String(!ready())));
     root.classList.toggle('is-full', isFull());
+    // Full box without the required flavor: say so right away (cleared once it's fixed)
+    const e1 = (req || cfg.closeAt) && $('[data-bbb-error="1"]');
+    if (e1) {
+      if (closed() || (isFull() && !hasRequired())) { e1.textContent = needMsg(); e1.hidden = false; }
+      else if (req && e1.textContent === req.error) { e1.hidden = true; e1.textContent = ''; }
+    }
   };
 
   const renderPage2 = () => {
@@ -266,8 +281,8 @@
         $$('[data-bbb-disc-freq]', disc).forEach((e) => (e.textContent = freqText()));
       }
     }
-    $$('[data-bbb-add]').forEach((b) => b.setAttribute('aria-disabled', String(!(isFull() && state.option))));
-    root.classList.toggle('is-addable', !!(isFull() && state.option)); // mobile bar on page 2 shows only when Checkout is active
+    $$('[data-bbb-add]').forEach((b) => b.setAttribute('aria-disabled', String(!(ready() && state.option))));
+    root.classList.toggle('is-addable', !!(ready() && state.option)); // mobile bar on page 2 shows only when Checkout is active
   };
 
   // Picks are remembered per tab (sessionStorage), not in the URL: rewriting the URL on every
@@ -336,10 +351,10 @@
   const isBackward = (from, to) => ORDER.indexOf(String(to)) < ORDER.indexOf(String(from));
   const showStep = (step, { push = true, focus = true, replace = false } = {}) => {
     const fromStep = state.step;
-    if (step !== 1 && !isFull()) step = 1;
+    if (step !== 1 && !ready()) step = 1;
     if (step === 1) leadPass = false;
     if (step === 2 && needLead()) step = 'lead';
-    if (step === 'lead' && !needLead()) step = isFull() ? 2 : 1;
+    if (step === 'lead' && !needLead()) step = ready() ? 2 : 1;
     state.step = step;
     root.dataset.step = String(step);
     $$('[data-bbb-view]').forEach((v) => (v.hidden = v.dataset.bbbView !== String(step)));
@@ -500,8 +515,8 @@
       return;
     }
     if (next) {
-      if (!isFull()) {
-        showError(1, cfg.labels.needMore.replace('[remaining]', cfg.sleeves - state.sleeves.length));
+      if (!ready()) {
+        showError(1, needMsg());
         const err = $('[data-bbb-error="1"]');
         if (err && err.scrollIntoView) err.scrollIntoView({ block: 'center' });
         return;
@@ -743,7 +758,7 @@
 
   const add = async () => {
     if (busy) return;
-    if (!isFull() || state.sleeves.some((h) => !byHandle[h] || !byHandle[h].available)) { showStep(1); showError(1, cfg.labels.needMore.replace('[remaining]', cfg.sleeves - state.sleeves.length)); return; }
+    if (!ready() || state.sleeves.some((h) => !byHandle[h] || !byHandle[h].available)) { showStep(1); showError(1, needMsg()); return; }
     if (!state.option) {
       showError(2, cfg.labels.chooseOption);
       const firstOpt = $('[data-bbb-option]');

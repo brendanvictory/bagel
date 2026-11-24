@@ -822,6 +822,9 @@
             {%- endfor -%}
           }
         }{%- else -%}null{%- endif -%},
+        "closeAt": {{ section.settings.close_at | strip | default: nil | json }},
+        "closedText": {{ section.settings.closed_text | json }},
+        "require": {%- if section.settings.require_flavor != blank -%}{ "handle": {{ section.settings.require_flavor | strip | json }}, "min": 1, "error": {{ section.settings.require_error | json }} }{%- else -%}null{%- endif -%},
         "labels": {
           "progress": {{ section.settings.progress_label | json }},
           "needMore": {{ section.settings.error_need_more | json }},
@@ -882,6 +885,10 @@
     },
     { "type": "header", "content": "Bagel lines (pick list)" },
     { "type": "product", "id": "parts_product", "label": "Bagel flavors product", "info": "A $0 product with one variant per flavor (names must match the flavors). The builder adds one line per flavor with the number of bagels, so ShipStation's pick list can total bagels by flavor. Use the copy in the same shipping profile as this box." },
+    { "type": "text", "id": "close_at", "label": "Orders close at (optional)", "info": "Date and time with offset, e.g. 2026-12-22T00:00:00-05:00. After it, the builder can't check out." },
+    { "type": "text", "id": "closed_text", "label": "Orders closed message", "default": "Orders for this bake are closed." },
+    { "type": "text", "id": "require_flavor", "label": "Required flavor (handle)", "info": "Optional. The box needs at least one sleeve of this flavor, e.g. red-and-green-swirl on the Christmas page." },
+    { "type": "text", "id": "require_error", "label": "Required flavor message", "default": "Add at least one sleeve of Red and Green Swirl to your dozen." },
     { "type": "header", "content": "Free item offer (landing pages)" },
     { "type": "product", "id": "promo_product", "label": "Free item", "info": "One unit is added free with the box as a one-time item. Only active when a discount code is set." },
     { "type": "text", "id": "promo_code", "label": "Discount code", "info": "A Buy X Get Y code in Shopify admin → Discounts that makes the free item $0. Applied automatically at checkout." },

@@ -7,7 +7,7 @@
 {%- endcomment -%}
 {%- liquid
   if settings.nybe_even_flavor_photos and flavor != blank
-    assign known = 'plain,everything,sesame,poppy,onion,garlic,cinnamon-raisin,egg,whole-wheat,pumpernickel' | split: ','
+    assign known = 'plain,everything,sesame,poppy,onion,garlic,cinnamon-raisin,egg,whole-wheat,pumpernickel,red-and-green-swirl' | split: ','
     assign h = flavor.system.handle
     if known contains h
       if thumb
