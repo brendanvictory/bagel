@@ -85,7 +85,7 @@
 {{ 'nybe-builder.css' | asset_url | stylesheet_tag }}
 <section
   id="{{ section.settings.anchor | default: 'build' | handleize }}"
-  class="bbb-builder{% if promo_on %} bbb-builder--promo{% endif %}{% if section.settings.product != blank %} bbb-builder--embedded{% endif %} color-{{ section.settings.color_scheme | default: 'scheme-2' }} gradient"
+  class="bbb-builder{% if promo_on %} bbb-builder--promo{% endif %}{% if promo_on or section.settings.steps_under_title %} bbb-builder--steps-inline{% endif %}{% if section.settings.product != blank %} bbb-builder--embedded{% endif %} color-{{ section.settings.color_scheme | default: 'scheme-2' }} gradient"
   data-bbb-builder
   data-step="1"
   aria-labelledby="bbb-builder-title-{{ section.id }}"
@@ -182,7 +182,10 @@
             {%- if promo.price > 0 -%}<span class="bbb-promo__reg">{% render 'bbb-icon', name: 'gift', size: 18, stroke: 2, class: 'bbb-promo__reg-icon' %}<span class="bbb-promo__reg-amt">{{ promo.price | money }}</span><span class="bbb-promo__reg-note">value</span></span>{%- endif -%}
           </p>
         </div>
-        {%- comment -%} On free-item pages the step progress sits under this banner on page 1 (the top copy is hidden there) {%- endcomment -%}
+      {%- endif -%}
+      {%- comment -%} Free-item pages, or "Progress steps under the title" on: on page 1 the step progress sits under the title
+        (and the free-item banner); the top copy is hidden there {%- endcomment -%}
+      {%- if promo_on or section.settings.steps_under_title -%}
         {{ stepnav | replace: 'STEPNAV_CLASS', 'nybe-stepnav--inline' }}
       {%- endif -%}
 
@@ -865,6 +868,7 @@
     { "type": "text", "id": "nav1", "label": "Step 1 name", "default": "Pick flavors" },
     { "type": "text", "id": "nav2", "label": "Step 2 name", "default": "Pricing" },
     { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Build your box" },
+    { "type": "checkbox", "id": "steps_under_title", "label": "Progress steps under the title (page 1)", "default": false, "info": "Always on for free-item pages." },
     { "type": "text", "id": "heading", "label": "Heading", "default": "Pick your [sleeves] sleeves", "info": "[sleeves] is filled from the product. Defaults to the product title when empty." },
     { "type": "text", "id": "subheading", "label": "Subheading", "default": "[sleeves] sleeves of [per_sleeve] — [total] bagels. Mix up to [sleeves] flavors, or double up on your favorite.", "info": "Use [sleeves], [per_sleeve] and [total]; filled from the product." },
     { "type": "text", "id": "tray_hint", "label": "Tray hint", "default": "Each sleeve holds [per_sleeve] bagels of one flavor. Choose up to [sleeves] flavors for your box ([total] bagels total)." },
