@@ -19,17 +19,13 @@
   const titleCase = (s) => s.toLowerCase().replace(/(^|[\s-])([a-z])/g, (m, a, b) => a + b.toUpperCase());
   const flavorName = (sku) => FLAVORS[sku] || titleCase(sku.replace(/^BAGEL-/, '').replace(/-/g, ' '));
 
-  // ---------- default ship date: today on Mon–Wed, otherwise next Monday (boxes ship Mon–Wed) ----------
+  // ---------- default ship date: tomorrow (New York time) ----------
   const nyToday = () => {
     const p = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/New_York', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
     return new Date(p + 'T12:00:00');
   };
   const iso = (d) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-  const defaultShipDate = () => {
-    const d = nyToday(); const w = d.getDay(); // 0 Sun … 6 Sat
-    if (w >= 1 && w <= 3) return iso(d);
-    d.setDate(d.getDate() + ((8 - w) % 7 || 7)); return iso(d);
-  };
+  const defaultShipDate = () => { const d = nyToday(); d.setDate(d.getDate() + 1); return iso(d); }; // tomorrow
   const longDate = (v) => new Date(v + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
 
   // ---------- load pdf.js on first use ----------
