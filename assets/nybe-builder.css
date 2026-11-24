@@ -580,6 +580,8 @@
 /* Free-item pages: on page 1 the step progress moves under the free minis banner */
 .bbb-builder--steps-inline[data-step="1"] .nybe-stepnav--top { display: none; }
 .nybe-stepnav--inline { margin: -0.8rem 0 0.4rem; }
+/* Under a plain title (not the free-item banner): more room above, closer to the sleeves box below */
+.bbb-builder--steps-inline:not(.bbb-builder--promo) .nybe-stepnav--inline { margin: 2.4rem 0 -2.8rem; }
 
 /* Page-2 free item card: whole bagel stack, taller (not cropped into a square) */
 .bbb-promo--card .bbb-promo__media { width: auto; height: auto; overflow: visible; background: #fff; border-radius: 1rem; display: block; line-height: 0; }
