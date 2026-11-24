@@ -39,7 +39,13 @@
   {%- if has_bg -%}
     {%- comment -%} One <picture>: phones download only the mobile crop (if set), desktops only the wide image. {%- endcomment -%}
     <div class="bbb-hero__bg" aria-hidden="true">
-      {%- if use_bundled -%}
+      {%- if use_bundled and section.settings.bundled_photo == 'christmas' -%}
+        {%- comment -%} Christmas page: red and green swirl bagels in a basket (assets/nybe-xmas-hero-*) {%- endcomment -%}
+        <picture>
+          <source type="image/webp" srcset="{{ 'nybe-xmas-hero-800.webp' | asset_url }} 800w, {{ 'nybe-xmas-hero-1200.webp' | asset_url }} 1200w, {{ 'nybe-xmas-hero-1536.webp' | asset_url }} 1536w" sizes="100vw">
+          <img src="{{ 'nybe-xmas-hero-1536.jpg' | asset_url }}" width="1536" height="1024" alt="" class="bbb-hero__bg-img nybe-hero__img nybe-hero__img--xmas" fetchpriority="high" loading="eager">
+        </picture>
+      {%- elsif use_bundled -%}
         {%- comment -%} Bundled New York Bagel Express hero photo (assets/nybe-hero-*): WebP with JPG fallback. {%- endcomment -%}
         <picture>
           <source
@@ -254,6 +260,10 @@
         { "value": "medium", "label": "Medium" },
         { "value": "large", "label": "Large" }
       ]
+    },
+    {
+      "type": "select", "id": "bundled_photo", "label": "Bundled background photo", "default": "nybe",
+      "options": [ { "value": "nybe", "label": "New York bagels" }, { "value": "christmas", "label": "Christmas swirl bagels" } ]
     },
     { "type": "checkbox", "id": "show_logo_art", "label": "Copy beside image: show logo art when no image", "default": true },
     { "type": "header", "content": "Style" },

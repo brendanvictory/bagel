@@ -711,3 +711,6 @@ body:has(#Details-menu-drawer-container[open]) .bbb-sticky-cta { display: none !
   .nybe-404__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 2.4rem; }
   .nybe-404__btn { padding: 0 2rem; font-size: 1.5rem; }
 }
+
+/* Christmas page hero photo: keep the bagel basket (right of centre) in frame on phones */
+@media screen and (max-width: 749px) { .nybe-hero .nybe-hero__img--xmas { object-position: 68% 50%; } }
