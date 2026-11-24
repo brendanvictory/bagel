@@ -133,7 +133,8 @@
         "close_at": "2026-12-22T00:00:00-05:00",
         "closed_text": "Christmas orders are closed. Thanks to everyone who ordered!",
         "require_flavor": "red-and-green-swirl",
-        "require_error": "Add at least one sleeve of Red & Green Swirl to your Christmas dozen."
+        "require_error": "Add at least one sleeve of Red & Green Swirl to your Christmas dozen.",
+        "step2_hint": "Make your Christmas box even better."
       },
       "blocks": {
         "copy": {
@@ -217,6 +218,13 @@
             "title": "Christmas Eve delivery",
             "text": "Baked 12/22, delivered 12/24."
           }
+        },
+        "ship": {
+          "type": "shipping",
+          "settings": {
+            "amount": "14.95",
+            "bar_text": "+$14.95 shipping per box"
+          }
         }
       },
       "block_order": [
@@ -228,7 +236,8 @@
         "b_fresh",
         "b_fast",
         "b_xmas",
-        "b_sat"
+        "b_sat",
+        "ship"
       ]
     },
     "about": {
